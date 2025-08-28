@@ -9,7 +9,7 @@ export default defineConfig({
   assetsInclude: ['**/*.md'],
   resolve: {
     alias: {
-      '@': path.join(__dirname, 'src'),
+      '@': path.join(__dirname, 'src/template'),
     },
   },
   server: {
