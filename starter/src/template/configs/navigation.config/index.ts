@@ -39,7 +39,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoTrimestral',
                 path: '/gestion-procesos/lluviasAvisoTrimestral',
-                title: 'LLuvias Aviso Trimestral',
+                title: 'Lluvias Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoTrimestral',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -49,7 +49,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoMeteorologico',
                 path: '/gestion-procesos/lluviasAvisoMeteorologico',
-                title: 'LLUVIAS AVISO METEOROLÓGICO',
+                title: 'Lluvias Aviso Meteorologico',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -59,7 +59,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasInformacionClimatica',
                 path: '/gestion-procesos/lluviasInformacionClimatica',
-                title: 'LLUVIAS INFORMACIÓN CLIMÁTICA',
+                title: 'Lluvias Información Climática',
                 translateKey: 'nav.gestionProcesos.lluviasInformacionClimatica',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -69,7 +69,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempAvisoMeteorologico',
                 path: '/gestion-procesos/bajasTempAvisoMeteorologico',
-                title: 'BAJAS TEMP AVISO METEOROLÓGICO',
+                title: 'Bajas Temp Aaviso Meteorologico',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoMeteorologico',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -79,7 +79,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempAvisoTrimestral',
                 path: '/gestion-procesos/bajasTempAvisoTrimestral',
-                title: 'BAJAS TEMP AVISO TRIMESTRAL',
+                title: 'Bajas Temp Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoTrimestral',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -89,7 +89,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempInformacionClimatica',
                 path: '/gestion-procesos/bajasTempInformacionClimatica',
-                title: 'BAJAS TEMP INFORMACIÓN CLIMÁTICA',
+                title: 'Bajas Temp Informacion Climática',
                 translateKey:
                     'nav.gestionProcesos.bajasTempInformacionClimatica',
                 icon: '',
@@ -100,7 +100,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.incendiosForestalesNacional',
                 path: '/gestion-procesos/incendiosForestalesNacional',
-                title: 'INCENDIOS FORESTALES NACIONAL',
+                title: 'Incendios Forestales Nac',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -110,7 +110,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.incendiosForestalesRegional',
                 path: '/gestion-procesos/incendiosForestalesRegional',
-                title: 'INCENDIOS FORESTALES REGIONAL',
+                title: 'Incendios Forestales Reg',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesRegional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -120,7 +120,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.sismosTsunamiNacional',
                 path: '/gestion-procesos/sismosTsunamiNacional',
-                title: 'SISMOS TSUNAMI NACIONAL',
+                title: 'Sismos Tsunami Nac',
                 translateKey: 'nav.gestionProcesos.sismosTsunamiNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -130,7 +130,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.sismosTsunamiOtrosAmbitos',
                 path: '/gestion-procesos/sismosTsunamiOtrosAmbitos',
-                title: 'SISMOS TSUNAMI OTROS ÁMBITOS',
+                title: 'Sismos Tsunami Otros Ámbitos',
                 translateKey: 'nav.gestionProcesos.sismosTsunamiOtrosAmbitos',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -140,7 +140,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.sequiasNacional',
                 path: '/gestion-procesos/sequiasNacional',
-                title: 'SEQUÍAS NACIONAL',
+                title: 'Sequías Nacional',
                 translateKey: 'nav.gestionProcesos.sequiasNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -150,7 +150,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.sequiasDepartamental',
                 path: '/gestion-procesos/sequiasDepartamental',
-                title: 'SEQUÍAS DEPARTAMENTAL',
+                title: 'Sequías Dep',
                 translateKey: 'nav.gestionProcesos.sequiasDepartamental',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -160,7 +160,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.volcanesNacional',
                 path: '/gestion-procesos/volcanesNacional',
-                title: 'VOLCANES NACIONAL',
+                title: 'Volcanes Nac',
                 translateKey: 'nav.gestionProcesos.volcanesNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
