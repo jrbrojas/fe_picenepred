@@ -17,10 +17,14 @@ const LandingPage = () => {
       <div className="min-h-screen flex flex-col">
         <div className="bg-white text-black flex items-center justify-between px-6 py-4 shadow-md">
           <div className="flex items-center space-x-2">
-            <img src="/img/logo/logo-cenepred.jpg" alt="CENEPRED" className="h-16" />
+            <a href="https://www.gob.pe/cenepred" target="_blank" rel="noopener noreferrer">
+              <img src="/img/logo/logo-cenepred.jpg" alt="CENEPRED" className="h-16" />
+            </a>
           </div>
           <div className="flex items-center space-x-2">
-            <img src="/img/logo/logo_sigrid.png" alt="SIGRID" className="h-16" />
+            <a href="https://sigrid.cenepred.gob.pe/sigridv3/" target="_blank" rel="noopener noreferrer">
+              <img src="/img/logo/logo_sigrid.png" alt="SIGRID" className="h-16" />
+            </a>
           </div>
         </div>
 
