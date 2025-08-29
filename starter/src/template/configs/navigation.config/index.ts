@@ -69,7 +69,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempAvisoMeteorologico',
                 path: '/gestion-procesos/bajasTempAvisoMeteorologico',
-                title: 'Bajas Temp Aaviso Meteorologico',
+                title: 'Bajas Temp Aviso Meteorologico',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoMeteorologico',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
