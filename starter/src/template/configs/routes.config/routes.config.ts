@@ -85,7 +85,7 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/demo/SingleMenuView')),
         authority: [],
     },
-    
+
     {
         key: 'gestionProcesos.sequiasDepartamental',
         path: '/gestion-procesos/sequiasDepartamental',
@@ -165,4 +165,3 @@ export const protectedRoutes: Routes = [
     },
     ...othersRoute,
 ]
-

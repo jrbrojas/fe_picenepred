@@ -37,16 +37,6 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [
             {
-                key: 'gestionProcesos.dashboard',
-                path: '/gestion-procesos/dashboard',
-                title: 'Dashboard',
-                translateKey: 'nav.gestionProcesos.dashboard',
-                icon: '',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            {
                 key: 'gestionProcesos.lluviasAvisoTrimestral',
                 path: '/gestion-procesos/lluviasAvisoTrimestral',
                 title: 'LLUVIAS AVISO TRIMESTRAL',
@@ -100,7 +90,8 @@ const navigationConfig: NavigationTree[] = [
                 key: 'gestionProcesos.bajasTempInformacionClimatica',
                 path: '/gestion-procesos/bajasTempInformacionClimatica',
                 title: 'BAJAS TEMP INFORMACIÓN CLIMÁTICA',
-                translateKey: 'nav.gestionProcesos.bajasTempInformacionClimatica',
+                translateKey:
+                    'nav.gestionProcesos.bajasTempInformacionClimatica',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
