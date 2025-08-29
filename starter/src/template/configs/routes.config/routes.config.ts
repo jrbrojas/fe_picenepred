@@ -14,14 +14,87 @@ export const protectedRoutes: Routes = [
     },
     // Rutas para Gestión de Procesos
     {
-        key: 'gestionProcesos.evaluacion',
-        path: '/gestion-procesos/evaluacion',
+        key: 'gestionProcesos.dashboard',
+        path: '/gestion-procesos/dashboard',
         component: lazy(() => import('@/views/demo/SingleMenuView')),
         authority: [],
     },
     {
-        key: 'gestionProcesos.prevencion',
-        path: '/gestion-procesos/prevencion',
+        key: 'gestionProcesos.lluviasAvisoTrimestral',
+        path: '/gestion-procesos/lluviasAvisoTrimestral',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.lluviasAvisoMeteorologico',
+        path: '/gestion-procesos/lluviasAvisoMeteorologico',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.lluviasInformacionClimatica',
+        path: '/gestion-procesos/lluviasInformacionClimatica',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.bajasTempAvisoMeteorologico',
+        path: '/gestion-procesos/bajasTempAvisoMeteorologico',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.bajasTempAvisoTrimestral',
+        path: '/gestion-procesos/bajasTempAvisoTrimestral',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.bajasTempInformacionClimatica',
+        path: '/gestion-procesos/bajasTempInformacionClimatica',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.incendiosForestalesNacional',
+        path: '/gestion-procesos/incendiosForestalesNacional',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.incendiosForestalesRegional',
+        path: '/gestion-procesos/incendiosForestalesRegional',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.sismosTsunamiNacional',
+        path: '/gestion-procesos/sismosTsunamiNacional',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.sismosTsunamiOtrosAmbitos',
+        path: '/gestion-procesos/sismosTsunamiOtrosAmbitos',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.sequiasNacional',
+        path: '/gestion-procesos/sequiasNacional',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    
+    {
+        key: 'gestionProcesos.sequiasDepartamental',
+        path: '/gestion-procesos/sequiasDepartamental',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.volcanesNacional',
+        path: '/gestion-procesos/volcanesNacional',
         component: lazy(() => import('@/views/demo/SingleMenuView')),
         authority: [],
     },
@@ -38,19 +111,51 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/demo/GroupSingleMenuItemView')),
         authority: [],
     },
+    // Rutas para Fortalecimiento
+    {
+        key: 'fortalecimiento.dashboard',
+        path: '/fortalecimiento/dashboard',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
     // Rutas para Monitoreo, Seguimiento y Evaluación
+    {
+        key: 'monitoreo.dashboard',
+        path: '/monitoreo/dashboard',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'monitoreo.directorioNacional',
+        path: '/monitoreo/directorioNacional',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'monitoreo.monitoreo',
+        path: '/monitoreo/monitoreo',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
     {
         key: 'monitoreo.seguimiento',
         path: '/monitoreo/seguimiento',
-        component: lazy(() => import('@/views/demo/CollapseMenuItemView1')),
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        authority: [],
+    },
+    {
+        key: 'monitoreo.supervision',
+        path: '/monitoreo/supervision',
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
         authority: [],
     },
     {
         key: 'monitoreo.evaluacion',
         path: '/monitoreo/evaluacion',
-        component: lazy(() => import('@/views/demo/CollapseMenuItemView2')),
+        component: lazy(() => import('@/views/demo/SingleMenuView')),
         authority: [],
     },
+
     // Ruta de debug para probar el login
     {
         key: 'debug.login',

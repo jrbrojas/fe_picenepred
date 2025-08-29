@@ -34,6 +34,9 @@ const LandingPage = () => {
         </header>
 
         <main className="flex-1 relative bg-gray-100">
+          <div className="max-w-6xl mx-auto px-6 py-8">
+            <img src="/img/others/mapa.jpg" alt="mapa" className="w-full h-120 mb-2" />
+          </div>
         </main>
 
         <footer className="bg-[#0097a7] text-white py-8">
