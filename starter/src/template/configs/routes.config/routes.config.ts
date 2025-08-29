@@ -12,11 +12,11 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/CenepredDashboard')),
         authority: [],
     },
-    // Rutas para Gestión de Procesos
+    // Rutas para Gestión de Procesos (DGP)
     {
         key: 'gestionProcesos.dashboard',
         path: '/gestion-procesos/dashboard',
-        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/DGPModule')),
         authority: [],
     },
     {
@@ -111,18 +111,18 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/demo/GroupSingleMenuItemView')),
         authority: [],
     },
-    // Rutas para Fortalecimiento
+    // Rutas para Fortalecimiento (DIFAT)
     {
         key: 'fortalecimiento.dashboard',
         path: '/fortalecimiento/dashboard',
-        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/DIFATModule')),
         authority: [],
     },
-    // Rutas para Monitoreo, Seguimiento y Evaluación
+    // Rutas para Monitoreo, Seguimiento y Evaluación (DIMSE)
     {
         key: 'monitoreo.dashboard',
         path: '/monitoreo/dashboard',
-        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/DIMSEModule')),
         authority: [],
     },
     {
