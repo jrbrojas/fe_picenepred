@@ -10,15 +10,17 @@ const LoginTest = () => {
     const testLogin = async () => {
         setLoading(true)
         setResult('Intentando iniciar sesión...')
-        
+
         try {
             const response = await signIn({
                 email: 'admin-01@ecme.com',
-                password: '123Qwe'
+                password: '123Qwe',
             })
-            
+
             console.log('Respuesta del login:', response)
-            setResult(`Resultado: ${response?.status} - ${response?.message || 'Sin mensaje'}`)
+            setResult(
+                `Resultado: ${response?.status} - ${response?.message || 'Sin mensaje'}`,
+            )
         } catch (error) {
             console.error('Error en el login:', error)
             setResult(`Error: ${error}`)
@@ -37,11 +39,7 @@ const LoginTest = () => {
                 <br />
                 Password: 123Qwe
             </div>
-            <Button 
-                onClick={testLogin} 
-                loading={loading}
-                className="mb-4"
-            >
+            <Button onClick={testLogin} loading={loading} className="mb-4">
                 Probar Login
             </Button>
             <div className="p-4 bg-gray-100 rounded">

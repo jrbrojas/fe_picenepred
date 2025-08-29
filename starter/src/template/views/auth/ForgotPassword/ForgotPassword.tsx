@@ -34,7 +34,7 @@ export const ForgotPasswordBase = ({
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-2">Forgot Password</h3>
+                        <h3 className="mb-2">Recuperar Contraseña</h3>
                         <p className="font-semibold heading-text">
                             Please enter your email to receive a verification
                             code

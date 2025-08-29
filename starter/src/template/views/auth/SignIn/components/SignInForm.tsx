@@ -43,7 +43,7 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'admin-01@ecme.com',
+            email: 'admin@ecme.com',
             password: '123Qwe',
         },
         resolver: zodResolver(validationSchema),
@@ -71,7 +71,7 @@ const SignInForm = (props: SignInFormProps) => {
         <div className={className}>
             <Form onSubmit={handleSubmit(onSignIn)}>
                 <FormItem
-                    label="Email"
+                    label="Correo"
                     invalid={Boolean(errors.email)}
                     errorMessage={errors.email?.message}
                 >
@@ -89,7 +89,7 @@ const SignInForm = (props: SignInFormProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    label="Password"
+                    label="Contraseña"
                     invalid={Boolean(errors.password)}
                     errorMessage={errors.password?.message}
                     className={classNames(
@@ -118,7 +118,7 @@ const SignInForm = (props: SignInFormProps) => {
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Signing in...' : 'Sign In'}
+                    {isSubmitting ? 'Ingresando...' : 'Ingresar'}
                 </Button>
             </Form>
         </div>
