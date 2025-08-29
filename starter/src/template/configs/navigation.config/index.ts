@@ -39,7 +39,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoTrimestral',
                 path: '/gestion-procesos/lluviasAvisoTrimestral',
-                title: 'LLUVIAS AVISO TRIMESTRAL',
+                title: 'LLuvias Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoTrimestral',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -199,16 +199,6 @@ const navigationConfig: NavigationTree[] = [
         type: NAV_ITEM_TYPE_COLLAPSE,
         authority: [],
         subMenu: [
-            {
-                key: 'monitoreo.dashboard',
-                path: '/monitoreo/dashboard',
-                title: 'Dashboard',
-                translateKey: 'nav.monitoreo.dashboard',
-                icon: '',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
             {
                 key: 'monitoreo.directorioNacional',
                 path: '/monitoreo/directorioNacional',
