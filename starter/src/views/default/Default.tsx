@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 
 const navItems = [
     { label: 'INICIO', href: '/' },
+    { label: 'SIGRID', href: '/' },
     { label: 'GESTIÓN DE PROCESOS', href: '/sign-in' },
     { label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA', href: '/sign-in' },
-    { label: 'MONITOREO, SEGUIMIENTO Y EVALUACIÓN', href: '/sign-in' },
+    { label: 'MONITOREO, SEGUIMIENTO, SUPERVISIÓN Y EVALUACIÓN', href: '/sign-in' },
     { label: 'AULA VIRTUAL DE MONITOREO', href: '/sign-in' },
+    { label: 'BUENAS PRÁCTICAS', href: '/sign-in' },
 ]
 
 /*
@@ -42,7 +44,7 @@ export default function Default() {
                 </div>
 
                 <div className="w-full text-white shadow-sm bg-[#0097a7]">
-                    <div className="mx-auto max-w-7xl px-4">
+                    <div className="mx-auto max-w-7xl px-4 py-3">
                         <nav className="flex items-center justify-between md:justify-center gap-2 py-3">
                             <ul className="hidden md:flex items-center gap-8">
                                 {navItems.map((item) => (
