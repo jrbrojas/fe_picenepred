@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const navItems = [
-    { label: 'INICIO', href: '#' },
-    { label: 'GESTIÓN DE PROCESOS', href: '#' },
-    { label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA', href: '#' },
-    { label: 'MONITOREO, SEGUIMIENTO Y EVALUACIÓN', href: '#' },
-    { label: 'AULA VIRTUAL DE MONITOREO', href: '#' },
+    { label: 'INICIO', href: '/' },
+    { label: 'GESTIÓN DE PROCESOS', href: '/sign-in' },
+    { label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA', href: '/sign-in' },
+    { label: 'MONITOREO, SEGUIMIENTO Y EVALUACIÓN', href: '/sign-in' },
+    { label: 'AULA VIRTUAL DE MONITOREO', href: '/sign-in' },
 ]
 
 /*
@@ -49,13 +50,13 @@ export default function Default() {
                                         key={item.label}
                                         className="group relative"
                                     >
-                                        <a
-                                            href={item.href}
+                                        <Link
+                                            to={item.href}
                                             className="block px-2 text-center text-sm font-semibold tracking-wide text-white/90
                          transition-colors duration-200 group-hover:text-white"
                                         >
                                             {item.label}
-                                        </a>
+                                        </Link>
                                         <span
                                             className="pointer-events-none absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2
                          bg-white/80 transition-all duration-200 group-hover:w-10"
