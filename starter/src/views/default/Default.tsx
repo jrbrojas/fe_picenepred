@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const navItems = [
     { label: 'INICIO', href: '/' },
-    { label: 'SIGRID', href: '/' },
+    { label: 'SIGRID', href: '/https://sigrid.cenepred.gob.pe/sigridv3/' },
     { label: 'GESTIÓN DE PROCESOS', href: '/sign-in' },
     { label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA', href: '/sign-in' },
     { label: 'MONITOREO, SEGUIMIENTO, SUPERVISIÓN Y EVALUACIÓN', href: '/sign-in' },
