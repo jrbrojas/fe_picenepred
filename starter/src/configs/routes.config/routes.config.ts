@@ -219,31 +219,31 @@ export const protectedRoutes: Routes = [
     {
         key: 'monitoreo.directorioNacional',
         path: '/monitoreo/directorioNacional',
-        component: lazy(() => import('@/views/modules/dimse/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
         authority: [],
     },
     {
         key: 'monitoreo.monitoreo',
         path: '/monitoreo/monitoreo',
-        component: lazy(() => import('@/views/modules/dimse/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
         authority: [],
     },
     {
         key: 'monitoreo.seguimiento',
         path: '/monitoreo/seguimiento',
-        component: lazy(() => import('@/views/modules/dimse/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
         authority: [],
     },
     {
         key: 'monitoreo.supervision',
         path: '/monitoreo/supervision',
-        component: lazy(() => import('@/views/modules/dimse/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
         authority: [],
     },
     {
         key: 'monitoreo.evaluacion',
         path: '/monitoreo/evaluacion',
-        component: lazy(() => import('@/views/modules/dimse/SingleMenuView')),
+        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
         authority: [],
     },
 
