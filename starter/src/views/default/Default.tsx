@@ -1,19 +1,39 @@
+import { useAuth } from '@/auth'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-const navItems = [
+type NavItem = {
+    label: string
+    href: string
+    external?: boolean
+    protected?: boolean
+}
+
+export const navItems: NavItem[] = [
     { label: 'INICIO', href: '/' },
     {
         label: 'SIGRID',
         href: 'https://sigrid.cenepred.gob.pe/sigridv3/',
         external: true,
     },
-    { label: 'GESTIÓN DE PROCESOS', href: '/sign-in' },
-    { label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA', href: '/sign-in' },
+
+    // ← marca como protegidas:
+    {
+        label: 'GESTIÓN DE PROCESOS',
+        href: '/gestion-procesos/lluviasAvisoTrimestral',
+        protected: true,
+    },
+    {
+        label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA',
+        href: '/fortalecimiento/resumenInstrumentoNivNac',
+        protected: true,
+    },
     {
         label: 'MONITOREO, SEGUIMIENTO, SUPERVISIÓN Y EVALUACIÓN',
-        href: '/sign-in',
+        href: '/monitoreo/monitoreo',
+        protected: true,
     },
+
     {
         label: 'AULA VIRTUAL',
         href: 'https://aulavirtual.cenepred.gob.pe/',
@@ -25,10 +45,60 @@ const navItems = [
         external: true,
     },
 ]
-
 /*
 https://sigrid.cenepred.gob.pe/sigridv3/
 */
+const REDIRECT_KEY = 'postLoginRedirect'
+function AppNavLink({
+    item,
+    className,
+    onDone, // para cerrar el menú mobile si aplica
+}: {
+    item: NavItem
+    className?: string
+    onDone?: () => void
+}) {
+    const { authenticated } = useAuth()
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    // Para externos: usa <a> normal
+    if (item.external) {
+        return (
+            <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
+                onClick={onDone}
+            >
+                {item.label}
+            </a>
+        )
+    }
+
+    const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+        if (item.protected && !authenticated) {
+            e.preventDefault()
+            // Guarda la intención
+            localStorage.setItem(REDIRECT_KEY, item.href)
+            // también puedes guardar desde dónde venía el usuario si te sirve
+            localStorage.setItem(
+                'lastLocation',
+                location.pathname + location.search + location.hash,
+            )
+            navigate(`/sign-in?next=${encodeURIComponent(item.href)}`)
+        }
+        onDone?.()
+    }
+
+    return (
+        <Link to={item.href} className={className} onClick={handleClick}>
+            {item.label}
+        </Link>
+    )
+}
+
 export default function Default() {
     const [open, setOpen] = useState(false)
 
@@ -52,7 +122,7 @@ export default function Default() {
                         <img
                             src="/img/logo/logo_sigrid.png"
                             alt="CENEPRED"
-                            className="h-12 md:h-14 w-auto object-contain"
+                            className="h-12 md:h-14 w-auto object-contain cursor-pointer"
                             loading="lazy"
                             onClick={() =>
                                 window.open(
@@ -67,39 +137,29 @@ export default function Default() {
                 <div className="w-full text-white shadow-sm bg-[#0097a7]">
                     <div className="mx-auto max-w-7xl px-4 py-3">
                         <nav className="flex items-center justify-between md:justify-center gap-2 py-3">
+                            {/* Desktop */}
                             <ul className="hidden md:flex items-center gap-8">
                                 {navItems.map((item) => (
                                     <li
                                         key={item.label}
                                         className="group relative"
                                     >
-                                        <Link
-                                            to={item.href}
-                                            className="block px-2 text-center text-sm font-semibold tracking-wide text-white/90
-               transition-colors duration-200 group-hover:text-white"
-                                        >
-                                            <a
-                                                href={item.href} // El href para los enlaces externos
-                                                target="_blank" // Abrir en una nueva pestaña
-                                                rel="noopener noreferrer" // Seguridad adicional al abrir enlaces externos
-                                            >
-                                                {item.label}
-                                            </a>
-                                        </Link>
-                                        <span
-                                            className="pointer-events-none absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2
-                         bg-white/80 transition-all duration-200 group-hover:w-10"
+                                        <AppNavLink
+                                            item={item}
+                                            className="block px-2 text-center text-sm font-semibold tracking-wide text-white/90 transition-colors duration-200 group-hover:text-white"
                                         />
+                                        <span className="pointer-events-none absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-white/80 transition-all duration-200 group-hover:w-10" />
                                     </li>
                                 ))}
                             </ul>
 
+                            {/* Mobile button */}
                             <button
                                 type="button"
-                                className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium
-                   ring-1 ring-inset ring-white/20 hover:bg-white/10 md:hidden"
+                                className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium ring-1 ring-inset ring-white/20 hover:bg-white/10 md:hidden"
                                 aria-expanded={open}
                                 aria-controls="mobile-nav"
+                                onClick={() => setOpen((v) => !v)}
                             >
                                 <svg
                                     className="h-5 w-5"
@@ -114,19 +174,17 @@ export default function Default() {
                             </button>
                         </nav>
 
+                        {/* Mobile nav */}
                         {open && (
                             <div id="mobile-nav" className="md:hidden">
                                 <ul className="grid gap-2 pb-3">
                                     {navItems.map((item) => (
                                         <li key={item.label}>
-                                            <a
-                                                href={item.href}
-                                                className="block rounded-md px-3 py-2 text-center text-sm font-medium
-                           text-white/95 hover:bg-teal-600 hover:text-white transition-colors"
-                                                onClick={() => setOpen(false)}
-                                            >
-                                                {item.label}
-                                            </a>
+                                            <AppNavLink
+                                                item={item}
+                                                className="block rounded-md px-3 py-2 text-center text-sm font-medium text-white/95 hover:bg-white/10 hover:text-white transition-colors"
+                                                onDone={() => setOpen(false)}
+                                            />
                                         </li>
                                     ))}
                                 </ul>
@@ -139,19 +197,22 @@ export default function Default() {
             <main className="flex-1 mx-auto w-full max-w-7xl px-0 py-8">
                 <section
                     className="
-            relative overflow-hidden bg-white ring-1 ring-slate-200 shadow-sm
-            h-[calc(100dvh-var(--chrome))] min-h-[70vh]
-            md:rounded-2xl
-          "
+      relative overflow-hidden bg-white ring-1 ring-slate-200 shadow-sm
+      h-[calc(100dvh-var(--chrome))] min-h-[70vh]
+      md:rounded-2xl
+    "
                 >
-                    {/* Imagen ocupa TODO el alto disponible */}
+                    {/* Imagen base */}
                     <img
                         src={mapUrl}
                         alt="Mapa de la zona con polígonos de riesgo"
-                        className="h-full w-full object-cover"
+                        className="absolute inset-0 h-full w-full object-cover"
                     />
 
-                    {/* Overlays */}
+                    {/* Degradado: de #0097a7 (abajo) hacia transparente (arriba) */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0097a7]/90 via-[#0097a7]/40 to-transparent" />
+
+                    {/* Tus polígonos u overlays encima del degradado */}
                     <svg
                         className="pointer-events-none absolute inset-0 h-full w-full"
                         viewBox="0 0 1920 1080"

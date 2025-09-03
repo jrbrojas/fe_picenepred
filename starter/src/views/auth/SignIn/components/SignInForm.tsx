@@ -11,6 +11,7 @@ import { z } from 'zod'
 import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -32,6 +33,8 @@ const validationSchema: ZodType<SignInFormSchema> = z.object({
         .min(1, { message: 'Please enter your password' }),
 })
 
+const REDIRECT_KEY = 'postLoginRedirect'
+
 const SignInForm = (props: SignInFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
@@ -51,7 +54,38 @@ const SignInForm = (props: SignInFormProps) => {
 
     const { signIn } = useAuth()
 
+    const navigate = useNavigate()
+    const location = useLocation()
+
     const onSignIn = async (values: SignInFormSchema) => {
+        if (disableSubmit) return
+
+        setSubmitting(true)
+        try {
+            const result = await signIn(values)
+
+            if (result?.status === 'failed') {
+                setMessage?.(result.message || 'Credenciales inválidas')
+                return
+            }
+
+            // 👇 Resuelve el destino final: ?next=… -> localStorage -> '/'
+            const params = new URLSearchParams(location.search)
+            const nextFromQuery = params.get('next') || ''
+            const nextFromStorage = localStorage.getItem(REDIRECT_KEY) || ''
+            const next = nextFromQuery || nextFromStorage || '/'
+
+            // limpia el redirect guardado (si lo hubiera)
+            localStorage.removeItem(REDIRECT_KEY)
+
+            // navega al destino
+            navigate(next, { replace: true })
+        } finally {
+            setSubmitting(false)
+        }
+    }
+
+    /*  const onSignIn = async (values: SignInFormSchema) => {
         const { email, password } = values
 
         if (!disableSubmit) {
@@ -65,7 +99,7 @@ const SignInForm = (props: SignInFormProps) => {
         }
 
         setSubmitting(false)
-    }
+    } */
 
     return (
         <div className={className}>
