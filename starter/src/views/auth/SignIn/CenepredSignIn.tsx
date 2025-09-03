@@ -26,7 +26,7 @@ export const CenepredSignIn = ({
                             <img
                                 src="/img/logo/logo-cenepred.jpg"
                                 alt="CENEPRED"
-                                className="h-12"
+                                className="h-24 md:h-24 w-auto object-contain"
                             />
                         </div>
                         <div className="flex items-center space-x-2">

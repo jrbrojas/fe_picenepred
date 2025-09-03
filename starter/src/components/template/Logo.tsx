@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { APP_NAME } from '@/constants/app.constant'
 import type { CommonProps } from '@/@types/common'
+import { useAuth } from '@/auth'
 
 interface LogoProps extends CommonProps {
     type?: 'full' | 'streamline'
@@ -20,7 +21,11 @@ const Logo = (props: LogoProps) => {
         style,
         logoWidth = 'auto',
     } = props
+    const { signOut } = useAuth()
 
+    const handleSignOut = () => {
+        signOut()
+    }
     return (
         <div
             className={classNames('logo', className)}
@@ -30,9 +35,10 @@ const Logo = (props: LogoProps) => {
             }}
         >
             <img
-                className={imgClass}
                 src="/img/logo/logo_cenepred.png"
                 alt="CENEPRED"
+                className="h-14 md:h-14 w-auto object-contain"
+                onClick={handleSignOut}
             />
         </div>
     )

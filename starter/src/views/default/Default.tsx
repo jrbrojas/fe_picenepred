@@ -14,8 +14,16 @@ const navItems = [
         label: 'MONITOREO, SEGUIMIENTO, SUPERVISIÓN Y EVALUACIÓN',
         href: '/sign-in',
     },
-    { label: 'AULA VIRTUAL DE MONITOREO', href: '/sign-in' },
-    { label: 'BUENAS PRÁCTICAS', href: '/sign-in' },
+    {
+        label: 'AULA VIRTUAL',
+        href: 'https://aulavirtual.cenepred.gob.pe/',
+        external: true,
+    },
+    {
+        label: 'BUENAS PRÁCTICAS EN GRD',
+        href: 'https://aulavirtual.cenepred.gob.pe/',
+        external: true,
+    },
 ]
 
 /*
@@ -35,7 +43,7 @@ export default function Default() {
                         <img
                             src="/img/logo/logo-cenepred.jpg"
                             alt="CENEPRED"
-                            className="h-12 md:h-14 w-auto object-contain"
+                            className="h-24 md:h-24 w-auto object-contain"
                             loading="lazy"
                         />
                     </div>
