@@ -34,6 +34,10 @@ export const CenepredSignIn = ({
                                 src="/img/logo/logo_sigrid.png"
                                 alt="SIGRID"
                                 className="h-12"
+                                onClick={() =>
+                                    (window.location.href =
+                                        'https://sigrid.cenepred.gob.pe/sigridv3/')
+                                }
                             />
                         </div>
                     </div>

@@ -3,10 +3,17 @@ import { Link } from 'react-router-dom'
 
 const navItems = [
     { label: 'INICIO', href: '/' },
-    { label: 'SIGRID', href: '/https://sigrid.cenepred.gob.pe/sigridv3/' },
+    {
+        label: 'SIGRID',
+        href: 'https://sigrid.cenepred.gob.pe/sigridv3/',
+        external: true,
+    },
     { label: 'GESTIÓN DE PROCESOS', href: '/sign-in' },
     { label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA', href: '/sign-in' },
-    { label: 'MONITOREO, SEGUIMIENTO, SUPERVISIÓN Y EVALUACIÓN', href: '/sign-in' },
+    {
+        label: 'MONITOREO, SEGUIMIENTO, SUPERVISIÓN Y EVALUACIÓN',
+        href: '/sign-in',
+    },
     { label: 'AULA VIRTUAL DE MONITOREO', href: '/sign-in' },
     { label: 'BUENAS PRÁCTICAS', href: '/sign-in' },
 ]
@@ -39,6 +46,12 @@ export default function Default() {
                             alt="CENEPRED"
                             className="h-12 md:h-14 w-auto object-contain"
                             loading="lazy"
+                            onClick={() =>
+                                window.open(
+                                    'https://sigrid.cenepred.gob.pe/sigridv3/',
+                                    '_blank',
+                                )
+                            }
                         />
                     </div>
                 </div>
@@ -55,9 +68,15 @@ export default function Default() {
                                         <Link
                                             to={item.href}
                                             className="block px-2 text-center text-sm font-semibold tracking-wide text-white/90
-                         transition-colors duration-200 group-hover:text-white"
+               transition-colors duration-200 group-hover:text-white"
                                         >
-                                            {item.label}
+                                            <a
+                                                href={item.href} // El href para los enlaces externos
+                                                target="_blank" // Abrir en una nueva pestaña
+                                                rel="noopener noreferrer" // Seguridad adicional al abrir enlaces externos
+                                            >
+                                                {item.label}
+                                            </a>
                                         </Link>
                                         <span
                                             className="pointer-events-none absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2
