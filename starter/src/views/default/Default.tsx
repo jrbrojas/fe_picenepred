@@ -210,7 +210,21 @@ export default function Default() {
                     />
 
                     {/* Degradado: de #0097a7 (abajo) hacia transparente (arriba) */}
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0097a7]/90 via-[#0097a7]/40 to-transparent" />
+                    <div
+                        className="pointer-events-none absolute inset-0
+                bg-gradient-to-t from-[#0097a7]/85 via-[#0097a7]/35 to-transparent"
+                    />
+
+                    {/* blur con máscara (fuerte abajo, 0 arriba) */}
+                    <div
+                        className="pointer-events-none absolute inset-0 backdrop-blur-[10px]"
+                        style={{
+                            WebkitMaskImage:
+                                'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,.6) 45%, rgba(0,0,0,0) 75%)',
+                            maskImage:
+                                'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,.6) 45%, rgba(0,0,0,0) 75%)',
+                        }}
+                    />
 
                     {/* Tus polígonos u overlays encima del degradado */}
                     <svg
