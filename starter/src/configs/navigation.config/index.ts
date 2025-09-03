@@ -322,7 +322,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.resumenInstrumentoNivNac',
                 path: '/fortalecimiento/resumenInstrumentoNivNac',
-                title: 'Resumen Instrumento Niv Nac',
+                title: 'Inst. Nivel Nacional',
                 translateKey: 'nav.fortalecimiento.resumenInstrumentoNivNac',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -332,7 +332,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.resumenDptoAsistTecFortalec',
                 path: '/fortalecimiento/resumenDptoAsistTecFortalec',
-                title: 'Resumen Dpto Asist Tec Fortalec',
+                title: 'Asist Tecnica y Fortalecimiento Cap',
                 translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -342,7 +342,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.fortCapCursosBasYEspec',
                 path: '/fortalecimiento/fortCapCursosBasYEspec',
-                title: 'Fort Cap Cursos Bas y Espec',
+                title: 'PPRD - Regiones - Años',
                 translateKey: 'nav.fortalecimiento.fortCapCursosBasYEspec',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -352,7 +352,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.pprdNivelNacional',
                 path: '/fortalecimiento/pprdNivelNacional',
-                title: 'Fort Cap Cursos Bas y Espec',
+                title: 'PPRD Ent Asis Fases Periodos',
                 translateKey: 'nav.fortalecimiento.pprdNivelNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -362,7 +362,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.evaluadoresDeRiesgoAcred',
                 path: '/fortalecimiento/evaluadoresDeRiesgoAcred',
-                title: 'Evaluadores de Riesgo Acred',
+                title: 'Evaluaciones de Riesgos Regiones Años',
                 translateKey: 'nav.fortalecimiento.evaluadoresDeRiesgoAcred',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -372,7 +372,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.fortCapYAmbitos',
                 path: '/fortalecimiento/fortCapYAmbitos',
-                title: 'Fort Cap y Ambitos',
+                title: 'Plan Anual de Actividades',
                 translateKey: 'nav.fortalecimiento.fortCapYAmbitos',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -382,7 +382,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.riesgoPorFenNaturales',
                 path: '/fortalecimiento/riesgoPorFenNaturales',
-                title: 'Riesgo por Fen Naturales',
+                title: 'PEC REAS Pob Act de Rep',
                 translateKey: 'nav.fortalecimiento.riesgoPorFenNaturales',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -392,7 +392,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.otrasAsistenciasTecNacional',
                 path: '/fortalecimiento/otrasAsistenciasTecNacional',
-                title: 'Otras Asistencias Tec Nacional',
+                title: 'Plnes Estratégicos',
                 translateKey: 'nav.fortalecimiento.otrasAsistenciasTecNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -402,7 +402,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.concursoBuenasPracticas',
                 path: '/fortalecimiento/concursoBuenasPracticas',
-                title: 'Concurso Buenas Practicas',
+                title: 'Cursos Basicos Especializados',
                 translateKey: 'nav.fortalecimiento.concursoBuenasPracticas',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -412,7 +412,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.fasesDelPprdNacional',
                 path: '/fortalecimiento/fasesDelPprdNacional',
-                title: 'Fases del PPRD Nacional',
+                title: 'Evaluadores de Riesgo',
                 translateKey: 'nav.fortalecimiento.fasesDelPprdNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -422,7 +422,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.instrumentosEspecialistasNacional',
                 path: '/fortalecimiento/instrumentosEspecialistasNacional',
-                title: 'Instrumentos Especialistas Nacional',
+                title: 'Concurso Buenas Prácticas',
                 translateKey:
                     'nav.fortalecimiento.instrumentosEspecialistasNacional',
                 icon: '',
@@ -433,7 +433,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.sesionesEspecPprdNivelNac',
                 path: '/fortalecimiento/sesionesEspecPprdNivelNac',
-                title: 'Sesiones Espec PPRD Nivel Nac',
+                title: 'Aula Virtual',
                 translateKey: 'nav.fortalecimiento.sesionesEspecPprdNivelNac',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -443,7 +443,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.entidadesAsistEspPprdNacional',
                 path: '/fortalecimiento/entidadesAsistEspPprdNacional',
-                title: 'Entidades Asist Esp PPRD Nacional',
+                title: 'Fases del PPRD Especialista',
                 translateKey:
                     'nav.fortalecimiento.entidadesAsistEspPprdNacional',
                 icon: '',
