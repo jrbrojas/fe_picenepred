@@ -2,27 +2,34 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dynamicImport from 'vite-plugin-dynamic-import'
+import dns from 'dns'
 
-// https://vitejs.dev/config/
+// Evita issues de resolución IPv6 en Node 18/20
+dns.setDefaultResultOrder?.('ipv4first')
+
 export default defineConfig({
-    plugins: [react(), dynamicImport()],
-    assetsInclude: ['**/*.md'],
-    resolve: {
-        alias: {
-            '@': path.join(__dirname, 'src'),
-        },
+  plugins: [react(), dynamicImport()],
+  assetsInclude: ['**/*.md'],
+  resolve: {
+    alias: {
+      '@': path.join(__dirname, 'src'),
     },
-    server: {
-        port: 3000,
-        proxy: {
-            '/api': {
-                target: 'http://localhost:3000',
-                changeOrigin: true,
-                secure: false,
-            },
-        },
+  },
+  server: {
+    // Vite corre en 5173 (no en 3000)
+    port: 5173,
+    proxy: {
+      // Todas las llamadas /api del front se envían al backend real en 3000
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+        // Si tu backend NO expone el prefijo /api, descomenta esta línea:
+        // rewrite: (p) => p.replace(/^\/api/, ''),
+      },
     },
-    build: {
-        outDir: 'build',
-    },
+  },
+  build: {
+    outDir: 'build',
+  },
 })
