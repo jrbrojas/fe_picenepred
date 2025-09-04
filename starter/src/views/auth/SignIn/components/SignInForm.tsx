@@ -12,6 +12,7 @@ import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -38,6 +39,7 @@ const REDIRECT_KEY = 'postLoginRedirect'
 const SignInForm = (props: SignInFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
+    const [captchaValue, setCaptchaValue] = useState<string | null>(null)
     const { disableSubmit = false, className, setMessage, passwordHint } = props
 
     const {
@@ -59,6 +61,12 @@ const SignInForm = (props: SignInFormProps) => {
 
     const onSignIn = async (values: SignInFormSchema) => {
         if (disableSubmit) return
+
+         // Validación reCAPTCHA
+         if (!captchaValue) {
+            setMessage?.('Por favor complete el reCAPTCHA antes de continuar.')
+            return
+        }
 
         setSubmitting(true)
         try {
@@ -146,6 +154,16 @@ const SignInForm = (props: SignInFormProps) => {
                     />
                 </FormItem>
                 {passwordHint}
+
+                 {/* reCAPTCHA dentro del formulario */}
+                <div className="my-4 flex justify-center">
+                    <ReCAPTCHA
+                         sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                        //sitekey="VITE_RECAPTCHA_SITE_KEY"
+                        onChange={(value) => setCaptchaValue(value)}
+                    />
+                </div>       
+            
                 <Button
                     block
                     loading={isSubmitting}

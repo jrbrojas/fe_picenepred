@@ -12,7 +12,7 @@ dist
 dist-ssr
 build
 *.local
-.env
+#.env
 
 # Editor directories and files
 .vscode/*
@@ -24,4 +24,4 @@ build
 *.njsproj
 *.sln
 *.sw?
-.vite-cache/
+.vite-cache/".hintrc" 
