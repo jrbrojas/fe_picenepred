@@ -12,8 +12,8 @@ type NavItem = {
 export const navItems: NavItem[] = [
     { label: 'INICIO', href: '/' },
     {
-        label: 'SIGRID',
-        href: 'https://sigrid.cenepred.gob.pe/sigridv3/',
+        label: 'VISOR SIGRID',
+        href: 'https://sigrid.cenepred.gob.pe/sigridv3/login',
         external: true,
     },
 
