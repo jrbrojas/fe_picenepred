@@ -1,0 +1,1 @@
+import{j as e}from"./index-Dg9LI47u.js";function a(){return e.jsx("div",{className:"relative w-full",style:{paddingTop:"56.25%"},children:e.jsx("iframe",{title:"Power BI Report",src:"https://renat.cenepred.gob.pe/tablero/buenaspracticas",className:"absolute top-0 left-0 w-full h-full rounded-lg shadow-lg",loading:"lazy",allowFullScreen:!0})})}export{a as default};
