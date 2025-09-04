@@ -29,7 +29,8 @@ export default defineConfig({
       },
     },
   },
+  base: '/fe_picenepred/',   // 👈 base para GitHub Pages
   build: {
-    outDir: 'build',
+    outDir: 'build',         // 👈 output folder
   },
 })
