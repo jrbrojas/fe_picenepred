@@ -624,12 +624,12 @@ export default function TreeTableMonitoreo3Niveles() {
             <div className="space-y-6">
                 {/* Encabezado */}
                 <div className="text-center">
-                    <h2 className="text-sm font-medium uppercase tracking-wide text-slate-600">
+                   {/* <h2 className="text-sm font-medium uppercase tracking-wide text-slate-600">
                         MONITOREO
                     </h2>
                     <p className="text-[13px] text-slate-500">
                         (IMPLEM POLÍTICA Y PLAN)
-                    </p>
+                    </p>*/}
                 </div>
 
                 {/* Tabla */}
