@@ -1,0 +1,1 @@
+import{j as l}from"./index-Dg9LI47u.js";const e=()=>l.jsx("div",{className:"relative w-full",style:{paddingTop:"56.25%"},children:l.jsx("img",{src:"/img/others/img1.jpeg",className:"absolute top-0 left-0 w-full h-full rounded-lg shadow-lg",loading:"lazy"})});export{e as default};
