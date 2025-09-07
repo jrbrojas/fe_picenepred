@@ -1,4 +1,4 @@
-# Estructura del Proyecto Frontend CENEPRED
+# Estructura del Proyecto Frontend Plataforma Integradora SIGRID
 
 ## Descripción General
 
@@ -42,3 +42,27 @@ Se quito el caret (^) para evirtar la actualzacion de las librerias y evitar con
 │   ├── img/              # Imágenes
 │   └── favicon.ico       # Ícono del sitio
 ```
+
+## Instalación
+
+1. Clona el repositorio
+
+## Instalacion de dependecias
+
+- npm install
+
+## Inicia el servidor de desarollo
+
+- npm run dev
+
+## Visualizacion del proyecto
+
+-  http://localhost:5173/
+
+## Contruir para produccion
+
+- npm run build
+
+## Previsualizar build de produccion
+
+- npm run preview
