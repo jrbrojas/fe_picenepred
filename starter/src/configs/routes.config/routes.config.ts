@@ -115,7 +115,7 @@ export const protectedRoutes: Routes = [
     {
         key: 'fortalecimiento.resumenInstrumentoNivNac',
         path: '/fortalecimiento/resumenInstrumentoNivNac',
-        component: lazy(() => import('@/views/modules/dimse/Evaluation')),
+        component: lazy(() => import('@/views/modules/dimse/ResumenInstrumentoNivNac')),
         authority: [],
     },
     {

@@ -1,10 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const DIFATModule = () => {
-    // useEffect(() => {
-    //     // Redireccionar directamente al tablero RENAT
-    //     window.open('https://renat.cenepred.gob.pe/tablero/inicio', '_blank')
-    // }, [])
+    const [url] = useState<string>(import.meta.env.VITE_RENAT_URL + "/tablero/inicio/pi")
 
     const iframeRef = useRef<HTMLIFrameElement>(null)
 
@@ -33,7 +30,7 @@ const DIFATModule = () => {
         <div className="p-8 text-center">
             <iframe
                 ref={iframeRef}
-                src="https://renat.cenepred.gob.pe/tablero/inicio"
+                src={url}
                 title="RENAT Tablero"
                 className="w-full h-screen border-0"
             />

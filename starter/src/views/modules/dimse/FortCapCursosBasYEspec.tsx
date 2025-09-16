@@ -1,9 +1,13 @@
+import { useState } from "react"
+
 export default function FortCapCursosBasYEspec() {
+    const [url] = useState<string>(import.meta.env.VITE_RENAT_URL + "/tablero/pprrd/pi")
     return (
         <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
             <iframe
+                id="iframePPRRD"
                 title="Power BI Report"
-                src="https://renat.cenepred.gob.pe/tablero/cursos"
+                src={url}
                 className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
                 loading="lazy"
                 allowFullScreen

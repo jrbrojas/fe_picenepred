@@ -1,9 +1,12 @@
+import { useState } from "react"
+
 export default function EvaluadoresDeRiesgoAcred() {
+    const [url] = useState<string>(import.meta.env.VITE_RENAT_URL + "/tablero/evar/pi")
     return (
         <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
             <iframe
                 title="Power BI Report"
-                src="https://renat.cenepred.gob.pe/tablero/evaluadores"
+                src={url}
                 className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
                 loading="lazy"
                 allowFullScreen
