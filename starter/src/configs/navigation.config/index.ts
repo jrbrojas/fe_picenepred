@@ -37,20 +37,20 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [
             {
-                key: 'gestionProcesos.lluviasAvisoTrimestral',
-                path: '/gestion-procesos/lluviasAvisoTrimestral',
-                title: 'Lluvias Aviso Trimestral',
-                translateKey: 'nav.gestionProcesos.lluviasAvisoTrimestral',
+                key: 'gestionProcesos.lluviasAvisoMeteorologico',
+                path: '/gestion-procesos/lluviasAvisoMeteorologico',
+                title: 'Lluvias Aviso Meteorológico',
+                translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
             },
             {
-                key: 'gestionProcesos.lluviasAvisoMeteorologico',
-                path: '/gestion-procesos/lluviasAvisoMeteorologico',
-                title: 'Lluvias Aviso Meteorologico',
-                translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico',
+                key: 'gestionProcesos.lluviasAvisoTrimestral',
+                path: '/gestion-procesos/lluviasAvisoTrimestral',
+                title: 'Lluvias Aviso Trimestral',
+                translateKey: 'nav.gestionProcesos.lluviasAvisoTrimestral',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
@@ -69,7 +69,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempAvisoMeteorologico',
                 path: '/gestion-procesos/bajasTempAvisoMeteorologico',
-                title: 'Bajas Temp Aviso Meteorologico',
+                title: 'Bajas Temp Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoMeteorologico',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -89,7 +89,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempInformacionClimatica',
                 path: '/gestion-procesos/bajasTempInformacionClimatica',
-                title: 'Bajas Temp Informacion Climática',
+                title: 'Bajas Temp Información Climática',
                 translateKey:
                     'nav.gestionProcesos.bajasTempInformacionClimatica',
                 icon: '',
@@ -127,6 +127,7 @@ const navigationConfig: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
+            /*
             {
                 key: 'gestionProcesos.sismosTsunamiOtrosAmbitos',
                 path: '/gestion-procesos/sismosTsunamiOtrosAmbitos',
@@ -167,6 +168,7 @@ const navigationConfig: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
+            */
         ],
     },
     // {
