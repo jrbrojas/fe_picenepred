@@ -3,8 +3,11 @@ import Card from '@/components/ui/Card'
 import Segment from '@/components/ui/Segment'
 import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
-import { apiGetMonitoreo } from './services/MonitoreService'
+import { apiGetCategorias, apiGetMonitoreo } from './services/MonitoreService'
 import { MonitoreoResponse, RespuestaElement } from './services/types/getmonitoreo'
+import { CategoriaResponse } from './services/types/getcategorias'
+import { Select } from '@/components/ui'
+import { SingleValue } from 'react-select'
 
 const datita = {
     campagin: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
@@ -102,14 +105,44 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
     }
     return data;
 }
+interface CategoriaOption {
+    value: string;
+    label: string;
+}
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
+    const [categorias, setCategorias] = useState<CategoriaOption[]>([])
+    const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
+    const [fetching, setFetching] = useState(true)
 
-    async function boot(): Promise<void> {
-        const response = await apiGetMonitoreo();
+    async function onCategoria(newValue: SingleValue<CategoriaOption>) {
+        if (!newValue) {
+            return;
+        }
+        setFetching(true)
+        setCurrentCategoria(newValue);
+        await fetchValues(newValue.value)
+        setFetching(false)
+    }
+    async function fetchValues(categoria: string) {
+        const response = await apiGetMonitoreo(categoria)
         setData(mapMonitoreoResponseToData(response))
+    }
+    async function boot(): Promise<void> {
+        const res = await apiGetCategorias()
+        setCategorias(res.map(cat => ({
+            value: String(cat.id),
+            label: cat.nombre
+        })))
+        const first = res[0]
+        setCurrentCategoria({
+            value: String(first.id),
+            label: first.nombre,
+        })
+        await fetchValues(String(first.id))
+        setFetching(false)
     }
 
     useEffect(() => {
@@ -205,6 +238,12 @@ export default function TreeTableMonitoreo3Niveles() {
                     <p className="text-[13px] text-slate-500">
                         (IMPLEM POLÍTICA Y PLAN)
                     </p>*/}
+                    <Select
+                        options={categorias}
+                        value={currentCategoria}
+                        onChange={(n) => onCategoria(n)}
+                        isDisabled={fetching}
+                    />
                 </div>
 
                 {/* Tabla */}
