@@ -47,6 +47,7 @@ const COLS = Array.from({ length: 30 }, (_, i) => `P${i + 1}`)
 
 const sumByIndex = (rows: number[][]) => {
     const res = Array(COLS.length).fill(0)
+    ////rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     return res
 }
@@ -122,10 +123,9 @@ export default function TreeTableMonitoreo3Niveles() {
     }
 
     // Totales por provincia y por departamento
-    function promedio(arr: number[]): number {
-        const len = arr.length;
-        const fraccion = arr.filter((i) => i === 1).length;
-        return Number(((fraccion / len) * 100).toFixed(2));
+    function promedio(arr: number[], total: number): number {
+        const sum = arr.reduce((a, b) => a + b, 0);
+        return Number(((sum / total) * 100).toFixed(2));
     }
     const { provTotals, depTotals } = useMemo(() => {
         const provTotals = new Map<string, { cols: number[]; total: number }>()
@@ -136,12 +136,12 @@ export default function TreeTableMonitoreo3Niveles() {
 
             for (const prov of dep.provincias) {
                 const pv = sumByIndex(prov.distritos.map((d) => d.valores))
-                provTotals.set(prov.id, { cols: pv, total: promedio(pv) })
+                provTotals.set(prov.id, { cols: pv, total: promedio(pv, 30 * prov.distritos.length) })
                 allDistrVals.push(...prov.distritos.map((d) => d.valores))
             }
 
             const dv = sumByIndex(allDistrVals)
-            depTotals.set(dep.id, { cols: dv, total: promedio(dv) })
+            depTotals.set(dep.id, { cols: dv, total: promedio(dv, 30 * allDistrVals.length) })
         }
 
         return { provTotals, depTotals }
@@ -397,6 +397,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
                                                                             {promedio(
                                                                                 d.valores,
+                                                                                30
                                                                             )}
                                                                         </td>
                                                                     </tr>
