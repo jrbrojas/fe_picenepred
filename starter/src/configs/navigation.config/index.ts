@@ -5,6 +5,7 @@ import {
 } from '@/constants/navigation.constant'
 
 import type { NavigationTree } from '@/@types/navigation'
+import enagerd from './enagerd'
 
 const navigationConfig: NavigationTree[] = [
     {
@@ -709,6 +710,7 @@ const navigationConfig: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
+            enagerd,
         ],
     },
 ]
