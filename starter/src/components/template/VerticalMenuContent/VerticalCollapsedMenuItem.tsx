@@ -5,6 +5,7 @@ import AuthorityCheck from '@/components/shared/AuthorityCheck'
 import type { CommonProps, TraslationFn } from '@/@types/common'
 import type { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
+import { Tooltip } from '@/components/ui'
 
 interface DefaultItemProps extends CommonProps {
     nav: NavigationTree
@@ -43,7 +44,14 @@ const DefaultItem = ({
                 label={
                     <>
                         <VerticalMenuIcon icon={nav.icon} />
-                        <span>{t(nav.translateKey, nav.title)}</span>
+                        {nav.tooltip ? (
+                            <Tooltip title={nav.tooltip}>
+                                <span>{t(nav.translateKey, nav.title)}</span>
+                            </Tooltip>
+                        ) : (
+                            <span>{t(nav.translateKey, nav.title)}</span>
+
+                        )}
                     </>
                 }
                 eventKey={nav.key}

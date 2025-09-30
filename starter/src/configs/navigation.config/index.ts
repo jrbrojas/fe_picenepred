@@ -39,7 +39,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoMeteorologico',
                 path: '/gestion-procesos/lluviasAvisoMeteorologico',
-                title: 'Lluvias Aviso Meteorológico',
+                title: 'LAM',
+                tooltip: 'Lluvias Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -70,7 +71,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoTrimestral',
                 path: '/gestion-procesos/lluviasAvisoTrimestral',
-                title: 'Lluvias Aviso Trimestral',
+                title: 'LAT',
+                tooltip: 'Lluvias Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoTrimestral',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -103,7 +105,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasInformacionClimatica',
                 path: '/gestion-procesos/lluviasInformacionClimatica',
-                title: 'Lluvias Información Climática',
+                title: 'LIC',
+                tooltip: 'Lluvias Información Climática',
                 translateKey: 'nav.gestionProcesos.lluviasInformacionClimatica',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -134,7 +137,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempAvisoMeteorologico',
                 path: '/gestion-procesos/bajasTempAvisoMeteorologico',
-                title: 'Bajas Temp Aviso Meteorológico',
+                title: 'BTAM',
+                tooltip: 'Bajas Temp Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoMeteorologico',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -165,7 +169,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempAvisoTrimestral',
                 path: '/gestion-procesos/bajasTempAvisoTrimestral',
-                title: 'Bajas Temp Aviso Trimestral',
+                title: 'BTAT',
+                tooltip: 'Bajas Temp Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoTrimestral',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -197,7 +202,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempInformacionClimatica',
                 path: '/gestion-procesos/bajasTempInformacionClimatica',
-                title: 'Bajas Temp Información Climática',
+                title: 'BTIC',
+                tooltip: 'Bajas Temp Información Climática',
                 translateKey:
                     'nav.gestionProcesos.bajasTempInformacionClimatica',
                 icon: '',
@@ -229,7 +235,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.incendiosForestalesNacional',
                 path: '/gestion-procesos/incendiosForestalesNacional',
-                title: 'Incendios Forestales Nac',
+                title: 'IFN',
+                tooltip: 'Incendios Forestales Nac',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -262,6 +269,7 @@ const navigationConfig: NavigationTree[] = [
                 key: 'gestionProcesos.incendiosForestalesRegional',
                 path: '/gestion-procesos/incendiosForestalesRegional',
                 title: 'Incendios Forestales Reg',
+                tooltip: 'Incendios Forestales Reg',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesRegional',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,

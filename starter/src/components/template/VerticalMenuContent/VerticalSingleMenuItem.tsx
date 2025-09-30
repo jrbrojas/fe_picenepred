@@ -38,7 +38,7 @@ interface DefaultItemProps {
     showTitle?: boolean
 }
 
-interface VerticalMenuItemProps extends CollapsedItemProps, DefaultItemProps {}
+interface VerticalMenuItemProps extends CollapsedItemProps, DefaultItemProps { }
 
 const CollapsedItem = ({
     nav,
@@ -112,7 +112,15 @@ const DefaultItem = (props: DefaultItemProps) => {
                     }
                 >
                     {showIcon && <VerticalMenuIcon icon={nav.icon} />}
-                    {showTitle && <span>{t(nav.translateKey, nav.title)}</span>}
+                    {showTitle && (
+                        (nav.tooltip ? (
+                            <Tooltip title={nav.tooltip}>
+                                <span>{t(nav.translateKey, nav.title)}</span>
+                            </Tooltip>
+                        ) : (
+                            <span>{t(nav.translateKey, nav.title)}</span>
+                        ))
+                    )}
                 </Link>
             </MenuItem>
         </AuthorityCheck>

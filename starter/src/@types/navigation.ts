@@ -17,6 +17,7 @@ export interface NavigationTree {
     path: string
     isExternalLink?: boolean
     title: string
+    tooltip?: string
     translateKey: string
     icon: string
     type: 'title' | 'collapse' | 'item'

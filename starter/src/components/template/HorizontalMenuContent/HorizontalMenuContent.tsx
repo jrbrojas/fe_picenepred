@@ -8,6 +8,7 @@ import { TbChevronDown } from 'react-icons/tb'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
 import type { TraslationFn } from '@/@types/common'
+import { Tooltip } from '@/components/ui'
 
 type HorizontalMenuContentProps = {
     routeKey: string
@@ -48,9 +49,9 @@ const HorizontalMenuContent = (props: HorizontalMenuContentProps) => {
                                     asElement="button"
                                 >
                                     <div className="flex items-center gap-1">
-                                        <span>
-                                            {t(nav.translateKey, nav.title)}
-                                        </span>
+                                            <span>
+                                                {t(nav.translateKey, nav.title)}
+                                            </span>
                                         <TbChevronDown />
                                     </div>
                                 </HorizontalMenuDropdownTrigger>
