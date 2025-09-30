@@ -1,5 +1,6 @@
 export type AppConfig = {
     apiPrefix: string
+    urlImagePrefix: string
     authenticatedEntryPath: string
     unAuthenticatedEntryPath: string
     locale: string
@@ -9,7 +10,8 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    apiPrefix: '/api',
+    apiPrefix: 'http://127.0.0.1:8000/api/v1',
+    urlImagePrefix: 'http://127.0.0.1:8000/storage',
     authenticatedEntryPath: '/home',
     unAuthenticatedEntryPath: '/default',
     locale: 'en',

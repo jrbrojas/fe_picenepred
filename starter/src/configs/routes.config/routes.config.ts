@@ -20,20 +20,26 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
-        key: 'gestionProcesos.lluviasAvisoTrimestral',
-        path: '/gestion-procesos/lluviasAvisoTrimestral',
-        component: lazy(() => import('@/views/modules/dgp/Lluvias')),
-        authority: [],
-    },
-    {
         key: 'gestionProcesos.lluviasAvisoMeteorologico.estatico',
         path: '/gestion-procesos/lluviasAvisoMeteorologico/estatico',
-        component: lazy(() => import('@/views/modules/dgp/Lluvias')),
+        component: lazy(() => import('@/views/modules/dgp/AvisoMeteorologico/Estatico')),
         authority: [],
     },
     {
         key: 'gestionProcesos.lluviasAvisoMeteorologico.dinamico',
         path: '/gestion-procesos/lluviasAvisoMeteorologico/dinamico',
+        component: lazy(() => import('@/views/modules/dgp/AvisoMeteorologico/Dinamico')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.lluviasAvisoTrimestral.estatico',
+        path: '/gestion-procesos/lluviasAvisoTrimestral/estatico',
+        component: lazy(() => import('@/views/modules/dgp/Lluvias')),
+        authority: [],
+    },
+    {
+        key: 'gestionProcesos.lluviasAvisoTrimestral.dinamico',
+        path: '/gestion-procesos/lluviasAvisoTrimestral/dinamico',
         component: lazy(() => import('@/views/modules/dgp/Lluvias')),
         authority: [],
     },
