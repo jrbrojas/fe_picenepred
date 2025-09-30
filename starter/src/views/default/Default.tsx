@@ -1,4 +1,6 @@
 import { useAuth } from '@/auth'
+import { Button } from '@/components/ui'
+import useIsLargeScreen from '@/utils/hooks/useIsLargeScreen'
 import React, { useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
@@ -119,6 +121,7 @@ function AppNavLink({
         }
         onDone?.()
     }
+
     const collectClassName = useMemo(() => {
         return [
             className,
@@ -145,6 +148,7 @@ function AppNavLink({
 
 export default function Default() {
     const [open, setOpen] = useState(false)
+    const isLarge = useIsLargeScreen();
 
     const mapUrl =
         'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2100&auto=format&fit=crop'
@@ -153,29 +157,30 @@ export default function Default() {
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
             <header className="border-b border-slate-200 bg-white">
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4">
-                    <div className="flex items-center gap-3">
+
+                    <div className="flex items-center gap-3 ml-0 lg:ml-20">
                         <img
                             src="/img/logo/logo-cenepred.jpg"
                             alt="CENEPRED"
-                            className="h-24 md:h-24 w-auto object-contain"
+                            className="h-12 lg:h-24 w-auto object-contain mr-0 lg:mr-5"
                             loading="lazy"
                         />
-                    </div>
-
-                    <div className="hidden items-center gap-3 md:flex">
+                        <div className="h-17 lg:w-px bg-teal-600" />                        
                         <img
                             src="/img/logo/logo_sigrid.png"
                             alt="CENEPRED"
-                            className="h-12 md:h-14 w-auto object-contain cursor-pointer"
+                            className="h-7 md:h-17 w-auto object-contain cursor-pointer"
                             loading="lazy"
-                            onClick={() =>
-                                window.open(
-                                    'https://sigrid.cenepred.gob.pe/sigridv3/',
-                                    '_blank',
-                                )
+                            onClick={() => window.open('https://sigrid.cenepred.gob.pe/sigridv3/', '_blank',)
                             }
                         />
                     </div>
+
+                    <div className="flex flex-col lg:flex-row items-center gap-3">
+                        <Button size={isLarge ? 'lg' : 'xs'} variant="plain">Reguistrarse</Button>
+                        <Button size={isLarge ? 'lg' : 'xs'}> Iniciar Sesión</Button>
+                    </div>
+
                 </div>
 
                 <div className="w-full text-white shadow-sm bg-[#0097a7]">

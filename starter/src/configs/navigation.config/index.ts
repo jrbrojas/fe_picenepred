@@ -269,7 +269,7 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.incendiosForestalesRegional',
                 path: '/gestion-procesos/incendiosForestalesRegional',
-                title: 'Incendios Forestales Reg',
+                title: 'IFR',
                 tooltip: 'Incendios Forestales Reg',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesRegional',
                 icon: '',
@@ -301,7 +301,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'gestionProcesos.sismosTsunamiNacional',
                 path: '/gestion-procesos/sismosTsunamiNacional',
-                title: 'Sismos Tsunami Nac',
+                title: 'STN',
+                tooltip: 'Sismos Tsunami Nac',
                 translateKey: 'nav.gestionProcesos.sismosTsunamiNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
