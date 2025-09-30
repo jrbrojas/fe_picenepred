@@ -34,37 +34,37 @@ export const protectedRoutes: Routes = [
     {
         key: 'gestionProcesos.lluviasAvisoTrimestral.estatico',
         path: '/gestion-procesos/lluviasAvisoTrimestral/estatico',
-        component: lazy(() => import('@/views/modules/dgp/Lluvias')),
+        component: lazy(() => import('@/views/modules/dgp/AvisoTrimestral/Estatico')),
         authority: [],
     },
     {
         key: 'gestionProcesos.lluviasAvisoTrimestral.dinamico',
         path: '/gestion-procesos/lluviasAvisoTrimestral/dinamico',
-        component: lazy(() => import('@/views/modules/dgp/Lluvias')),
+        component: lazy(() => import('@/views/modules/dgp/AvisoTrimestral/Dinamico')),
         authority: [],
     },
     {
         key: 'gestionProcesos.lluviasInformacionClimatica.estatico',
         path: '/gestion-procesos/lluviasInformacionClimatica/estatico',
-        component: lazy(() => import('@/views/modules/dgp/Lluvias')),
+        component: lazy(() => import('@/views/modules/dgp/InformacionClimatica/Estatico')),
         authority: [],
     },
     {
         key: 'gestionProcesos.lluviasInformacionClimatica.dinamico',
         path: '/gestion-procesos/lluviasInformacionClimatica/dinamico',
-        component: lazy(() => import('@/views/modules/dgp/Lluvias')),
+        component: lazy(() => import('@/views/modules/dgp/InformacionClimatica/Dinamico')),
         authority: [],
     },
     {
         key: 'gestionProcesos.bajasTempAvisoMeteorologico.estatico',
         path: '/gestion-procesos/bajasTempAvisoMeteorologico/estatico',
-        component: lazy(() => import('@/views/modules/dgp/TempBaja')),
+        component: lazy(() => import('@/views/modules/dgp/BajasTempAvisoMeteorologico/Estatico')),
         authority: [],
     },
     {
         key: 'gestionProcesos.bajasTempAvisoMeteorologico.dinamico',
         path: '/gestion-procesos/bajasTempAvisoMeteorologico/dinamico',
-        component: lazy(() => import('@/views/modules/dgp/TempBaja')),
+        component: lazy(() => import('@/views/modules/dgp/BajasTempAvisoMeteorologico/Dinamico')),
         authority: [],
     },
     {

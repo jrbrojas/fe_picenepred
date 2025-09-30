@@ -1,4 +1,4 @@
-import { Tabs } from "@/components/ui";
+import { Card, Skeleton, Tabs } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
@@ -59,8 +59,20 @@ const LluviasAvisoMeteorologicoEstatico = () => {
             </p>
         </div>
     );
+    
+    const CardSkeleton = () => (
+        <Card>
+            <Skeleton height={28} width="50%" className="mb-4" />
+            <div className="space-y-3">
+                <Skeleton height={60} className='rounded-xl' />
+                <Skeleton height={60} className='rounded-xl' />
+                <Skeleton height={60} className='rounded-xl' />
+            </div>
+        </Card>
+    )
 
-    if (!isLoading && tipoPeligro.length === 0) {
+
+    if (!isLoading && tipoPeligro.length == 0) {
         return <NoDataMessage />;
     }
 
@@ -68,133 +80,138 @@ const LluviasAvisoMeteorologicoEstatico = () => {
         <Container>
             <AdaptiveCard>
 
-                <Tabs defaultValue="inundaciones">
-                    <TabList>
-                        {tipoPeligro.map(tipo => (
-                            <TabNav key={tipo} value={tipo}>{formatTabName(tipo)}</TabNav>
-                        ))}
-                    </TabList>
+                {isLoading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {Array.from({ length: 3 }).map((_, index) => <CardSkeleton key={index} />)}
+                    </div>) : (
 
-                    {tipoPeligro.map((tipo, index) => (
-                        <TabContent key={tipo} value={tipo}>
-                            <div className="p-6">
+                    <Tabs defaultValue="inundaciones">
+                        <TabList>
+                            {tipoPeligro.map(tipo => (
+                                <TabNav key={tipo} value={tipo}>{formatTabName(tipo)}</TabNav>
+                            ))}
+                        </TabList>
 
-                                {data[tipo] && data[tipo].length > 0 ? (
-                                    <div>
+                        {tipoPeligro.map((tipo, index) => (
+                            <TabContent key={tipo} value={tipo}>
+                                <div className="p-6">
 
-                                        <div className='flex justify-between items-center mb-3'>
-                                            <div className="text-2xl p-2 font-medium text-white bg-teal-600 rounded-lg">
-                                                <p className='mr-3'>Aviso N° {escenario.aviso}</p>
-                                            </div>
-                                            <h2 className="text-2xl p-2 font-medium text-white bg-teal-600 rounded-full">
-                                                <p className='mr-5 ml-5'>CORTO PLAZO</p>
-                                            </h2>
-                                        </div>
+                                    {data[tipo] && data[tipo].length > 0 ? (
+                                        <div>
 
-                                        <div className='flex justify-between items-center mb-10'>
-                                            <h1 className="text-5xl font-semibold text-teal-600 ml-8">Escenario de Riesgo</h1>
-                                            <div className="text-2xl p-2 font-semibold text-white bg-green-600 bg-opacity-70 rounded-xl mr-10">
-                                                <p className='ml-3 mr-3'>{escenario.nombre}</p>
-                                            </div>
-                                        </div>
-
-                                        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-                                            <div className='col-span-2'>
-                                                <div className='flex flex-col gap-3 justify-center items-center mb-3'>
-                                                    <div className="bg-green-600 bg-opacity-70 text-white text-2xl font-medium rounded-lg">
-                                                        <p className='mr-15 ml-15'>Pronóstico de Lluvia {year}</p>
-                                                    </div>
-                                                    <div className="w-0 h-0 border-l-38 border-r-38 border-t-18 border-l-transparent border-r-transparent border-t-green-600 bg-opacity-70"></div>
-                                                    <div className='text-teal-600'>
-                                                        <p className='text-3xl font-semibold'>{tituloPeligo[tipo]}</p>
-                                                        <p className='text-lg ml-4'>
-                                                            del {new Date(escenario.fecha_inicio).getDate()} al {new Date(escenario.fecha_fin).getDate()} de {new Date(escenario.fecha_fin).toLocaleDateString("es-ES", { month: "long" })}
-                                                        </p>
-                                                    </div>
+                                            <div className='flex justify-between items-center mb-3'>
+                                                <div className="text-2xl p-2 font-medium text-white bg-teal-600 rounded-lg">
+                                                    <p className='mr-3'>Aviso N° {escenario.aviso}</p>
                                                 </div>
+                                                <h2 className="text-2xl p-2 font-medium text-white bg-teal-600 rounded-full">
+                                                    <p className='mr-5 ml-5'>CORTO PLAZO</p>
+                                                </h2>
+                                            </div>
 
-                                                <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
-                                                    {data[tipo].slice(0, 2).map((item, index) => (
-                                                        <div key={index} className="grid grid-cols-2 border rounded-xl border-teal-600 shadow-md bg-white">
-                                                            <div className="p-2 space-y-4">
-                                                                <div className="flex items-center gap-3">
-                                                                    <TbMapPin className="text-cyan-600" size={50} />
-                                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                        <p className="text-xl font-bold">{tipo == 'inundaciones' ? item.total_centro_poblado : item.total_distritos}</p>
-                                                                        <p className="text-md">{tipo == 'inundaciones' ? 'Centros Poblados' : 'Distritos'}</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex items-center gap-3">
-                                                                    <FaUsers className="text-cyan-600" size={50} />
-                                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                        <p className="text-xl font-bold">{item.total_poblacion}</p>
-                                                                        <p className="text-md">Población</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex items-center gap-3">
-                                                                    <FaHome className="text-cyan-600" size={50} />
-                                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                        <p className="text-xl font-bold">{item.total_vivienda}</p>
-                                                                        <p className="text-md">Viviendas</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex items-center gap-3">
-                                                                    <BiSolidSchool className="text-cyan-600" size={50} />
-                                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                        <p className="text-xl font-bold">{item.total_inst_educativa}</p>
-                                                                        <p className="text-md">Inst. Educativas</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex items-center gap-3">
-                                                                    <BsHospital className="text-cyan-600" size={50} />
-                                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                        <p className="text-xl font-bold">{item.total_est_salud}</p>
-                                                                        <p className="text-md">Est. de Salud</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="border-l border-teal-600 p-2 flex flex-col justify-between">
-                                                                <div className='p-4'>
-                                                                    <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
-                                                                        {item.nivel}
-                                                                    </div>
-                                                                    <p className="text-sm text-teal-600 mt-2">
-                                                                        Departamentos en nivel:{" "}
-                                                                        <span className={`${nivelColorClasses[item.nivel.toUpperCase()]} bg-white font-semibold`}>
-                                                                            {item.departamentos && formatNombreArray(item.departamentos)}
-                                                                        </span>
-                                                                    </p>
-                                                                </div>
+                                            <div className='flex justify-between items-center mb-10'>
+                                                <h1 className="text-5xl font-semibold text-teal-600 ml-8">Escenario de Riesgo</h1>
+                                                <div className="text-2xl p-2 font-semibold text-white bg-green-600 bg-opacity-70 rounded-xl mr-10">
+                                                    <p className='ml-3 mr-3'>{escenario.nombre}</p>
+                                                </div>
+                                            </div>
 
-                                                                <div className="mt-4 text-sm text-teal-600 font-semibold">
-                                                                    Departamentos con mayor población expuesta:
-                                                                    {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
-                                                                        <p key={index} className='flex justify-between items-center'>
-                                                                            <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}
-                                                                        </p>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
+                                            <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+                                                <div className='col-span-2'>
+                                                    <div className='flex flex-col gap-3 justify-center items-center mb-3'>
+                                                        <div className="bg-green-600 bg-opacity-70 text-white text-2xl font-medium rounded-lg">
+                                                            <p className='mr-15 ml-15'>Pronóstico de Lluvia {year}</p>
                                                         </div>
-                                                    ))}
+                                                        <div className="w-0 h-0 border-l-38 border-r-38 border-t-18 border-l-transparent border-r-transparent border-t-green-600 bg-opacity-70"></div>
+                                                        <div className='text-teal-600'>
+                                                            <p className='text-3xl font-semibold'>{tituloPeligo[tipo]}</p>
+                                                            <p className='text-lg ml-4'>
+                                                                del {new Date(escenario.fecha_inicio).getDate()} al {new Date(escenario.fecha_fin).getDate()} de {new Date(escenario.fecha_fin).toLocaleDateString("es-ES", { month: "long" })}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
+                                                        {data[tipo].slice(0, 2).map((item, index) => (
+                                                            <div key={index} className="grid grid-cols-2 border rounded-xl border-teal-600 shadow-md bg-white">
+                                                                <div className="p-2 space-y-4">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <TbMapPin className="text-cyan-600" size={50} />
+                                                                        <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                                            <p className="text-xl font-bold">{tipo == 'inundaciones' ? item.total_centro_poblado : item.total_distritos}</p>
+                                                                            <p className="text-md">{tipo == 'inundaciones' ? 'Centros Poblados' : 'Distritos'}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex items-center gap-3">
+                                                                        <FaUsers className="text-cyan-600" size={50} />
+                                                                        <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                                            <p className="text-xl font-bold">{item.total_poblacion}</p>
+                                                                            <p className="text-md">Población</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex items-center gap-3">
+                                                                        <FaHome className="text-cyan-600" size={50} />
+                                                                        <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                                            <p className="text-xl font-bold">{item.total_vivienda}</p>
+                                                                            <p className="text-md">Viviendas</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex items-center gap-3">
+                                                                        <BiSolidSchool className="text-cyan-600" size={50} />
+                                                                        <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                                            <p className="text-xl font-bold">{item.total_inst_educativa}</p>
+                                                                            <p className="text-md">Inst. Educativas</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex items-center gap-3">
+                                                                        <BsHospital className="text-cyan-600" size={50} />
+                                                                        <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                                            <p className="text-xl font-bold">{item.total_est_salud}</p>
+                                                                            <p className="text-md">Est. de Salud</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="border-l border-teal-600 p-2 flex flex-col justify-between">
+                                                                    <div className='p-4'>
+                                                                        <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
+                                                                            {item.nivel}
+                                                                        </div>
+                                                                        <p className="text-sm text-teal-600 mt-2">
+                                                                            Departamentos en nivel:{" "}
+                                                                            <span className={`${nivelColorClasses[item.nivel.toUpperCase()]} bg-white font-semibold`}>
+                                                                                {item.departamentos && formatNombreArray(item.departamentos)}
+                                                                            </span>
+                                                                        </p>
+                                                                    </div>
+
+                                                                    <div className="mt-4 text-sm text-teal-600 font-semibold">
+                                                                        Departamentos con mayor población expuesta:
+                                                                        {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
+                                                                            <p key={index} className='flex justify-between items-center'>
+                                                                                <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}
+                                                                            </p>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className='w-full flex justify-center'>
+                                                    <ImageLoad path={escenario.mapas[index].ruta} />
                                                 </div>
                                             </div>
 
-                                            <div className='w-full flex justify-center'>
-                                                <ImageLoad path={escenario.mapas[index].ruta} />
-                                            </div>
                                         </div>
+                                    ) : (
+                                        <NoDataMessage />
+                                    )}
+                                </div>
 
-                                    </div>
-                                ) : (
-                                    <NoDataMessage />
-                                )}
-                            </div>
+                            </TabContent>
+                        ))}
 
-                        </TabContent>
-                    ))}
-
-                </Tabs>
+                    </Tabs>)}
             </AdaptiveCard>
         </Container>
 
