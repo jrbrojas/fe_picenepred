@@ -48,6 +48,7 @@ export default function MapaPeru({ query }: Props) {
       {geojson && (
         <GeoJSON
           key={JSON.stringify(geojson)}
+          interactive={false}
           data={geojson}
           style={{ 
             color: "#01839b", weight: 3, fillOpacity: 0.2 
