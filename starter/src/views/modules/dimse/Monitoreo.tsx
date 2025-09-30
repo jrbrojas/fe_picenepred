@@ -8,6 +8,7 @@ import { MonitoreoResponse, RespuestaElement } from './services/types/getmonitor
 import { CategoriaResponse } from './services/types/getcategorias'
 import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
+import MapaPeru from './MapaPeru'
 
 const datita = {
     campagin: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
@@ -116,6 +117,8 @@ export default function TreeTableMonitoreo3Niveles() {
     const [categorias, setCategorias] = useState<CategoriaOption[]>([])
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [fetching, setFetching] = useState(true)
+    const [query, setQuery] = useState("Peru");
+
 
     async function onCategoria(newValue: SingleValue<CategoriaOption>) {
         if (!newValue) {
@@ -252,10 +255,7 @@ export default function TreeTableMonitoreo3Niveles() {
                         <thead>
                             <tr>
                                 <th className="sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
-                                    Ámbito / Nombre
-                                </th>
-                                <th className="sticky left-[240px] z-20 w-[220px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
-                                    Departamento
+                                    Localización
                                 </th>
                                 {COLS.map((c) => (
                                     <th
@@ -280,13 +280,14 @@ export default function TreeTableMonitoreo3Niveles() {
                                 return (
                                     <Fragment key={dep.id}>
                                         {/* Fila Departamento */}
-                                        <tr className="bg-white hover:bg-slate-50/60">
-                                            <td className="sticky left-0 z-10 p-3 ring-1 ring-slate-200 bg-white">
+                                        <tr className="bg-amber-50 hover:bg-slate-50/60">
+                                            <td className="sticky left-0 z-10 p-3 ring-1 ring-slate-200">
                                                 <button
                                                     type="button"
-                                                    onClick={() =>
-                                                        toggle(depKey)
-                                                    }
+                                                    onClick={() => {
+                                                        toggle(depKey);
+                                                        setQuery(`${dep.nombre}, Peru`);
+                                                    }}
                                                     aria-expanded={depOpen}
                                                     className="inline-flex items-center gap-2"
                                                 >
@@ -301,16 +302,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     >
                                                         <path d="M9 18l6-6-6-6" />
                                                     </svg>
-                                                    <span className="rounded bg-amber-50 px-2 py-0.5 text-[11px] font-semibold uppercase text-amber-700 ring-1 ring-amber-200">
-                                                        Departamento
-                                                    </span>
                                                     <span className="text-sm font-semibold text-slate-800">
                                                         {dep.nombre}
                                                     </span>
                                                 </button>
-                                            </td>
-                                            <td className="sticky left-[240px] z-10 p-3 text-sm text-slate-500 ring-1 ring-slate-200 bg-white">
-                                                —
                                             </td>
                                             {dTotals?.cols?.map((v, idx) => (
                                                 <td
@@ -336,15 +331,14 @@ export default function TreeTableMonitoreo3Niveles() {
 
                                                 return (
                                                     <Fragment key={prov.id}>
-                                                        <tr className="bg-white hover:bg-slate-50/60">
-                                                            <td className="sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200 bg-white">
+                                                        <tr className="bg-cyan-50 hover:bg-slate-50/60">
+                                                            <td className="sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200">
                                                                 <button
                                                                     type="button"
-                                                                    onClick={() =>
-                                                                        toggle(
-                                                                            provKey,
-                                                                        )
-                                                                    }
+                                                                    onClick={() => {
+                                                                        toggle(provKey);
+                                                                        setQuery(`${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                    }}
                                                                     aria-expanded={
                                                                         provOpen
                                                                     }
@@ -361,18 +355,12 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                     >
                                                                         <path d="M9 18l6-6-6-6" />
                                                                     </svg>
-                                                                    <span className="rounded bg-cyan-50 px-2 py-0.5 text-[11px] font-semibold uppercase text-cyan-700 ring-1 ring-cyan-200">
-                                                                        Provincia
-                                                                    </span>
                                                                     <span className="text-sm font-semibold text-slate-800">
                                                                         {
                                                                             prov.nombre
                                                                         }
                                                                     </span>
                                                                 </button>
-                                                            </td>
-                                                            <td className="sticky left-[240px] z-10 p-3 text-sm text-slate-700 ring-1 ring-slate-200 bg-white">
-                                                                {dep.nombre}
                                                             </td>
                                                             {pTotals.cols.map(
                                                                 (v, idx) => (
@@ -399,22 +387,16 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         key={
                                                                             d.id
                                                                         }
-                                                                        className="hover:bg-slate-50"
+                                                                        className="hover:bg-slate-50 bg-emerald-50"
                                                                     >
-                                                                        <td className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200 bg-white">
-                                                                            <span className="rounded bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold uppercase text-emerald-700 ring-1 ring-emerald-200">
-                                                                                Distrito
-                                                                            </span>
+                                                                        <td onClick={() => {
+                                                                            setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                            }} className="sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
                                                                             <span className="ml-2 text-sm text-slate-800 underline decoration-emerald-300">
                                                                                 {
                                                                                     d.nombre
                                                                                 }
                                                                             </span>
-                                                                        </td>
-                                                                        <td className="sticky left-[240px] z-10 p-3 text-sm text-slate-700 ring-1 ring-slate-200 bg-white">
-                                                                            {
-                                                                                dep.nombre
-                                                                            }
                                                                         </td>
                                                                         {d.valores.map(
                                                                             (
@@ -472,15 +454,7 @@ export default function TreeTableMonitoreo3Niveles() {
 
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
                 <div className="relative min-h-[450px] rounded-xl overflow-hidden ring-1 ring-slate-200 bg-slate-100">
-                    <img
-                        src="https://es.maps-peru.com/img/0/mapa-f%C3%ADsico-de-per%C3%BA.jpg"
-                        alt="Vista de referencia"
-                        className="absolute left-1/2 top-1/2
-      -translate-x-1/2 -translate-y-1/2
-      max-w-[100%] max-h-[100%]  
-      object-contain"
-                        loading="lazy"
-                    />
+                    <MapaPeru query={query} />
                 </div>
                 <Card className="h-full">
                     <div className="flex items-center justify-between">
