@@ -1,20 +1,44 @@
 import { useAuth } from '@/auth'
-import React, { useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
+type SubMenuItem = {
+    label: string
+    href: string
+    external?: boolean
+    protected?: boolean
+    submenu?: SubMenuItem[]
+}
 type NavItem = {
     label: string
     href: string
     external?: boolean
     protected?: boolean
+    submenu?: SubMenuItem[]
 }
 
 export const navItems: NavItem[] = [
-    { label: 'INICIO', href: '/' },
     {
-        label: 'VISOR SIGRID',
-        href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0',
-        external: true,
+        label: 'INICIO', href: '#', submenu: [
+            { label: 'Normas Legales GRD', external: true, href: 'https://dimse.cenepred.gob.pe/simse/normativas' },
+            { label: 'Glosario de Términos GRD', external: true, href: 'https://dimse.cenepred.gob.pe/simse/glosario' },
+            {
+                label: 'Directorio Nacional GRD', href: '#', submenu: [
+                    { label: 'Responsable por entidad', href: '/sign-in?next=/monitoreo/directorioNacional' },
+                    { label: 'Visor', external: true, href: 'https://dimse.cenepred.gob.pe/mapadirectorio/Views/' },
+                ]
+            }
+        ]
+    },
+    {
+        label: 'SIGRID',
+        href: '#',
+        submenu: [
+            { label: 'Plataforma SIGRID', external: true, href: 'https://sigrid.cenepred.gob.pe/' },
+            { label: 'Visor SIGRID', external: true, href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0' },
+        ]
+        //href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0',
+        //external: true,
     },
 
     // ← marca como protegidas:
@@ -61,6 +85,7 @@ function AppNavLink({
     const { authenticated } = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
+    const [active, setActive] = useState(false)
 
     // Para externos: usa <a> normal
     if (item.external) {
@@ -78,6 +103,9 @@ function AppNavLink({
     }
 
     const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+        if (e.target === root.current) {
+            setActive(!active)
+        }
         if (item.protected && !authenticated) {
             e.preventDefault()
             // Guarda la intención
@@ -90,6 +118,22 @@ function AppNavLink({
             navigate(`/sign-in?next=${encodeURIComponent(item.href)}`)
         }
         onDone?.()
+    }
+    const collectClassName = useMemo(() => {
+        return [
+            className,
+            'menulink',
+            active ? 'active' : '',
+        ].join(" ")
+    }, [className, active])
+    const root = useRef(null)
+    if (item.href == "#") {
+        return (
+            <div ref={root} className={collectClassName} onClick={handleClick} onBlur={() => setActive(false)}>
+                {item.label}
+                {Array.isArray(item.submenu) && item.submenu.length > 0 ? <div className='submenu'>{item.submenu.map((i, index) => <AppNavLink key={index} item={i} />)}</div> : null}
+            </div>
+        )
     }
 
     return (
