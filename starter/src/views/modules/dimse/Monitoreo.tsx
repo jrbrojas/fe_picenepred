@@ -1,390 +1,13 @@
-/* import { useState, useMemo } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
 import Segment from '@/components/ui/Segment'
 import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
-
-const COLS = Array.from({ length: 30 }, (_, i) => `P${i + 1}`)
-
-type Row = {
-    nivel: 'Departamento' | 'Provincia' | 'Distrito'
-    region: string
-    values: (number | '' | null)[]
-    total?: number | string
-}
-
-const datita = {
-    campagin: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
-    email: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
-    label: [
-        '01 Jan',
-        '02 Jan',
-        '03 Jan',
-        '04 Jan',
-        '05 Jan',
-        '06 Jan',
-        '07 Jan',
-        '08 Jan',
-        '09 Jan',
-        '10 Jan',
-        '11 Jan',
-        '12 Jan',
-    ],
-}
-
-const rows: Row[] = [
-    {
-        nivel: 'Departamento',
-        region: 'Lima',
-        values: Array(30).fill(''),
-        total: '75%',
-    },
-    {
-        nivel: 'Provincia',
-        region: 'Lima',
-        values: Array(30).fill(''),
-        total: '50%',
-    },
-
-    {
-        nivel: 'Distrito',
-        region: 'Comas',
-        values: [
-            1,
-            '',
-            1,
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            1,
-            '',
-            1,
-            '',
-            1,
-            '',
-            1,
-            1,
-            1,
-            1,
-            '',
-            1,
-            '',
-            1,
-            '',
-            1,
-            '',
-            1,
-        ],
-    },
-    {
-        nivel: 'Distrito',
-        region: 'San Borja',
-        values: [
-            1,
-            1,
-            '',
-            1,
-            '',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-        ],
-    },
-    { nivel: 'Distrito', region: 'San Isidro', values: Array(30).fill(0) },
-    { nivel: 'Distrito', region: 'San Miguel', values: Array(30).fill(0) },
-
-    {
-        nivel: 'Provincia',
-        region: 'Barranca',
-        values: Array(30).fill(''),
-        total: '100%',
-    },
-    { nivel: 'Distrito', region: 'Barranca', values: Array(30).fill(1) },
-    { nivel: 'Distrito', region: 'Paramonga', values: Array(30).fill(1) },
-]
-
-function computeTotal(row: Row) {
-    if (typeof row.total !== 'undefined') return row.total
-    const sum = row.values.reduce(
-        (acc: number, v) => (typeof v === 'number' ? acc + v : acc),
-        0,
-    )
-    return sum
-}
-
-export default function MonitoreoTabla() {
-    const [category, setCategory] = useState('all')
-
-    const series = useMemo(() => {
-        const campaignSeries = {
-            name: 'Campaign (ROI)',
-            type: 'column',
-            data: datita.campagin,
-            color: function ({
-                dataPointIndex,
-                value,
-            }: {
-                dataPointIndex: number
-                value: number
-            }) {
-                if (
-                    dataPointIndex > 0 &&
-                    value < datita.campagin[dataPointIndex - 1]
-                ) {
-                    return COLORS[7]
-                }
-                return COLORS[9]
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
-        }
-
-        const emailSeries = {
-            name: 'Email (ROI)',
-            type: 'line',
-            data: datita.email,
-            color: COLORS[0],
-        }
-
-        if (category === 'all') {
-            return [campaignSeries, emailSeries]
-        }
-
-        if (category === 'campagin') {
-            return [campaignSeries]
-        }
-
-        if (category === 'email') {
-            return [emailSeries]
-        }
-
-        return []
-    }, [category])
-    return (
-        <>
-            <div className="relative w-full">
-                <div className="text-center">
-                    <h2 className="text-sm font-medium uppercase tracking-wide text-slate-600">
-                        MONITOREO
-                    </h2>
-                    <p className="text-[13px] text-slate-500">
-                        (INPLEM POLITICA Y PLAN)
-                    </p>
-                </div>
-
-                <div className="mt-6 overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
-                    <table className="min-w-[1200px] table-fixed border-separate border-spacing-0">
-                        <thead>
-                            <tr>
-                                <th className="sticky left-0 z-20 w-[140px] bg-white p-2 text-left text-[12px] font-semibold text-slate-700 ring-1 ring-slate-200">
-                                    Ámbito
-                                </th>
-                                <th className="sticky left-[140px] z-20 w-[220px] bg-white p-2 text-left text-[12px] font-semibold text-slate-700 ring-1 ring-slate-200">
-                                    Regiones
-                                </th>
-                                {COLS.map((c) => (
-                                    <th
-                                        key={c}
-                                        className="min-w-[44px] bg-white p-2 text-center text-[12px] font-semibold text-slate-700 ring-1 ring-slate-200"
-                                    >
-                                        {c}
-                                    </th>
-                                ))}
-                                <th className="min-w-[80px] bg-white p-2 text-center text-[12px] font-semibold text-slate-700 ring-1 ring-slate-200">
-                                    TOTAL PTS
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {rows.map((row, idx) => (
-                                <tr key={idx} className="even:bg-slate-50/40">
-                                    <td className="sticky left-0 z-10 whitespace-nowrap p-2 text-[12px] font-medium text-slate-600 ring-1 ring-slate-200 bg-white">
-                                        {row.nivel}
-                                    </td>
-
-                                    <td className="sticky left-[140px] z-10 truncate p-2 text-[12px] text-slate-700 ring-1 ring-slate-200 bg-white">
-                                        <span
-                                            className={
-                                                row.nivel === 'Provincia' ||
-                                                row.nivel === 'Departamento'
-                                                    ? 'font-semibold text-slate-700'
-                                                    : 'text-sky-700 underline'
-                                            }
-                                        >
-                                            {row.region}
-                                        </span>
-                                    </td>
-                                    {COLS.map((_, i) => (
-                                        <td
-                                            key={i}
-                                            className="p-2 text-center text-[12px] text-slate-700 ring-1 ring-slate-200"
-                                        >
-                                            {row.values[i] === 0 ||
-                                            row.values[i] === 1
-                                                ? row.values[i]
-                                                : ''}
-                                        </td>
-                                    ))}
-
-                                    <td className="p-2 text-center text-[12px] font-semibold text-slate-800 ring-1 ring-slate-200">
-                                        {computeTotal(row)}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-
-                        <tfoot>
-                            <tr>
-                                <td
-                                    colSpan={2}
-                                    className="bg-white p-2 text-right text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                ></td>
-                                <td
-                                    colSpan={COLS.length}
-                                    className="bg-white p-2 text-center text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                >
-                                    Valor de clasificación:{' '}
-                                    <span className="font-medium">0, 1</span>
-                                </td>
-                                <td className="bg-white p-2 ring-1 ring-slate-200" />
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-                <div className="relative min-h-[450px] rounded-xl overflow-hidden ring-1 ring-slate-200 bg-slate-100">
-                    <img
-                        src="https://es.maps-peru.com/img/0/mapa-f%C3%ADsico-de-per%C3%BA.jpg"
-                        alt="Vista de referencia"
-                        className="absolute left-1/2 top-1/2
-      -translate-x-1/2 -translate-y-1/2
-      max-w-[100%] max-h-[100%]  
-      object-contain"
-                        loading="lazy"
-                    />
-                </div>
-                <Card className="h-full">
-                    <div className="flex items-center justify-between">
-                        <h4>Ads performance</h4>
-                        <div>
-                            <Segment
-                                className="gap-1"
-                                value={category}
-                                size="sm"
-                                onChange={(val) => setCategory(val as string)}
-                            >
-                                <Segment.Item value="all">All</Segment.Item>
-                                <Segment.Item value="campagin">
-                                    Campagin
-                                </Segment.Item>
-                                <Segment.Item value="email">Email</Segment.Item>
-                            </Segment>
-                        </div>
-                    </div>
-
-                    <div className="mt-6">
-                        <ApexChart
-                            options={{
-                                chart: {
-                                    type: 'line',
-                                    zoom: { enabled: false },
-                                    toolbar: { show: false },
-                                },
-                                legend: { show: false },
-                                stroke: {
-                                    width:
-                                        category === 'email' ? 2.5 : [0, 2.5],
-                                    curve: 'smooth',
-                                    lineCap: 'round',
-                                },
-                                states: { hover: { filter: { type: 'none' } } },
-                                tooltip: {
-                                    custom: ({ series, dataPointIndex }) => {
-                                        const renderCampaignData = () => `
-                <div class="flex items-center gap-2">
-                  <div class="h-[10px] w-[10px] rounded-full" style="background-color: ${COLORS[9]}"></div>
-                  <div class="flex gap-2">Campaign: <span class="font-bold">${series[0][dataPointIndex]}</span></div>
-                </div>`
-                                        const renderEmailData = () => `
-                <div class="flex items-center gap-2">
-                  <div class="h-[10px] w-[10px] rounded-full" style="background-color: ${COLORS[0]}"></div>
-                  <div class="flex gap-2">Email: <span class="font-bold">${
-                      series[category === 'all' ? 1 : 0][dataPointIndex]
-                  }</span></div>
-                </div>`
-                                        const content =
-                                            category === 'all'
-                                                ? `${renderCampaignData()}${renderEmailData()}`
-                                                : category === 'campagin'
-                                                  ? renderCampaignData()
-                                                  : renderEmailData()
-                                        return `
-                <div class="py-2 px-4 rounded-xl">
-                  <div class="flex flex-col gap-2">
-                    <div>${datita.label[dataPointIndex]}</div>
-                    ${content}
-                  </div>
-                </div>`
-                                    },
-                                },
-                                labels: datita.label,
-                                yaxis:
-                                    category === 'all'
-                                        ? [{}, { opposite: true }]
-                                        : [],
-                                plotOptions: {
-                                    bar: {
-                                        horizontal: false,
-                                        columnWidth: '35px',
-                                        borderRadius: 4,
-                                        borderRadiusApplication: 'end',
-                                    },
-                                },
-                            }}
-                            series={series}
-                            height={450}
-                        />
-                    </div>
-                </Card>
-            </div>
-        </>
-    )
-}
- */
-
-import { Fragment, useMemo, useState } from 'react'
-import Card from '@/components/ui/Card'
-import Segment from '@/components/ui/Segment'
-import ApexChart from 'react-apexcharts'
-import { COLORS } from '@/constants/chart.constant'
+import { apiGetCategorias, apiGetMonitoreo } from './services/MonitoreService'
+import { MonitoreoResponse, RespuestaElement } from './services/types/getmonitoreo'
+import { CategoriaResponse } from './services/types/getcategorias'
+import { Select } from '@/components/ui'
+import { SingleValue } from 'react-select'
 
 const datita = {
     campagin: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
@@ -408,7 +31,7 @@ const datita = {
 type Distrito = {
     id: string
     nombre: string
-    valores: number[] // [P1..P5] 0/1
+    valores: number[]
 }
 
 type Provincia = {
@@ -423,127 +46,108 @@ type Departamento = {
     provincias: Provincia[]
 }
 
-const COLS = [
-    'P1',
-    'P2',
-    'P3',
-    'P4',
-    'P5',
-    'P6',
-    'P7',
-    'P8',
-    'P9',
-    'P10',
-    'P11',
-    'P12',
-    'P13',
-    'P14',
-    'P15',
-    'P16',
-    'P17',
-]
-
-// ===== Demo data (ajústalo a tu dataset real) =====
-const DATA: Departamento[] = [
-    {
-        id: 'dep-lima',
-        nombre: 'Lima',
-        provincias: [
-            {
-                id: 'prov-lima',
-                nombre: 'Lima',
-                distritos: [
-                    {
-                        id: 'd-comas',
-                        nombre: 'Comas',
-                        valores: [
-                            1, 0, 1, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0,
-                        ],
-                    },
-                    {
-                        id: 'd-sanborja',
-                        nombre: 'San Borja',
-                        valores: [
-                            1, 0, 1, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0,
-                        ],
-                    },
-                    {
-                        id: 'd-sanisidro',
-                        nombre: 'San Isidro',
-                        valores: [
-                            1, 0, 1, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0,
-                        ],
-                    },
-                    {
-                        id: 'd-sanmiguel',
-                        nombre: 'San Miguel',
-                        valores: [
-                            1, 0, 1, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0,
-                        ],
-                    },
-                ],
-            },
-            {
-                id: 'prov-barranca',
-                nombre: 'Barranca',
-                distritos: [
-                    {
-                        id: 'd-barranca',
-                        nombre: 'Barranca',
-                        valores: [
-                            1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-                        ],
-                    },
-                    {
-                        id: 'd-paramonga',
-                        nombre: 'Paramonga',
-                        valores: [
-                            1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        id: 'dep-cusco',
-        nombre: 'Cusco',
-        provincias: [
-            {
-                id: 'prov-cusco',
-                nombre: 'Cusco',
-                distritos: [
-                    {
-                        id: 'd-santiago',
-                        nombre: 'Santiago',
-                        valores: [
-                            1, 0, 0, 1, 1, 0, 0, 0, 0, 3, 3, 4, 5, 5, 6, 6, 6,
-                        ],
-                    },
-                    {
-                        id: 'd-sanjeronimo',
-                        nombre: 'San Jerónimo',
-                        valores: [
-                            0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 3, 4, 5, 6, 7, 8, 1,
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-]
-
-const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0)
+const COLS = Array.from({ length: 30 }, (_, i) => `P${i + 1}`)
 
 const sumByIndex = (rows: number[][]) => {
     const res = Array(COLS.length).fill(0)
+    ////rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     return res
 }
-
+function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento[] {
+    let data: Departamento[] = [];
+    const mapValores = (respuestas: RespuestaElement[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? 1 : 0)
+    for (let i = 0; i < response.length; i++) {
+        const monitoreo = response[i];
+        const indexDepartamento = data.findIndex((item) => item.id == monitoreo.departamento_iddpto);
+        // no esta el departamento
+        if (indexDepartamento === -1) {
+            data.push({
+                id: monitoreo.departamento_iddpto,
+                nombre: monitoreo.departamento.nombre,
+                provincias: [{
+                    id: monitoreo.provincia_idprov,
+                    nombre: monitoreo.provincia.nombre,
+                    distritos: [{
+                        id: monitoreo.ubigeo,
+                        nombre: monitoreo.distrito.distrito,
+                        valores: mapValores(monitoreo.respuestas),
+                    }]
+                }]
+            })
+            continue;
+        }
+        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => item.id == monitoreo.provincia_idprov);
+        // no esta la provincia
+        if (indexProvincia === -1) {
+            data[indexDepartamento].provincias.push({
+                id: monitoreo.provincia_idprov,
+                nombre: monitoreo.provincia.nombre,
+                distritos: [{
+                    id: monitoreo.ubigeo,
+                    nombre: monitoreo.distrito.distrito,
+                    valores: mapValores(monitoreo.respuestas),
+                }]
+            });
+            continue;
+        }
+        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => item.id == monitoreo.ubigeo);
+        // no esta el distrito
+        if (indexDistrito === -1) {
+            data[indexDepartamento].provincias[indexProvincia].distritos.push({
+                id: monitoreo.ubigeo,
+                nombre: monitoreo.distrito.distrito,
+                valores: mapValores(monitoreo.respuestas),
+            })
+            continue;
+        }
+        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].valores = mapValores(monitoreo.respuestas)
+    }
+    return data;
+}
+interface CategoriaOption {
+    value: string;
+    label: string;
+}
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
+    const [data, setData] = useState<Departamento[]>([])
+    const [categorias, setCategorias] = useState<CategoriaOption[]>([])
+    const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
+    const [fetching, setFetching] = useState(true)
+
+    async function onCategoria(newValue: SingleValue<CategoriaOption>) {
+        if (!newValue) {
+            return;
+        }
+        setFetching(true)
+        setCurrentCategoria(newValue);
+        await fetchValues(newValue.value)
+        setFetching(false)
+    }
+    async function fetchValues(categoria: string) {
+        const response = await apiGetMonitoreo(categoria)
+        setData(mapMonitoreoResponseToData(response))
+    }
+    async function boot(): Promise<void> {
+        const res = await apiGetCategorias()
+        setCategorias(res.map(cat => ({
+            value: String(cat.id),
+            label: cat.nombre
+        })))
+        const first = res[0]
+        setCurrentCategoria({
+            value: String(first.id),
+            label: first.nombre,
+        })
+        await fetchValues(String(first.id))
+        setFetching(false)
+    }
+
+    useEffect(() => {
+        boot();
+    }, []);
 
     const toggle = (key: string) => {
         const next = new Set(expanded)
@@ -552,25 +156,29 @@ export default function TreeTableMonitoreo3Niveles() {
     }
 
     // Totales por provincia y por departamento
+    function promedio(arr: number[], total: number): number {
+        const sum = arr.reduce((a, b) => a + b, 0);
+        return Number(((sum / total) * 100).toFixed(2));
+    }
     const { provTotals, depTotals } = useMemo(() => {
         const provTotals = new Map<string, { cols: number[]; total: number }>()
         const depTotals = new Map<string, { cols: number[]; total: number }>()
 
-        for (const dep of DATA) {
+        for (const dep of data) {
             const allDistrVals: number[][] = []
 
             for (const prov of dep.provincias) {
                 const pv = sumByIndex(prov.distritos.map((d) => d.valores))
-                provTotals.set(prov.id, { cols: pv, total: sum(pv) })
+                provTotals.set(prov.id, { cols: pv, total: promedio(pv, 30 * prov.distritos.length) })
                 allDistrVals.push(...prov.distritos.map((d) => d.valores))
             }
 
             const dv = sumByIndex(allDistrVals)
-            depTotals.set(dep.id, { cols: dv, total: sum(dv) })
+            depTotals.set(dep.id, { cols: dv, total: promedio(dv, 30 * allDistrVals.length) })
         }
 
         return { provTotals, depTotals }
-    }, [])
+    }, [data])
 
     const [category, setCategory] = useState('all')
 
@@ -624,12 +232,18 @@ export default function TreeTableMonitoreo3Niveles() {
             <div className="space-y-6">
                 {/* Encabezado */}
                 <div className="text-center">
-                   {/* <h2 className="text-sm font-medium uppercase tracking-wide text-slate-600">
+                    {/* <h2 className="text-sm font-medium uppercase tracking-wide text-slate-600">
                         MONITOREO
                     </h2>
                     <p className="text-[13px] text-slate-500">
                         (IMPLEM POLÍTICA Y PLAN)
                     </p>*/}
+                    <Select
+                        options={categorias}
+                        value={currentCategoria}
+                        onChange={(n) => onCategoria(n)}
+                        isDisabled={fetching}
+                    />
                 </div>
 
                 {/* Tabla */}
@@ -637,7 +251,7 @@ export default function TreeTableMonitoreo3Niveles() {
                     <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
                         <thead>
                             <tr>
-                                <th className="sticky left-0 z-20 w-[240px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
+                                <th className="sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
                                     Ámbito / Nombre
                                 </th>
                                 <th className="sticky left-[240px] z-20 w-[220px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
@@ -658,7 +272,7 @@ export default function TreeTableMonitoreo3Niveles() {
                         </thead>
 
                         <tbody>
-                            {DATA.map((dep) => {
+                            {data.map((dep) => {
                                 const depKey = `D:${dep.id}`
                                 const depOpen = expanded.has(depKey)
                                 const dTotals = depTotals.get(dep.id)!
@@ -698,7 +312,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                             <td className="sticky left-[240px] z-10 p-3 text-sm text-slate-500 ring-1 ring-slate-200 bg-white">
                                                 —
                                             </td>
-                                            {dTotals.cols.map((v, idx) => (
+                                            {dTotals?.cols?.map((v, idx) => (
                                                 <td
                                                     key={idx}
                                                     className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
@@ -707,7 +321,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                 </td>
                                             ))}
                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                {dTotals.total}
+                                                {dTotals?.total}
                                             </td>
                                         </tr>
 
@@ -820,8 +434,9 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             ),
                                                                         )}
                                                                         <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                            {sum(
+                                                                            {promedio(
                                                                                 d.valores,
+                                                                                30
                                                                             )}
                                                                         </td>
                                                                     </tr>
@@ -912,16 +527,15 @@ export default function TreeTableMonitoreo3Niveles() {
                                         const renderEmailData = () => `
                 <div class="flex items-center gap-2">
                   <div class="h-[10px] w-[10px] rounded-full" style="background-color: ${COLORS[0]}"></div>
-                  <div class="flex gap-2">Email: <span class="font-bold">${
-                      series[category === 'all' ? 1 : 0][dataPointIndex]
-                  }</span></div>
+                  <div class="flex gap-2">Email: <span class="font-bold">${series[category === 'all' ? 1 : 0][dataPointIndex]
+                                            }</span></div>
                 </div>`
                                         const content =
                                             category === 'all'
                                                 ? `${renderCampaignData()}${renderEmailData()}`
                                                 : category === 'campagin'
-                                                  ? renderCampaignData()
-                                                  : renderEmailData()
+                                                    ? renderCampaignData()
+                                                    : renderEmailData()
                                         return `
                 <div class="py-2 px-4 rounded-xl">
                   <div class="flex flex-col gap-2">
