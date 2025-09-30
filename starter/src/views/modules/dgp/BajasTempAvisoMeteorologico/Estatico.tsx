@@ -25,6 +25,22 @@ const nivelNombre: { [key: string]: string } = {
     '': '',
 }
 
+const formatArray = (pgArray: string) => {
+    if (!pgArray) return "";
+
+    // quitar llaves { }
+    let clean = pgArray.replace(/[{}]/g, "");
+
+    // separar por comas
+    let items = clean.split(",").filter((v) => v && v !== "NULL");
+
+    // casos según cantidad
+    if (items.length === 0) return "";
+    if (items.length === 1) return items[0];
+    if (items.length === 2) return items.join(" y ");
+    return items.slice(0, -1).join(", ") + " y " + items[items.length - 1];
+};
+
 const LluviasAvisoMeteorologicoEstatico = () => {
     const { escenario, data, isLoading } = usePlantilla('4');
     const year = new Date().getFullYear();
