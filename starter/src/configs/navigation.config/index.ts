@@ -526,7 +526,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.resumenInstrumentoNivNac',
                 path: '/fortalecimiento/resumenInstrumentoNivNac',
-                title: 'Instrumentos a Nivel Nacional',
+                title: 'INN',
+                tooltip: 'Instrumentos a Nivel Nacional',
                 translateKey: 'nav.fortalecimiento.resumenInstrumentoNivNac',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -536,7 +537,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.fortCapYAmbitos',
                 path: '/fortalecimiento/fortCapYAmbitos',
-                title: 'Programa Anual de Actividades',
+                title: 'PAA',
+                tooltip: 'Programa Anual de Actividades',
                 translateKey: 'nav.fortalecimiento.fortCapYAmbitos',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -546,7 +548,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.concursoBuenasPracticas',
                 path: '/fortalecimiento/concursoBuenasPracticas',
-                title: 'Fortalecimiento Capacidades (CB-CE)',
+                title: 'FC (CB-CE)',
+                tooltip: 'Fortalecimiento Capacidades (CB-CE)',
                 translateKey: 'nav.fortalecimiento.concursoBuenasPracticas',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -556,7 +559,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.fortCapCursosBasYEspec',
                 path: '/fortalecimiento/fortCapCursosBasYEspec',
-                title: 'PPRRD por Regiones y Años',
+                title: 'PPRRD RA',
+                tooltip: 'PPRRD por Regiones y Años',
                 translateKey: 'nav.fortalecimiento.fortCapCursosBasYEspec',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -566,7 +570,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.fasesDelPprdNacional',
                 path: '/fortalecimiento/fasesDelPprdNacional',
-                title: 'Evaluadores de Riesgo Acreditados',
+                title: 'ERA',
+                tooltip: 'Evaluadores de Riesgo Acreditados',
                 translateKey: 'nav.fortalecimiento.fasesDelPprdNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -576,7 +581,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.otrasAsistenciasTecNacional',
                 path: '/fortalecimiento/otrasAsistenciasTecNacional',
-                title: 'Planes Estratégicos y Reconstrucción',
+                title: 'PER',
+                tooltip: 'Planes Estratégicos y Reconstrucción',
                 translateKey: 'nav.fortalecimiento.otrasAsistenciasTecNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -586,7 +592,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.riesgoPorFenNaturales',
                 path: '/fortalecimiento/riesgoPorFenNaturales',
-                title: 'Plan Educación Comunitaria - REP',
+                title: 'PEC - REP',
+                tooltip: 'Plan Educación Comunitaria - REP',
                 translateKey: 'nav.fortalecimiento.riesgoPorFenNaturales',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -596,7 +603,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.evaluadoresDeRiesgoAcred',
                 path: '/fortalecimiento/evaluadoresDeRiesgoAcred',
-                title: 'Evaluadores de Riesgo por Regiones Años',
+                title: 'ERR',
+                tooltip: 'Evaluadores de Riesgo por Regiones Años',
                 translateKey: 'nav.fortalecimiento.evaluadoresDeRiesgoAcred',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -606,7 +614,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.pprdNivelNacional',
                 path: '/fortalecimiento/pprdNivelNacional',
-                title: 'PPRRD - Entidades Asistidas',
+                title: 'PPRRD - EA',
+                tooltip: 'PPRRD - Entidades Asistidas',
                 translateKey: 'nav.fortalecimiento.pprdNivelNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -616,7 +625,8 @@ const navigationConfig: NavigationTree[] = [
             {
                 key: 'fortalecimiento.resumenDptoAsistTecFortalec',
                 path: '/fortalecimiento/resumenDptoAsistTecFortalec',
-                title: 'ATFC por Regiones y Años',
+                title: 'ATFC RA',
+                tooltip: 'ATFC por Regiones y Años',
                 translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
