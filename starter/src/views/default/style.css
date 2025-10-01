@@ -1,0 +1,133 @@
+/* --- Layout base --- */
+.hero {
+    position: relative;
+    isolation: isolate;
+}
+
+.hero__bg {
+    height: 520px;
+    background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop");
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- Card pegado a la izquierda del viewport --- */
+.hero__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    /* distancia desde el borde izquierdo (ajústala a lo del Figma) */
+    --padL: clamp(16px, 4vw, 72px);
+    padding-left: var(--padL);
+}
+
+/* --- Rail bicolor --- */
+.hero__rail {
+    position: absolute;
+    left: calc(var(--padL) - 22px);
+    top: clamp(18px, 3vw, 40px);
+    bottom: clamp(18px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+}
+
+.rail__top {
+    width: 12px;
+    height: 64px;
+    background: #E4DE40;
+    border-radius: 4px;
+}
+
+.rail__bottom {
+    width: 12px;
+    height: 44px;
+    background: #fff;
+    border-radius: 4px;
+}
+
+/* --- Panel con radio visible y transparencia real --- */
+.hero__card {
+    position: relative;
+    z-index: 1;
+    width: min(1240px, calc(100vw - var(--padL) - 16px));
+    /* pegado a la izq */
+    border-radius: 28px;
+    /* ⬅ radio EXACTO */
+    overflow: clip;
+    /* asegura clipping del overlay */
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .20);
+    color: #fff;
+    padding: clamp(20px, 3vw, 40px) clamp(20px, 3vw, 40px);
+    padding-left: calc(clamp(20px, 3vw, 40px) + 28px);
+    /* para la barra */
+    outline: 1px solid rgba(255, 255, 255, .12);
+}
+
+/* overlay interno con gradiente y blur, CLIPPEADO por el radio */
+.hero__card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 151, 167, .88) 0%, rgba(50, 195, 210, .80) 100%);
+    backdrop-filter: blur(2px) saturate(150%);
+    /* clip redundante para asegurar bordes perfectos en todos los navegadores */
+    clip-path: inset(0 round 28px);
+    z-index: -1;
+    /* detrás del contenido */
+}
+
+.hero__card h1 {
+    margin: 0 0 12px 0;
+    font-weight: 800;
+    line-height: 1.05;
+    font-size: clamp(32px, 5vw, 56px);
+    letter-spacing: -0.02em;
+}
+
+.hero__card p {
+    margin: 0 0 20px 0;
+    font-size: clamp(14px, 1.5vw, 18px);
+    color: rgba(255, 255, 255, .95);
+}
+
+/* CTA */
+.hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #E4DE40;
+    color: #05353B;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
+}
+
+.hero__cta svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: #05353B;
+    stroke-width: 2;
+}
+
+/* Línea inferior #32C3D2 */
+.hero__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 6px;
+    background: #32C3D2;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .hero__bg {
+        height: 420px;
+    }
+}
