@@ -24,10 +24,27 @@ type NavItem = {
 
 export const navItems: NavItem[] = [
     {
+        label: 'INICIO', href: '#', submenu: [
+            { label: 'Normas Legales GRD', external: true, href: 'https://dimse.cenepred.gob.pe/simse/normativas' },
+            { label: 'Glosario de Términos GRD', external: true, href: 'https://dimse.cenepred.gob.pe/simse/glosario' },
+            {
+                label: 'Directorio Nacional GRD', href: '#', submenu: [
+                    { label: 'Responsable por entidad', href: '/sign-in?next=/monitoreo/directorioNacional' },
+                    { label: 'Visor', external: true, href: 'https://dimse.cenepred.gob.pe/mapadirectorio/Views/' },
+                ]
+            }
+        ]
+    },
+    {
         label: 'SIGRID',
         href: '#',
+        submenu: [
+            { label: 'Plataforma SIGRID', external: true, href: 'https://sigrid.cenepred.gob.pe/' },
+            { label: 'Visor SIGRID', external: true, href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0' },
+        ]
+        //href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0',
+        //external: true,
     },
-
     {
         label: 'Gestión de procesos',
         href: '#',
