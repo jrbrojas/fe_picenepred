@@ -1,15 +1,15 @@
 import { PlantillaGroupItem } from '@/views/modules/dgp/types'
-import ApiService from './ApiService'
+import ApiServiceDgp from './ApiServiceDgp'
 
 export async function apiGetPlantillas<T>(url : string ) {
-    return ApiService.fetchDataWithAxios<T>({
+    return ApiServiceDgp.fetchDataWithAxios<T>({
         url,
         method: 'get',
     })
 }
 
 export async function apiDownloadPlantilla(escenarioId: number | string, data: PlantillaGroupItem[]) {
-    const response = await ApiService.fetchDataWithAxios<Blob, { data: PlantillaGroupItem[] }>({
+    const response = await ApiServiceDgp.fetchDataWithAxios<Blob, { data: PlantillaGroupItem[] }>({
         url: `/escenarios/${escenarioId}/plantilla/download`,
         method: 'post',
         data: { data }, // 👈 enviamos el array al backend

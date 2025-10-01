@@ -5,11 +5,13 @@ import { useAuth } from '@/auth'
 import { useThemeStore } from '@/store/themeStore'
 import PostLoginLayout from './PostLoginLayout'
 import PreLoginLayout from './PreLoginLayout'
+import { useLocation } from 'react-router-dom'
 
 const Layout = ({ children }: CommonProps) => {
     const layoutType = useThemeStore((state) => state.layout.type)
 
     const { authenticated } = useAuth()
+    const location = useLocation();    
 
     return (
         <Suspense
@@ -19,7 +21,7 @@ const Layout = ({ children }: CommonProps) => {
                 </div>
             }
         >
-            {authenticated ? (
+            {authenticated && location.pathname !== '/default' ? (
                 <PostLoginLayout layoutType={layoutType}>
                     {children}
                 </PostLoginLayout>

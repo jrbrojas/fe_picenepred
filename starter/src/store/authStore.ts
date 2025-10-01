@@ -36,8 +36,13 @@ const initialState: AuthState = {
         signedIn: false,
     },
     user: {
+        id: '',
         avatar: '',
-        userName: '',
+        nombres: '',
+        apellidos: '',
+        usuario: '',
+        rol: '',
+        fuente: '',
         email: '',
         authority: [],
     },
@@ -70,6 +75,8 @@ export const useToken = () => {
     const storage = getPersistStorage()
 
     const setToken = (token: string) => {
+        console.log(token);
+        
         storage.setItem(TOKEN_NAME_IN_STORAGE, token)
     }
 

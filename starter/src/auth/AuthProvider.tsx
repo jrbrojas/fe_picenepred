@@ -54,11 +54,11 @@ function AuthProvider({ children }: AuthProviderProps) {
         const redirectUrl = params.get(REDIRECT_URL_KEY)
 
         navigatorRef.current?.navigate(
-            redirectUrl ? redirectUrl : appConfig.authenticatedEntryPath,
+            redirectUrl ? redirectUrl : appConfig.unAuthenticatedEntryPath,
         )
     }
 
-    const handleSignIn = (tokens: Token, user?: User) => {
+    const handleSignIn = (tokens: Token, user?: User) => {        
         setToken(tokens.accessToken)
         setTokenState(tokens.accessToken)
         setSessionSignedIn(true)
@@ -77,8 +77,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const signIn = async (values: SignInCredential): AuthResult => {
         try {
             const resp = await apiSignIn(values)
-
-            if (resp) {
+            if (resp.status === 'success') {
                 handleSignIn({ accessToken: resp.token }, resp.user)
                 redirect()
 

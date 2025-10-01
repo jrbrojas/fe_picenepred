@@ -48,8 +48,8 @@ const SignInForm = (props: SignInFormProps) => {
         control,
     } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'admin-01@ecme.com',
-            password: '123Qwe',
+            email: 'crltorres@cenepred.gob.pe',
+            password: 'abcdef',
         },
         resolver: zodResolver(validationSchema),
     })
@@ -72,8 +72,10 @@ const SignInForm = (props: SignInFormProps) => {
         try {
             const result = await signIn(values)
 
+            console.log(result);
+            
             if (result?.status === 'failed') {
-                setMessage?.(result.message || 'Credenciales inválidas')
+                setMessage?.('Credenciales inválidas')
                 return
             }
 

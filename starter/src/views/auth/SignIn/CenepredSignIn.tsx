@@ -3,6 +3,7 @@ import SignInForm from './components/SignInForm'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type CenepredSignInProps = {
     signUpUrl?: string
@@ -16,43 +17,42 @@ export const CenepredSignIn = ({
     disableSubmit,
 }: CenepredSignInProps) => {
     const [message, setMessage] = useTimeOutMessage()
-
+    const navigate = useNavigate();
     return (
         <>
             {/* Header con logos CENEPRED */}
-            <div className="mb-8">
-                <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                            <img
-                                src="/img/logo/logo-cenepred.jpg"
-                                alt="CENEPRED"
-                                className="h-24 md:h-24 w-auto object-contain"
-                            />
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <img
-                                src="/img/logo/logo_sigrid.png"
-                                alt="SIGRID"
-                                className="h-12"
-                                onClick={() =>
-                                    (window.location.href =
-                                        'https://sigrid.cenepred.gob.pe/sigridv3/')
-                                }
-                            />
-                        </div>
+            <div className="mb-5">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                        <img
+                            src="/img/logo/logo-cenepred.jpg"
+                            alt="CENEPRED"
+                            onClick={() => navigate('/')}
+                            className="h-24 md:h-24 w-auto object-contain cursor-pointer"
+                        />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <img
+                            src="/img/logo/logo_sigrid.png"
+                            alt="SIGRID"
+                            className="h-18"
+                            onClick={() =>
+                            (window.location.href =
+                                'https://sigrid.cenepred.gob.pe/sigridv3/')
+                            }
+                        />
                     </div>
                 </div>
             </div>
 
             {/* Título personalizado */}
-            <div className="mb-10 text-center">
+            <div className="mb-5 text-center">
                 <h1 className="text-2xl font-bold text-[#0097a7] mb-2">
                     Sistema CENEPRED
                 </h1>
-                <h2 className="text-lg font-semibold mb-2 text-gray-700">
+                {/* <h2 className="text-lg font-semibold mb-2 text-gray-700">
                     ¡Bienvenido de vuelta!
-                </h2>
+                </h2> */}
                 <p className="font-medium text-gray-600">
                     Ingrese sus credenciales para acceder al sistema
                 </p>
@@ -83,7 +83,7 @@ export const CenepredSignIn = ({
             />
 
             {/* Información adicional */}
-            <div className="mt-8 text-center">
+            <div className="mt-2 text-center">
                 <div className="bg-gray-50 p-4 rounded-lg mb-4">
                     <p className="text-sm text-gray-600 mb-2">
                         <strong>
@@ -98,7 +98,7 @@ export const CenepredSignIn = ({
                 </div>
 
                 {/* Credenciales de prueba */}
-                <div className="bg-blue-50 p-4 rounded-lg text-left">
+                {/* <div className="bg-blue-50 p-4 rounded-lg text-left">
                     <h4 className="text-sm font-semibold text-[#0097a7] mb-2">
                         Credenciales de Prueba:
                     </h4>
@@ -116,11 +116,11 @@ export const CenepredSignIn = ({
                             123Qwe
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             {/* Enlace para registro (opcional) */}
-            <div className="mt-6 text-center">
+            <div className="mt-2 text-center">
                 <span className="text-sm text-gray-600">
                     ¿No tiene una cuenta?{' '}
                 </span>
@@ -129,7 +129,7 @@ export const CenepredSignIn = ({
                     className="text-[#0097a7] font-bold hover:text-[#00838f]"
                     themeColor={false}
                 >
-                    Solicitar acceso
+                    Registrate
                 </ActionLink>
             </div>
         </>

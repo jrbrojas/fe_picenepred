@@ -16,8 +16,8 @@ export default defineConfig({
     },
   },
   server: {
-    // Vite corre en 5173 (no en 3000)
-    port: 5173,
+    // Vite corre en 5177 (no en 3000)
+    port: 5177,
     proxy: {
       // Todas las llamadas /api del front se envían al backend real en 3000
       '/api': {

@@ -1,11 +1,15 @@
 import { useAuth } from '@/auth'
-import { Button } from '@/components/ui'
+import { Button, Notification, toast } from '@/components/ui'
 import useIsLargeScreen from '@/utils/hooks/useIsLargeScreen'
 import React, { useMemo, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import HomeHero from './HomeLanding'
 import Footer from './Footer'
 import Monitoreo from './Monitoreo'
+import { REDIRECT_URL_KEY } from '@/constants/app.constant'
+import appConfig from '@/configs/app.config'
+import UserDropdown from '@/components/template/UserProfileDropdown'
+import { IsolatedNavigatorRef } from '@/auth/AuthProvider'
 
 type SubMenuItem = {
     label: string
@@ -100,8 +104,10 @@ function AppNavLink({
     onDone?: () => void
 }) {
     const { authenticated } = useAuth()
+    const navigate = useNavigate()
     const location = useLocation()
     const [active, setActive] = useState(false)
+    const navigatorRef = useRef<IsolatedNavigatorRef>(null)
 
     if (item.external) {
         return (
@@ -117,18 +123,42 @@ function AppNavLink({
         )
     }
 
+    const redirect = () => {
+        const search = window.location.search
+        const params = new URLSearchParams(search)
+        const redirectUrl = params.get(REDIRECT_URL_KEY)
+
+        navigatorRef.current?.navigate(
+            redirectUrl ? redirectUrl : appConfig.authenticatedEntryPath,
+        )
+    }
+
     const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
         if (e.target === root.current) {
             setActive(!active)
         }
+
         if (item.protected && !authenticated) {
             e.preventDefault()
-            localStorage.setItem(REDIRECT_KEY, item.href)
-            localStorage.setItem(
-                'lastLocation',
-                location.pathname + location.search + location.hash,
+
+            toast.push(
+                <Notification
+                    title="Sesión invalida"
+                    type="danger"
+                >
+                    Debes iniciar sesión para ingresar a la plataforma
+                </Notification>
             )
-            alert('Necesita inicar sesión para acceder a esta sección')
+            // Guarda la intención
+            // localStorage.setItem(REDIRECT_KEY, item.href)
+            // // también puedes guardar desde dónde venía el usuario si te sirve
+            // localStorage.setItem(
+            //     'lastLocation',
+            //     location.pathname + location.search + location.hash,
+            // )
+            // navigate(`/sign-in?next=${encodeURIComponent(item.href)}`)
+        }else{
+            redirect();
         }
         onDone?.()
     }
@@ -167,6 +197,8 @@ function AppNavLink({
 export default function Default() {
     const [open, setOpen] = useState(false)
     const isLarge = useIsLargeScreen()
+    const { authenticated } = useAuth()
+    const navigate = useNavigate();
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
@@ -195,13 +227,15 @@ export default function Default() {
                     </div>
 
                     <div className="flex flex-col lg:flex-row items-center gap-3">
-                        <Button size={isLarge ? 'lg' : 'xs'} variant="plain">
-                            Registrarse
-                        </Button>
-                        <Button size={isLarge ? 'lg' : 'xs'}>
-                            {' '}
-                            Iniciar Sesión
-                        </Button>
+                        {authenticated ? (
+                            <UserDropdown />
+                        ) : (
+                            <div className="flex flex-col lg:flex-row items-center gap-3">
+                                <Button size={isLarge ? 'lg' : 'xs'}
+                                    onClick={() => navigate(`/sign-up`)} variant="plain">Registrarse</Button>
+                                <Button size={isLarge ? 'lg' : 'xs'} onClick={() => navigate(`/sign-in`)} > Iniciar Sesión</Button>
+                            </div>
+                        )}
                     </div>
                 </div>
 

@@ -5,13 +5,8 @@ export type SignInCredential = {
 
 export type SignInResponse = {
     token: string
-    user: {
-        userId: string
-        userName: string
-        authority: string[]
-        avatar: string
-        email: string
-    }
+    user: User
+    status: string
 }
 
 export type SignUpResponse = SignInResponse
@@ -38,9 +33,13 @@ export type AuthResult = Promise<{
 }>
 
 export type User = {
-    userId?: string | null
+    id?: string | null
     avatar?: string | null
-    userName?: string | null
+    nombres?: string | null
+    apellidos?: string | null
+    rol?: string | null
+    usuario?: string | null
+    fuente?: string | null
     email?: string | null
     authority?: string[]
 }

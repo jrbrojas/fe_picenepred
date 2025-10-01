@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
+import { Select } from '@/components/ui'
 
 interface SignUpFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -15,7 +16,11 @@ interface SignUpFormProps extends CommonProps {
 }
 
 type SignUpFormSchema = {
-    userName: string
+    nombres: string
+    apellidos: string
+    usuario: string
+    rol: string
+    fuente: string
     password: string
     email: string
     confirmPassword: string
@@ -23,20 +28,29 @@ type SignUpFormSchema = {
 
 const validationSchema: ZodType<SignUpFormSchema> = z
     .object({
-        email: z.string({ required_error: 'Please enter your email' }),
-        userName: z.string({ required_error: 'Please enter your name' }),
-        password: z.string({ required_error: 'Password Required' }),
+        email: z.string({ required_error: 'Ingresar correo electrónico' }),
+        nombres: z.string({ required_error: 'Porfavor ingesar sus nombres completos' }),
+        apellidos: z.string({ required_error: 'Porfavor ingresar sus apellidos completos' }),
+        usuario: z.string({ required_error: 'Porfavor ingresar el nombre de usuario' }),
+        rol: z.string({ required_error: 'Seleccione un rol para el usuario' }),
+        fuente: z.string({ required_error: 'La fuente es obligatoria' }),
+        password: z.string({ required_error: 'La contraseña es obligatoria' }),
         confirmPassword: z.string({
-            required_error: 'Confirm Password Required',
+            required_error: 'Debes confirmar tu contraseña',
         }),
     })
     .refine((data) => data.password === data.confirmPassword, {
-        message: 'Password not match',
+        message: 'La contraseña no coincide',
         path: ['confirmPassword'],
     })
 
 const SignUpForm = (props: SignUpFormProps) => {
     const { disableSubmit = false, className, setMessage } = props
+
+    const roles = [
+        { label: 'ADMIN', value: 'ADMIN' },
+        { label: 'USER', value: 'USER' }
+    ]
 
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
@@ -51,11 +65,11 @@ const SignUpForm = (props: SignUpFormProps) => {
     })
 
     const onSignUp = async (values: SignUpFormSchema) => {
-        const { userName, password, email } = values
+        const { nombres, apellidos, usuario, rol, fuente, password, email } = values
 
         if (!disableSubmit) {
             setSubmitting(true)
-            const result = await signUp({ userName, password, email })
+            const result = await signUp({ nombres, apellidos, usuario, rol, fuente, password, email })
 
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
@@ -66,87 +80,174 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
 
     return (
-        <div className={className}>
-            <Form onSubmit={handleSubmit(onSignUp)}>
-                <FormItem
-                    label="User name"
-                    invalid={Boolean(errors.userName)}
-                    errorMessage={errors.userName?.message}
-                >
-                    <Controller
-                        name="userName"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                placeholder="User Name"
-                                autoComplete="off"
-                                {...field}
+        <div className='' >
+            <Form onSubmit={handleSubmit(onSignUp)} >
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
+                    <FormItem
+                        label="Nombres"
+                        invalid={Boolean(errors.nombres)}
+                        errorMessage={errors.nombres?.message}
+                    >
+                        <Controller
+                            name="nombres"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="text"
+                                    placeholder="Ingresar nombres completos"
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
+
+                    <FormItem
+                        label="Apellidos"
+                        invalid={Boolean(errors.apellidos)}
+                        errorMessage={errors.apellidos?.message}
+                    >
+                        <Controller
+                            name="apellidos"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="text"
+                                    placeholder="Ingresar apellidos completos"
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
+
+                    <FormItem
+                        label="Nombre de usuario"
+                        invalid={Boolean(errors.usuario)}
+                        errorMessage={errors.usuario?.message}
+                    >
+                        <Controller
+                            name="usuario"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="text"
+                                    placeholder="Ingresar nombre de usuario"
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
+
+                    <FormItem
+                        label="Rol"
+                        invalid={Boolean(errors.rol)}
+                        errorMessage={errors.rol?.message}
+                    >
+                        <Controller
+                            name="rol"
+                            control={control}
+                            render={({ field }) => (
+                                <Select
+                                    placeholder="Seleccione un rol"
+                                    isClearable
+                                    options={roles}
+                                    value={roles.filter(
+                                        (role) => role.value === field.value,
+                                    )}
+                                    onChange={(option) => field.onChange(option?.value)}
+                                />
+                            )}
+                        />
+
+                    </FormItem>
+
+                        <FormItem
+                            label="Fuente"
+                            invalid={Boolean(errors.fuente)}
+                            errorMessage={errors.fuente?.message}
+                        >
+                            <Controller
+                                name="fuente"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="text"
+                                        placeholder="Fuente"
+                                        autoComplete="off"
+                                        {...field}
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                </FormItem>
-                <FormItem
-                    label="Email"
-                    invalid={Boolean(errors.email)}
-                    errorMessage={errors.email?.message}
-                >
-                    <Controller
-                        name="email"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="email"
-                                placeholder="Email"
-                                autoComplete="off"
-                                {...field}
+                        </FormItem>
+
+                        <FormItem
+                            label="Correo electrónico"
+                            invalid={Boolean(errors.email)}
+                            errorMessage={errors.email?.message}
+                        >
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="email"
+                                        placeholder="Correo electrónico"
+                                        autoComplete="off"
+                                        {...field}
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                </FormItem>
-                <FormItem
-                    label="Password"
-                    invalid={Boolean(errors.password)}
-                    errorMessage={errors.password?.message}
-                >
-                    <Controller
-                        name="password"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="password"
-                                autoComplete="off"
-                                placeholder="Password"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
-                <FormItem
-                    label="Confirm Password"
-                    invalid={Boolean(errors.confirmPassword)}
-                    errorMessage={errors.confirmPassword?.message}
-                >
-                    <Controller
-                        name="confirmPassword"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="password"
-                                autoComplete="off"
-                                placeholder="Confirm Password"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
+                        </FormItem>
+
+
+                    <FormItem
+                        label="Contraseña"
+                        invalid={Boolean(errors.password)}
+                        errorMessage={errors.password?.message}
+                    >
+                        <Controller
+                            name="password"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="password"
+                                    autoComplete="off"
+                                    placeholder="Password"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
+
+                    <FormItem
+                        label="Confirmar contraseña"
+                        invalid={Boolean(errors.confirmPassword)}
+                        errorMessage={errors.confirmPassword?.message}
+                    >
+                        <Controller
+                            name="confirmPassword"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="password"
+                                    autoComplete="off"
+                                    placeholder="Confirm Password"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
+
+                </div>
                 <Button
                     block
                     loading={isSubmitting}
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Creating Account...' : 'Sign Up'}
+                    {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
                 </Button>
             </Form>
         </div>
