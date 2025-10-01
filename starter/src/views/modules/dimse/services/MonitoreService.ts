@@ -1,7 +1,7 @@
 import ApiService from './ApiService'
 import endpointConfig from './endpoint.config'
 import { CategoriaResponse } from './types/getcategorias'
-import { MonitoreoResponse } from './types/getmonitoreo'
+import { MonitoreoResponse, SupervicionResponse } from './types/getmonitoreo'
 
 export async function apiGetMonitoreo(categoria: string) {
     return ApiService.fetchDataWithAxios<MonitoreoResponse[]>({
@@ -16,7 +16,7 @@ export async function apiGetSeguimiento(categoria: string) {
     })
 }
 export async function apiGetSupervision(categoria: string) {
-    return ApiService.fetchDataWithAxios<MonitoreoResponse[]>({
+    return ApiService.fetchDataWithAxios<SupervicionResponse[]>({
         url: endpointConfig.supervision + `?categoria=${categoria}`,
         method: 'get',
     })
