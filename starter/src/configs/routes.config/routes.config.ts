@@ -308,19 +308,19 @@ export const protectedRoutes: Routes = [
     {
         key: 'monitoreo.seguimiento',
         path: '/monitoreo/seguimiento',
-        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
+        component: lazy(() => import('@/views/modules/dimse/Seguimiento')),
         authority: [],
     },
     {
         key: 'monitoreo.supervision',
         path: '/monitoreo/supervision',
-        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
+        component: lazy(() => import('@/views/modules/dimse/Supervision')),
         authority: [],
     },
     {
         key: 'monitoreo.evaluacion',
         path: '/monitoreo/evaluacion',
-        component: lazy(() => import('@/views/modules/dimse/Monitoreo')),
+        component: lazy(() => import('@/views/modules/dimse/Evaluacion')),
         authority: [],
     },
 

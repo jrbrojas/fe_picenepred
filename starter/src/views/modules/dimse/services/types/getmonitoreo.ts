@@ -13,7 +13,7 @@ export interface MonitoreoResponse {
     created_at: Date;
     updated_at: Date;
     entidad: Entidad;
-    respuestas: RespuestaElement[];
+    secciones: RespuestaElement[];
     departamento: Departamento;
     provincia: Provincia;
     distrito: Distrito;
@@ -71,6 +71,7 @@ export interface RespuestaElement {
     titulo: string;
     pregunta: string;
     type: Type;
+    promedio: string;
     respuesta: RespuestaEnum;
     cantidad_evidencias: string;
     porcentaje: string;
