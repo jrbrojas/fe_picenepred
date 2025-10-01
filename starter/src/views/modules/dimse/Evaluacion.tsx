@@ -129,8 +129,8 @@ export default function TreeTableMonitoreo3Niveles() {
         setFetching(false)
     }
     async function fetchValues(categoria: string) {
-        //const response = await apiGetEvaluacion(categoria)
-        //setData(mapMonitoreoResponseToData(response))
+        const response = await apiGetEvaluacion(categoria)
+        setData(mapMonitoreoResponseToData(response))
     }
     async function boot(): Promise<void> {
         const res = await apiGetCategorias()
@@ -171,12 +171,12 @@ export default function TreeTableMonitoreo3Niveles() {
 
             for (const prov of dep.provincias) {
                 const pv = sumByIndex(prov.distritos.map((d) => d.valores))
-                provTotals.set(prov.id, { cols: pv, total: promedio(pv, 30 * prov.distritos.length) })
+                provTotals.set(prov.id, { cols: pv, total: promedio(pv, 4 * prov.distritos.length) })
                 allDistrVals.push(...prov.distritos.map((d) => d.valores))
             }
 
             const dv = sumByIndex(allDistrVals)
-            depTotals.set(dep.id, { cols: dv, total: promedio(dv, 30 * allDistrVals.length) })
+            depTotals.set(dep.id, { cols: dv, total: promedio(dv, 4 * allDistrVals.length) })
         }
 
         return { provTotals, depTotals }
@@ -418,7 +418,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
                                                                                 {promedio(
                                                                                     d.valores,
-                                                                                    30
+                                                                                    4
                                                                                 )}
                                                                             </td>
                                                                         </tr>

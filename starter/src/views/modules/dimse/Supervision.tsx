@@ -4,7 +4,7 @@ import Segment from '@/components/ui/Segment'
 import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
 import { apiGetCategorias, apiGetSupervision } from './services/MonitoreService'
-import { MonitoreoResponse, RespuestaElement } from './services/types/getmonitoreo'
+import { SupervicionResponse, RespuestaElement } from './services/types/getmonitoreo'
 import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
@@ -54,7 +54,7 @@ const sumByIndex = (rows: number[][]) => {
     rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     return res
 }
-function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento[] {
+function mapMonitoreoResponseToData(response: SupervicionResponse[]): Departamento[] {
     let data: Departamento[] = [];
     const mapValores = (respuestas: RespuestaElement[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? parseFloat(r.promedio) : 0)
     for (let i = 0; i < response.length; i++) {
@@ -130,9 +130,7 @@ export default function TreeTableMonitoreo3Niveles() {
     }
     async function fetchValues(categoria: string) {
         const response = await apiGetSupervision(categoria)
-        const res = mapMonitoreoResponseToData(response)
-        console.log(res);
-        setData(res)
+        setData(mapMonitoreoResponseToData(response))
     }
     async function boot(): Promise<void> {
         const res = await apiGetCategorias()
