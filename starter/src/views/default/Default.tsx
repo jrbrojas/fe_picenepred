@@ -117,7 +117,8 @@ function AppNavLink({
                 'lastLocation',
                 location.pathname + location.search + location.hash,
             )
-            navigate(`/sign-in?next=${encodeURIComponent(item.href)}`)
+            //navigate(`/sign-in?next=${encodeURIComponent(item.href)}`)
+            alert("Necesita inicar sesión para acceder a esta sección")
         }
         onDone?.()
     }
@@ -165,7 +166,7 @@ export default function Default() {
                             className="h-12 lg:h-24 w-auto object-contain mr-0 lg:mr-5"
                             loading="lazy"
                         />
-                        <div className="h-17 lg:w-px bg-teal-600" />                        
+                        <div className="h-17 lg:w-px bg-teal-600" />
                         <img
                             src="/img/logo/logo_sigrid.png"
                             alt="CENEPRED"
@@ -177,7 +178,7 @@ export default function Default() {
                     </div>
 
                     <div className="flex flex-col lg:flex-row items-center gap-3">
-                        <Button size={isLarge ? 'lg' : 'xs'} variant="plain">Reguistrarse</Button>
+                        <Button size={isLarge ? 'lg' : 'xs'} variant="plain">Registrarse</Button>
                         <Button size={isLarge ? 'lg' : 'xs'}> Iniciar Sesión</Button>
                     </div>
 

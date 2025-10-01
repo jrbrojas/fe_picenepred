@@ -265,8 +265,8 @@ export default function TreeTableMonitoreo3Niveles() {
                                         {c}
                                     </th>
                                 ))}
-                                <th className="w-[120px] bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
-                                    Total
+                                <th className="w-[120px] bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap">
+                                    Total %
                                 </th>
                             </tr>
                         </thead>
@@ -391,7 +391,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                     >
                                                                         <td onClick={() => {
                                                                             setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                            }} className="sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
+                                                                        }} className="sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
                                                                             <span className="ml-2 text-sm text-slate-800 underline decoration-emerald-300">
                                                                                 {
                                                                                     d.nombre
