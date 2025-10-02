@@ -6,7 +6,7 @@ import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
 import { BiSolidSchool } from 'react-icons/bi'
 import { BsHospital } from "react-icons/bs";
-import ImageLoad from "./ImageLoad";
+import ImageLoad from "../ImageLoad";
 
 const { TabNav, TabList, TabContent } = Tabs
 
