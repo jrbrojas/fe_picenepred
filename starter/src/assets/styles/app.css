@@ -6,3 +6,13 @@
 @import './vendors/index.css';
 @import './docs/index.css';
 
+.menuhome .submenu .submenu {
+    left: 100%;
+    translate: 0 -50%;
+}
+.menuhome:hover .submenu:not(&:hover) .submenu {
+    display: none;
+}
+.menuhome:hover .submenu:hover li:hover button + .submenu {
+    display: block;
+}

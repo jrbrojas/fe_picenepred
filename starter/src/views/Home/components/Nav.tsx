@@ -157,7 +157,7 @@ function AppNavLink({ item, className, onDone }: { item: NavItem; className?: st
                 {Array.isArray(item.submenu) && item.submenu.length > 0 ? (
                     <div
                         className={[
-                            'submenu absolute left-1/2 top-full z-50 mt-2 w-64 -translate-x-1/2 rounded-md bg-[#078199] p-2 text-white shadow-lg ring-1 ring-black/5',
+                            'submenu absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 rounded-md bg-[#078199] p-2 text-white shadow-lg ring-1 ring-black/5',
                             'hidden md:group-hover:block',
                             active ? 'block md:block' : '',
                         ].join(' ')}
@@ -169,7 +169,7 @@ function AppNavLink({ item, className, onDone }: { item: NavItem; className?: st
                                 <li key={index} role="none">
                                     <AppNavLink
                                         item={i as NavItem}
-                                        className="block rounded px-3 py-2 text-sm"
+                                        className="block rounded px-3 py-2 text-sm bg-red"
                                         onDone={onDone}
                                     />
                                 </li>
@@ -194,7 +194,7 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="flex items-center justify-between md:justify-center gap-2 py-3">
+            <nav className="menuhome flex items-center justify-between md:justify-center gap-2 py-3">
                 {/* Desktop */}
                 <ul className="hidden md:flex items-center gap-8">
                     {navItems.map((item) => (
