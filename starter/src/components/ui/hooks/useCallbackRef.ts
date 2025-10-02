@@ -8,7 +8,7 @@ function useCallbackRef<T extends (...args: any[]) => any>(
 
     useEffect(() => {
         cbRef.current = cb
-    })
+    }, [])
 
     return useMemo(() => ((...args) => cbRef.current?.(...args)) as T, [])
 }

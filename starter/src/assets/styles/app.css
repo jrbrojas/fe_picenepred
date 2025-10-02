@@ -4,48 +4,5 @@
 @import './template/index.css';
 @import './others/index.css';
 @import './vendors/index.css';
+@import './docs/index.css';
 
-@import 'leaflet/dist/leaflet.css';
-
-.menulink {
-    user-select: none;
-    position: relative;
-    .submenu {
-        display: none;
-        flex-direction: column;
-        white-space: nowrap;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        background: #0097a7;
-        z-index: 99999;
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-        > * {
-            padding: 12px;
-        }
-        .submenu {
-            display: none;
-        }
-    }
-    > .submenu {
-        top: 100%;
-        left: 50;
-        transform: translateX(-50%);
-    }
-    > .submenu > .menulink > .submenu {
-        top: 0;
-        left: 145%;
-        transform: translateX(-50%);
-    }
-    .submenu.active, .submenu:focus {
-        display: flex;
-        .submenu {
-            display: flex;
-        }
-    }
-    &.active, &:focus, &:hover {
-        > .submenu {
-            display: flex;
-        }
-    }
-}

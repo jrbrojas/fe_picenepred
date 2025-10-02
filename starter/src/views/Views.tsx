@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
-import { useLocation } from 'react-router-dom'
-import type { LayoutType } from '@/@types/theme'
 import Loading from '@/components/shared/Loading'
 import AllRoutes from '@/components/route/AllRoutes'
+import { useLocation } from 'react-router'
+import type { LayoutType } from '@/@types/theme'
 
 interface ViewsProps {
     pageContainerType?: 'default' | 'gutterless' | 'contained'

@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button'
 import ActionLink from '@/components/shared/ActionLink'
 import ResetPasswordForm from './components/ResetPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 type ResetPasswordProps = {
     signInUrl?: string

@@ -19,7 +19,7 @@ export async function apiSignIn(data: SignInCredential) {
 
 export async function apiSignUp(data: SignUpCredential) {
     return ApiService.fetchDataWithAxios<SignUpResponse>({
-        url: '/register',
+        url: endpointConfig.signUp,
         method: 'post',
         data,
     })
@@ -27,7 +27,7 @@ export async function apiSignUp(data: SignUpCredential) {
 
 export async function apiSignOut() {
     return ApiService.fetchDataWithAxios({
-        url: '/logout',
+        url: endpointConfig.signOut,
         method: 'post',
     })
 }

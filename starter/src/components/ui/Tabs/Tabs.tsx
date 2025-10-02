@@ -28,7 +28,7 @@ const Tabs = (props: TabsProps) => {
         prop: valueProp,
         onChange: onChange,
         defaultProp: defaultValue,
-    })
+    })    
 
     const tabsClass = classNames('tabs', className)
 

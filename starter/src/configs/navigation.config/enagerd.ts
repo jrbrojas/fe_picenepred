@@ -1,9 +1,5 @@
 import { NavigationTree } from '@/@types/navigation'
-import {
-    NAV_ITEM_TYPE_TITLE,
-    NAV_ITEM_TYPE_ITEM,
-    NAV_ITEM_TYPE_COLLAPSE,
-} from '@/constants/navigation.constant'
+import {NAV_ITEM_TYPE_COLLAPSE} from '@/constants/navigation.constant'
 import reportesEjecucion from './reportes-ejecucion'
 import visoresGeo from './visores-geo'
 

@@ -3,6 +3,12 @@ import type { Routes } from '@/@types/routes'
 
 const authRoute: Routes = [
     {
+        key: 'home',
+        path: `/home`,
+        component: lazy(() => import('@/views/Home/index')),
+        authority: [],
+    },
+    {
         key: 'signIn',
         path: `/sign-in`,
         component: lazy(() => import('@/views/auth/SignIn')),
@@ -27,9 +33,9 @@ const authRoute: Routes = [
         authority: [],
     },
     {
-        key: 'default',
-        path: `/default`,
-        component: lazy(() => import('@/views/default/Default')),
+        key: 'otpVerification',
+        path: `/otp-verification`,
+        component: lazy(() => import('@/views/auth/OtpVerification')),
         authority: [],
     },
 ]

@@ -12,7 +12,7 @@ import appConfig from '@/configs/app.config'
 import navigationIcon from '@/configs/navigation-icon.config'
 import useMenuActive from '@/utils/hooks/useMenuActive'
 import isEmpty from 'lodash/isEmpty'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import type { NavigationTree } from '@/@types/navigation'
 import type { Direction, Mode } from '@/@types/theme'
 import type { CommonProps } from '@/@types/common'
@@ -98,7 +98,7 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
     return (
         <div {...rest}>
             <Link
-                to={appConfig.authenticatedEntryPath}
+                to={appConfig.unAuthenticatedEntryPath}
                 className="stacked-mini-nav-header flex items-center justify-center"
                 style={{ height: HEADER_HEIGHT }}
             >

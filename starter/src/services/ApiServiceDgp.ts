@@ -1,4 +1,3 @@
-import AxiosBase from './axios/AxiosBase'
 import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import AxiosBaseDgp from './axios/AxiosBaseDgp'
 

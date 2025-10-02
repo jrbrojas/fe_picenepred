@@ -7,7 +7,7 @@ import { useSessionUser } from '@/store/authStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
 import navigationConfig from '@/configs/navigation.config'
 import appConfig from '@/configs/app.config'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import {
     SIDE_NAV_WIDTH,
     SIDE_NAV_COLLAPSED_WIDTH,
@@ -16,6 +16,7 @@ import {
     LOGO_X_GUTTER,
 } from '@/constants/theme.constant'
 import type { Mode } from '@/@types/theme'
+import { usePanelNavigation } from '@/configs/navigation.config/panel.navigation.config'
 
 type SideNavProps = {
     translationSetup?: boolean
@@ -47,52 +48,51 @@ const SideNav = ({
     const sideNavCollapse = useThemeStore(
         (state) => state.layout.sideNavCollapse,
     )
-
+    const navs = usePanelNavigation()
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
-
-    const userAuthority = useSessionUser((state) => state.user.authority)
-
-    return (
-        <div
-            style={sideNavCollapse ? sideNavCollapseStyle : sideNavStyle}
-            className={classNames(
-                'side-nav',
-                background && 'side-nav-bg',
-                !sideNavCollapse && 'side-nav-expand',
-                className,
-            )}
+    const userAuthority = useSessionUser((state) => state.user.rol ?? '')
+    
+return (
+    <div
+        style={sideNavCollapse ? sideNavCollapseStyle : sideNavStyle}
+        className={classNames(
+            'side-nav',
+            background && 'side-nav-bg',
+            !sideNavCollapse && 'side-nav-expand',
+            className,
+        )}
+    >
+        <Link
+            to={appConfig.unAuthenticatedEntryPath}
+            className="side-nav-header flex flex-col justify-center"
+            style={{ height: HEADER_HEIGHT }}
         >
-            <Link
-                to={'/'}
-                className="side-nav-header flex flex-col justify-center"
-                style={{ height: HEADER_HEIGHT }}
-            >
-                <Logo
-                    imgClass="max-h-10"
-                    mode={mode || defaultMode}
-                    type={sideNavCollapse ? 'streamline' : 'full'}
-                    className={classNames(
-                        sideNavCollapse && 'ltr:ml-[11.5px] ltr:mr-[11.5px]',
-                        sideNavCollapse
-                            ? SIDE_NAV_CONTENT_GUTTER
-                            : LOGO_X_GUTTER,
-                    )}
+            <Logo
+                imgClass="max-h-10"
+                mode={mode || defaultMode}
+                type={sideNavCollapse ? 'streamline' : 'full'}
+                className={classNames(
+                    sideNavCollapse && 'ltr:ml-[11.5px] ltr:mr-[11.5px]',
+                    sideNavCollapse
+                        ? SIDE_NAV_CONTENT_GUTTER
+                        : LOGO_X_GUTTER,
+                )}
+            />
+        </Link>
+        <div className={classNames('side-nav-content', contentClass)}>
+            <ScrollBar style={{ height: '100%' }} direction={direction}>
+                <VerticalMenuContent
+                    collapsed={sideNavCollapse}
+                    navigationTree={navs}
+                    routeKey={currentRouteKey}
+                    direction={direction}
+                    translationSetup={translationSetup}
+                    userAuthority={[userAuthority]}
                 />
-            </Link>
-            <div className={classNames('side-nav-content', contentClass)}>
-                <ScrollBar style={{ height: '100%' }} direction={direction}>
-                    <VerticalMenuContent
-                        collapsed={sideNavCollapse}
-                        navigationTree={navigationConfig}
-                        routeKey={currentRouteKey}
-                        direction={direction}
-                        translationSetup={translationSetup}
-                        userAuthority={userAuthority || []}
-                    />
-                </ScrollBar>
-            </div>
+            </ScrollBar>
         </div>
-    )
+    </div>
+)
 }
 
 export default SideNav

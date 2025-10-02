@@ -1,0 +1,82 @@
+export const escenariosData = [
+    {
+        id: '1',
+        formulario_id: '1',
+        formulario: 'LLUVIAS AVISO METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Centro',
+        fecha_inicio: '2024-06-20 10:00',
+        fecha_fin: '2024-06-20 18:00',
+        url: 'http://informe.base/1',
+    },
+    {
+        id: '2',
+        formulario: 'LLUVIAS AVISO METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Norte',
+        fecha_inicio: '2024-06-21 09:00',
+        fecha_fin: '2024-06-21 17:00',
+        url: 'http://informe.base/2',
+    },
+    {
+        id: '3',
+        formulario: 'LLUVIAS AVISO METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Sur',
+        fecha_inicio: '2024-06-22 11:00',
+        fecha_fin: '2024-06-22 19:00',
+        url: 'http://informe.base/3',
+    },
+    {
+        id: '4',
+        formulario: 'LLUVIAS AVISO METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Este',
+        fecha_inicio: '2024-06-23 08:00',
+        fecha_fin: '2024-06-23 16:00',
+        url: 'http://informe.base/4',
+    }
+]
+
+export const escenarioDetailData = [
+    {
+        id: '1',
+        formulario: 'LLUVIAS_AVISO_METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Centro',
+        fecha_inicio: '2024-06-20 10:00',
+        fecha_fin: '2024-06-20 18:00',
+        url: 'http://informe.base/1',
+        descripcion: 'Este escenario describe un riesgo significativo de inundaciones en la zona central de Lima debido a lluvias intensas pronosticadas para el día 20 de junio de 2024. Se espera que las precipitaciones acumuladas superen los 50 mm en un período de 6 horas, lo que podría provocar desbordes en ríos y sistemas de drenaje, afectando a comunidades vulnerables y causando interrupciones en el tráfico y servicios públicos.',
+    },
+    {
+        id: '2',
+        formulario: 'LLUVIAS AVISO METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Norte',
+        fecha_inicio: '2024-06-21 09:00',
+        fecha_fin: '2024-06-21 17:00',
+        url: 'http://informe.base/2',
+        descripcion: 'Este escenario describe un riesgo significativo de inundaciones en la zona norte de Lima debido a lluvias intensas pronosticadas para el día 21 de junio de 2024. Se espera que las precipitaciones acumuladas superen los 50 mm en un período de 6 horas, lo que podría provocar desbordes en ríos y sistemas de drenaje, afectando a comunidades vulnerables y causando interrupciones en el tráfico y servicios públicos.',
+    },
+    {
+        id: '3',
+        formulario: 'LLUVIAS AVISO METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Sur',
+        fecha_inicio: '2024-06-22 11:00',
+        fecha_fin: '2024-06-22 19:00',
+        url: 'http://informe.base/3',
+        descripcion: 'Este escenario describe un riesgo significativo de inundaciones en la zona sur de Lima debido a lluvias intensas pronosticadas para el día 22 de junio de 2024. Se espera que las precipitaciones acumuladas superen los 50 mm en un período de 6 horas, lo que podría provocar desbordes en ríos y sistemas de drenaje, afectando a comunidades vulnerables y causando interrupciones en el tráfico y servicios públicos.',
+    },
+    {
+        id: '4',
+        formulario: 'LLUVIAS AVISO METEOROLOGICO',
+        peligro: 'INUNDACION-MM',
+        nombre: 'Riesgo en Lima Este',
+        fecha_inicio: '2024-06-23 08:00',
+        fecha_fin: '2024-06-23 16:00',
+        url: 'http://informe.base/4',
+        descripcion: 'Este escenario describe un riesgo significativo de inundaciones en la zona este de Lima debido a lluvias intensas pronosticadas para el día 23 de junio de 2024. Se espera que las precipitaciones acumuladas superen los 50 mm en un período de 6 horas, lo que podría provocar desbordes en ríos y sistemas de drenaje, afectando a comunidades vulnerables y causando interrupciones en el tráfico y servicios públicos.',
+    }
+]

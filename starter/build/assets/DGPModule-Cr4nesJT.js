@@ -1,1 +1,0 @@
-import{j as e}from"./index-B9SakHDJ.js";const l=()=>e.jsx("div",{className:"p-6",children:e.jsx("div",{className:"bg-white rounded-lg shadow-md p-4",children:e.jsx("div",{className:"relative w-full",style:{height:"600px"}})})});export{l as default};

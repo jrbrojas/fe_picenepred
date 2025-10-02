@@ -4,7 +4,7 @@ import SignUpForm from './components/SignUpForm'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useThemeStore } from '@/store/themeStore'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 type SignUpProps = {
     disableSubmit?: boolean
@@ -16,33 +16,28 @@ export const SignUpBase = ({
     disableSubmit,
 }: SignUpProps) => {
     const [message, setMessage] = useTimeOutMessage()
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const mode = useThemeStore((state) => state.mode)
 
     return (
         <>
-            <div className="mb-5">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        <img
-                            src="/img/logo/logo-cenepred.jpg"
-                            alt="CENEPRED"
-                            onClick={() => navigate('/')}
-                            className="h-24 md:h-24 w-auto object-contain cursor-pointer"
-                        />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <img
-                            src="/img/logo/logo_sigrid.png"
-                            alt="SIGRID"
-                            className="h-18"
-                            onClick={() =>
-                            (window.location.href =
-                                'https://sigrid.cenepred.gob.pe/sigridv3/')
-                            }
-                        />
-                    </div>
-                </div>
+            <div className="flex items-center justify-center gap-5 mb-4">
+                <img
+                    src="/img/logo/logo-cenepred.jpg"
+                    alt="CENEPRED"
+                    onClick={() => navigate('/')}
+                    className="h-24 md:h-24 w-auto object-contain cursor-pointer"
+                />
+                <img
+                    src="/img/logo/logo_sigrid.png"
+                    alt="SIGRID"
+                    className="h-18"
+                    onClick={() =>
+                    (window.location.href =
+                        'https://sigrid.cenepred.gob.pe/sigridv3/')
+                    }
+                />
+
             </div>
 
             <div className="mb-5 text-center">
@@ -56,13 +51,12 @@ export const SignUpBase = ({
                     Ingrese sus datos para registrarse en el sistema.
                 </p>
             </div>
-            
+
             {message && (
                 <Alert showIcon className="mb-4" type="danger">
                     <span className="break-all">{message}</span>
                 </Alert>
             )}
-
             <SignUpForm disableSubmit={disableSubmit} setMessage={setMessage} />
             <div>
                 <div className="mt-6 text-center">

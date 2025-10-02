@@ -1,7 +1,7 @@
 import { mock } from '../MockAdapter'
 import { signInUserData } from '../data/authData'
 
-mock.onPost(`/api/sign-in`).reply((config) => {
+mock.onPost(`/sign-in`).reply((config) => {
     const data = JSON.parse(config.data as string) as {
         email: string
         password: string
@@ -30,7 +30,7 @@ mock.onPost(`/api/sign-in`).reply((config) => {
     return [401, { message: 'Invalid email or password!' }]
 })
 
-mock.onPost(`/api/sign-up`).reply((config) => {
+mock.onPost(`/sign-up`).reply((config) => {
     const data = JSON.parse(config.data as string) as {
         email: string
         password: string
@@ -41,7 +41,7 @@ mock.onPost(`/api/sign-up`).reply((config) => {
 
     const emailUsed = signInUserData.some((user) => user.email === email)
     const newUser = {
-        avatar: '',
+        avatar: '/img/avatars/thumb-1.jpg',
         userName,
         email,
         authority: ['admin', 'user'],
@@ -64,14 +64,14 @@ mock.onPost(`/api/sign-up`).reply((config) => {
     })
 })
 
-mock.onPost(`/api/reset-password`).reply(() => {
+mock.onPost(`/reset-password`).reply(() => {
     return [200, true]
 })
 
-mock.onPost(`/api/forgot-password`).reply(() => {
+mock.onPost(`/forgot-password`).reply(() => {
     return [200, true]
 })
 
-mock.onPost(`/api/sign-out`).reply(() => {
+mock.onPost(`/sign-out`).reply(() => {
     return [200, true]
 })

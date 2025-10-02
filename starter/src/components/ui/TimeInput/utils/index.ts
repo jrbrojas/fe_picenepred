@@ -1,3 +1,4 @@
+export { clamp } from '../../utils/clamp'
 export { createAmPmHandler } from './createAmPmHandler'
 export { createTimeHandler } from './createTimeHandler'
 export { getDate } from './getDate'

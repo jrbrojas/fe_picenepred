@@ -6,7 +6,7 @@ import PageContainer from '@/components/template/PageContainer'
 import { protectedRoutes, publicRoutes } from '@/configs/routes.config'
 import appConfig from '@/configs/app.config'
 import { useAuth } from '@/auth'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router'
 import type { LayoutType } from '@/@types/theme'
 
 interface ViewsProps {
@@ -16,17 +16,17 @@ interface ViewsProps {
 
 type AllRoutesProps = ViewsProps
 
-const { authenticatedEntryPath } = appConfig
-
+const { authenticatedEntryPath, unAuthenticatedEntryPath } = appConfig
+    
 const AllRoutes = (props: AllRoutesProps) => {
     const { user } = useAuth()
-
+    
     return (
         <Routes>
             <Route path="/" element={<ProtectedRoute />}>
                 <Route
                     path="/"
-                    element={<Navigate replace to={authenticatedEntryPath} />}
+                    element={<Navigate replace to={unAuthenticatedEntryPath} />}
                 />
                 {protectedRoutes.map((route, index) => (
                     <Route
@@ -34,7 +34,7 @@ const AllRoutes = (props: AllRoutesProps) => {
                         path={route.path}
                         element={
                             <AuthorityGuard
-                                userAuthority={user.authority}
+                                userAuthority={user?.rol ? [user.rol] : []}
                                 authority={route.authority}
                             >
                                 <PageContainer {...props} {...route.meta}>
@@ -48,8 +48,9 @@ const AllRoutes = (props: AllRoutesProps) => {
                         }
                     />
                 ))}
-                <Route path="*" element={<Navigate replace to="/" />} />
+                <Route path="*" element={<Navigate replace to="/dashboard" />} />
             </Route>
+            
             <Route path="/" element={<PublicRoute />}>
                 {publicRoutes.map((route) => (
                     <Route

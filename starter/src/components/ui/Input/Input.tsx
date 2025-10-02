@@ -65,7 +65,7 @@ const Input = (props: InputProps) => {
     const isInputInvalid = invalid || formItemInvalid
 
     const fixControlledValue = (
-        val: string | number | readonly string[] | undefined,
+        val: string | number | readonly string[] | undefined | null,
     ) => {
         if (typeof val === 'undefined' || val === null) {
             return ''

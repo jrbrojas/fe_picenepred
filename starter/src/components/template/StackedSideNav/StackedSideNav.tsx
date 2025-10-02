@@ -36,7 +36,7 @@ const StackedSideNav = ({
 
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
 
-    const userAuthority = useSessionUser((state) => state.user.authority)
+    const userAuthority = useSessionUser((state) => state.user.rol ?? '')
 
     const { larger } = useResponsive()
 
@@ -86,7 +86,7 @@ const StackedSideNav = ({
                         mode={mode}
                         direction={direction}
                         navigationTree={navigationConfig}
-                        userAuthority={userAuthority || []}
+                        userAuthority={[userAuthority]}
                         selectedMenu={selectedMenu}
                         t={t as TraslationFn}
                         onChange={handleChange}
@@ -114,7 +114,7 @@ const StackedSideNav = ({
                                 routeKey={currentRouteKey}
                                 direction={direction}
                                 translationSetup={translationSetup}
-                                userAuthority={userAuthority || []}
+                                userAuthority={[userAuthority]}
                                 onCollapse={handleCollpase}
                             />
                         )}

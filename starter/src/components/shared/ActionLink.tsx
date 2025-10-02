@@ -1,5 +1,5 @@
 import classNames from '@/utils/classNames'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import type { CommonProps } from '@/@types/common'
 import type { ComponentPropsWithoutRef } from 'react'
 

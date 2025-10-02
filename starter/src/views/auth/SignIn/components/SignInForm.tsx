@@ -8,11 +8,8 @@ import { useAuth } from '@/auth'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import ReCAPTCHA from 'react-google-recaptcha'
 
 interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
@@ -25,28 +22,17 @@ type SignInFormSchema = {
     password: string
 }
 
-const validationSchema: ZodType<SignInFormSchema> = z.object({
-    email: z
-        .string({ required_error: 'Please enter your email' })
-        .min(1, { message: 'Please enter your email' }),
-    password: z
-        .string({ required_error: 'Please enter your password' })
-        .min(1, { message: 'Please enter your password' }),
+const validationSchema = z.object({
+    email: z.string().min(1, { message: 'Ingresar su correo electrónico' }),
+    password: z.string().min(1, { message: 'Ingresar su contraseña' }),
 })
-
-const REDIRECT_KEY = 'postLoginRedirect'
 
 const SignInForm = (props: SignInFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
-    const [captchaValue, setCaptchaValue] = useState<string | null>(null)
     const { disableSubmit = false, className, setMessage, passwordHint } = props
 
-    const {
-        handleSubmit,
-        formState: { errors },
-        control,
-    } = useForm<SignInFormSchema>({
+    const { handleSubmit, formState: { errors }, control, } = useForm<SignInFormSchema>({
         defaultValues: {
             email: 'crltorres@cenepred.gob.pe',
             password: 'abcdef',
@@ -56,66 +42,27 @@ const SignInForm = (props: SignInFormProps) => {
 
     const { signIn } = useAuth()
 
-    const navigate = useNavigate()
-    const location = useLocation()
-
     const onSignIn = async (values: SignInFormSchema) => {
-        if (disableSubmit) return
-
-         // Validación reCAPTCHA
-         if (!captchaValue) {
-            setMessage?.('Por favor complete el reCAPTCHA antes de continuar.')
-            return
-        }
-
-        setSubmitting(true)
-        try {
-            const result = await signIn(values)
-
-            console.log(result);
-            
-            if (result?.status === 'failed') {
-                setMessage?.('Credenciales inválidas')
-                return
-            }
-
-            // 👇 Resuelve el destino final: ?next=… -> localStorage -> '/'
-            const params = new URLSearchParams(location.search)
-            const nextFromQuery = params.get('next') || ''
-            const nextFromStorage = localStorage.getItem(REDIRECT_KEY) || ''
-            const next = nextFromQuery || nextFromStorage || '/'
-
-            // limpia el redirect guardado (si lo hubiera)
-            localStorage.removeItem(REDIRECT_KEY)
-
-            // navega al destino
-            navigate(next, { replace: true })
-        } finally {
-            setSubmitting(false)
-        }
-    }
-
-    /*  const onSignIn = async (values: SignInFormSchema) => {
         const { email, password } = values
 
         if (!disableSubmit) {
             setSubmitting(true)
 
             const result = await signIn({ email, password })
-
+            
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
             }
         }
 
         setSubmitting(false)
-    } */
+    }
 
     return (
         <div className={className}>
             <Form onSubmit={handleSubmit(onSignIn)}>
                 <FormItem
-                    label="Correo"
+                    label="Correo electrónico"
                     invalid={Boolean(errors.email)}
                     errorMessage={errors.email?.message}
                 >
@@ -125,7 +72,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <Input
                                 type="email"
-                                placeholder="Email"
+                                placeholder="correo@gmail.com"
                                 autoComplete="off"
                                 {...field}
                             />
@@ -148,7 +95,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <PasswordInput
                                 type="text"
-                                placeholder="Password"
+                                placeholder="***********"
                                 autoComplete="off"
                                 {...field}
                             />
@@ -156,23 +103,13 @@ const SignInForm = (props: SignInFormProps) => {
                     />
                 </FormItem>
                 {passwordHint}
-
-                 {/* reCAPTCHA dentro del formulario */}
-                <div className="my-4 flex justify-center">
-                    <ReCAPTCHA
-                         sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                        //sitekey="VITE_RECAPTCHA_SITE_KEY"
-                        onChange={(value) => setCaptchaValue(value)}
-                    />
-                </div>       
-            
                 <Button
                     block
                     loading={isSubmitting}
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Ingresando...' : 'Ingresar'}
+                    {isSubmitting ? 'Iniciando...' : 'Iniciar sesión'}
                 </Button>
             </Form>
         </div>

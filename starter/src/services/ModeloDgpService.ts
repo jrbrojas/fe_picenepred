@@ -1,4 +1,4 @@
-import { PlantillaGroupItem } from '@/views/modules/dgp/types'
+import { PlantillaGroupItem } from '@/views/dgp/types'
 import ApiServiceDgp from './ApiServiceDgp'
 
 export async function apiGetPlantillas<T>(url : string ) {

@@ -1,68 +1,24 @@
-# Estructura del Proyecto Frontend Plataforma Integradora SIGRID
+# Ecme - The Ultimate React, Vite & TypeScript Web Template
 
-## Descripción General
+Ecme is a modern and responsive admin dashboard template built with React and TypeScript. Designed to provide a highly customizable and easy-to-use platform for building admin interfaces, it includes a variety of reusable components, pre-designed pages, and dynamic features. 
 
-Proyecto frontend CENEPRED desarrollado con React, TypeScript y Vite.
+This template is perfect for developing dashboards, web applications, CRM systems, e-commerce backends, and more. Whether you're building a small-scale admin panel or a large-scale enterprise application, Ecme is designed to be flexible and scalable.
 
-## Tecnologías Principales
+Key Features:
+- **Responsive Layout**: Optimized for all screen sizes and devices.
+- **Dark/Light Mode**: Easily switch between light and dark themes.
+- **Configurable Themes**: Personalize colors, layouts, and more to fit your needs.
+- **Built with React + TypeScript**: Ensures robust type-checking and fast development.
+- **Multi-Locale Support**: Easily add and manage multiple languages.
+- **RTL Support**: Full Right-to-Left support for languages like Arabic or Hebrew.
+- **Tailwind Component-Based Architecture**: Reusable components to streamline your development process.
+- **API Ready**: Simple integration with any RESTful API.
 
-Se quito el caret (^) para evirtar la actualzacion de las librerias y evitar conflicto de versiones.
+---
+### Demo
+Check out the [Live Demo](https://ecme-react.themenate.net/) to explore the template in action.
 
-- React 19.0.0
-- TypeScript 5.7.2
-- Vite 5.4.8
-- Tailwind CSS 4.0.2
-- Zustand 5.0.2
 
-## Estructura de Directorios
+### Guide
+Please visit our [Online documentation](https://ecme-react.themenate.net/guide/documentation/introduction) for detailed guides, setup instructions, and customization options.
 
-```
-├── src/                      # Código fuente principal
-│   ├── @types/              # Definiciones de tipos TypeScript
-│   ├── assets/              # Estilos de css, mapas, imagenes
-│   ├── auth/                # Autenticación y manejo de sesión
-│   ├── components/          # Componentes reutilizables
-│   │   ├── layouts/        # Layouts principales
-│   │   ├── route/          # Componentes relacionados con rutas
-│   │   ├── shared/         # Componentes compartidos
-│   │   ├── template/       # Plantillas
-│   │   └── ui/            # Componentes de interfaz de usuario
-│   ├── configs/            # Configuraciones de la aplicación
-│   ├── constants/          # Constantes y enumeraciones
-│   ├── locales/           # Archivos de internacionalización
-│   ├── mock/              # Datos simulados para desarrollo
-│   ├── services/          # Servicios y llamadas API
-|   |   ├── custom          # Se crea los request al backend
-│   ├── store/             # Estado global (Zustand)
-│   ├── utils/             # Utilidades y helpers
-│   └── views/             # Vistas/páginas de la aplicación
-|       └── auth           # Vista de autenticación
-|       └── modulos        # Modulos de sistema
-├── public/                # Archivos públicos estáticos
-│   ├── img/              # Imágenes
-│   └── favicon.ico       # Ícono del sitio
-```
-
-## Instalación
-
-1. Clona el repositorio
-
-## Instalacion de dependecias
-
-- npm install
-
-## Inicia el servidor de desarollo
-
-- npm run dev
-
-## Visualizacion del proyecto
-
--  http://localhost:5173/
-
-## Contruir para produccion
-
-- npm run build
-
-## Previsualizar build de produccion
-
-- npm run preview

@@ -24,10 +24,12 @@ const TabNav = (props: TabNavProps) => {
     } = props
 
     const { value, onValueChange, variant } = useTabs()
+
+    
     const isSelected = valueProp === value
 
     const onTabNavClick = useCallbackRef(() => {
-        if (!isSelected && !disabled) {
+        if (!disabled) {
             onValueChange?.(valueProp)
         }
     })

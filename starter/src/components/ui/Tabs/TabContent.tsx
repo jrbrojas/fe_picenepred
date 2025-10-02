@@ -13,7 +13,7 @@ const TabContent = (props: TabContentProps) => {
     const { value, children, className, ref, ...rest } = props
 
     const context = useTabs()
-    const isSelected = value === context.value
+    const isSelected = value === context.value    
 
     const tabContentClass = classNames(
         'tab-content',

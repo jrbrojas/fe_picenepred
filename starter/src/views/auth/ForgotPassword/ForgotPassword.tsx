@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button'
 import ActionLink from '@/components/shared/ActionLink'
 import ForgotPasswordForm from './components/ForgotPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 type ForgotPasswordProps = {
     signInUrl?: string
@@ -34,7 +34,7 @@ export const ForgotPasswordBase = ({
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-2">Recuperar Contraseña</h3>
+                        <h3 className="mb-2">Forgot Password</h3>
                         <p className="font-semibold heading-text">
                             Please enter your email to receive a verification
                             code

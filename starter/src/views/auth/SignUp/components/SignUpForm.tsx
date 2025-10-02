@@ -26,23 +26,21 @@ type SignUpFormSchema = {
     confirmPassword: string
 }
 
-const validationSchema: ZodType<SignUpFormSchema> = z
-    .object({
-        email: z.string({ required_error: 'Ingresar correo electrónico' }),
-        nombres: z.string({ required_error: 'Porfavor ingesar sus nombres completos' }),
-        apellidos: z.string({ required_error: 'Porfavor ingresar sus apellidos completos' }),
-        usuario: z.string({ required_error: 'Porfavor ingresar el nombre de usuario' }),
-        rol: z.string({ required_error: 'Seleccione un rol para el usuario' }),
-        fuente: z.string({ required_error: 'La fuente es obligatoria' }),
-        password: z.string({ required_error: 'La contraseña es obligatoria' }),
-        confirmPassword: z.string({
-            required_error: 'Debes confirmar tu contraseña',
-        }),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: 'La contraseña no coincide',
-        path: ['confirmPassword'],
-    })
+const validationSchema = z.object({
+    email: z.string({ message: 'Ingresar su correo electrónico' }),
+    nombres: z.string({ message: 'Porfavor ingesar sus nombres completos' }),
+    apellidos: z.string({ message: 'Porfavor ingresar sus apellidos completos' }),
+    usuario: z.string({ message: 'Porfavor ingresar el nombre de usuario' }),
+    rol: z.string({ message: 'Seleccione un rol para el usuario' }),
+    fuente: z.string({ message: 'La fuente es obligatoria' }),
+    password: z.string({ message: 'La contraseña es obligatoria' }),
+    confirmPassword: z.string({
+        message: 'Debes confirmar tu contraseña',
+    }),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: 'La contraseña no coincide',
+    path: ['confirmPassword'],
+})
 
 const SignUpForm = (props: SignUpFormProps) => {
     const { disableSubmit = false, className, setMessage } = props
@@ -80,7 +78,7 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
 
     return (
-        <div className='' >
+        <div className={className}>
             <Form onSubmit={handleSubmit(onSignUp)} >
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
                     <FormItem
@@ -163,43 +161,43 @@ const SignUpForm = (props: SignUpFormProps) => {
 
                     </FormItem>
 
-                        <FormItem
-                            label="Fuente"
-                            invalid={Boolean(errors.fuente)}
-                            errorMessage={errors.fuente?.message}
-                        >
-                            <Controller
-                                name="fuente"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        type="text"
-                                        placeholder="Fuente"
-                                        autoComplete="off"
-                                        {...field}
-                                    />
-                                )}
-                            />
-                        </FormItem>
+                    <FormItem
+                        label="Fuente"
+                        invalid={Boolean(errors.fuente)}
+                        errorMessage={errors.fuente?.message}
+                    >
+                        <Controller
+                            name="fuente"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="text"
+                                    placeholder="Fuente"
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
 
-                        <FormItem
-                            label="Correo electrónico"
-                            invalid={Boolean(errors.email)}
-                            errorMessage={errors.email?.message}
-                        >
-                            <Controller
-                                name="email"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        type="email"
-                                        placeholder="Correo electrónico"
-                                        autoComplete="off"
-                                        {...field}
-                                    />
-                                )}
-                            />
-                        </FormItem>
+                    <FormItem
+                        label="Correo electrónico"
+                        invalid={Boolean(errors.email)}
+                        errorMessage={errors.email?.message}
+                    >
+                        <Controller
+                            name="email"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="email"
+                                    placeholder="Correo electrónico"
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
 
 
                     <FormItem
@@ -214,7 +212,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 <Input
                                     type="password"
                                     autoComplete="off"
-                                    placeholder="Password"
+                                    placeholder="Contraseña"
                                     {...field}
                                 />
                             )}
@@ -233,7 +231,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 <Input
                                     type="password"
                                     autoComplete="off"
-                                    placeholder="Confirm Password"
+                                    placeholder="Confirmar contraseña"
                                     {...field}
                                 />
                             )}

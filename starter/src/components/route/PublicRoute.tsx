@@ -1,22 +1,14 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router'
 import appConfig from '@/configs/app.config'
 import { useAuth } from '@/auth'
-// import Default from '@/views/default/Default'
-import PreLoginLayout from '../layouts/PreLoginLayout'
-import Default from '@/views/default/Default'
 
 const { authenticatedEntryPath, unAuthenticatedEntryPath } = appConfig
 
 const PublicRoute = () => {
     const { authenticated } = useAuth()
-    const location = useLocation();    
-    
-    
-    if(location.pathname === '/default' && authenticated){
-        return <Outlet />
-    }
+    const {pathname} = useLocation();    
 
-    return authenticated ? <Navigate to={authenticatedEntryPath} /> : <Outlet />
+    return authenticated && pathname !== '/home' ? <Navigate to={unAuthenticatedEntryPath} /> : <Outlet />
 }
 
 export default PublicRoute

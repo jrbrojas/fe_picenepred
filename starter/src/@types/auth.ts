@@ -4,15 +4,20 @@ export type SignInCredential = {
 }
 
 export type SignInResponse = {
-    token: string
-    user: User
     status: string
+    token: string
+    token_type: string
+    expires_in: number
+    user: User
 }
-
 export type SignUpResponse = SignInResponse
 
 export type SignUpCredential = {
-    userName: string
+    nombres: string
+    apellidos: string
+    usuario: string
+    rol: string
+    fuente: string
     email: string
     password: string
 }
@@ -33,20 +38,24 @@ export type AuthResult = Promise<{
 }>
 
 export type User = {
-    id?: string | null
-    avatar?: string | null
-    nombres?: string | null
-    apellidos?: string | null
-    rol?: string | null
-    usuario?: string | null
-    fuente?: string | null
-    email?: string | null
-    authority?: string[]
+    id: string
+    avatar: string
+    nombres: string
+    apellidos: string
+    usuario: string
+    fuente: string
+    email: string
+    rol: string
+    activo: boolean
 }
 
 export type Token = {
     accessToken: string
     refereshToken?: string
+}
+
+export type CsrfToken = {
+    token: string
 }
 
 export type OauthSignInCallbackPayload = {

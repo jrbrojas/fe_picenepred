@@ -42,7 +42,7 @@ const MobileNav = ({
     const direction = useThemeStore((state) => state.direction)
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
 
-    const userAuthority = useSessionUser((state) => state.user.authority)
+    const userAuthority = useSessionUser((state) => state.user.rol ?? '')
 
     return (
         <>
@@ -64,7 +64,7 @@ const MobileNav = ({
                             collapsed={false}
                             navigationTree={navigationConfig}
                             routeKey={currentRouteKey}
-                            userAuthority={userAuthority as string[]}
+                            userAuthority={[userAuthority]}
                             direction={direction}
                             translationSetup={translationSetup}
                             onMenuItemClick={handleDrawerClose}
