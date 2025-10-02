@@ -14,12 +14,12 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    apiPrefix: 'http://127.0.0.1:8003/api/v1',
-    apiPrefixDGP: 'http://127.0.0.1:8000/api/v1',
-    apiPrefixDIMSE: 'http://127.0.0.1:8001/api/v1',
-    urlImagePrefix: 'http://127.0.0.1:8003/storage',
-    urlImagePrefixDGP: 'http://127.0.0.1:8000/storage',
-    urlImagePrefixDIMSE: 'http://127.0.0.1:8001/storage',
+    apiPrefix: import.meta.env.VITE_API_URL,
+    apiPrefixDGP: import.meta.env.VITE_API_URL_DGP,
+    apiPrefixDIMSE: import.meta.env.VITE_API_URL_DIMSE,
+    urlImagePrefix: import.meta.env.VITE_API_STORAGE_URL,
+    urlImagePrefixDGP: import.meta.env.VITE_API_STORAGE_URL_DGP,
+    urlImagePrefixDIMSE: import.meta.env.VITE_API_STORAGE_URL_DIMSE,
     authenticatedEntryPath: '/dashboard',
     unAuthenticatedEntryPath: '/home',
     locale: 'es',
