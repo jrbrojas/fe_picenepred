@@ -56,52 +56,68 @@ const sumByIndex = (rows: number[][]) => {
 }
 function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento[] {
     let data: Departamento[] = [];
-    const mapValores = (respuestas: RespuestaElement[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? 1 : 0)
+    const mapValores = (respuestas: RespuestaElement[], i) => respuestas.find(r => r.nombre == i)?.calculo || 0
     for (let i = 0; i < response.length; i++) {
         const monitoreo = response[i];
-        const indexDepartamento = data.findIndex((item) => item.id == monitoreo.departamento_iddpto);
+        const indexDepartamento = data.findIndex((item) => item.id == monitoreo.departamento.iddpto);
         // no esta el departamento
         if (indexDepartamento === -1) {
             data.push({
-                id: monitoreo.departamento_iddpto,
+                id: monitoreo.departamento.iddpto,
                 nombre: monitoreo.departamento.nombre,
                 provincias: [{
-                    id: monitoreo.provincia_idprov,
+                    id: monitoreo.provincia.idprov,
                     nombre: monitoreo.provincia.nombre,
                     distritos: [{
-                        id: monitoreo.ubigeo,
+                        id: monitoreo.distrito.ubigeo,
                         nombre: monitoreo.distrito.distrito,
-                        valores: mapValores(monitoreo.respuestas),
+                        valores: [
+                            mapValores(monitoreo.respuestas, "Monitoreo"),
+                            mapValores(monitoreo.respuestas, "Seguimiento"),
+                            mapValores(monitoreo.respuestas, "Supervision"),
+                        ]
                     }]
                 }]
             })
             continue;
         }
-        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => item.id == monitoreo.provincia_idprov);
+        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => item.id == monitoreo.provincia.idprov);
         // no esta la provincia
         if (indexProvincia === -1) {
             data[indexDepartamento].provincias.push({
-                id: monitoreo.provincia_idprov,
+                id: monitoreo.provincia.idprov,
                 nombre: monitoreo.provincia.nombre,
                 distritos: [{
-                    id: monitoreo.ubigeo,
+                    id: monitoreo.distrito.ubigeo,
                     nombre: monitoreo.distrito.distrito,
-                    valores: mapValores(monitoreo.respuestas),
+                    valores: [
+                        mapValores(monitoreo.respuestas, "Monitoreo"),
+                        mapValores(monitoreo.respuestas, "Seguimiento"),
+                        mapValores(monitoreo.respuestas, "Supervision"),
+                    ]
                 }]
             });
             continue;
         }
-        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => item.id == monitoreo.ubigeo);
+        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => item.id == monitoreo.distrito.ubigeo);
         // no esta el distrito
         if (indexDistrito === -1) {
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
-                id: monitoreo.ubigeo,
+                id: monitoreo.distrito.ubigeo,
                 nombre: monitoreo.distrito.distrito,
-                valores: mapValores(monitoreo.respuestas),
+                valores: [
+                    mapValores(monitoreo.respuestas, "Monitoreo"),
+                    mapValores(monitoreo.respuestas, "Seguimiento"),
+                    mapValores(monitoreo.respuestas, "Supervision"),
+                ]
             })
             continue;
         }
-        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].valores = mapValores(monitoreo.respuestas)
+        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].valores = [
+            mapValores(monitoreo.respuestas, "Monitoreo"),
+            mapValores(monitoreo.respuestas, "Seguimiento"),
+            mapValores(monitoreo.respuestas, "Supervision"),
+        ]
     }
     return data;
 }
