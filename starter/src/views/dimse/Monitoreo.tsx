@@ -230,7 +230,102 @@ export default function TreeTableMonitoreo3Niveles() {
 
         return []
     }, [category])
+    // Estados para los filtros
+    const [selectedDepartamento, setSelectedDepartamento] = useState<CategoriaOption | null>(null)
+    const [selectedProvincia, setSelectedProvincia] = useState<CategoriaOption | null>(null)
+    const [selectedDistrito, setSelectedDistrito] = useState<CategoriaOption | null>(null)
+    const [chartSeries, setChartSeries] = useState<any[]>([])
 
+    // Opciones para los selects
+    const departamentoOptions = useMemo(() =>
+        data.map(dep => ({
+            value: dep.id,
+            label: dep.nombre
+        })), [data])
+
+    const provinciaOptions = useMemo(() => {
+        if (!selectedDepartamento) return []
+        const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+        return departamento?.provincias.map(prov => ({
+            value: prov.id,
+            label: prov.nombre
+        })) || []
+    }, [data, selectedDepartamento])
+
+    const distritoOptions = useMemo(() => {
+        if (!selectedProvincia || !selectedDepartamento) return []
+        const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+        const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
+        return provincia?.distritos.map(dist => ({
+            value: dist.id,
+            label: dist.nombre
+        })) || []
+    }, [data, selectedDepartamento, selectedProvincia])
+
+    // Manejadores de cambio
+    const handleDepartamentoChange = (newValue: SingleValue<CategoriaOption>) => {
+        setSelectedDepartamento(newValue)
+        setSelectedProvincia(null)
+        setSelectedDistrito(null)
+    }
+
+    const handleProvinciaChange = (newValue: SingleValue<CategoriaOption>) => {
+        setSelectedProvincia(newValue)
+        setSelectedDistrito(null)
+    }
+
+    const handleDistritoChange = (newValue: SingleValue<CategoriaOption>) => {
+        setSelectedDistrito(newValue)
+    }
+
+    // Efecto para actualizar el gráfico cuando cambian los filtros
+    useEffect(() => {
+        updateChartData()
+    }, [selectedDepartamento, selectedProvincia, selectedDistrito, data])
+
+    const updateChartData = () => {
+        let seriesData: number[] = Array(COLS.length).fill(0)
+        let seriesName = 'Perú'
+
+        if (selectedDepartamento && !selectedProvincia && !selectedDistrito) {
+            // Filtrar por departamento
+            const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+            if (departamento) {
+                const allDistritos = departamento.provincias.flatMap(prov => prov.distritos)
+                seriesData = sumByIndex(allDistritos.map(d => d.valores))
+                seriesName = `Departamento: ${departamento.nombre}`
+            }
+        } else if (selectedDepartamento && selectedProvincia && !selectedDistrito) {
+            // Filtrar por provincia
+            const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+            const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
+            if (provincia) {
+                seriesData = sumByIndex(provincia.distritos.map(d => d.valores))
+                seriesName = `Provincia: ${provincia.nombre}`
+            }
+        } else if (selectedDepartamento && selectedProvincia && selectedDistrito) {
+            // Filtrar por distrito
+            const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+            const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
+            const distrito = provincia?.distritos.find(dist => dist.id === selectedDistrito.value)
+            if (distrito) {
+                seriesData = distrito.valores
+                seriesName = `Distrito: ${distrito.nombre}`
+            }
+        } else {
+            // Datos de todo Perú
+            const allDistritos = data.flatMap(dep =>
+                dep.provincias.flatMap(prov => prov.distritos)
+            )
+            seriesData = sumByIndex(allDistritos.map(d => d.valores))
+            seriesName = 'Perú'
+        }
+
+        setChartSeries([{
+            name: seriesName,
+            data: seriesData
+        }])
+    }
     return (
         <>
             <div className="space-y-6">
@@ -255,7 +350,7 @@ export default function TreeTableMonitoreo3Niveles() {
                     <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
                         <thead>
                             <tr>
-                                <th onClick={() => {setQuery(`Peru`);}} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
+                                <th onClick={() => { setQuery(`Peru`); }} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
                                     Localización
                                 </th>
                                 {COLS.map((c) => (
@@ -282,11 +377,11 @@ export default function TreeTableMonitoreo3Niveles() {
                                     <Fragment key={dep.id}>
                                         {/* Fila Departamento */}
                                         <tr className="bg-amber-50 hover:bg-slate-50/60">
-                                            <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200" 
-                                                    onClick={() => {
-                                                        toggle(depKey);
-                                                        setQuery(`${dep.nombre}, Peru`);
-                                                    }}>
+                                            <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200"
+                                                onClick={() => {
+                                                    toggle(depKey);
+                                                    setQuery(`${dep.nombre}, Peru`);
+                                                }}>
                                                 <button
                                                     type="button"
                                                     aria-expanded={depOpen}
@@ -333,11 +428,11 @@ export default function TreeTableMonitoreo3Niveles() {
                                                 return (
                                                     <Fragment key={prov.id}>
                                                         <tr className="bg-cyan-50 hover:bg-slate-50/60">
-                                                            <td className="bg-cyan-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200" 
-                                                                    onClick={() => {
-                                                                        toggle(provKey);
-                                                                        setQuery(`${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                    }}>
+                                                            <td className="bg-cyan-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
+                                                                onClick={() => {
+                                                                    toggle(provKey);
+                                                                    setQuery(`${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                }}>
                                                                 <button
                                                                     type="button"
                                                                     aria-expanded={
@@ -457,22 +552,33 @@ export default function TreeTableMonitoreo3Niveles() {
                 <div className="relative min-h-[450px] rounded-xl overflow-hidden ring-1 ring-slate-200 bg-slate-100">
                     <MapaPeru query={query} />
                 </div>
+
                 <Card className="h-full">
-                    <div className="flex items-center justify-between">
-                        <h4>Ads performance</h4>
-                        <div>
-                            <Segment
-                                className="gap-1"
-                                value={category}
-                                size="sm"
-                                onChange={(val) => setCategory(val as string)}
-                            >
-                                <Segment.Item value="all">All</Segment.Item>
-                                <Segment.Item value="campagin">
-                                    Campagin
-                                </Segment.Item>
-                                <Segment.Item value="email">Email</Segment.Item>
-                            </Segment>
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex gap-2">
+                            <Select
+                                className="min-w-[150px]"
+                                placeholder="Departamento"
+                                options={departamentoOptions}
+                                value={selectedDepartamento}
+                                onChange={handleDepartamentoChange}
+                            />
+                            <Select
+                                className="min-w-[150px]"
+                                placeholder="Provincia"
+                                options={provinciaOptions}
+                                value={selectedProvincia}
+                                onChange={handleProvinciaChange}
+                                isDisabled={!selectedDepartamento}
+                            />
+                            <Select
+                                className="min-w-[150px]"
+                                placeholder="Distrito"
+                                options={distritoOptions}
+                                value={selectedDistrito}
+                                onChange={handleDistritoChange}
+                                isDisabled={!selectedProvincia}
+                            />
                         </div>
                     </div>
 
@@ -480,61 +586,73 @@ export default function TreeTableMonitoreo3Niveles() {
                         <ApexChart
                             options={{
                                 chart: {
-                                    type: 'line',
-                                    zoom: { enabled: false },
-                                    toolbar: { show: false },
+                                    type: 'bar',
+                                    height: 350,
+                                    toolbar: {
+                                        show: true,
+                                        tools: {
+                                            download: true,
+                                            selection: true,
+                                            zoom: true,
+                                            zoomin: true,
+                                            zoomout: true,
+                                            pan: true,
+                                            reset: true
+                                        }
+                                    }
                                 },
-                                legend: { show: false },
-                                stroke: {
-                                    width:
-                                        category === 'email' ? 2.5 : [0, 2.5],
-                                    curve: 'smooth',
-                                    lineCap: 'round',
-                                },
-                                states: { hover: { filter: { type: 'none' } } },
-                                tooltip: {
-                                    custom: ({ series, dataPointIndex }) => {
-                                        const renderCampaignData = () => `
-                <div class="flex items-center gap-2">
-                  <div class="h-[10px] w-[10px] rounded-full" style="background-color: ${COLORS[9]}"></div>
-                  <div class="flex gap-2">Campaign: <span class="font-bold">${series[0][dataPointIndex]}</span></div>
-                </div>`
-                                        const renderEmailData = () => `
-                <div class="flex items-center gap-2">
-                  <div class="h-[10px] w-[10px] rounded-full" style="background-color: ${COLORS[0]}"></div>
-                  <div class="flex gap-2">Email: <span class="font-bold">${series[category === 'all' ? 1 : 0][dataPointIndex]
-                                            }</span></div>
-                </div>`
-                                        const content =
-                                            category === 'all'
-                                                ? `${renderCampaignData()}${renderEmailData()}`
-                                                : category === 'campagin'
-                                                    ? renderCampaignData()
-                                                    : renderEmailData()
-                                        return `
-                <div class="py-2 px-4 rounded-xl">
-                  <div class="flex flex-col gap-2">
-                    <div>${datita.label[dataPointIndex]}</div>
-                    ${content}
-                  </div>
-                </div>`
-                                    },
-                                },
-                                labels: datita.label,
-                                yaxis:
-                                    category === 'all'
-                                        ? [{}, { opposite: true }]
-                                        : [],
                                 plotOptions: {
                                     bar: {
                                         horizontal: false,
-                                        columnWidth: '35px',
+                                        columnWidth: '55%',
                                         borderRadius: 4,
                                         borderRadiusApplication: 'end',
                                     },
                                 },
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                stroke: {
+                                    show: true,
+                                    width: 2,
+                                    colors: ['transparent']
+                                },
+                                xaxis: {
+                                    categories: COLS,
+                                    title: {
+                                        text: 'Indicadores (P1-P30)'
+                                    },
+                                    labels: {
+                                        rotate: -45,
+                                        style: {
+                                            fontSize: '10px'
+                                        }
+                                    }
+                                },
+                                yaxis: {
+                                    title: {
+                                        text: 'Cantidad de "Sí"'
+                                    },
+                                    min: 0,
+                                    max: function (max) {
+                                        // Para asegurar que el máximo sea al menos 1 si hay datos
+                                        return Math.max(max, 1);
+                                    }
+                                },
+                                fill: {
+                                    opacity: 1
+                                },
+                                tooltip: {
+                                    y: {
+                                        formatter: function (val) {
+                                            return val + " entidad(es) respondieron 'Sí'"
+                                        }
+                                    }
+                                },
+                                colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
                             }}
-                            series={series}
+                            series={chartSeries}
+                            type="bar"
                             height={450}
                         />
                     </div>
