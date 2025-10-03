@@ -6,6 +6,9 @@
 @import './vendors/index.css';
 @import './docs/index.css';
 
+@import "leaflet/dist/leaflet.css";
+
+
 .menuhome .submenu .submenu {
     left: 100%;
     translate: 0 -50%;
@@ -15,4 +18,8 @@
 }
 .menuhome:hover .submenu:hover li:hover button + .submenu {
     display: block;
+}
+
+.leaflet-container {
+    z-index: 5;
 }

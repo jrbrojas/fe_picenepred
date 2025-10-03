@@ -255,7 +255,7 @@ export default function TreeTableMonitoreo3Niveles() {
                     <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
                         <thead>
                             <tr>
-                                <th className="sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
+                                <th onClick={() => {setQuery(`Peru`);}} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
                                     Localización
                                 </th>
                                 {COLS.map((c) => (
@@ -282,13 +282,13 @@ export default function TreeTableMonitoreo3Niveles() {
                                     <Fragment key={dep.id}>
                                         {/* Fila Departamento */}
                                         <tr className="bg-amber-50 hover:bg-slate-50/60">
-                                            <td className="sticky left-0 z-10 p-3 ring-1 ring-slate-200">
-                                                <button
-                                                    type="button"
+                                            <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200" 
                                                     onClick={() => {
                                                         toggle(depKey);
                                                         setQuery(`${dep.nombre}, Peru`);
-                                                    }}
+                                                    }}>
+                                                <button
+                                                    type="button"
                                                     aria-expanded={depOpen}
                                                     className="inline-flex items-center gap-2"
                                                 >
@@ -333,13 +333,13 @@ export default function TreeTableMonitoreo3Niveles() {
                                                 return (
                                                     <Fragment key={prov.id}>
                                                         <tr className="bg-cyan-50 hover:bg-slate-50/60">
-                                                            <td className="sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200">
-                                                                <button
-                                                                    type="button"
+                                                            <td className="bg-cyan-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200" 
                                                                     onClick={() => {
                                                                         toggle(provKey);
                                                                         setQuery(`${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                    }}
+                                                                    }}>
+                                                                <button
+                                                                    type="button"
                                                                     aria-expanded={
                                                                         provOpen
                                                                     }
@@ -392,7 +392,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                     >
                                                                         <td onClick={() => {
                                                                             setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                        }} className="sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
+                                                                        }} className="cursor-pointer sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
                                                                             <span className="ml-2 text-sm text-slate-800 underline decoration-emerald-300">
                                                                                 {
                                                                                     d.nombre
@@ -436,7 +436,7 @@ export default function TreeTableMonitoreo3Niveles() {
                         <tfoot>
                             <tr>
                                 <td
-                                    colSpan={2}
+                                    colSpan={1}
                                     className="bg-white p-3 text-right text-[11px] text-slate-500 ring-1 ring-slate-200"
                                 />
                                 <td
