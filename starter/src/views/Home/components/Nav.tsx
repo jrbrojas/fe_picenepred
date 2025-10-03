@@ -88,7 +88,7 @@ export const navItems: NavItem[] = [
     },
     {
         label: 'Buenas practicas',
-        href: 'https://aulavirtual.cenepred.gob.pe/',
+        href: 'https://buenaspracticas.cenepred.gob.pe/',
         external: true,
     },
 ]

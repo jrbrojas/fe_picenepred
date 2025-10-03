@@ -4,7 +4,7 @@ import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
-import ImageLoad from "./ImageLoad";
+import ImageLoad from "../ImageLoad";
 
 
 const nivelColorClasses: { [key: string]: string } = {

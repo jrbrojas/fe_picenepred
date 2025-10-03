@@ -2,7 +2,7 @@ import { Card, Skeleton, Tabs } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
-import ImageLoad from "./ImageLoad";
+import ImageLoad from "../ImageLoad";
 
 
 const nivelColorClasses: { [key: string]: string } = {
