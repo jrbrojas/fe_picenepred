@@ -13,9 +13,9 @@ dist-ssr
 build
 *.local
 .env
-.env.dev
-.env.qa
-.env.prod
+#.env.dev
+#.env.qa
+#.env.prod
 
 # Editor directories and files
 .vscode/*
