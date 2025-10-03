@@ -69,6 +69,9 @@ const SignUpForm = (props: SignUpFormProps) => {
             setSubmitting(true)
             const result = await signUp({ nombres, apellidos, usuario, rol, fuente, password, email })
 
+            console.log(result);
+            
+
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
             }
@@ -80,7 +83,7 @@ const SignUpForm = (props: SignUpFormProps) => {
     return (
         <div className={className}>
             <Form onSubmit={handleSubmit(onSignUp)} >
-                <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
+                <div className='grid grid-cols-2 gap-3'>
                     <FormItem
                         label="Nombres"
                         invalid={Boolean(errors.nombres)}
