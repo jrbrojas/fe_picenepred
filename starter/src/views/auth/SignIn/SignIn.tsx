@@ -1,4 +1,6 @@
 import Logo from '@/components/template/Logo'
+import { useRef, useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import Alert from '@/components/ui/Alert'
 import SignInForm from './components/SignInForm'
 import ActionLink from '@/components/shared/ActionLink'
@@ -20,6 +22,18 @@ export const SignInBase = ({
     const [message, setMessage] = useTimeOutMessage()
     const navigate = useNavigate()
     const mode = useThemeStore((state) => state.mode)
+
+    const recaptchaRef = useRef<ReCAPTCHA>(null)
+    const [verified, setVerified] = useState(false)
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+
+    const handleRecaptcha = (token: string | null) => {
+        if (token) {
+            setVerified(true)
+        } else {
+            setVerified(false)
+        }
+    }
 
     return (
         <>
@@ -57,9 +71,12 @@ export const SignInBase = ({
                     <span className="break-all">{message}</span>
                 </Alert>
             )}
+
+
             <SignInForm
                 disableSubmit={disableSubmit}
                 setMessage={setMessage}
+                verified={verified}
                 passwordHint={
                     <div className="mb-7 mt-2">
                         <ActionLink
@@ -71,7 +88,17 @@ export const SignInBase = ({
                         </ActionLink>
                     </div>
                 }
-            />
+            >
+                {/* Aquí dentro va el reCAPTCHA */}
+                <div className="flex justify-center mt-5 mb-5">
+                    <ReCAPTCHA
+                        ref={recaptchaRef}
+                        sitekey={siteKey}
+                        onChange={handleRecaptcha}
+                        theme={mode === 'dark' ? 'dark' : 'light'}
+                    />
+                </div>
+            </SignInForm>
 
             <div className="mt-2 text-center">
                 <div className="bg-gray-50 p-4 rounded-lg mb-4">

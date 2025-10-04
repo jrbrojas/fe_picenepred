@@ -15,6 +15,8 @@ interface SignInFormProps extends CommonProps {
     disableSubmit?: boolean
     passwordHint?: string | ReactNode
     setMessage?: (message: string) => void
+    verified?: boolean                  
+    children?: ReactNode                
 }
 
 type SignInFormSchema = {
@@ -30,7 +32,14 @@ const validationSchema = z.object({
 const SignInForm = (props: SignInFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
-    const { disableSubmit = false, className, setMessage, passwordHint } = props
+    const {
+        disableSubmit = false,
+        className,
+        setMessage,
+        passwordHint,
+        verified = false,
+        children,
+    } = props
 
     const { handleSubmit, formState: { errors }, control, } = useForm<SignInFormSchema>({
         defaultValues: {
@@ -43,6 +52,10 @@ const SignInForm = (props: SignInFormProps) => {
     const { signIn } = useAuth()
 
     const onSignIn = async (values: SignInFormSchema) => {
+        if (!verified) {
+            setMessage?.('Por favor verifica el reCAPTCHA antes de continuar.')
+            return
+        }
         const { email, password } = values
 
         if (!disableSubmit) {
@@ -102,12 +115,14 @@ const SignInForm = (props: SignInFormProps) => {
                         )}
                     />
                 </FormItem>
+                {children}
                 {passwordHint}
                 <Button
                     block
                     loading={isSubmitting}
                     variant="solid"
                     type="submit"
+                    disabled={!verified || disableSubmit}
                 >
                     {isSubmitting ? 'Iniciando...' : 'Iniciar sesión'}
                 </Button>
