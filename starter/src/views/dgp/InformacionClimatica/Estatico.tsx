@@ -72,7 +72,9 @@ const LluviasAvisoMeteorologicoEstatico = () => {
 
                             <div className='grid grid-cols-2 border rounded-xl border-teal-600 shadow-md bg-white'>
                                 <div className='w-full flex justify-center p-5'>
-                                    <ImageLoad path={escenario.mapas[0].ruta} />
+                                    {escenario.mapas && escenario.mapas[0] && (
+                                        <ImageLoad path={escenario.mapas[0].ruta} />
+                                    )}
                                 </div>
                                 <div className='flex flex-col text-center justify-center items-center mr-5'>
                                     <h4 className='font-bold text-teal-600 '>ESCENARIO DE RIESGO POR</h4>
@@ -140,7 +142,9 @@ const LluviasAvisoMeteorologicoEstatico = () => {
 
                             <div className='grid grid-cols-2 border rounded-xl border-teal-600 shadow-md bg-white'>
                                 <div className='w-full flex justify-center p-5'>
-                                    <ImageLoad path={escenario.mapas[1].ruta} />
+                                    {escenario.mapas && escenario.mapas[1] && (
+                                        <ImageLoad path={escenario.mapas[1].ruta} />
+                                    )}
                                 </div>
                                 <div className='flex flex-col text-center justify-center items-center p-2'>
                                     <h4 className='font-bold text-teal-600 '>ESCENARIO DE RIESGO POR</h4>

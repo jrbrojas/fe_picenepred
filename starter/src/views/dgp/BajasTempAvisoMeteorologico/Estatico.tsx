@@ -181,7 +181,9 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                 </div>
 
                                 <div className='w-full flex justify-center'>
-                                    <ImageLoad path={escenario.mapas[0].ruta} />
+                                    {escenario.mapas && escenario.mapas[0] && (
+                                        <ImageLoad path={escenario.mapas[0].ruta} />
+                                    )}
                                 </div>
                             </div>
                         </div>

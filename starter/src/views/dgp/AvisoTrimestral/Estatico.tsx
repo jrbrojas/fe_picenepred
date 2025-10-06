@@ -96,18 +96,24 @@ const LluviasAvisoTrimestralEstatico = () => {
                                             </div>
 
                                             <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-
                                                 <div className='flex flex-col items-center gap-2'>
                                                     <div className='w-full flex justify-center'>
-                                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index].ruta} />
+                                                        {escenario.mapas && escenario.mapas[index] && (
+                                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index].ruta} />
+                                                        )}
+
                                                     </div>
                                                     <div className='w-full flex justify-center'>
-                                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[index].ruta} />
+                                                        {escenario.mapas && escenario.mapas[index] && (
+                                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[index].ruta} />
+                                                        )}
                                                     </div>
                                                 </div>
 
                                                 <div className='w-full flex justify-center'>
-                                                    <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index].ruta} />
+                                                    {escenario.mapas && escenario.mapas[index] && (
+                                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index].ruta} />
+                                                    )}
                                                 </div>
 
                                                 <div>
