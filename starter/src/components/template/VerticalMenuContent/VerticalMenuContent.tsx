@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment, useMemo } from 'react'
 import Menu from '@/components/ui/Menu'
 import VerticalSingleMenuItem from './VerticalSingleMenuItem'
 import VerticalCollapsedMenuItem from './VerticalCollapsedMenuItem'
@@ -29,6 +29,28 @@ const { MenuGroup } = Menu
 
 const MAX_CASCADE_LEVEL = 2
 
+function collectAncestorKeys(tree: NavigationTree[], targetKey?: string): string[] {
+    if (!targetKey) return []
+
+    const path: string[] = []
+
+    function dfs(nodes: NavigationTree[], stack: string[]): boolean {
+        for (const n of nodes) {
+            const nextStack = [...stack, n.key]
+            if (n.key === targetKey) {
+                // Los ancestros son el stack (sin el target)
+                path.push(...stack)
+                return true
+            }
+            if (n.subMenu?.length && dfs(n.subMenu, nextStack)) return true
+        }
+        return false
+    }
+
+    dfs(tree, [])
+    return path
+}
+
 const VerticalMenuContent = (props: VerticalMenuContentProps) => {
     const {
         collapsed,
@@ -46,11 +68,14 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
 
     const { activedRoute } = useMenuActive(navigationTree, routeKey)
 
+    const ancestorKeys = useMemo(
+        () => collectAncestorKeys(navigationTree, activedRoute?.key),
+        [navigationTree, activedRoute?.key]
+    )
+
     useEffect(() => {
-        if (activedRoute?.parentKey) {
-            setDefaulExpandKey([activedRoute?.parentKey])
-        }
-    }, [activedRoute?.parentKey])
+        setDefaulExpandKey(ancestorKeys)
+    }, [ancestorKeys])
 
     const handleLinkClick = () => {
         onMenuItemClick?.()
@@ -143,9 +168,7 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
             sideCollapsed={collapsed}
             defaultActiveKeys={activedRoute?.key ? [activedRoute.key] : []}
             defaultExpandedKeys={defaulExpandKey}
-            defaultCollapseActiveKeys={
-                activedRoute?.parentKey ? [activedRoute.parentKey] : []
-            }
+            defaultCollapseActiveKeys={defaulExpandKey}
         >
             {renderNavigation(navigationTree, 0)}
         </Menu>
