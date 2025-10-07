@@ -176,7 +176,7 @@ export default function TreeTableMonitoreo3Niveles() {
     // Totales por provincia y por departamento
     function promedio(arr: number[], total: number): number {
         const sum = arr.reduce((a, b) => a + b, 0);
-        return Number(((sum / total) * 100).toFixed(2));
+        return Number((sum / total).toFixed(2));
     }
     const { provTotals, depTotals } = useMemo(() => {
         const provTotals = new Map<string, { cols: number[]; total: number }>()
@@ -434,7 +434,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
                                                                                 {promedio(
                                                                                     d.valores,
-                                                                                    4
+                                                                                    3
                                                                                 )}
                                                                             </td>
                                                                         </tr>
