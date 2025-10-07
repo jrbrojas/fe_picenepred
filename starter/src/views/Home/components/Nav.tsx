@@ -67,17 +67,17 @@ export const navItems: NavItem[] = [
         //external: true,
     },
     {
-        label: 'Gestión de procesos',
+        label: 'Dirección de Gestión de Procesos',
         href: '/gestion-procesos/lluviasAvisoMeteorologico/estatico',
         protected: true,
     },
     {
-        label: 'Fortalecimiento y asistentencia técnica',
+        label: 'Dirección de Fortalecimiento y Asistencia Técnica',
         href: '/fortalecimiento/resumenInstrumentoNivNac',
         protected: true,
     },
     {
-        label: 'Monitoreo',
+        label: 'Dirección de Monitoreo, Seguimiento y Evaluación',
         href: '/monitoreo/monitoreo',
         protected: true,
     },
