@@ -67,27 +67,27 @@ export const navItems: NavItem[] = [
         //external: true,
     },
     {
-        label: 'Dirección de Gestión de Procesos',
+        label: 'GESTIÓN DE PROCESOS',
         href: '/gestion-procesos/lluviasAvisoMeteorologico/estatico',
         protected: true,
     },
     {
-        label: 'Dirección de Fortalecimiento y Asistencia Técnica',
+        label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA',
         href: '/fortalecimiento/resumenInstrumentoNivNac',
         protected: true,
     },
     {
-        label: 'Dirección de Monitoreo, Seguimiento y Evaluación',
+        label: 'MONITOREO, SEGUIMIENTO Y EVALUACIÓN',
         href: '/monitoreo/monitoreo',
         protected: true,
     },
     {
-        label: 'Aula virtual',
+        label: 'AULA VIRTUAL',
         href: 'https://aulavirtual.cenepred.gob.pe/',
         external: true,
     },
     {
-        label: 'Buenas practicas',
+        label: 'BUENAS PRACTICAS',
         href: 'https://buenaspracticas.cenepred.gob.pe/',
         external: true,
     },

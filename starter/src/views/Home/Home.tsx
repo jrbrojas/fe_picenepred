@@ -47,8 +47,12 @@ const Home = () => {
                         ) : (
                             <div className="flex flex-col lg:flex-row items-center gap-3">
                                 <Button size={isLarge ? 'lg' : 'xs'}
-                                    onClick={() => navigate(`/sign-up`)} variant="plain">Registrarse</Button>
-                                <Button size={isLarge ? 'lg' : 'xs'} onClick={() => navigate(`/sign-in`)} > Iniciar Sesión</Button>
+                                    onClick={() => navigate(`/sign-up`)} 
+                                    variant="plain" 
+                                    className="text-xs lg:text-sm">REGISTRARSE</Button>
+                                <Button size={isLarge ? 'lg' : 'xs'} 
+                                    onClick={() => navigate(`/sign-in`)} 
+                                    className="text-xs lg:text-sm" > INICIAR SESIÓN</Button>
                             </div>
                         )}
                     </div>
