@@ -1,19 +1,17 @@
-import { useState } from "react"
-import { useNavigate } from "react-router"
-import Footer from "./components/Footer"
-import useIsLargeScreen from "@/utils/hooks/useIsLargeScreen"
-import { useAuth } from "@/auth"
-import UserDropdown from "@/components/template/UserProfileDropdown"
-import { Button } from "@/components/ui"
-import HomeHero from "./components/HomeHero"
-import Monitoreo from "./components/Monitoreo"
-import Nav from "./components/Nav"
+import { useNavigate } from 'react-router'
+import Footer from './components/Footer'
+import useIsLargeScreen from '@/utils/hooks/useIsLargeScreen'
+import { useAuth } from '@/auth'
+import UserDropdown from '@/components/template/UserProfileDropdown'
+import { Button } from '@/components/ui'
+import HomeHero from './components/HomeHero'
+import Monitoreo from './components/Monitoreo'
+import Nav from './components/Nav'
 
 const Home = () => {
-    const [open, setOpen] = useState(false)
     const isLarge = useIsLargeScreen()
     const { authenticated } = useAuth()
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
@@ -46,13 +44,22 @@ const Home = () => {
                             <UserDropdown />
                         ) : (
                             <div className="flex flex-col lg:flex-row items-center gap-3">
-                                <Button size={isLarge ? 'lg' : 'xs'}
-                                    onClick={() => navigate(`/sign-up`)} 
-                                    variant="plain" 
-                                    className="text-xs lg:text-sm">REGISTRARSE</Button>
-                                <Button size={isLarge ? 'lg' : 'xs'} 
-                                    onClick={() => navigate(`/sign-in`)} 
-                                    className="text-xs lg:text-sm" > INICIAR SESIÓN</Button>
+                                <Button
+                                    size={isLarge ? 'lg' : 'xs'}
+                                    onClick={() => navigate(`/sign-up`)}
+                                    variant="plain"
+                                    className="text-xs lg:text-sm"
+                                >
+                                    REGISTRARSE
+                                </Button>
+                                <Button
+                                    size={isLarge ? 'lg' : 'xs'}
+                                    onClick={() => navigate(`/sign-in`)}
+                                    className="text-xs lg:text-sm"
+                                >
+                                    {' '}
+                                    INICIAR SESIÓN
+                                </Button>
                             </div>
                         )}
                     </div>

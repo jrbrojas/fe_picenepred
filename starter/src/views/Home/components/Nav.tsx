@@ -1,12 +1,10 @@
-import { useAuth } from "@/auth"
-import { IsolatedNavigatorRef } from "@/auth/AuthProvider"
-import { Button, Notification, toast } from "@/components/ui"
-import appConfig from "@/configs/app.config"
-import { REDIRECT_URL_KEY } from "@/constants/app.constant"
-import { useMemo, useRef, useState } from "react"
-import { Link, useLocation, useNavigate } from "react-router"
+import { useAuth } from '@/auth'
+import { Notification, toast } from '@/components/ui'
+import { useMemo, useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 
-const REDIRECT_KEY = "redirectTo"
+const REDIRECT_KEY = 'redirectTo'
+
 type SubMenuItem = {
     label: string
     href: string
@@ -23,7 +21,7 @@ type NavItem = {
     submenu?: SubMenuItem[]
 }
 
-export const navItems: NavItem[] = [
+const navItems: NavItem[] = [
     {
         label: 'INICIO',
         href: '#',
@@ -31,22 +29,29 @@ export const navItems: NavItem[] = [
             {
                 label: 'Normas Legales GRD',
                 external: true,
-                href: 'https://dimse.cenepred.gob.pe/simse/normativas'
+                href: 'https://dimse.cenepred.gob.pe/simse/normativas',
             },
             {
                 label: 'Glosario de Términos GRD',
                 external: true,
-                href: 'https://dimse.cenepred.gob.pe/simse/glosario'
+                href: 'https://dimse.cenepred.gob.pe/simse/glosario',
             },
             {
                 label: 'Directorio Nacional GRD',
                 href: '#',
                 submenu: [
-                    { label: 'Responsable por entidad', href: '/sign-in?next=/monitoreo/directorioNacional' },
-                    { label: 'Visor', external: true, href: 'https://dimse.cenepred.gob.pe/mapadirectorio/Views/' },
-                ]
-            }
-        ]
+                    {
+                        label: 'Responsable por entidad',
+                        href: '/sign-in?next=/monitoreo/directorioNacional',
+                    },
+                    {
+                        label: 'Visor',
+                        external: true,
+                        href: 'https://dimse.cenepred.gob.pe/mapadirectorio/Views/',
+                    },
+                ],
+            },
+        ],
     },
     {
         label: 'SIGRID',
@@ -55,16 +60,14 @@ export const navItems: NavItem[] = [
             {
                 label: 'Plataforma SIGRID',
                 external: true,
-                href: 'https://sigrid.cenepred.gob.pe/'
+                href: 'https://sigrid.cenepred.gob.pe/',
             },
             {
                 label: 'Visor SIGRID',
                 external: true,
-                href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0'
+                href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0',
             },
-        ]
-        //href: 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0',
-        //external: true,
+        ],
     },
     {
         label: 'GESTIÓN DE PROCESOS',
@@ -93,14 +96,19 @@ export const navItems: NavItem[] = [
     },
 ]
 
-function AppNavLink({ item, className, onDone }: { item: NavItem; className?: string; onDone?: () => void }) {
+function AppNavLink({
+    item,
+    className,
+    onDone,
+}: {
+    item: NavItem
+    className?: string
+    onDone?: () => void
+}) {
     const { authenticated } = useAuth()
     const navigate = useNavigate()
     const [active, setActive] = useState(false)
-    const navigatorRef = useRef<IsolatedNavigatorRef>(null)
-    const root = useRef<HTMLDivElement | null>(null)
 
-    // Enlaces externos simples
     if (item.external) {
         return (
             <a
@@ -115,18 +123,19 @@ function AppNavLink({ item, className, onDone }: { item: NavItem; className?: st
         )
     }
 
-    // Handler para <a> reales (no '#')
-    const handleAnchorClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    const handleAnchorClick = (e: React.MouseEvent) => {
         if (item.protected && !authenticated) {
             e.preventDefault()
             toast.push(
                 <Notification title="Sesión invalida" type="danger">
                     Debes iniciar sesión para ingresar a la plataforma
-                </Notification>
+                </Notification>,
             )
         } else {
-            // guaradar la intencion
-            localStorage.setItem(REDIRECT_KEY, item.href.split("/").filter(Boolean)[0] || "/")
+            localStorage.setItem(
+                REDIRECT_KEY,
+                item.href.split('/').filter(Boolean)[0] || '/',
+            )
             navigate(item.href)
         }
         onDone?.()
@@ -136,18 +145,16 @@ function AppNavLink({ item, className, onDone }: { item: NavItem; className?: st
         return [className, 'menulink', active ? 'active' : ''].join(' ')
     }, [className, active])
 
-    // Ítem contenedor con submenú
     if (item.href === '#') {
         return (
             <div
                 className={`${collectClassName} relative select-none`}
                 onBlur={() => setActive(false)}
             >
-                {/* Botón que abre/cierra el submenú */}
                 <button
                     type="button"
                     className="inline-flex items-center"
-                    onClick={() => setActive(v => !v)}    // 👈 sin preventDefault
+                    onClick={() => setActive((v) => !v)}
                     aria-expanded={active}
                     aria-haspopup="menu"
                 >
@@ -161,7 +168,7 @@ function AppNavLink({ item, className, onDone }: { item: NavItem; className?: st
                             'hidden md:group-hover:block',
                             active ? 'block md:block' : '',
                         ].join(' ')}
-                        onClick={(e) => e.stopPropagation()}   // 👈 evita que el click suba al contenedor
+                        onClick={(e) => e.stopPropagation()}
                         role="menu"
                     >
                         <ul className="grid gap-1">
@@ -181,7 +188,6 @@ function AppNavLink({ item, className, onDone }: { item: NavItem; className?: st
         )
     }
 
-    // Ítem normal (enlace real)
     return (
         <Link to={item.href} className={className} onClick={handleAnchorClick}>
             {item.label}
@@ -194,24 +200,24 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="menuhome flex items-center justify-between md:justify-center gap-2 py-3">
-                {/* Desktop */}
-                <ul className="hidden md:flex items-center gap-8">
+            <nav className="menuhome flex items-center justify-between py-3">
+                <ul className="hidden lg:flex items-center gap-8">
                     {navItems.map((item) => (
-                        <li key={item.label} className="group relative">
-                            <AppNavLink item={item} className="block -mx-2 px-2 py-1.5 rounded-md text-sm font-semibold tracking-wide text-white/90 transition-colors duration-200 group-hover:text-white group-hover:bg-white/10" />
-                            <span className="pointer-events-none absolute -bottom-1 left-1/2 h-0.5 w-10 -translate-x-1/2 bg-white/80 transition-transform duration-200 origin-center scale-x-0 group-hover:scale-x-100" />
+                        <li key={item.label}>
+                            <AppNavLink
+                                item={item}
+                                className="block px-2 py-1.5 rounded-md text-sm font-semibold text-white/90 transition duration-200 group-hover:text-white"
+                            />
                         </li>
                     ))}
                 </ul>
 
-                {/* Mobile button */}
-                <Button
+                <button
                     type="button"
-                    className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium ring-1 ring-inset ring-white/20 hover:bg-white/10 md:hidden"
+                    className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-white lg:hidden"
                     aria-expanded={open}
                     aria-controls="mobile-nav"
-                    onClick={() => setOpen((v) => !v)}
+                    onClick={() => setOpen(!open)}
                 >
                     <svg
                         className="h-5 w-5"
@@ -223,25 +229,25 @@ const Nav = () => {
                         <path d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                     Menú
-                </Button>
+                </button>
             </nav>
 
-            {/* Mobile nav */}
-            {open && (
-                <div id="mobile-nav" className="md:hidden">
-                    <ul className="grid gap-2 pb-3">
-                        {navItems.map((item) => (
-                            <li key={item.label}>
-                                <AppNavLink
-                                    item={item}
-                                    className="block rounded-md px-3 py-2 text-center text-sm font-medium text-white/95 hover:bg-white/10 hover:text-white transition-colors"
-                                    onDone={() => setOpen(false)}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            <div
+                id="mobile-nav"
+                className={`lg:hidden ${open ? 'block' : 'hidden'}`}
+            >
+                <ul className="grid gap-2 pb-3">
+                    {navItems.map((item) => (
+                        <li key={item.label}>
+                            <AppNavLink
+                                item={item}
+                                className="block rounded-md px-3 py-2 text-center text-sm font-medium text-white/95 hover:bg-white/10 hover:text-white transition-colors"
+                                onDone={() => setOpen(false)}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </>
     )
 }

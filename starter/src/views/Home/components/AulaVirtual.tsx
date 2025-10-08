@@ -1,4 +1,9 @@
 import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
 const Container: React.FC<React.PropsWithChildren<{ className?: string }>> = ({
     children,
@@ -22,21 +27,21 @@ export type Course = {
 
 const CourseCard: React.FC<{ course: Course }> = ({ course }) => (
     <a href={course.href || '#'} className="group block focus:outline-none">
-        <div className="relative overflow-hidden rounded-[24px] shadow-lg ring-1 ring-black/5">
+        <div className="relative overflow-hidden rounded-[24px] shadow-lg ring-1 ring-black/5 transition-all duration-300 ease-in-out transform hover:scale-105">
             <img
                 src={course.imageSrc}
                 alt={course.imageAlt || course.title}
-                className="h-[300px] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                className="h-[250px] w-full object-cover transition-all duration-500 group-hover:scale-[1.05]"
             />
-            <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-t from-black/30 via-black/0 to-transparent" />
+            <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-t from-black/50 via-black/0 to-transparent" />
 
             <div className="absolute bottom-4 left-4">
-                <span className="rounded-full bg-white/95 px-3 py-1 text-xs font-medium text-slate-700 shadow">
+                <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-slate-700 shadow-md">
                     {course.date}
                 </span>
             </div>
         </div>
-        <h3 className="mt-6 text-center text-2xl font-semibold leading-tight text-slate-700">
+        <h3 className="mt-4 text-center text-xl font-semibold text-gray-800 group-hover:text-[#078199] transition-colors">
             {course.title}
         </h3>
     </a>
@@ -90,7 +95,35 @@ const AulaVirtual: React.FC<AulaVirtualProps> = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div className="block lg:hidden">
+                    <Swiper
+                        spaceBetween={16}
+                        slidesPerView={2}
+                        loop={true}
+                        pagination={{ clickable: true }}
+                        breakpoints={{
+                            320: {
+                                slidesPerView: 1,
+                            },
+                            640: {
+                                slidesPerView: 2,
+                            },
+                            1024: {
+                                slidesPerView: 2,
+                            },
+                        }}
+                    >
+                        {courses.map((c) => (
+                            <SwiperSlide key={c.id}>
+                                <div className="relative w-full aspect-w-16 aspect-h-9">
+                                    <CourseCard course={c} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+
+                <div className="hidden lg:grid lg:grid-cols-3 lg:gap-8">
                     {courses.map((c) => (
                         <CourseCard key={c.id} course={c} />
                     ))}
