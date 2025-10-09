@@ -150,6 +150,8 @@ function AppNavLink({
             <div
                 className={`${collectClassName} relative select-none`}
                 onBlur={() => setActive(false)}
+                onMouseLeave={() => setActive(false)}
+                tabIndex={0}
             >
                 <button
                     type="button"
@@ -200,7 +202,7 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="menuhome flex items-center justify-between py-3">
+            <nav className="menuhome flex items-center justify-center py-3">
                 <ul className="hidden lg:flex items-center gap-8">
                     {navItems.map((item) => (
                         <li key={item.label}>

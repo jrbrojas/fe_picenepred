@@ -8,18 +8,21 @@
 
 @import "leaflet/dist/leaflet.css";
 
-
 .menuhome .submenu .submenu {
     left: 100%;
     translate: 0 -50%;
 }
-.menuhome:hover .submenu:not(&:hover) .submenu {
+.menulink:hover .submenu.hidden {
+    display: block;
+}
+.menulink:hover .submenu.hidden:not(&:hover) .submenu.hidden {
     display: none;
 }
-.menuhome:hover .submenu:hover li:hover button + .submenu {
+.menulink:hover .submenu.hidden li:hover button + .submenu.hidden {
     display: block;
 }
 
 .leaflet-container {
     z-index: 5;
 }
+
