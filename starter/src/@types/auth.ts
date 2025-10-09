@@ -16,7 +16,6 @@ export type SignUpCredential = {
     nombres: string
     apellidos: string
     rol: string
-    fuente: string
     email: string
     password: string
 }
@@ -41,7 +40,6 @@ export type User = {
     avatar: string
     nombres: string
     apellidos: string
-    fuente: string
     email: string
     rol: string
     activo: boolean

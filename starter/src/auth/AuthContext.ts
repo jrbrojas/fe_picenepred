@@ -44,7 +44,6 @@ const AuthContext = createContext<Auth>({
         avatar: '',
         email: '',
         activo: false,
-        fuente: '',
         rol: ''
     },
     signIn: async () => defaultFunctionPlaceHolder(),

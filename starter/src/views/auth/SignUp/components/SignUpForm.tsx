@@ -19,7 +19,6 @@ type SignUpFormSchema = {
     nombres: string
     apellidos: string
     rol: string
-    fuente: string
     password: string
     email: string
     confirmPassword: string
@@ -30,7 +29,6 @@ const validationSchema = z.object({
     nombres: z.string({ message: 'Porfavor ingesar sus nombres completos' }),
     apellidos: z.string({ message: 'Porfavor ingresar sus apellidos completos' }),
     rol: z.string({ message: 'Seleccione un rol para el usuario' }),
-    fuente: z.string({ message: 'La fuente es obligatoria' }),
     password: z.string({ message: 'La contraseña es obligatoria' }),
     confirmPassword: z.string({
         message: 'Debes confirmar tu contraseña',
@@ -61,11 +59,11 @@ const SignUpForm = (props: SignUpFormProps) => {
     })
 
     const onSignUp = async (values: SignUpFormSchema) => {
-        const { nombres, apellidos, rol, fuente, password, email } = values
+        const { nombres, apellidos, rol, password, email } = values
 
         if (!disableSubmit) {
             setSubmitting(true)
-            const result = await signUp({ nombres, apellidos, rol, fuente, password, email })
+            const result = await signUp({ nombres, apellidos, rol, password, email })
 
             console.log(result);
             
@@ -141,25 +139,6 @@ const SignUpForm = (props: SignUpFormProps) => {
                             )}
                         />
 
-                    </FormItem>
-
-                    <FormItem
-                        label="Fuente"
-                        invalid={Boolean(errors.fuente)}
-                        errorMessage={errors.fuente?.message}
-                    >
-                        <Controller
-                            name="fuente"
-                            control={control}
-                            render={({ field }) => (
-                                <Input
-                                    type="text"
-                                    placeholder="Fuente"
-                                    autoComplete="off"
-                                    {...field}
-                                />
-                            )}
-                        />
                     </FormItem>
 
                     <FormItem
