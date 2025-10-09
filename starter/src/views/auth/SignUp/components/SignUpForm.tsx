@@ -18,7 +18,6 @@ interface SignUpFormProps extends CommonProps {
 type SignUpFormSchema = {
     nombres: string
     apellidos: string
-    usuario: string
     rol: string
     fuente: string
     password: string
@@ -30,7 +29,6 @@ const validationSchema = z.object({
     email: z.string({ message: 'Ingresar su correo electrónico' }),
     nombres: z.string({ message: 'Porfavor ingesar sus nombres completos' }),
     apellidos: z.string({ message: 'Porfavor ingresar sus apellidos completos' }),
-    usuario: z.string({ message: 'Porfavor ingresar el nombre de usuario' }),
     rol: z.string({ message: 'Seleccione un rol para el usuario' }),
     fuente: z.string({ message: 'La fuente es obligatoria' }),
     password: z.string({ message: 'La contraseña es obligatoria' }),
@@ -63,11 +61,11 @@ const SignUpForm = (props: SignUpFormProps) => {
     })
 
     const onSignUp = async (values: SignUpFormSchema) => {
-        const { nombres, apellidos, usuario, rol, fuente, password, email } = values
+        const { nombres, apellidos, rol, fuente, password, email } = values
 
         if (!disableSubmit) {
             setSubmitting(true)
-            const result = await signUp({ nombres, apellidos, usuario, rol, fuente, password, email })
+            const result = await signUp({ nombres, apellidos, rol, fuente, password, email })
 
             console.log(result);
             
@@ -115,25 +113,6 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 <Input
                                     type="text"
                                     placeholder="Ingresar apellidos completos"
-                                    autoComplete="off"
-                                    {...field}
-                                />
-                            )}
-                        />
-                    </FormItem>
-
-                    <FormItem
-                        label="Nombre de usuario"
-                        invalid={Boolean(errors.usuario)}
-                        errorMessage={errors.usuario?.message}
-                    >
-                        <Controller
-                            name="usuario"
-                            control={control}
-                            render={({ field }) => (
-                                <Input
-                                    type="text"
-                                    placeholder="Ingresar nombre de usuario"
                                     autoComplete="off"
                                     {...field}
                                 />

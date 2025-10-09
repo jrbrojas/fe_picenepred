@@ -41,7 +41,6 @@ const AuthContext = createContext<Auth>({
         id: '',
         nombres: '',
         apellidos: '',
-        usuario: '',
         avatar: '',
         email: '',
         activo: false,

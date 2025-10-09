@@ -52,7 +52,7 @@ const _UserDropdown = () => {
     return (
         <div className="flex items-center gap-3">
             <div className='flex flex-col text-right mr-2'>
-                <h4>{nombres} {apellidos}</h4>
+                <span className='text-lg font-semibold tracking-wide'>{nombres} {apellidos}</span>
                 <span className='text-sm text-gray-500'>{rol}</span>
             </div>
             <Dropdown

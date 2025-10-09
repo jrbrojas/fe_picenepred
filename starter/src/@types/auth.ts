@@ -15,7 +15,6 @@ export type SignUpResponse = SignInResponse
 export type SignUpCredential = {
     nombres: string
     apellidos: string
-    usuario: string
     rol: string
     fuente: string
     email: string
@@ -42,7 +41,6 @@ export type User = {
     avatar: string
     nombres: string
     apellidos: string
-    usuario: string
     fuente: string
     email: string
     rol: string
