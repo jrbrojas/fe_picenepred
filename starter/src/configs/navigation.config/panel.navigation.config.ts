@@ -524,7 +524,7 @@ export const panelNavigationFull: NavigationTree[] = [
     {
         key: 'dimse',
         path: '',
-        title: 'DIMSE',
+        title: 'SIMSE',
         translateKey: 'nav.monitoreo',
         icon: 'monitor',
         type: NAV_ITEM_TYPE_COLLAPSE,
@@ -601,27 +601,27 @@ function filterBySegment(nav: NavigationTree[], segment: string): NavigationTree
 }
 
 export function usePanelNavigation(storageKey = 'redirectTo') {
-  const [items, setItems] = useState<NavigationTree[]>(() => {
-    const segment = typeof window !== 'undefined' ? localStorage.getItem(storageKey) || '' : ''
-    if (!segment) return panelNavigationFull
-    const filtered = filterBySegment(panelNavigationFull, segment)
-    return filtered.length ? filtered : panelNavigationFull
-  })
+    const [items, setItems] = useState<NavigationTree[]>(() => {
+        const segment = typeof window !== 'undefined' ? localStorage.getItem(storageKey) || '' : ''
+        if (!segment) return panelNavigationFull
+        const filtered = filterBySegment(panelNavigationFull, segment)
+        return filtered.length ? filtered : panelNavigationFull
+    })
 
-  useEffect(() => {
-    const recompute = () => {
-      const segment = localStorage.getItem(storageKey) || ''
-      if (!segment) return setItems(panelNavigationFull)
-      const filtered = filterBySegment(panelNavigationFull, segment)
-      setItems(filtered.length ? filtered : panelNavigationFull)
-    }
-    window.addEventListener('storage', recompute)
-    window.addEventListener('redirect-segment-changed', recompute)
-    return () => {
-      window.removeEventListener('storage', recompute)
-      window.removeEventListener('redirect-segment-changed', recompute)
-    }
-  }, [storageKey])
+    useEffect(() => {
+        const recompute = () => {
+            const segment = localStorage.getItem(storageKey) || ''
+            if (!segment) return setItems(panelNavigationFull)
+            const filtered = filterBySegment(panelNavigationFull, segment)
+            setItems(filtered.length ? filtered : panelNavigationFull)
+        }
+        window.addEventListener('storage', recompute)
+        window.addEventListener('redirect-segment-changed', recompute)
+        return () => {
+            window.removeEventListener('storage', recompute)
+            window.removeEventListener('redirect-segment-changed', recompute)
+        }
+    }, [storageKey])
 
-  return items
+    return items
 }
