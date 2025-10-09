@@ -478,7 +478,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 key: 'fortalecimiento.resumenDptoAsistTecFortalec',
                 path: '/fortalecimiento/resumenDptoAsistTecFortalec',
                 title: 'ATFC RA',
-                tooltip: 'ATFC por Regiones y Años',
+                tooltip: 'Asistencia Técnica y Fortalecimiento de Capacidades por Regiones y Años',
                 translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec',
                 icon: '',
                 type: NAV_ITEM_TYPE_ITEM,
