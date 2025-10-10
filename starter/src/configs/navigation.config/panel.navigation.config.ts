@@ -52,7 +52,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     {
                         key: 'gestionProcesos.lluviasAvisoMeteorologico.dinamico',
                         path: '/gestion-procesos/lluviasAvisoMeteorologico/dinamico',
-                        title: 'Modelo Dinamico',
+                        title: 'Modelo Dinámico',
                         translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico.dinamico',
                         icon: '',
                         type: NAV_ITEM_TYPE_ITEM,
