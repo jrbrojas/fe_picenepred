@@ -173,17 +173,17 @@ function AppNavLink({
                         onClick={(e) => e.stopPropagation()}
                         role="menu"
                     >
-                        <ul className="grid gap-1">
-                            {item.submenu.map((i, index) => (
-                                <li key={index} role="none">
-                                    <AppNavLink
-                                        item={i as NavItem}
-                                        className="block rounded px-3 py-2 text-sm bg-red"
-                                        onDone={onDone}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
+                    <ul className="grid gap-1">
+                    {item.submenu.map((i, index) => (
+                        <li key={index} role="none">
+                        <AppNavLink
+                            item={i as NavItem}
+                            className="block rounded-md px-3 py-2 text-sm text-white hover:bg-[#30BDCC] transition-colors duration-200"
+                            onDone={onDone}
+                        />
+                        </li>
+                    ))}
+                    </ul>
                     </div>
                 ) : null}
             </div>
@@ -206,11 +206,11 @@ const Nav = () => {
                 <ul className="hidden lg:flex items-center gap-8">
                     {navItems.map((item) => (
                         <li key={item.label}>
-                            <AppNavLink
-                                item={item}
-                                className="block px-2 py-1.5 rounded-md text-sm font-semibold text-white/90 transition duration-200 group-hover:text-white"
-                            />
-                        </li>
+                        <AppNavLink
+                          item={item}
+                          className="block px-3 py-2 rounded-md text-sm font-semibold text-white/90 hover:bg-[#30BDCC] hover:text-white transition-colors duration-200"
+                        />
+                      </li>
                     ))}
                 </ul>
 

@@ -71,7 +71,7 @@ const defaultCourses: Course[] = [
     },
     {
         id: '3',
-        imageSrc: '/img/01.jpg',
+        imageSrc: '/img/03.jpg',
         imageAlt: 'Curso 3',
         date: '7 de agosto de 2025',
         title: 'Fundamentos de la Gestión del Riesgo de Desastres',
