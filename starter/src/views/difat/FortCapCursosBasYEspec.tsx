@@ -3,7 +3,7 @@ import { useState } from "react"
 export default function FortCapCursosBasYEspec() {
     const [url] = useState<string>(import.meta.env.VITE_RENAT_URL + "/tablero/pprrd/pi")
     return (
-        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+        <div className="relative w-full h-full" style={{ paddingTop: '56.25%' }}>
             <iframe
                 id="iframePPRRD"
                 title="Power BI Report"

@@ -3,7 +3,7 @@ import { useState } from "react"
 export default function RiesgoPorFenNaturales() {
     const [url] = useState<string>(import.meta.env.VITE_RENAT_URL + "/tablero/otros/pi")
     return (
-        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+        <div className="relative w-full h-full" style={{ paddingTop: '56.25%' }}>
             <iframe
                 title="Power BI Report"
                 src={url}

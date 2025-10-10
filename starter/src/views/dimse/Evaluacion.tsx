@@ -70,7 +70,7 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
                     nombre: monitoreo.provincia.nombre,
                     distritos: [{
                         id: monitoreo.distrito.ubigeo,
-                        nombre: monitoreo.distrito.distrito,
+                        nombre: monitoreo.distrito.nombre,
                         valores: [
                             mapValores(monitoreo.respuestas, "Monitoreo"),
                             mapValores(monitoreo.respuestas, "Seguimiento"),
@@ -89,7 +89,7 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
                 nombre: monitoreo.provincia.nombre,
                 distritos: [{
                     id: monitoreo.distrito.ubigeo,
-                    nombre: monitoreo.distrito.distrito,
+                    nombre: monitoreo.distrito.nombre,
                     valores: [
                         mapValores(monitoreo.respuestas, "Monitoreo"),
                         mapValores(monitoreo.respuestas, "Seguimiento"),
@@ -104,7 +104,7 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
         if (indexDistrito === -1) {
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
                 id: monitoreo.distrito.ubigeo,
-                nombre: monitoreo.distrito.distrito,
+                nombre: monitoreo.distrito.nombre,
                 valores: [
                     mapValores(monitoreo.respuestas, "Monitoreo"),
                     mapValores(monitoreo.respuestas, "Seguimiento"),
