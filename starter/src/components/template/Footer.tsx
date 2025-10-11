@@ -43,6 +43,7 @@ export default function Footer({
     pageContainerType = 'contained',
     className,
 }: FooterProps) {
+    return null;
     return (
         <footer
             className={classNames(
