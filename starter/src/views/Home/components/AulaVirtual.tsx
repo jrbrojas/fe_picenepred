@@ -26,26 +26,32 @@ export type Course = {
 }
 
 const CourseCard: React.FC<{ course: Course }> = ({ course }) => (
-    <a href={course.href || '#'} className="group block focus:outline-none">
-        <div className="relative overflow-hidden rounded-[24px] shadow-lg ring-1 ring-black/5 transition-all duration-300 ease-in-out transform hover:scale-105">
-            <img
-                src={course.imageSrc}
-                alt={course.imageAlt || course.title}
-                className="h-[250px] w-full object-cover transition-all duration-500 group-hover:scale-[1.05]"
-            />
-            <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-t from-black/50 via-black/0 to-transparent" />
-
-            <div className="absolute bottom-4 left-4">
-                <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-slate-700 shadow-md">
-                    {course.date}
-                </span>
-            </div>
+    <a
+      href={course.href || '#'}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block focus:outline-none"
+    >
+      <div className="relative overflow-hidden rounded-[24px] shadow-lg ring-1 ring-black/5 transition-all duration-300 ease-in-out transform hover:scale-105">
+        <img
+          src={course.imageSrc}
+          alt={course.imageAlt || course.title}
+          className="h-[250px] w-full object-cover transition-all duration-500 group-hover:scale-[1.05]"
+        />
+        <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-t from-black/50 via-black/0 to-transparent" />
+  
+        <div className="absolute bottom-4 left-4">
+          <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-slate-700 shadow-md">
+            {course.date}
+          </span>
         </div>
-        <h3 className="mt-4 text-center text-xl font-semibold text-gray-800 group-hover:text-[#078199] transition-colors">
-            {course.title}
-        </h3>
+      </div>
+      <h3 className="mt-4 text-center text-xl font-semibold text-gray-800 group-hover:text-[#078199] transition-colors">
+        {course.title}
+      </h3>
     </a>
-)
+  )
+  
 
 export interface AulaVirtualProps {
     title?: string
@@ -57,24 +63,27 @@ export interface AulaVirtualProps {
 const defaultCourses: Course[] = [
     {
         id: '1',
-        imageSrc: '/img/01.jpg',
+        imageSrc: '/img/01.png',
         imageAlt: 'Curso 1',
         date: '5 de septiembre de 2025',
-        title: 'Fundamentos de la Gestión del Riesgo de Desastres',
+        title: 'El Sistema Nacional de Gestión del Riesgo de Desastres',
+        href: 'https://aulavirtual.cenepred.gob.pe/login/index.php',
     },
     {
         id: '2',
-        imageSrc: '/img/02.jpg',
+        imageSrc: '/img/02.png',
         imageAlt: 'Curso 2',
         date: '10 de septiembre de 2025',
-        title: 'Fundamentos de la Gestión del Riesgo de Desastres',
+        title: 'Ciudades Resilientes 2030',
+        href: 'https://aulavirtual.cenepred.gob.pe/login/index.php',
     },
     {
         id: '3',
-        imageSrc: '/img/03.jpg',
+        imageSrc: '/img/03.png',
         imageAlt: 'Curso 3',
         date: '7 de agosto de 2025',
-        title: 'Fundamentos de la Gestión del Riesgo de Desastres',
+        title: 'Mecanismos de Financiamiento para el SINAGERD',
+        href: 'https://aulavirtual.cenepred.gob.pe/login/index.php',
     },
 ]
 

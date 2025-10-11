@@ -12,6 +12,7 @@ const slides = [
   { image: '/img/banner3.jpg' },
   { image: '/img/banner4.jpg' },
   { image: '/img/banner5.jpg' },
+  { image: '/img/banner6.jpg' },
 ]
 
 export default function HomeHero() {
@@ -63,10 +64,12 @@ export default function HomeHero() {
                       </p>
 
                       <div className="mt-5">
-                        <Link
-                          to="#"
-                          className="inline-flex items-center gap-3 rounded-full bg-[#E4DE40] px-6 py-2 text-sm md:text-base font-semibold text-[#05353B] shadow-md hover:bg-[#E4DE40]/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E4DE40]"
-                        >
+                      <a
+                        href="https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-3 rounded-full bg-[#E4DE40] px-6 py-2 text-sm md:text-base font-semibold text-[#05353B] shadow-md hover:bg-[#E4DE40]/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E4DE40]"
+                      >
                           Ingresar
                           <svg
                             className="h-4 w-4"
@@ -77,7 +80,7 @@ export default function HomeHero() {
                           >
                             <path d="M5 12h14M13 5l7 7-7 7" />
                           </svg>
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>

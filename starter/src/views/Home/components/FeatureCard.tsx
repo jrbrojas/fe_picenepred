@@ -2,11 +2,13 @@ import React from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 
 type FeatureCardProps = {
-  imgSrc?: string                // 👉 si pasas solo la ruta de la imagen
-  img?: React.ReactNode          // 👉 si pasas un ícono o componente ya renderizado
+  imgSrc?: string                // si pasas solo la ruta de la imagen
+  img?: React.ReactNode          // si pasas un ícono o componente ya renderizado
   title: string | null
   children: React.ReactNode
   cta?: string
+  href?: string
+  external?: boolean
 }
 
 const FeatureCard: React.FC<FeatureCardProps> = ({
@@ -15,6 +17,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   title,
   children,
   cta = 'Explorar',
+  href = 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0 ',
+  external = false,
 }) => (
   <div className="flex h-full flex-col items-center justify-between rounded-2xl bg-white p-8 text-center shadow-md ring-1 ring-slate-100 transition hover:bg-[#32C3D21F]">
     <div className="mb-6 grid h-28 w-28 place-items-center rounded-full bg-[#EAF7F9] text-[#0097A7]">
@@ -27,7 +31,9 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
     <h3 className="mb-2 text-lg font-semibold text-[#004748]">{title}</h3>
     <p className="mb-6 max-w-xs text-xs text-slate-500">{children}</p>
     <a
-      href="#"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="inline-flex items-center gap-2 rounded-full border border-[#0097A7] px-4 py-2 text-sm font-medium text-[#0097A7] hover:bg-[#0097A7] hover:text-white"
     >
       {cta}
