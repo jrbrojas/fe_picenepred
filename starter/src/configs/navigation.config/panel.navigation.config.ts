@@ -33,7 +33,7 @@ export const panelNavigationFull: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoMeteorologico',
                 path: '/gestion-procesos/lluviasAvisoMeteorologico',
-                title: 'LAM',
+                title: 'LLAM',
                 tooltip: 'Lluvias Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico',
                 icon: '',
@@ -65,7 +65,7 @@ export const panelNavigationFull: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoTrimestral',
                 path: '/gestion-procesos/lluviasAvisoTrimestral',
-                title: 'LAT',
+                title: 'LLAT',
                 tooltip: 'Lluvias Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoTrimestral',
                 icon: '',
@@ -99,7 +99,7 @@ export const panelNavigationFull: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasInformacionClimatica',
                 path: '/gestion-procesos/lluviasInformacionClimatica',
-                title: 'LIC',
+                title: 'LLIC',
                 tooltip: 'Lluvias Información Climática',
                 translateKey: 'nav.gestionProcesos.lluviasInformacionClimatica',
                 icon: '',
@@ -230,7 +230,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 key: 'gestionProcesos.incendiosForestalesNacional',
                 path: '/gestion-procesos/incendiosForestalesNacional',
                 title: 'IFN',
-                tooltip: 'Incendios Forestales Nac',
+                tooltip: 'Incendios Forestales Nacional',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
