@@ -27,7 +27,7 @@ export interface VerticalMenuContentProps {
 
 const { MenuGroup } = Menu
 
-const MAX_CASCADE_LEVEL = 3
+const MAX_CASCADE_LEVEL = 4
 
 function collectAncestorKeys(tree: NavigationTree[], targetKey?: string): string[] {
     if (!targetKey) return []

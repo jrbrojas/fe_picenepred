@@ -141,13 +141,13 @@ const navigationConfig: NavigationTree = {
             title: 'Indicadores',
             translateKey: 'nav.geo.visores.indicadores',
             icon: '',
-            type: NAV_ITEM_TYPE_ITEM,
+            type: NAV_ITEM_TYPE_COLLAPSE,
             isExternalLink: true,
             authority: [],
             subMenu: [
                 {
                     key: 'geo.visores.indicadores.indicadorGrd2024',
-                    path: '/monitoreo/monitoreo',
+                    path: 'https://dimse.cenepred.gob.pe/indicadores-multiple/2024/',
                     title: 'Indicador GRD 2024',
                     translateKey: 'nav.geo.visores.indicadores.indicadorGrd2024',
                     icon: '',
@@ -158,7 +158,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'geo.visores.indicadores.supervisionPprrd',
-                    path: '/monitoreo/monitoreo',
+                    path: 'https://dimse.cenepred.gob.pe/indicadores-pprrd5/pprrd.php',
                     title: 'Supervisión PPRRD',
                     translateKey: 'nav.geo.visores.indicadores.supervisionPprrd',
                     icon: '',
@@ -175,13 +175,13 @@ const navigationConfig: NavigationTree = {
             title: 'Resultados ponderados',
             translateKey: 'nav.geo.visores.resultadosPonderados',
             icon: '',
-            type: NAV_ITEM_TYPE_ITEM,
+            type: NAV_ITEM_TYPE_COLLAPSE,
             isExternalLink: true,
             authority: [],
             subMenu: [
                 {
                     key: 'geo.visores.resultadosPonderados.enagerd2024',
-                    path: '/monitoreo/monitoreo',
+                    path: 'https://dimse.cenepred.gob.pe/simse/resultados-enagerd-2024',
                     title: 'Enagerd 2024',
                     translateKey: 'nav.geo.visores.resultadosPonderados.enagerd2024',
                     icon: '',
@@ -192,7 +192,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'geo.visores.resultadosPonderados.enagerd2020_2021',
-                    path: '/monitoreo/monitoreo',
+                    path: 'https://dimse.cenepred.gob.pe/simse/resultados-enagerd-2020-2021',
                     title: 'Enagerd 2020-2021',
                     translateKey: 'nav.geo.visores.resultadosPonderados.enagerd2020_2021',
                     icon: '',
@@ -203,7 +203,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'geo.visores.resultadosPonderados.enagerd2019',
-                    path: '/monitoreo/monitoreo',
+                    path: 'https://dimse.cenepred.gob.pe/simse/resultados-enagerd-2019',
                     title: 'Enagerd 2019',
                     translateKey: 'nav.geo.visores.resultadosPonderados.enagerd2019',
                     icon: '',
@@ -214,7 +214,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'geo.visores.resultadosPonderados.enagerd2018',
-                    path: '/monitoreo/monitoreo',
+                    path: 'https://dimse.cenepred.gob.pe/simse/resultados-enagerd-2018',
                     title: 'Enagerd 2018',
                     translateKey: 'nav.geo.visores.resultadosPonderados.enagerd2018',
                     icon: '',
@@ -225,7 +225,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'geo.visores.resultadosPonderados.enagerd2017',
-                    path: '/monitoreo/monitoreo',
+                    path: 'https://dimse.cenepred.gob.pe/simse/resultados-enagerd',
                     title: 'Enagerd 2017',
                     translateKey: 'nav.geo.visores.resultadosPonderados.enagerd2017',
                     icon: '',
