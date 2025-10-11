@@ -27,7 +27,7 @@ export interface VerticalMenuContentProps {
 
 const { MenuGroup } = Menu
 
-const MAX_CASCADE_LEVEL = 4
+const MAX_CASCADE_LEVEL = 2
 
 function collectAncestorKeys(tree: NavigationTree[], targetKey?: string): string[] {
     if (!targetKey) return []
@@ -90,7 +90,8 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
 
         return (
             <>
-                {navTree.map((nav) => (
+                {navTree.map((nav) => {                     
+                return(
                     <Fragment key={nav.key}>
                         {nav.type === NAV_ITEM_TYPE_ITEM && (
                             <VerticalSingleMenuItem
@@ -157,7 +158,8 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
                             </AuthorityCheck>
                         )}
                     </Fragment>
-                ))}
+                )}
+            )}
             </>
         )
     }

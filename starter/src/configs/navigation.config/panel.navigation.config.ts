@@ -6,8 +6,9 @@ import {
 } from '@/constants/navigation.constant'
 import { ADMIN, USER } from '@/constants/roles.constant'
 import type { NavigationTree } from '@/@types/navigation'
-import enagerd from './enagerd'
 import { useEffect, useState } from 'react'
+import enagerd from './enagerd'
+import visoresGeo from './visores-geo'
 
 export const panelNavigationFull: NavigationTree[] = [
     {

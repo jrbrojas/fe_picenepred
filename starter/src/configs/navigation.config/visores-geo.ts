@@ -6,8 +6,8 @@ import {
 } from '@/constants/navigation.constant'
 
 const navigationConfig: NavigationTree = {
-    key: 'geo.visores',
-    path: '/monitoreo/monitoreo',
+    key: 'monitoreo.geo.visores',
+    path: '',
     title: 'Geo Visores',
     translateKey: 'nav.geo.visores',
     icon: '',
@@ -15,8 +15,8 @@ const navigationConfig: NavigationTree = {
     authority: [],
     subMenu: [
         {
-            key: 'geo.visores.ejecucion',
-            path: '/monitoreo/monitoreo',
+            key: 'monitoreo.geo.visores.ejecucion',
+            path: '',
             title: 'Ejecución',
             translateKey: 'nav.geo.visores.ejecucion',
             icon: '',

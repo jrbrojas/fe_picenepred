@@ -4,25 +4,25 @@ import reportesEjecucion from './reportes-ejecucion'
 import visoresGeo from './visores-geo'
 
 const navigationConfig: NavigationTree = {
-    key: 'enagerd',
-    path: '',
+    key: 'monitoreo.enagerd',
+    path: '/monitoreo/enagerd',
     title: 'Enagerd',
-    translateKey: 'nav.monitoreo',
+    translateKey: 'nav.monitoreo.enagerd',
     icon: '',
     type: NAV_ITEM_TYPE_COLLAPSE,
     authority: [],
     subMenu: [
         {
-            key: 'enagerd.encuestas',
-            path: '/monitoreo/monitoreo',
+            key: 'monitoreo.enagerd.encuestas',
+            path: '/monitoreo/enagerd/encuestas',
             title: 'Encuestas',
-            translateKey: 'nav.monitoreo.monitoreo',
+            translateKey: 'nav.monitoreo.enagerd.encuestas',
             icon: '',
             type: NAV_ITEM_TYPE_COLLAPSE,
             authority: [],
             subMenu: [
                 {
-                    key: 'enagerd.encuestas.enagerd2025',
+                    key: 'monitoreo.enagerd.encuestas.enagerd2025',
                     path: 'https://dimse.cenepred.gob.pe/encuestas/144291',
                     title: 'Enagerd 2025',
                     translateKey: 'nav.monitoreo.monitoreo.enagerd2025',
@@ -33,7 +33,7 @@ const navigationConfig: NavigationTree = {
                     subMenu: [],
                 },
                 {
-                    key: 'enagerd.encuestas.formEnagerd2025',
+                    key: 'monitoreo.enagerd.encuestas.formEnagerd2025',
                     path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/FORMULARIO_ENAGERD_2025.pdf',
                     title: 'Form Enagerd 2025',
                     translateKey: 'nav.monitoreo.monitoreo.formEnagerd2025',
@@ -44,7 +44,7 @@ const navigationConfig: NavigationTree = {
                     subMenu: [],
                 },
                 {
-                    key: 'enagerd.encuestas.solicitudContrasena',
+                    key: 'monitoreo.enagerd.encuestas.solicitudContrasena',
                     path: 'https://forms.gle/9Wb6ij284nHG48v87',
                     title: 'Solicitud contraseña',
                     translateKey: 'nav.monitoreo.monitoreo.solicitudContrasena',
@@ -55,7 +55,7 @@ const navigationConfig: NavigationTree = {
                     subMenu: [],
                 },
                 {
-                    key: 'enagerd.encuestas.programaTalleres',
+                    key: 'monitoreo.enagerd.encuestas.programaTalleres',
                     path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/ENAGERD_2025_ANEXO_3_TALLERES.pdf',
                     title: 'Programa de talleres',
                     translateKey: 'nav.monitoreo.monitoreo.programaTalleres',
@@ -82,4 +82,5 @@ const navigationConfig: NavigationTree = {
         visoresGeo,
     ]
 }
+
 export default navigationConfig
