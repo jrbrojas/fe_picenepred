@@ -31,6 +31,16 @@ export const panelNavigationFull: NavigationTree[] = [
         authority: [],
         subMenu: [
             {
+                key: 'gestionProcesos.lluvias',
+                path: '/gestion-procesos',
+                title: 'LLUVIAS',
+                translateKey: 'nav.gestionProcesos.lluvias',
+                icon: 'file',
+                type: NAV_ITEM_TYPE_TITLE,
+                authority: [],
+                subMenu: []
+            },
+            {
                 key: 'gestionProcesos.lluviasAvisoMeteorologico',
                 path: '/gestion-procesos/lluviasAvisoMeteorologico',
                 title: 'LLAM',
@@ -127,6 +137,16 @@ export const panelNavigationFull: NavigationTree[] = [
                         subMenu: [],
                     }
                 ],
+            },
+            {
+                key: 'gestionProcesos.bajasTemp',
+                path: '/gestion-procesos',
+                title: 'BAJAS TEMPERATURAS',
+                translateKey: 'nav.gestionProcesos.bajasTemp',
+                icon: 'file',
+                type: NAV_ITEM_TYPE_TITLE,
+                authority: [],
+                subMenu: []
             },
             {
                 key: 'gestionProcesos.bajasTempAvisoMeteorologico',
@@ -227,6 +247,16 @@ export const panelNavigationFull: NavigationTree[] = [
                 ],
             },
             {
+                key: 'gestionProcesos.incendios',
+                path: '/gestion-procesos',
+                title: 'INCENDIOS',
+                translateKey: 'nav.gestionProcesos.incendios',
+                icon: 'file',
+                type: NAV_ITEM_TYPE_TITLE,
+                authority: [],
+                subMenu: []
+            },
+            {
                 key: 'gestionProcesos.incendiosForestalesNacional',
                 path: '/gestion-procesos/incendiosForestalesNacional',
                 title: 'IFN',
@@ -290,6 +320,16 @@ export const panelNavigationFull: NavigationTree[] = [
                         subMenu: [],
                     }
                 ],
+            },
+            {
+                key: 'gestionProcesos.sismos',
+                path: '/gestion-procesos',
+                title: 'SISMOS',
+                translateKey: 'nav.gestionProcesos.sismos',
+                icon: 'file',
+                type: NAV_ITEM_TYPE_TITLE,
+                authority: [],
+                subMenu: []
             },
             {
                 key: 'gestionProcesos.sismosTsunamiNacional',

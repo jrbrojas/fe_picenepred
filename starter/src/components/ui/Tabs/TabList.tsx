@@ -1,14 +1,15 @@
 import classNames from 'classnames'
 import { useTabs } from './context'
 import type { CommonProps } from '../@types/common'
-import type { Ref } from 'react'
+import type { ReactNode, Ref } from 'react'
 
 export type TabListProps = CommonProps & {
+    button?: ReactNode,
     ref?: Ref<HTMLDivElement>
 }
 
 const TabList = (props: TabListProps) => {
-    const { className, children, ref, ...rest } = props
+    const { className, children, button, ref, ...rest } = props
 
     const { variant } = useTabs()
 
@@ -19,9 +20,23 @@ const TabList = (props: TabListProps) => {
     )
 
     return (
-        <div ref={ref} role="tablist" className={tabListClass} {...rest}>
-            {children}
-        </div>
+       <div className="flex justify-between items-center w-full">
+            <div
+                ref={ref}
+                role="tablist"
+                className={tabListClass}
+                {...rest}
+            >
+                {children}
+            </div>
+
+            {/* Botón derecho (opcional) */}
+            {button && (
+                <div className="ml-3 flex-shrink-0">
+                    {button}
+                </div>
+            )}
+        </div>    
     )
 }
 

@@ -1,8 +1,9 @@
-import { Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Skeleton, Tabs } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import ImageLoad from "../ImageLoad";
+import { BiDownload } from "react-icons/bi";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -55,10 +56,13 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                         {Array.from({ length: 3 }).map((_, index) => <CardSkeleton key={index} />)}
                     </div>) : (
                     <>
-                        <div className='flex justify-between items-center mb-3'>
+                        <div className='flex justify-between items-center mb-5'>
                             <div className="text-lg p-2 font-semibold text-white bg-teal-600 rounded-full">
                                 <p className='mr-5 ml-2'>PLAN MULTISECTORIAL</p>
                             </div>
+                            <Button variant="solid" icon={<BiDownload />}>
+                                Descargar PDF
+                            </Button>
                         </div>
 
                         <div className='flex-1 flex flex-col items-center text-center text-2xl mb-5'>

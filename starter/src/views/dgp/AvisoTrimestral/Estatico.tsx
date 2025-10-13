@@ -1,10 +1,10 @@
-import { Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Skeleton, Tabs } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
-import { BiSolidSchool } from 'react-icons/bi'
+import { BiDownload, BiSolidSchool } from 'react-icons/bi'
 import { BsHospital } from "react-icons/bs";
 import ImageLoad from "../ImageLoad";
 
@@ -68,7 +68,12 @@ const LluviasAvisoTrimestralEstatico = () => {
                     </div>) : (
 
                     <Tabs defaultValue="inundaciones">
-                        <TabList>
+                        <TabList button={
+                                <Button variant="solid" icon={<BiDownload />}>
+                                    Descargar PDF
+                                </Button>
+                            }
+                        >
                             {tipoPeligro.map(tipo => (
                                 <TabNav key={tipo} value={tipo}>{formatTabName(tipo)}</TabNav>
                             ))}
