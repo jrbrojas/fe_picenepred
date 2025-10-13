@@ -54,7 +54,7 @@ const CollapsedItem = ({
         <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
             {renderAsIcon ? (
                 <Tooltip
-                    title={t(nav.translateKey, nav.title)}
+                    title={nav.title}
                     placement={direction === 'rtl' ? 'left' : 'right'}
                 >
                     {children}
@@ -74,10 +74,10 @@ const CollapsedItem = ({
                                 })
                             }
                         >
-                            <span>{t(nav.translateKey, nav.title)}</span>
+                            <span>{nav.title}</span>
                         </Link>
                     ) : (
-                        <span>{t(nav.translateKey, nav.title)}</span>
+                        <span>{nav.title}</span>
                     )}
                 </Dropdown.Item>
             )}
@@ -115,10 +115,10 @@ const DefaultItem = (props: DefaultItemProps) => {
                     {showTitle && (
                         (nav.tooltip ? (
                             <Tooltip title={nav.tooltip}>
-                                <span>{t(nav.translateKey, nav.title)}</span>
+                                <span>{nav.title}</span>
                             </Tooltip>
                         ) : (
-                            <span>{t(nav.translateKey, nav.title)}</span>
+                            <span>{nav.title}</span>
                         ))
                     )}
                 </Link>

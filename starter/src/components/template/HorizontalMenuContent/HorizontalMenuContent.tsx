@@ -49,7 +49,7 @@ const HorizontalMenuContent = (props: HorizontalMenuContentProps) => {
                                 >
                                     <div className="flex items-center gap-1">
                                         <span>
-                                            {t(nav.translateKey, nav.title)}
+                                            {nav.title}
                                         </span>
                                         <TbChevronDown />
                                     </div>
@@ -77,7 +77,7 @@ const HorizontalMenuContent = (props: HorizontalMenuContentProps) => {
                             asElement="a"
                         >
                             <div className="flex items-center gap-1">
-                                <span>{t(nav.translateKey, nav.title)}</span>
+                                <span>{nav.title}</span>
                             </div>
                         </HorizontalMenuDropdownTrigger>
                     )}

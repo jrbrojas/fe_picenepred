@@ -167,7 +167,7 @@ const ColumnsLayout = (
                                 <div className="max-w-[250px]">
                                     {showColumnTitle && (
                                         <div className="heading-text font-bold mb-2">
-                                            {t(nav.translateKey, nav.title)}
+                                            {nav.title}
                                         </div>
                                     )}
                                     {nav.subMenu.map((subNav) => (
@@ -239,7 +239,7 @@ const ColumnsLayout = (
                                                 <TbCircle />
                                             )
                                         }
-                                        title={t(nav.translateKey, nav.title)}
+                                        title={nav.title}
                                         description={t(
                                             nav.meta?.description
                                                 ?.translateKey || '',
@@ -288,7 +288,7 @@ const DefaultLayout = ({
                                     >
                                         <MenuIcon icon={nav.icon} />
                                         <span>
-                                            {t(nav.translateKey, nav.title)}
+                                            {nav.title}
                                         </span>
                                     </HorizontalMenuNavLink>
                                 </Dropdown.Item>
@@ -299,7 +299,7 @@ const DefaultLayout = ({
                                         <span className="flex items-center gap-2">
                                             <MenuIcon icon={nav.icon} />
                                             <span>
-                                                {t(nav.translateKey, nav.title)}
+                                                {nav.title}
                                             </span>
                                         </span>
                                     }
@@ -440,7 +440,7 @@ const TabLayout = ({
                                                 )}
                                             </span>
                                             <span>
-                                                {t(nav.translateKey, nav.title)}
+                                                {nav.title}
                                             </span>
                                         </div>
                                     </HorizontalMenuNavLink>

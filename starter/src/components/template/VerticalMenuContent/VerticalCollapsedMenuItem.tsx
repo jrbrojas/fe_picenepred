@@ -46,10 +46,10 @@ const DefaultItem = ({
                         <VerticalMenuIcon icon={nav.icon} />
                         {nav.tooltip ? (
                             <Tooltip title={nav.tooltip}>
-                                <span>{t(nav.translateKey, nav.title)}</span>
+                                <span>{nav.title}</span>
                             </Tooltip>
                         ) : (
-                            <span>{t(nav.translateKey, nav.title)}</span>
+                            <span>{nav.title}</span>
 
                         )}
                     </>
@@ -86,7 +86,7 @@ const CollapsedItem = ({
     )
 
     const dropdownItem = (
-        <div key={nav.key}>{t(nav.translateKey, nav.title)}</div>
+        <div key={nav.key}>{nav.title}</div>
     )
 
     return (

@@ -22,8 +22,8 @@ export const panelNavigationFull: NavigationTree[] = [
         subMenu: [],
     },
     {
-        key: 'dgp',
-        path: '',
+        key: 'gestion-procesos',
+        path: '/gestion-procesos',
         title: 'DGP',
         translateKey: 'nav.gestionProcesos',
         icon: 'file',
@@ -323,53 +323,11 @@ export const panelNavigationFull: NavigationTree[] = [
                     }
                 ],
             },
-            /*
-            {
-                key: 'gestionProcesos.sismosTsunamiOtrosAmbitos',
-                path: '/gestion-procesos/sismosTsunamiOtrosAmbitos',
-                title: 'Sismos Tsunami Otros Ámbitos',
-                translateKey: 'nav.gestionProcesos.sismosTsunamiOtrosAmbitos',
-                icon: '',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            {
-                key: 'gestionProcesos.sequiasNacional',
-                path: '/gestion-procesos/sequiasNacional',
-                title: 'Sequías Nacional',
-                translateKey: 'nav.gestionProcesos.sequiasNacional',
-                icon: '',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            {
-                key: 'gestionProcesos.sequiasDepartamental',
-                path: '/gestion-procesos/sequiasDepartamental',
-                title: 'Sequías Dep',
-                translateKey: 'nav.gestionProcesos.sequiasDepartamental',
-                icon: '',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            {
-                key: 'gestionProcesos.volcanesNacional',
-                path: '/gestion-procesos/volcanesNacional',
-                title: 'Volcanes Nac',
-                translateKey: 'nav.gestionProcesos.volcanesNacional',
-                icon: '',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            */
         ],
     },
     {
         key: 'difat',
-        path: '',
+        path: '/fortalecimiento',
         title: 'DIFAT',
         translateKey: 'nav.dimse',
         icon: 'chart',
@@ -524,7 +482,7 @@ export const panelNavigationFull: NavigationTree[] = [
     },
     {
         key: 'dimse',
-        path: '',
+        path: '/monitoreo',
         title: 'SIMSE',
         translateKey: 'nav.monitoreo',
         icon: 'monitor',
@@ -587,35 +545,97 @@ export const panelNavigationFull: NavigationTree[] = [
 
 ]
 
-function filterBySegment(nav: NavigationTree[], segment: string): NavigationTree[] {
-    const prefix = `/${segment}`
-    return nav
-        .map(item => {
-            const sub = item.subMenu ? filterBySegment(item.subMenu, segment) : []
-            const matchesSelf = !!item.path && item.path.startsWith(prefix)
-            if (matchesSelf || sub.length > 0) {
-                return { ...item, subMenu: sub }
-            }
-            return null
-        })
-        .filter(Boolean) as NavigationTree[]
+function isExternal(path?: string) {
+    return !!path && /^(https?:)?\/\//.test(path)
 }
 
+// function filterBySegment(nav: NavigationTree[], segment: string): NavigationTree[] {
+//     const prefix = `/${segment}`
+//     return nav
+//         .map(item => {
+//             const sub = item.subMenu ? filterBySegment(item.subMenu, segment) : []
+//             const matchesSelf = !!item.path && item.path.startsWith(prefix)
+//             if (matchesSelf || sub.length > 0) {
+//                 return { ...item, subMenu: sub }
+//             }
+//             return null
+//         })
+//         .filter(Boolean) as NavigationTree[]
+// }
+
+function filterBySegmentFlatten(nav: NavigationTree[], segment: string, inSegment = false): NavigationTree[] {
+    const prefix = `/${segment}`
+    const out: NavigationTree[] = []
+
+    for (const item of nav) {
+        const hasPath = typeof item.path === 'string' && item.path.length > 0
+        const startsWithSegment = hasPath && item.path!.startsWith(prefix)
+        // Una vez que un ancestro coincide, sus descendientes están "dentro del segmento"
+        const hereInSegment = inSegment || !!startsWithSegment
+
+        const children = item.subMenu
+            ? filterBySegmentFlatten(item.subMenu, segment, hereInSegment)
+            : []
+
+        // Regla de inclusión:
+        // - Incluye el item si:
+        //   a) su path empieza con el segmento, o
+        //   b) es un enlace externo y estamos dentro del segmento (para mantener PDFs/Forms)
+        const includeSelf =
+            (hasPath && startsWithSegment) ||
+            (hasPath && isExternal(item.path) && hereInSegment)
+
+        if (includeSelf) {
+            out.push({ ...item, subMenu: children })
+        } else if (children.length > 0) {
+            // Si el item NO debe mostrarse pero tiene hijos válidos, promocionarlos
+            out.push(...children)
+        }
+        // Si no coincide y no tiene hijos válidos, se descarta
+    }
+
+    return out
+}
+
+// export function usePanelNavigation(storageKey = 'redirectTo') {
+//     const [items, setItems] = useState<NavigationTree[]>(() => {
+//         const segment = typeof window !== 'undefined' ? localStorage.getItem(storageKey) || '' : ''
+//         if (!segment) return panelNavigationFull
+//         const filtered = filterBySegment(panelNavigationFull, segment)
+//         return filtered.length ? filtered : panelNavigationFull
+//     })
+
+//     useEffect(() => {
+//         const recompute = () => {
+//             const segment = localStorage.getItem(storageKey) || ''
+//             if (!segment) return setItems(panelNavigationFull)
+//             const filtered = filterBySegment(panelNavigationFull, segment)
+//             setItems(filtered.length ? filtered : panelNavigationFull)
+//         }
+//         window.addEventListener('storage', recompute)
+//         window.addEventListener('redirect-segment-changed', recompute)
+//         return () => {
+//             window.removeEventListener('storage', recompute)
+//             window.removeEventListener('redirect-segment-changed', recompute)
+//         }
+//     }, [storageKey])
+
+//     return items
+// }
+
 export function usePanelNavigation(storageKey = 'redirectTo') {
-    const [items, setItems] = useState<NavigationTree[]>(() => {
-        const segment = typeof window !== 'undefined' ? localStorage.getItem(storageKey) || '' : ''
+    const compute = () => {
+        const segment =
+            typeof window !== 'undefined' ? localStorage.getItem(storageKey) || '' : ''
         if (!segment) return panelNavigationFull
-        const filtered = filterBySegment(panelNavigationFull, segment)
-        return filtered.length ? filtered : panelNavigationFull
-    })
+        const filtered = filterBySegmentFlatten(panelNavigationFull, segment)
+        return filtered.length ? filtered : []
+    }
+
+    const [items, setItems] = useState<NavigationTree[]>(compute)
 
     useEffect(() => {
-        const recompute = () => {
-            const segment = localStorage.getItem(storageKey) || ''
-            if (!segment) return setItems(panelNavigationFull)
-            const filtered = filterBySegment(panelNavigationFull, segment)
-            setItems(filtered.length ? filtered : panelNavigationFull)
-        }
+        const recompute = () => setItems(compute())
         window.addEventListener('storage', recompute)
         window.addEventListener('redirect-segment-changed', recompute)
         return () => {

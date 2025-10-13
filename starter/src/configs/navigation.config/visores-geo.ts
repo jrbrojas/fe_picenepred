@@ -7,7 +7,7 @@ import {
 
 const navigationConfig: NavigationTree = {
     key: 'monitoreo.geo.visores',
-    path: '',
+    path: '/monitoreo/geo/visores',
     title: 'Geo Visores',
     translateKey: 'nav.geo.visores',
     icon: '',
@@ -16,7 +16,7 @@ const navigationConfig: NavigationTree = {
     subMenu: [
         {
             key: 'monitoreo.geo.visores.ejecucion',
-            path: '',
+            path: '/monitoreo/geo/visores/ejecucion',
             title: 'Ejecución',
             translateKey: 'nav.geo.visores.ejecucion',
             icon: '',
@@ -137,9 +137,9 @@ const navigationConfig: NavigationTree = {
         },
         {
             key: 'geo.visores.indicadores',
-            path: '/monitoreo/monitoreo',
+            path: '',
             title: 'Indicadores',
-            translateKey: 'nav.geo.visores.indicadores',
+            translateKey: 'indicadores',
             icon: '',
             type: NAV_ITEM_TYPE_COLLAPSE,
             isExternalLink: true,

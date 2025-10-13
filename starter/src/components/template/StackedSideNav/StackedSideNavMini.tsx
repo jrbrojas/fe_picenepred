@@ -120,7 +120,7 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
                             authority={nav.authority}
                             userAuthority={userAuthority}
                         >
-                            <div title={t(nav.translateKey, nav.title)}>
+                            <div title={nav.title}>
                                 {nav.subMenu && nav.subMenu.length > 0 ? (
                                     <Menu.MenuItem
                                         eventKey={nav.key}
