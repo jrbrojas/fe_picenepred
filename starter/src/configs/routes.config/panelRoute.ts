@@ -356,7 +356,7 @@ const panelRoute: Routes = [
     {
         key: 'monitoreo.directorioNacional',
         path: '/monitoreo/directorioNacional',
-        component: lazy(() => import('@/views/dimse/Monitoreo')),
+        component: lazy(() => import('@/views/dimse/DirectorioNacional')),
         authority: [],
     },
     {

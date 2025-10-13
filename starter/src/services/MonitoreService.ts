@@ -1,4 +1,4 @@
-import { CategoriaResponse, MonitoreoResponse, SupervicionResponse } from '@/views/dimse/types'
+import { CategoriaResponse, MonitoreoResponse, SupervicionResponse, DirectorioResponse } from '@/views/dimse/types'
 import ApiServiceDimse from './ApiServiceDimse'
 
 export async function apiGetMonitoreo(categoria: string) {
@@ -28,6 +28,14 @@ export async function apiGetEvaluacion(categoria: string) {
 export async function apiGetCategorias() {
     return ApiServiceDimse.fetchDataWithAxios<CategoriaResponse[]>({
         url: '/directorio/categorias',
+        method: 'get',
+    })
+}
+
+export async function apiGetDirectorio(categoria: string) {
+    return ApiServiceDimse.fetchDataWithAxios<DirectorioResponse[]>({
+        //url: `/directorio?categoria=${categoria}`,
+        url: `/directorio`,
         method: 'get',
     })
 }
