@@ -469,6 +469,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/pdc',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan de Desarrollo Concertado',
                         authority: [],
                         subMenu: []
                     },
@@ -479,6 +480,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/pdrc',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan de Desarrollo Regional Concertado',
                         authority: [],
                         subMenu: []
                     },
@@ -489,6 +491,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/pdlc',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan de Desarrollo Local Concertado',
                         authority: [],
                         subMenu: []
                     },
@@ -499,6 +502,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/poi',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan Operativo Institucional',
                         authority: [],
                         subMenu: []
                     },
@@ -509,6 +513,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/pei',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan Estratégico Institucional',
                         authority: [],
                         subMenu: []
                     },
@@ -519,6 +524,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/rof',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Reglamento de Organizacion y Funciones',
                         authority: [],
                         subMenu: []
                     },
@@ -529,16 +535,18 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/pdt',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan de Ordenamiento Territorial',
                         authority: [],
                         subMenu: []
                     },
                     {
                         key: "fortalecimiento.instrumento.eat",
                         translateKey: "nav.fortalecimiento.instrumento.eat",
-                        title: "EAT",
+                        title: "PAT",
                         path: '/fortalecimiento/instrumentos/eat',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan de Accion Territorial',
                         authority: [],
                         subMenu: []
                     },
@@ -549,6 +557,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/instrumentos/pdu',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
+                        tooltip: 'Plan de Desarrollo Distrital / Documento de Desarrollo Disrital',
                         authority: [],
                         subMenu: []
                     }
