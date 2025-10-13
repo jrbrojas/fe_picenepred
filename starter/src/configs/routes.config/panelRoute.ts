@@ -239,6 +239,76 @@ const panelRoute: Routes = [
         authority: [],
     },
     {
+        key: 'fortalecimiento.riesgoPorFenNaturales.prep',
+        path: '/fortalecimiento/riesgoPorFenNaturales/prep',
+        component: lazy(
+            () => import('@/views/difat/RiesgoPorFenNaturales'),
+        ),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumentos',
+        path: '/fortalecimiento/instrumentos',
+        component: lazy(
+            () => import('@/views/difat/Instrumentos'),
+        ),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.pdc',
+        path: '/fortalecimiento/instrumentos/pdc',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.pdrc',
+        path: '/fortalecimiento/instrumentos/pdrc',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.pdlc',
+        path: '/fortalecimiento/instrumentos/pdlc',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.poi',
+        path: '/fortalecimiento/instrumentos/poi',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.pei',
+        path: '/fortalecimiento/instrumentos/pei',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.rof',
+        path: '/fortalecimiento/instrumentos/rof',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.pdt',
+        path: '/fortalecimiento/instrumentos/pdt',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.eat',
+        path: '/fortalecimiento/instrumentos/eat',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.instrumento.pdu',
+        path: '/fortalecimiento/instrumentos/pdu',
+        component: lazy(() => import('@/views/difat/Instrumentos')),
+        authority: [],
+    },
+    {
         key: 'fortalecimiento.otrasAsistenciasTecNacional',
         path: '/fortalecimiento/otrasAsistenciasTecNacional',
         component: lazy(
