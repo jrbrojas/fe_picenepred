@@ -35,6 +35,15 @@ const formatArray = (pgArray: string) => {
     // separar por comas
     let items = clean.split(",").filter((v) => v && v !== "NULL");
 
+    // Retornar como lista con viñetas
+    return (
+        <div>
+            {items.map((item, index) => (
+                <div key={index}>• {item.trim()}</div>
+            ))}
+        </div>
+    );
+    
     // casos según cantidad
     if (items.length === 0) return "";
     if (items.length === 1) return items[0];
@@ -155,7 +164,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                 </div>
                                                 <div className="border-l border-teal-600 p-2 flex flex-col justify-between">
                                                     {/* Nivel de riesgo */}
-                                                    <div className='p-4'>
+                                                    <div>
                                                         <div className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
                                                             {nivelNombre[item.nivel]}
                                                         </div>

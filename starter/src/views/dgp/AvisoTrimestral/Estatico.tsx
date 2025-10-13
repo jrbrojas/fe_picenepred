@@ -175,7 +175,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                                                             </div>
                                                             <div className="border-l border-teal-600 p-2 flex flex-col justify-between">
                                                                 {/* Nivel de riesgo */}
-                                                                <div className='p-4'>
+                                                                <div>
                                                                     <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
                                                                         {item.nivel}
                                                                     </div>

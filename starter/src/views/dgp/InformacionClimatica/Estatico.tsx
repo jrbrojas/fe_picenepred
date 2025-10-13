@@ -42,7 +42,6 @@ const LluviasAvisoMeteorologicoEstatico = () => {
         </Card>
     )
 
-
     if (!isLoading && tipoPeligro.length == 0) {
         return <NoDataMessage />;
     }
