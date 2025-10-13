@@ -34,8 +34,7 @@ export async function apiGetCategorias() {
 
 export async function apiGetDirectorio(categoria: string) {
     return ApiServiceDimse.fetchDataWithAxios<DirectorioResponse[]>({
-        //url: `/directorio?categoria=${categoria}`,
-        url: `/directorio`,
+        url: `/directorio?categoria=${categoria}`,
         method: 'get',
     })
 }
