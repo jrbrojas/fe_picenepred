@@ -43,7 +43,7 @@ export const panelNavigationFull: NavigationTree[] = [
             {
                 key: 'gestionProcesos.lluviasAvisoMeteorologico',
                 path: '/gestion-procesos/lluviasAvisoMeteorologico',
-                title: 'METEOROLOGICO',
+                title: 'METEOROLÓGICO',
                 tooltip: 'Lluvias Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico',
                 icon: '',
@@ -151,7 +151,7 @@ export const panelNavigationFull: NavigationTree[] = [
             {
                 key: 'gestionProcesos.bajasTempAvisoMeteorologico',
                 path: '/gestion-procesos/bajasTempAvisoMeteorologico',
-                title: 'METEOROLOGICO',
+                title: 'METEOROLÓGICO',
                 tooltip: 'Bajas Temp Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoMeteorologico',
                 icon: '',
@@ -259,8 +259,8 @@ export const panelNavigationFull: NavigationTree[] = [
             {
                 key: 'gestionProcesos.incendiosForestalesNacional',
                 path: '/gestion-procesos/incendiosForestalesNacional',
-                title: 'F. NACIONAL',
-                tooltip: 'Incendios Forestales Nacional',
+                title: 'F. NACIONALES',
+                tooltip: 'Incendios Forestales Nacionales',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
@@ -335,7 +335,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 key: 'gestionProcesos.sismosTsunamiNacional',
                 path: '/gestion-procesos/sismosTsunamiNacional',
                 title: 'TSUNAMI',
-                tooltip: 'Sismos Tsunami Nacional',
+                tooltip: 'Sismos Tsunami Nacionales',
                 translateKey: 'nav.gestionProcesos.sismosTsunamiNacional',
                 icon: '',
                 type: NAV_ITEM_TYPE_COLLAPSE,
