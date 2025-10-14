@@ -1,10 +1,9 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Select } from '@/components/ui'
-import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
 import { DirectorioResponse } from './types'
-import { apiGetCategorias, apiGetDirectorio } from '@/services/MonitoreService'
+import { apiGetDirectorio } from '@/services/MonitoreService'
 import { formatDateYYYYMMDD } from '@/utils/datetime'
+import FiltrosDirectorio from './FiltrosDirectorio'
 
 type Distrito = {
     id: string
@@ -100,50 +99,18 @@ function mapMonitoreoResponseToData(response: DirectorioResponse[]): Departament
     }
     return data;
 }
-interface CategoriaOption {
-    value: string;
-    label: string;
-}
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
-    const [categorias, setCategorias] = useState<CategoriaOption[]>([])
-    const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
-    const [fetching, setFetching] = useState(true)
     const [query, setQuery] = useState("Peru");
 
-
-    async function onCategoria(newValue: SingleValue<CategoriaOption>) {
-        if (!newValue) {
-            return;
-        }
-        setFetching(true)
-        setCurrentCategoria(newValue);
-        await fetchValues(newValue.value)
-        setFetching(false)
-    }
-    async function fetchValues(categoria: string) {
-        const response = await apiGetDirectorio(categoria)
+    async function fetchValues(distrito: string) {
+        const response = await apiGetDirectorio(distrito)
         setData(mapMonitoreoResponseToData(response))
     }
-    async function boot(): Promise<void> {
-        const res = await apiGetCategorias()
-        setCategorias(res.map(cat => ({
-            value: String(cat.id),
-            label: cat.nombre
-        })))
-        const first = res[0]
-        setCurrentCategoria({
-            value: String(first.id),
-            label: first.nombre,
-        })
-        await fetchValues(String(first.id))
-        setFetching(false)
-    }
-
     useEffect(() => {
-        boot();
+        //boot();
     }, []);
 
     const toggle = (key: string) => {
@@ -152,17 +119,20 @@ export default function TreeTableMonitoreo3Niveles() {
         setExpanded(next)
     }
 
+    function onDistrito(distrito: string) {
+        if (distrito) {
+            fetchValues(distrito)
+            return;
+        }
+        setData([]);
+    }
+
     return (
         <>
             <div className="space-y-6">
                 {/* Encabezado */}
                 <div className="text-center">
-                    <Select
-                        options={categorias}
-                        value={currentCategoria}
-                        onChange={(n) => onCategoria(n)}
-                        isDisabled={fetching}
-                    />
+                    <FiltrosDirectorio onDistrito={onDistrito} />
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">

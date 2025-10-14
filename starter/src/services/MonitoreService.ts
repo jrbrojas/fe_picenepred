@@ -32,9 +32,9 @@ export async function apiGetCategorias() {
     })
 }
 
-export async function apiGetDirectorio(categoria: string) {
+export async function apiGetDirectorio(distrito: string) {
     return ApiServiceDimse.fetchDataWithAxios<DirectorioResponse[]>({
-        url: `/directorio?categoria=${categoria}`,
+        url: `/directorio?distrito=${distrito}`,
         method: 'get',
     })
 }
