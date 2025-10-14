@@ -368,7 +368,7 @@ export const panelNavigationFull: NavigationTree[] = [
     {
         key: 'difat',
         path: '/fortalecimiento',
-        title: 'DIFAT',
+        title: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA',
         translateKey: 'nav.dimse',
         icon: 'chart',
         type: NAV_ITEM_TYPE_COLLAPSE,
@@ -670,7 +670,7 @@ export const panelNavigationFull: NavigationTree[] = [
     {
         key: 'dimse',
         path: '/monitoreo',
-        title: 'SIMSE',
+        title: 'MONITOREO, SEGUIMIENTO Y EVALUACIÓN',
         translateKey: 'nav.monitoreo',
         icon: 'monitor',
         type: NAV_ITEM_TYPE_COLLAPSE,
