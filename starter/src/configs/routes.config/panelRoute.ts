@@ -201,6 +201,22 @@ const panelRoute: Routes = [
         authority: [],
     },
     {
+        key: 'fortalecimiento.resumenDptoAsistTecFortalec.entasi',
+        path: '/fortalecimiento/resumenDptoAsistTecFortalec/entasi',
+        component: lazy(
+            () => import('@/views/difat/PprdNivelNacionalEntasi'),
+        ),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.resumenDptoAsistTecFortalec.fasesPprd',
+        path: '/fortalecimiento/resumenDptoAsistTecFortalec/fasesPprd',
+        component: lazy(
+            () => import('@/views/difat/PprdNivelNacionalFasesPprd'),
+        ),
+        authority: [],
+    },
+    {
         key: 'fortalecimiento.fortCapCursosBasYEspec',
         path: '/fortalecimiento/fortCapCursosBasYEspec',
         component: lazy(

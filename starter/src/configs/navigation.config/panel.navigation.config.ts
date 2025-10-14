@@ -395,6 +395,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         authority: [],
                         subMenu: [],
                     },
+                    /*
                     {
                         key: 'fortalecimiento.pprdNivelNacional',
                         path: '/fortalecimiento/pprdNivelNacional',
@@ -406,6 +407,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         authority: [],
                         subMenu: [],
                     },
+                    */
                     {
                         key: 'fortalecimiento.fortCapYAmbitos',
                         path: '/fortalecimiento/fortCapYAmbitos',
@@ -646,6 +648,28 @@ export const panelNavigationFull: NavigationTree[] = [
                         title: 'ATFC RA',
                         tooltip: 'Asistencia Técnica y Fortalecimiento de Capacidades por Regiones y Años',
                         translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec',
+                        icon: '',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
+                    },
+                    {
+                        key: 'fortalecimiento.resumenDptoAsistTecFortalec.entasi',
+                        path: '/fortalecimiento/resumenDptoAsistTecFortalec/entasi',
+                        title: 'ENTIDADES ASISTIDAS',
+                        tooltip: 'Entidades Asistidas',
+                        translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec.entasi',
+                        icon: '',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
+                    },
+                    {
+                        key: 'fortalecimiento.resumenDptoAsistTecFortalec.fasesPprd',
+                        path: '/fortalecimiento/resumenDptoAsistTecFortalec/fasesPprd',
+                        title: 'FASES PPRD',
+                        tooltip: 'Fases PPRD',
+                        translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec.fasesPprd',
                         icon: '',
                         type: NAV_ITEM_TYPE_ITEM,
                         authority: [],
