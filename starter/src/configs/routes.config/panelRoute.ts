@@ -239,8 +239,16 @@ const panelRoute: Routes = [
         authority: [],
     },
     {
-        key: 'fortalecimiento.riesgoPorFenNaturales.prep',
-        path: '/fortalecimiento/riesgoPorFenNaturales/prep',
+        key: 'fortalecimiento.riesgoPorFenNaturales.reaspob',
+        path: '/fortalecimiento/riesgoPorFenNaturales/reaspob',
+        component: lazy(
+            () => import('@/views/difat/RiesgoPorFenNaturales'),
+        ),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.riesgoPorFenNaturales.actrepre',
+        path: '/fortalecimiento/riesgoPorFenNaturales/actrepre',
         component: lazy(
             () => import('@/views/difat/RiesgoPorFenNaturales'),
         ),
@@ -317,8 +325,16 @@ const panelRoute: Routes = [
         authority: [],
     },
     {
-        key: 'fortalecimiento.concursoBuenasPracticas',
-        path: '/fortalecimiento/concursoBuenasPracticas',
+        key: 'fortalecimiento.concursoBuenasPracticas.cb',
+        path: '/fortalecimiento/concursoBuenasPracticas/cb',
+        component: lazy(
+            () => import('@/views/difat/ConcursoBuenasPracticas'),
+        ),
+        authority: [],
+    },
+    {
+        key: 'fortalecimiento.concursoBuenasPracticas.ce',
+        path: '/fortalecimiento/concursoBuenasPracticas/ce',
         component: lazy(
             () => import('@/views/difat/ConcursoBuenasPracticas'),
         ),
