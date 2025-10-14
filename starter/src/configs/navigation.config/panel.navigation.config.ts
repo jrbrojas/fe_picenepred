@@ -24,7 +24,7 @@ export const panelNavigationFull: NavigationTree[] = [
     {
         key: 'gestion-procesos',
         path: '/gestion-procesos',
-        title: 'DGP',
+        title: 'GESTIÓN DE PROCESOS',
         translateKey: 'nav.gestionProcesos',
         icon: 'file',
         type: NAV_ITEM_TYPE_COLLAPSE,
