@@ -71,11 +71,24 @@ return (
                 imgClass="max-h-10"
                 mode={mode || defaultMode}
                 type={sideNavCollapse ? 'streamline' : 'full'}
+                defaultImg='cenepred_la.png'
                 className={classNames(
                     sideNavCollapse && 'ltr:ml-[11.5px] ltr:mr-[11.5px]',
                     sideNavCollapse
-                        ? SIDE_NAV_CONTENT_GUTTER
-                        : LOGO_X_GUTTER,
+                        ? SIDE_NAV_CONTENT_GUTTER + ' hidden'
+                        : LOGO_X_GUTTER + ' block',
+                )}
+            />
+            <Logo
+                imgClass="max-h-10"
+                mode={mode || defaultMode}
+                type={sideNavCollapse ? 'streamline' : 'full'}
+                defaultImg='cenepred_circulo.png'
+                className={classNames(
+                    sideNavCollapse && 'ltr:ml-[11.5px] ltr:mr-[11.5px]',
+                    sideNavCollapse
+                        ? SIDE_NAV_CONTENT_GUTTER + ' block'
+                        : LOGO_X_GUTTER + ' hidden',
                 )}
             />
         </Link>

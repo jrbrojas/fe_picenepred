@@ -28,10 +28,16 @@ const datita = {
     ],
 }
 
+type Entidad = {
+    id: string
+    nombre: string
+    evaluacion: number[]
+}
+
 type Distrito = {
     id: string
     nombre: string
-    valores: number[]
+    entidades: Entidad[]
 }
 
 type Provincia = {
@@ -50,13 +56,23 @@ const COLS = ["Monitoreo", "Seguimiento", "Supervision"];
 
 const sumByIndex = (rows: number[][]) => {
     const res = Array(COLS.length).fill(0)
+    return res
     ////rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     return res
 }
 function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento[] {
     let data: Departamento[] = [];
-    const mapValores = (respuestas: RespuestaElement[], i) => respuestas.find(r => r.nombre == i)?.calculo || 0
+    const mapValores = (respuestas: RespuestaElement[], i: string) => respuestas.find(r => r.nombre == i)?.calculo || 0
+    const mapMonitoResponseToEntidad = (m: MonitoreoResponse): Entidad => ({
+        id: String(m.entidad.id),
+        nombre: m.entidad.nombre,
+        evaluacion: [
+            mapValores(m.respuestas, "Monitoreo"),
+            mapValores(m.respuestas, "Seguimiento"),
+            mapValores(m.respuestas, "Supervision"),
+        ]
+    })
     for (let i = 0; i < response.length; i++) {
         const monitoreo = response[i];
         const indexDepartamento = data.findIndex((item) => item.id == monitoreo.departamento.iddpto);
@@ -71,10 +87,8 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
                     distritos: [{
                         id: monitoreo.distrito.ubigeo,
                         nombre: monitoreo.distrito.nombre,
-                        valores: [
-                            mapValores(monitoreo.respuestas, "Monitoreo"),
-                            mapValores(monitoreo.respuestas, "Seguimiento"),
-                            mapValores(monitoreo.respuestas, "Supervision"),
+                        entidades: [
+                            mapMonitoResponseToEntidad(monitoreo)
                         ]
                     }]
                 }]
@@ -90,10 +104,8 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
                 distritos: [{
                     id: monitoreo.distrito.ubigeo,
                     nombre: monitoreo.distrito.nombre,
-                    valores: [
-                        mapValores(monitoreo.respuestas, "Monitoreo"),
-                        mapValores(monitoreo.respuestas, "Seguimiento"),
-                        mapValores(monitoreo.respuestas, "Supervision"),
+                    entidades: [
+                        mapMonitoResponseToEntidad(monitoreo)
                     ]
                 }]
             });
@@ -105,22 +117,19 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
                 id: monitoreo.distrito.ubigeo,
                 nombre: monitoreo.distrito.nombre,
-                valores: [
-                    mapValores(monitoreo.respuestas, "Monitoreo"),
-                    mapValores(monitoreo.respuestas, "Seguimiento"),
-                    mapValores(monitoreo.respuestas, "Supervision"),
+                entidades: [
+                    mapMonitoResponseToEntidad(monitoreo)
                 ]
             })
             continue;
         }
-        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].valores = [
-            mapValores(monitoreo.respuestas, "Monitoreo"),
-            mapValores(monitoreo.respuestas, "Seguimiento"),
-            mapValores(monitoreo.respuestas, "Supervision"),
-        ]
+        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].entidades.push(
+            mapMonitoResponseToEntidad(monitoreo)
+        )
     }
     return data;
 }
+type Counter = { cols: number[]; total: number }
 interface CategoriaOption {
     value: string;
     label: string;
@@ -154,12 +163,12 @@ export default function TreeTableMonitoreo3Niveles() {
             value: String(cat.id),
             label: cat.nombre
         })))
-        const first = res[0]
-        setCurrentCategoria({
-            value: String(first.id),
-            label: first.nombre,
-        })
-        await fetchValues(String(first.id))
+        //const first = res[0]
+        //setCurrentCategoria({
+        //    value: String(first.id),
+        //    label: first.nombre,
+        //})
+        //await fetchValues(String(first.id))
         setFetching(false)
     }
 
@@ -178,24 +187,52 @@ export default function TreeTableMonitoreo3Niveles() {
         const sum = arr.reduce((a, b) => a + b, 0);
         return Number((sum / total).toFixed(2));
     }
-    const { provTotals, depTotals } = useMemo(() => {
-        const provTotals = new Map<string, { cols: number[]; total: number }>()
-        const depTotals = new Map<string, { cols: number[]; total: number }>()
+    function promedioDeGrupo(arr: number[][], total: number): number {
+        const promedios = arr.map((a) => promedio(a, total))
+        return promedio(promedios, promedios.length);
+    }
+    function valoresDistrito(distrito: Distrito): number[] {
+        const valores = [];
+        for(let i = 0; i < 3; i++) {
+            valores[i] = distrito.entidades.reduce((a, b) => a + b.evaluacion[i], 0);
+        }
+        return valores
+    }
+    const { provTotals, depTotals, distTotals } = useMemo(() => {
+        const distTotals = new Map<string, Counter>()
+        const provTotals = new Map<string, Counter>()
+        const depTotals = new Map<string, Counter>()
 
         for (const dep of data) {
-            const allDistrVals: number[][] = []
-
+            const promediosDeProvincias = []
             for (const prov of dep.provincias) {
-                const pv = sumByIndex(prov.distritos.map((d) => d.valores))
-                provTotals.set(prov.id, { cols: pv, total: promedio(pv, 4 * prov.distritos.length) })
-                allDistrVals.push(...prov.distritos.map((d) => d.valores))
+                const promediosDeDistritos = []
+                for (const dist of prov.distritos) {
+                    const numbers = dist.entidades.map(i => i.evaluacion);
+                    const total = promedioDeGrupo(numbers, 3);
+                    const cols = [0,0,0];
+                    for(let i = 0; i < 3; i++) {
+                        cols[i] = promedio(numbers.map((v) => v[i]), numbers.length)
+                    }
+                    promediosDeDistritos.push(cols)
+                    distTotals.set(dist.id, { cols, total })
+                }
+                const total = promedioDeGrupo(promediosDeDistritos, 3);
+                const cols = [0,0,0];
+                for(let i = 0; i < 3; i++) {
+                    cols[i] = promedio(promediosDeDistritos.map((v) => v[i]), promediosDeDistritos.length)
+                }
+                promediosDeProvincias.push(cols)
+                provTotals.set(prov.id, { cols, total })
             }
-
-            const dv = sumByIndex(allDistrVals)
-            depTotals.set(dep.id, { cols: dv, total: promedio(dv, 4 * allDistrVals.length) })
+            const total = promedioDeGrupo(promediosDeProvincias, 3);
+            const cols = [0,0,0];
+            for(let i = 0; i < 3; i++) {
+                cols[i] = promedio(promediosDeProvincias.map((v) => v[i]), promediosDeProvincias.length)
+            }
+            depTotals.set(dep.id, { cols, total })
         }
-
-        return { provTotals, depTotals }
+        return { provTotals, depTotals, distTotals }
     }, [data])
 
     const [category, setCategory] = useState('all')
@@ -249,19 +286,17 @@ export default function TreeTableMonitoreo3Niveles() {
         <>
             <div className="space-y-6">
                 {/* Encabezado */}
-                <div className="text-center">
-                    {/* <h2 className="text-sm font-medium uppercase tracking-wide text-slate-600">
-                        MONITOREO
-                    </h2>
-                    <p className="text-[13px] text-slate-500">
-                        (IMPLEM POLÍTICA Y PLAN)
-                    </p>*/}
-                    <Select
-                        options={categorias}
-                        value={currentCategoria}
-                        onChange={(n) => onCategoria(n)}
-                        isDisabled={fetching}
-                    />
+                <div className="text-left flex justify-start">
+                    <label className="sm:min-w-[300px] min-w-full">
+                        <strong className="block mb-2">Categoria</strong>
+                        <Select
+                            options={categorias}
+                            value={currentCategoria}
+                            onChange={(n) => onCategoria(n)}
+                            placeholder="Seleccione una categoria"
+                            isDisabled={fetching}
+                        />
+                    </label>
                 </div>
 
                 {/* Tabla */}
@@ -398,48 +433,114 @@ export default function TreeTableMonitoreo3Niveles() {
                                                             {/* Distritos de la Provincia */}
                                                             {provOpen &&
                                                                 prov.distritos.map(
-                                                                    (d) => (
-                                                                        <tr
-                                                                            key={
-                                                                                d.id
-                                                                            }
-                                                                            className="hover:bg-slate-50 bg-emerald-50"
-                                                                        >
-                                                                            <td onClick={() => {
-                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                            }} className="sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                                <span className="ml-2 text-sm text-slate-800 underline decoration-emerald-300">
-                                                                                    {
-                                                                                        d.nombre
+                                                                    (d, index) => {
+                                                                        const distKey = `DD:${d.id}`
+                                                                        const distOpen = expanded.has(distKey)
+                                                                        const valsDist: Counter = distTotals.get(d.id) || { cols: [], total: 0}
+                                                                        return (
+                                                                            <Fragment>
+                                                                                <tr
+                                                                                    key={
+                                                                                        `${d.id}-${index}`
                                                                                     }
-                                                                                </span>
-                                                                            </td>
-                                                                            {d.valores.map(
-                                                                                (
-                                                                                    v,
-                                                                                    i,
-                                                                                ) => (
-                                                                                    <td
-                                                                                        key={
-                                                                                            i
-                                                                                        }
-                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
-                                                                                    >
-                                                                                        {
-                                                                                            v
-                                                                                        }
+                                                                                    className="hover:bg-slate-50 bg-emerald-50"
+                                                                                >
+                                                                                    <td className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            onClick={() => {
+                                                                                                toggle(distKey);
+                                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                            }}
+                                                                                            aria-expanded={
+                                                                                                distOpen
+                                                                                            }
+                                                                                            className="inline-flex items-center gap-2"
+                                                                                        >
+                                                                                            <svg
+                                                                                                className={`h-4 w-4 transform transition-transform ${distOpen ? 'rotate-90' : ''}`}
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                strokeWidth="2"
+                                                                                                strokeLinecap="round"
+                                                                                                strokeLinejoin="round"
+                                                                                            >
+                                                                                                <path d="M9 18l6-6-6-6" />
+                                                                                            </svg>
+                                                                                            <span className="text-sm font-semibold text-slate-800">
+                                                                                                {
+                                                                                                    d.nombre
+                                                                                                }
+                                                                                            </span>
+                                                                                        </button>
                                                                                     </td>
-                                                                                ),
-                                                                            )}
-                                                                            <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                {promedio(
-                                                                                    d.valores,
-                                                                                    3
-                                                                                )}
-                                                                            </td>
-                                                                        </tr>
-                                                                    ),
-                                                                )}
+                                                                                    {valsDist.cols.map(
+                                                                                        (
+                                                                                            v,
+                                                                                            i,
+                                                                                        ) => (
+                                                                                            <td
+                                                                                                key={
+                                                                                                    `${d.id}-${i}`
+                                                                                                }
+                                                                                                className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                            >
+                                                                                                {
+                                                                                                    v
+                                                                                                }
+                                                                                            </td>
+                                                                                        ),
+                                                                                    )}
+                                                                                    <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                        {valsDist.total}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                {/* Entidades de Distrito */}
+                                                                                {distOpen &&
+                                                                                    d.entidades.map((entidad) => {
+                                                                                        return (
+                                                                                            <Fragment>
+                                                                                                <tr key={entidad.id} className='hover:bg-slate-50 bg-purple-50'>
+                                                                                                    <td onClick={() => {
+                                                                                                        setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                                    }} className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
+                                                                                                        <span className="text-sm font-semibold text-slate-800">
+                                                                                                            {
+                                                                                                                entidad.nombre
+                                                                                                            }
+                                                                                                        </span>
+                                                                                                    </td>
+                                                                                                    {entidad.evaluacion.map(
+                                                                                                        (
+                                                                                                            v,
+                                                                                                            i,
+                                                                                                        ) => (
+                                                                                                            <td
+                                                                                                                key={
+                                                                                                                    `${entidad.id}-${i}`
+                                                                                                                }
+                                                                                                                className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                                            >
+                                                                                                                {
+                                                                                                                    v.toFixed(2)
+                                                                                                                }
+                                                                                                            </td>
+                                                                                                        ),
+                                                                                                    )}
+                                                                                                    <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                                        {promedio(
+                                                                                                            entidad.evaluacion,
+                                                                                                            3
+                                                                                                        )}
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </Fragment>
+                                                                                        )
+                                                                                    })}
+                                                                            </Fragment>
+                                                                        )
+                                                                    })}
                                                         </Fragment>
                                                     )
                                                 })}

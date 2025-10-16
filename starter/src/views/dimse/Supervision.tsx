@@ -28,10 +28,16 @@ const datita = {
     ],
 }
 
+type Entidad = {
+    id: string
+    nombre: string
+    supervision: number[]
+}
+
 type Distrito = {
     id: string
     nombre: string
-    valores: number[]
+    entidades: Entidad[]
 }
 
 type Provincia = {
@@ -71,7 +77,13 @@ function mapMonitoreoResponseToData(response: SupervicionResponse[]): Departamen
                     distritos: [{
                         id: monitoreo.ubigeo,
                         nombre: monitoreo.distrito.nombre,
-                        valores: mapValores(monitoreo.secciones),
+                        entidades: [
+                            {
+                                id: String(monitoreo.entidad.id),
+                                nombre: monitoreo.entidad.nombre,
+                                supervision: mapValores(monitoreo.secciones),
+                            }
+                        ]
                     }]
                 }]
             })
@@ -86,7 +98,13 @@ function mapMonitoreoResponseToData(response: SupervicionResponse[]): Departamen
                 distritos: [{
                     id: monitoreo.ubigeo,
                     nombre: monitoreo.distrito.nombre,
-                    valores: mapValores(monitoreo.secciones),
+                    entidades: [
+                        {
+                            id: String(monitoreo.entidad.id),
+                            nombre: monitoreo.entidad.nombre,
+                            supervision: mapValores(monitoreo.secciones),
+                        }
+                    ]
                 }]
             });
             continue;
@@ -97,14 +115,26 @@ function mapMonitoreoResponseToData(response: SupervicionResponse[]): Departamen
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
                 id: monitoreo.ubigeo,
                 nombre: monitoreo.distrito.nombre,
-                valores: mapValores(monitoreo.secciones),
+                entidades: [
+                    {
+                        id: String(monitoreo.entidad.id),
+                        nombre: monitoreo.entidad.nombre,
+                        supervision: mapValores(monitoreo.secciones),
+                    }
+                ]
             })
             continue;
         }
-        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].valores = mapValores(monitoreo.secciones)
+        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].entidades.push({
+            id: String(monitoreo.entidad.id),
+            nombre: monitoreo.entidad.nombre,
+            supervision: mapValores(monitoreo.secciones),
+        })
+
     }
     return data;
 }
+type Counter = { cols: number[]; total: number }
 interface CategoriaOption {
     value: string;
     label: string;
@@ -138,12 +168,12 @@ export default function TreeTableMonitoreo3Niveles() {
             value: String(cat.id),
             label: cat.nombre
         })))
-        const first = res[0]
-        setCurrentCategoria({
-            value: String(first.id),
-            label: first.nombre,
-        })
-        await fetchValues(String(first.id))
+        //const first = res[0]
+        //setCurrentCategoria({
+        //    value: String(first.id),
+        //    label: first.nombre,
+        //})
+        //await fetchValues(String(first.id))
         setFetching(false)
     }
 
@@ -162,24 +192,55 @@ export default function TreeTableMonitoreo3Niveles() {
         const sum = arr.reduce((a, b) => a + b, 0);
         return Number(((sum / total)).toFixed(2));
     }
-    const { provTotals, depTotals } = useMemo(() => {
-        const provTotals = new Map<string, { cols: number[]; total: number }>()
-        const depTotals = new Map<string, { cols: number[]; total: number }>()
+    function promedioDeGrupo(arr: number[][], total: number): number {
+        const promedios = arr.map((a) => promedio(a, total))
+        return promedio(promedios, promedios.length);
+    }
+    const { provTotals, depTotals, distTotals } = useMemo(() => {
+        const distTotals = new Map<string, Counter>()
+        const provTotals = new Map<string, Counter>()
+        const depTotals = new Map<string, Counter>()
+        const validacion = (i: number) => i > 0
+        const aplicarValidacion = (n: number[]) => n.filter(validacion)
 
         for (const dep of data) {
-            const allDistrVals: number[][] = []
-
+            const promediosDeProvincias = []
+            const columnasDeProvincias = []
             for (const prov of dep.provincias) {
-                const pv = sumByIndex(prov.distritos.map((d) => d.valores))
-                provTotals.set(prov.id, { cols: pv, total: promedio(pv, 4 * prov.distritos.length) })
-                allDistrVals.push(...prov.distritos.map((d) => d.valores))
+                const promediosDeDistritos = []
+                const columnasDeDistritos = []
+                for (const dist of prov.distritos) {
+                    const numbers = dist.entidades.map(i => i.supervision);
+                    const arrayPromedios = numbers.map(i => promedio(i, aplicarValidacion(i).length))
+                    const total = promedio(arrayPromedios, arrayPromedios.length) || 0;
+                    const cols = [0,0,0,0];
+                    for(let i = 0; i < 4; i++) {
+                        const valoresColumna = numbers.map((v) => v[i])
+                        cols[i] = promedio(valoresColumna, aplicarValidacion(valoresColumna).length) || 0
+                    }
+                    promediosDeDistritos.push(total)
+                    columnasDeDistritos.push(cols)
+                    distTotals.set(dist.id, { cols, total })
+                }
+                const total = promedio(promediosDeDistritos, promediosDeDistritos.length)
+                const cols = [0,0,0,0];
+                for(let i = 0; i < 4; i++) {
+                    const valoresColumna = columnasDeDistritos.map((v) => v[i])
+                    cols[i] = promedio(valoresColumna, aplicarValidacion(valoresColumna).length) || 0
+                }
+                promediosDeProvincias.push(total)
+                columnasDeProvincias.push(cols)
+                provTotals.set(prov.id, { cols, total })
             }
-
-            const dv = sumByIndex(allDistrVals)
-            depTotals.set(dep.id, { cols: dv, total: promedio(dv, 4 * allDistrVals.length) })
+            const total = promedio(promediosDeProvincias, promediosDeProvincias.length)
+            const cols = [0,0,0,0];
+            for(let i = 0; i < 4; i++) {
+                const valoresColumna = columnasDeProvincias.map((v) => v[i])
+                cols[i] = promedio(valoresColumna, aplicarValidacion(valoresColumna).length) || 0
+            }
+            depTotals.set(dep.id, { cols, total })
         }
-
-        return { provTotals, depTotals }
+        return { provTotals, depTotals, distTotals }
     }, [data])
 
     const [category, setCategory] = useState('all')
@@ -233,13 +294,17 @@ export default function TreeTableMonitoreo3Niveles() {
         <>
             <div className="space-y-6">
                 {/* Encabezado */}
-                <div className="text-center">
-                    <Select
-                        options={categorias}
-                        value={currentCategoria}
-                        onChange={(n) => onCategoria(n)}
-                        isDisabled={fetching}
-                    />
+                <div className="text-left flex justify-start">
+                    <label className="sm:min-w-[300px] min-w-full">
+                        <strong className="block mb-2">Categoria</strong>
+                        <Select
+                            options={categorias}
+                            value={currentCategoria}
+                            onChange={(n) => onCategoria(n)}
+                            placeholder="Seleccione una categoria"
+                            isDisabled={fetching}
+                        />
+                    </label>
                 </div>
 
                 {/* Tabla */}
@@ -306,11 +371,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                                         key={idx}
                                                         className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                     >
-                                                        {v}
                                                     </td>
                                                 ))}
                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                    {dTotals?.total}
+                                                    {dTotals?.total.toFixed(2)}
                                                 </td>
                                             </tr>
 
@@ -364,60 +428,124 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             }
                                                                             className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                         >
-                                                                            {v}
                                                                         </td>
                                                                     ),
                                                                 )}
                                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                    {pTotals.total}
+                                                                    {pTotals.total.toFixed(2)}
                                                                 </td>
                                                             </tr>
 
                                                             {/* Distritos de la Provincia */}
                                                             {provOpen &&
                                                                 prov.distritos.map(
-                                                                    (d) => (
-                                                                        <tr
-                                                                            key={
-                                                                                d.id
-                                                                            }
-                                                                            className="hover:bg-slate-50 bg-emerald-50"
-                                                                        >
-                                                                            <td onClick={() => {
-                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                            }} className="sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                                <span className="ml-2 text-sm text-slate-800 underline decoration-emerald-300">
-                                                                                    {
-                                                                                        d.nombre
+                                                                    (d, index) => {
+                                                                        const distKey = `DD:${d.id}`
+                                                                        const distOpen = expanded.has(distKey)
+                                                                        const valsDist: Counter = distTotals.get(d.id) || { cols: [], total: 0}
+                                                                        return (
+                                                                            <Fragment>
+                                                                                <tr
+                                                                                    key={
+                                                                                        `${d.id}-${index}`
                                                                                     }
-                                                                                </span>
-                                                                            </td>
-                                                                            {d.valores.map(
-                                                                                (
-                                                                                    v,
-                                                                                    i,
-                                                                                ) => (
-                                                                                    <td
-                                                                                        key={
-                                                                                            i
-                                                                                        }
-                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
-                                                                                    >
-                                                                                        {
-                                                                                            v
-                                                                                        }
+                                                                                    className="hover:bg-slate-50 bg-emerald-50"
+                                                                                >
+                                                                                    <td className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            onClick={() => {
+                                                                                                toggle(distKey);
+                                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                            }}
+                                                                                            aria-expanded={
+                                                                                                distOpen
+                                                                                            }
+                                                                                            className="inline-flex items-center gap-2"
+                                                                                        >
+                                                                                            <svg
+                                                                                                className={`h-4 w-4 transform transition-transform ${distOpen ? 'rotate-90' : ''}`}
+                                                                                                viewBox="0 0 24 24"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                strokeWidth="2"
+                                                                                                strokeLinecap="round"
+                                                                                                strokeLinejoin="round"
+                                                                                            >
+                                                                                                <path d="M9 18l6-6-6-6" />
+                                                                                            </svg>
+                                                                                            <span className="text-sm font-semibold text-slate-800">
+                                                                                                {
+                                                                                                    d.nombre
+                                                                                                }
+                                                                                            </span>
+                                                                                        </button>
                                                                                     </td>
-                                                                                ),
-                                                                            )}
-                                                                            <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                {promedio(
-                                                                                    d.valores,
-                                                                                    4
-                                                                                )}
-                                                                            </td>
-                                                                        </tr>
-                                                                    ),
-                                                                )}
+                                                                                    {valsDist.cols.map(
+                                                                                        (
+                                                                                            v,
+                                                                                            i,
+                                                                                        ) => (
+                                                                                            <td
+                                                                                                key={
+                                                                                                    `${d.id}-${i}`
+                                                                                                }
+                                                                                                className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                            >
+                                                                                            </td>
+                                                                                        ),
+                                                                                    )}
+                                                                                    <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                        {valsDist.total}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                {/* Entidades de Distrito */}
+                                                                                {distOpen &&
+                                                                                    d.entidades.map((entidad) => {
+                                                                                        return (
+                                                                                            <Fragment>
+                                                                                                <tr key={entidad.id} className='hover:bg-slate-50 bg-purple-50'>
+                                                                                                    <td onClick={() => {
+                                                                                                        setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                                    }} className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
+                                                                                                        <span className="text-sm font-semibold text-slate-800">
+                                                                                                            {
+                                                                                                                entidad.nombre
+                                                                                                            }
+                                                                                                        </span>
+                                                                                                    </td>
+                                                                                                    {entidad.supervision.map(
+                                                                                                        (
+                                                                                                            v,
+                                                                                                            i,
+                                                                                                        ) => (
+                                                                                                            <td
+                                                                                                                key={
+                                                                                                                    `${entidad.id}-${i}`
+                                                                                                                }
+                                                                                                                className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                                            >
+                                                                                                                {
+                                                                                                                    v.toFixed(2)
+                                                                                                                }
+                                                                                                            </td>
+                                                                                                        ),
+                                                                                                    )}
+                                                                                                    <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                                        {(
+                                                                                                            promedio(
+                                                                                                                entidad.supervision,
+                                                                                                                entidad.supervision.filter(i => i > 0).length // solo entra al promedio si el valor es mayor a 0
+                                                                                                            ) || 0
+                                                                                                        ).toFixed(2)}
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </Fragment>
+                                                                                        )
+                                                                                    })}
+                                                                            </Fragment>
+                                                                        )
+                                                                    })}
                                                         </Fragment>
                                                     )
                                                 })}
