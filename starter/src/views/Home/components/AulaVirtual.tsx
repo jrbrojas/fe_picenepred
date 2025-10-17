@@ -64,7 +64,7 @@ const defaultCourses: Course[] = [
     {
         id: '1',
         imageSrc: '/img/01.png',
-        imageAlt: 'Curso 1',
+        imageAlt: 'Imagen del Sistema Nacional de Gestión del Riesgo de Desastres',
         date: '5 de septiembre de 2025',
         title: 'El Sistema Nacional de Gestión del Riesgo de Desastres',
         href: 'https://aulavirtual.cenepred.gob.pe/login/index.php',
@@ -72,7 +72,7 @@ const defaultCourses: Course[] = [
     {
         id: '2',
         imageSrc: '/img/02.png',
-        imageAlt: 'Curso 2',
+        imageAlt: 'Imagen de Ciudades Resilientes 2030',
         date: '10 de septiembre de 2025',
         title: 'Ciudades Resilientes 2030',
         href: 'https://aulavirtual.cenepred.gob.pe/login/index.php',
@@ -80,7 +80,7 @@ const defaultCourses: Course[] = [
     {
         id: '3',
         imageSrc: '/img/03.png',
-        imageAlt: 'Curso 3',
+        imageAlt: 'Imagen de Mecanismos de Financiamiento para el SINAGERD',
         date: '7 de agosto de 2025',
         title: 'Mecanismos de Financiamiento para el SINAGERD',
         href: 'https://aulavirtual.cenepred.gob.pe/login/index.php',
