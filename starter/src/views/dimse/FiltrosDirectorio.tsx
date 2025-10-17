@@ -2,37 +2,55 @@ import { useDepartamentos } from '@/shared/stores/controls/depas'
 import { useProvincias } from '@/shared/stores/controls/provs'
 import { useDistritos } from '@/shared/stores/controls/distrito'
 import { Controller, useForm } from 'react-hook-form'
-import { FormItem, Select } from '@/components/ui'
+import { FormItem, Button, Select } from '@/components/ui'
 import { Option } from '@/shared/types'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useEntidades } from '@/shared/stores/controls/entidades'
+import { TbFilter } from "react-icons/tb";
+import { EntidadResponse } from '@/shared/services/ControlesService'
 
 export type EntidadForm = {
     departamento: Option | null,
     provincia: Option | null,
     distrito: Option | null,
+    entidad: Option | null,
 };
 
-
-export default function FiltrosDirectorio({ onDistrito }: {
-    onDistrito: (id: string) => void
-}) {
+interface Props {
+    onDistrito: (id: string) => void,
+    onSearchEntidad: (e: EntidadResponse | null) => void,
+}
+export default function FiltrosDirectorio({
+    onDistrito,
+    onSearchEntidad,
+}: Props) {
+    const [verFiltros, setVerFiltros] = useState(false)
     // filtros
     const { controls: departmentOptions } = useDepartamentos()
     const { provincias } = useProvincias();
     const { distritos } = useDistritos();
+    const { entidades } = useEntidades();
 
-    const { control, reset, setValue, watch } = useForm<EntidadForm>({
+    const { control, reset, setValue, watch, getValues } = useForm<EntidadForm>({
         defaultValues: {
             departamento: null,
             provincia: null,
             distrito: null,
+            entidad: null,
         },
     })
 
     const departamento = watch("departamento"); // Opt | null
     const provincia = watch("provincia"); // Opt | null
     const distrito = watch("distrito"); // Opt | null
+    const entidad = watch("entidad"); // Opt | null
 
+    const entidadesOptions = useMemo(() => {
+        return entidades.map((e) => ({
+            label: e.nombre,
+            value: e.id,
+        }))
+    }, [entidades])
     const provOptions: Option[] = useMemo(() => {
         if (!departamento) return [];
         return provincias.filter(i => i.departamento_id == departamento.value)
@@ -51,10 +69,55 @@ export default function FiltrosDirectorio({ onDistrito }: {
     }, [departamento, provincia]);
 
     useEffect(() => {
-        onDistrito(distrito?.value || "")
+        if (verFiltros && !getValues('entidad.value')) {
+            onDistrito(distrito?.value || "")
+        }
     }, [distrito]);
+    useEffect(() => {
+        const entidadId = getValues('entidad.value')
+        if (entidadId) {
+            const e = entidades.find(e => e.id == entidadId)
+            onSearchEntidad(e || null)
+        }
+    }, [entidad])
     return (
-        <form onSubmit={(e) => e.preventDefault()} className="flex w-full gap-4 text-left">
+        <form onSubmit={(e) => e.preventDefault()} className="grid w-full gap-4 text-left">
+            <div className="flex w-full gap-4">
+                <Controller
+                    name="entidad"
+                    control={control}
+                    render={({ field }) => (
+                        <Select
+                            options={entidadesOptions}
+                            value={field.value}
+                            className="flex-1"
+                            placeholder="Ingrese nombre entidad a buscar"
+                            isClearable
+                            onChange={(opt: Option | null) => {
+                                field.onChange(opt);
+                                // reset dependientes
+                                setValue("departamento", null);
+                                setValue("provincia", null);
+                                setValue("distrito", null);
+                            }}
+                            components={{
+                                DropdownIndicator: null
+                            }}
+                        />
+                    )}
+                />
+                <Button icon={<TbFilter />} onClick={() => {
+                    setVerFiltros(!verFiltros)
+                    if (verFiltros) {
+                        setValue("entidad", null)
+                        return;
+                    }
+                    setValue("departamento", null);
+                    setValue("provincia", null);
+                    setValue("distrito", null);
+                }} type="button">Buscar</Button>
+            </div>
+            <div className={verFiltros ? "flex w-full gap-4 text-left" : "hidden"}>
             <FormItem label="Departamento" className="flex-1">
                 <Controller
                     name="departamento"
@@ -68,6 +131,7 @@ export default function FiltrosDirectorio({ onDistrito }: {
                             onChange={(opt: Option | null) => {
                                 field.onChange(opt);
                                 // reset dependientes
+                                setValue("entidad", null);
                                 setValue("provincia", null);
                                 setValue("distrito", null);
                             }}
@@ -115,6 +179,7 @@ export default function FiltrosDirectorio({ onDistrito }: {
                     )}
                 />
             </FormItem>
+            </div>
         </form>
     )
 

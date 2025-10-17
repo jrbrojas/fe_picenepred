@@ -1,6 +1,11 @@
-type Valor = number | string | boolean;
+export type Valor = number | string | boolean;
 
-function promedio(valores: Valor[], validacion: (valor: Valor) => boolean): number {
+export function promedioPorSuma(arr: number[], total: number): number {
+    const sum = arr.reduce((a, b) => a + b, 0);
+    return Number((sum / total));
+}
+
+export function promedio(valores: Valor[], validacion: (valor: Valor) => boolean): number {
     const total = valores.length
     const cantidad = valores.filter((v) => validacion(v)).length
     return Number(((cantidad / total) * 100).toFixed(2));

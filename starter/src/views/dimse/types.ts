@@ -127,6 +127,7 @@ export interface Departamento {
 export interface Distrito {
     id: number;
     ubigeo: string;
+    nombre: string;
     distrito: string;
     departamento: string;
     provincia: string;

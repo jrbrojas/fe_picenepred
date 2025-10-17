@@ -43,6 +43,9 @@ export interface EntidadResponse {
     email: null | string;
     web: null | string;
     categoria_id: string;
+    distrito_id: number;
+    provincia_id: number;
+    departamento_id: number;
     created_at: Date;
     updated_at: Date;
 }

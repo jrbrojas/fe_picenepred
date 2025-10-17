@@ -5,7 +5,7 @@ import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
 import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
-import promedio from './promedio'
+import promedioDeGrupo, { Valor, promedio, promedioPorSuma } from './promedio'
 import MapaPeru from './MapaPeru'
 import { MonitoreoResponse, RespuestaElement } from './types'
 import { apiGetCategorias, apiGetMonitoreo } from '@/services/MonitoreService'
@@ -29,10 +29,16 @@ const datita = {
     ],
 }
 
+type Entidad = {
+    id: string
+    nombre: string
+    monitoreo: number[]
+}
+
 type Distrito = {
     id: string
     nombre: string
-    valores: number[]
+    entidades: Entidad[]
 }
 
 type Provincia = {
@@ -51,6 +57,7 @@ const COLS = Array.from({ length: 30 }, (_, i) => `P${i + 1}`)
 
 const sumByIndex = (rows: number[][]) => {
     const res = Array(COLS.length).fill(0)
+    return res
     ////rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
     return res
@@ -72,7 +79,13 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
                     distritos: [{
                         id: monitoreo.ubigeo,
                         nombre: monitoreo.distrito.nombre,
-                        valores: mapValores(monitoreo.respuestas),
+                        entidades: [
+                            {
+                                id: String(monitoreo.entidad.id),
+                                nombre: monitoreo.entidad.nombre,
+                                monitoreo: mapValores(monitoreo.respuestas)
+                            }
+                        ]
                     }]
                 }]
             })
@@ -87,7 +100,13 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
                 distritos: [{
                     id: monitoreo.ubigeo,
                     nombre: monitoreo.distrito.nombre,
-                    valores: mapValores(monitoreo.respuestas),
+                    entidades: [
+                        {
+                            id: String(monitoreo.entidad.id),
+                            nombre: monitoreo.entidad.nombre,
+                            monitoreo: mapValores(monitoreo.respuestas)
+                        }
+                    ]
                 }]
             });
             continue;
@@ -98,14 +117,25 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
                 id: monitoreo.ubigeo,
                 nombre: monitoreo.distrito.nombre,
-                valores: mapValores(monitoreo.respuestas),
+                entidades: [
+                    {
+                        id: String(monitoreo.entidad.id),
+                        nombre: monitoreo.entidad.nombre,
+                        monitoreo: mapValores(monitoreo.respuestas)
+                    }
+                ]
             })
             continue;
         }
-        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].valores = mapValores(monitoreo.respuestas)
+        data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].entidades.push({
+            id: String(monitoreo.entidad.id),
+            nombre: monitoreo.entidad.nombre,
+            monitoreo: mapValores(monitoreo.respuestas)
+        })
     }
     return data;
 }
+type Counter = { cols: number[]; total: number }
 interface CategoriaOption {
     value: string;
     label: string;
@@ -139,12 +169,12 @@ export default function TreeTableMonitoreo3Niveles() {
             value: String(cat.id),
             label: cat.nombre
         })))
-        const first = res[0]
-        setCurrentCategoria({
-            value: String(first.id),
-            label: first.nombre,
-        })
-        await fetchValues(String(first.id))
+        //const first = res[0]
+        //setCurrentCategoria({
+        //    value: String(first.id),
+        //    label: first.nombre,
+        //})
+        //await fetchValues(String(first.id))
         setFetching(false)
     }
 
@@ -159,29 +189,34 @@ export default function TreeTableMonitoreo3Niveles() {
     }
 
     // Totales por provincia y por departamento
-    const { provTotals, depTotals } = useMemo(() => {
-        const provTotals = new Map<string, { cols: number[]; total: number }>()
-        const depTotals = new Map<string, { cols: number[]; total: number }>()
+    const { provTotals, depTotals, distTotals } = useMemo(() => {
+        const validacion = (i: Valor) => i == 1
+        const promedioSiNo = (vals: Valor[][]) => promedioDeGrupo(vals, validacion)
+        const distTotals = new Map<string, Counter>()
+        const provTotals = new Map<string, Counter>()
+        const depTotals = new Map<string, Counter>()
 
         for (const dep of data) {
-            const allDistrVals: number[][] = []
-
-            const promediosDePronvicias = []
+            const promediosDeProvincias = []
             for (const prov of dep.provincias) {
-                const pv = sumByIndex(prov.distritos.map((d) => d.valores))
-                const valores = prov.distritos.map(i => i.valores);
-                const total = promedio(valores, i => i == 1)
-                provTotals.set(prov.id, { cols: pv, total })
-                allDistrVals.push(...prov.distritos.map((d) => d.valores))
-                promediosDePronvicias.push(total)
+                const promediosDeDistritos: number[] = []
+                for (const dist of prov.distritos) {
+                    const numbers = dist.entidades.map(i => i.monitoreo);
+                    const total = promedioSiNo(numbers);
+                    const cols = Array.from<number>({ length: 30 }).fill(0)
+                    promediosDeDistritos.push(total)
+                    distTotals.set(dist.id, { cols, total })
+                }
+                const total = promedioPorSuma(promediosDeDistritos, promediosDeDistritos.length);
+                const cols = Array.from<number>({ length: 30 }).fill(0)
+                promediosDeProvincias.push(total)
+                provTotals.set(prov.id, { cols, total })
             }
-
-            const dv = sumByIndex(allDistrVals)
-            const sum = promediosDePronvicias.reduce((a, b) => a + b, 0);
-            depTotals.set(dep.id, { cols: dv, total: Number((sum / promediosDePronvicias.length).toFixed(2)) }) //promedio(dv, 16 * allDistrVals.length) })
+            const total = promedioPorSuma(promediosDeProvincias, promediosDeProvincias.length);
+            const cols = Array.from<number>({ length: 30 }).fill(0)
+            depTotals.set(dep.id, { cols, total })
         }
-
-        return { provTotals, depTotals }
+        return { provTotals, depTotals, distTotals }
     }, [data])
 
     const [category, setCategory] = useState('all')
@@ -284,65 +319,63 @@ export default function TreeTableMonitoreo3Niveles() {
     }, [selectedDepartamento, selectedProvincia, selectedDistrito, data])
 
     const updateChartData = () => {
-        let seriesData: number[] = Array(COLS.length).fill(0)
-        let seriesName = 'Perú'
+        //let seriesData: number[] = Array(COLS.length).fill(0)
+        //let seriesName = 'Perú'
 
-        if (selectedDepartamento && !selectedProvincia && !selectedDistrito) {
-            // Filtrar por departamento
-            const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-            if (departamento) {
-                const allDistritos = departamento.provincias.flatMap(prov => prov.distritos)
-                seriesData = sumByIndex(allDistritos.map(d => d.valores))
-                seriesName = `Departamento: ${departamento.nombre}`
-            }
-        } else if (selectedDepartamento && selectedProvincia && !selectedDistrito) {
-            // Filtrar por provincia
-            const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-            const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
-            if (provincia) {
-                seriesData = sumByIndex(provincia.distritos.map(d => d.valores))
-                seriesName = `Provincia: ${provincia.nombre}`
-            }
-        } else if (selectedDepartamento && selectedProvincia && selectedDistrito) {
-            // Filtrar por distrito
-            const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-            const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
-            const distrito = provincia?.distritos.find(dist => dist.id === selectedDistrito.value)
-            if (distrito) {
-                seriesData = distrito.valores
-                seriesName = `Distrito: ${distrito.nombre}`
-            }
-        } else {
-            // Datos de todo Perú
-            const allDistritos = data.flatMap(dep =>
-                dep.provincias.flatMap(prov => prov.distritos)
-            )
-            seriesData = sumByIndex(allDistritos.map(d => d.valores))
-            seriesName = 'Perú'
-        }
+        //if (selectedDepartamento && !selectedProvincia && !selectedDistrito) {
+        //    // Filtrar por departamento
+        //    const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+        //    if (departamento) {
+        //        const allDistritos = departamento.provincias.flatMap(prov => prov.distritos)
+        //        seriesData = sumByIndex(allDistritos.map(d => d.valores))
+        //        seriesName = `Departamento: ${departamento.nombre}`
+        //    }
+        //} else if (selectedDepartamento && selectedProvincia && !selectedDistrito) {
+        //    // Filtrar por provincia
+        //    const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+        //    const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
+        //    if (provincia) {
+        //        seriesData = sumByIndex(provincia.distritos.map(d => d.valores))
+        //        seriesName = `Provincia: ${provincia.nombre}`
+        //    }
+        //} else if (selectedDepartamento && selectedProvincia && selectedDistrito) {
+        //    // Filtrar por distrito
+        //    const departamento = data.find(dep => dep.id === selectedDepartamento.value)
+        //    const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
+        //    const distrito = provincia?.distritos.find(dist => dist.id === selectedDistrito.value)
+        //    if (distrito) {
+        //        seriesData = distrito.valores
+        //        seriesName = `Distrito: ${distrito.nombre}`
+        //    }
+        //} else {
+        //    // Datos de todo Perú
+        //    const allDistritos = data.flatMap(dep =>
+        //        dep.provincias.flatMap(prov => prov.distritos)
+        //    )
+        //    seriesData = sumByIndex(allDistritos.map(d => d.valores))
+        //    seriesName = 'Perú'
+        //}
 
         setChartSeries([{
-            name: seriesName,
-            data: seriesData
+            name: [], //seriesName,
+            data: [] //seriesData
         }])
     }
     return (
         <>
             <div className="space-y-6">
                 {/* Encabezado */}
-                <div className="text-center">
-                    {/* <h2 className="text-sm font-medium uppercase tracking-wide text-slate-600">
-                        MONITOREO
-                    </h2>
-                    <p className="text-[13px] text-slate-500">
-                        (IMPLEM POLÍTICA Y PLAN)
-                    </p>*/}
-                    <Select
-                        options={categorias}
-                        value={currentCategoria}
-                        onChange={(n) => onCategoria(n)}
-                        isDisabled={fetching}
-                    />
+                <div className="text-left flex justify-start">
+                    <label className="sm:min-w-[300px] min-w-full">
+                        <strong className="block mb-2">Categoria</strong>
+                        <Select
+                            options={categorias}
+                            value={currentCategoria}
+                            onChange={(n) => onCategoria(n)}
+                            placeholder="Seleccione una categoria"
+                            isDisabled={fetching}
+                        />
+                    </label>
                 </div>
 
                 {/* Tabla */}
@@ -408,11 +441,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     key={idx}
                                                     className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                 >
-                                                    {v}
                                                 </td>
                                             ))}
                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                {dTotals?.total}
+                                                {dTotals?.total.toFixed(2)}
                                             </td>
                                         </tr>
 
@@ -466,60 +498,120 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         }
                                                                         className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                     >
-                                                                        {v}
                                                                     </td>
                                                                 ),
                                                             )}
                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                {pTotals.total}
+                                                                {pTotals.total.toFixed(2)}
                                                             </td>
                                                         </tr>
 
                                                         {/* Distritos de la Provincia */}
                                                         {provOpen &&
-                                                            prov.distritos.map(
-                                                                (d) => (
-                                                                    <tr
-                                                                        key={
-                                                                            d.id
-                                                                        }
-                                                                        className="hover:bg-slate-50 bg-emerald-50"
-                                                                    >
-                                                                        <td onClick={() => {
-                                                                            setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                        }} className="cursor-pointer bg-emerald-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                            <span className="ml-2 text-sm text-slate-800 underline decoration-emerald-300">
-                                                                                {
-                                                                                    d.nombre
-                                                                                }
-                                                                            </span>
-                                                                        </td>
-                                                                        {d.valores.map(
-                                                                            (
-                                                                                v,
-                                                                                i,
-                                                                            ) => (
-                                                                                <td
-                                                                                    key={
-                                                                                        i
+                                                            prov.distritos.map((d) => {
+                                                                const distKey = `DD:${prov.id}`
+                                                                const distOpen = expanded.has(distKey)
+                                                                const dTotals = distTotals.get(d.id)!
+                                                                return (
+                                                                    <Fragment>
+                                                                        <tr
+                                                                            key={
+                                                                                d.id
+                                                                            }
+                                                                            className="hover:bg-slate-50 bg-emerald-50"
+                                                                        >
+                                                                            <td onClick={() => {
+                                                                                toggle(distKey);
+                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                            }} className="cursor-pointer bg-emerald-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    aria-expanded={
+                                                                                        distOpen
                                                                                     }
-                                                                                    className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                    className="inline-flex items-center gap-2"
                                                                                 >
-                                                                                    {
-                                                                                        v
-                                                                                    }
-                                                                                </td>
-                                                                            ),
-                                                                        )}
-                                                                        <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                            {promedio(
-                                                                                [d.valores],
-                                                                                (v) => v == 1
+                                                                                    <svg
+                                                                                        className={`h-4 w-4 transform transition-transform ${distOpen ? 'rotate-90' : ''}`}
+                                                                                        viewBox="0 0 24 24"
+                                                                                        fill="none"
+                                                                                        stroke="currentColor"
+                                                                                        strokeWidth="2"
+                                                                                        strokeLinecap="round"
+                                                                                        strokeLinejoin="round"
+                                                                                    >
+                                                                                        <path d="M9 18l6-6-6-6" />
+                                                                                    </svg>
+                                                                                    <span className="text-sm font-semibold text-slate-800">
+                                                                                        {
+                                                                                            d.nombre
+                                                                                        }
+                                                                                    </span>
+                                                                                </button>
+                                                                            </td>
+                                                                            {dTotals.cols.map(
+                                                                                (
+                                                                                    v,
+                                                                                    i,
+                                                                                ) => (
+                                                                                    <td
+                                                                                        key={
+                                                                                            i
+                                                                                        }
+                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                    >
+                                                                                    </td>
+                                                                                ),
                                                                             )}
-                                                                        </td>
-                                                                    </tr>
-                                                                ),
-                                                            )}
+                                                                            <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                {dTotals.total.toFixed(2)}
+                                                                            </td>
+                                                                        </tr>
+                                                                        {/* Entidad del Distrito */}
+                                                                        {distOpen &&
+                                                                            d.entidades.map((entidad) => {
+                                                                                return (
+                                                                                    <Fragment>
+                                                                                        <tr
+                                                                                            key={
+                                                                                                entidad.id
+                                                                                            }
+                                                                                            className="hover:bg-slate-50 bg-purple-50"
+                                                                                        >
+                                                                                            <td onClick={() => {
+                                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                            }} className="cursor-pointer bg-purple-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
+                                                                                                <span className="text-sm font-semibold text-slate-800">
+                                                                                                    {
+                                                                                                        entidad.nombre
+                                                                                                    }
+                                                                                                </span>
+                                                                                            </td>
+                                                                                            {entidad.monitoreo.map(
+                                                                                                (
+                                                                                                    v,
+                                                                                                    i,
+                                                                                                ) => (
+                                                                                                    <td
+                                                                                                        key={
+                                                                                                            i
+                                                                                                        }
+                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                                    >
+                                                                                                            {v}
+                                                                                                    </td>
+                                                                                                ),
+                                                                                            )}
+                                                                                            <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                                {(promedioPorSuma(entidad.monitoreo, 30) * 100).toFixed(2)}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </Fragment>
+                                                                                )
+                                                                            })}
+                                                                    </Fragment>
+                                                                )
+                                                            })}
                                                     </Fragment>
                                                 )
                                             })}

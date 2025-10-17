@@ -4,6 +4,7 @@ import { DirectorioResponse } from './types'
 import { apiGetDirectorio } from '@/services/MonitoreService'
 import { formatDateYYYYMMDD } from '@/utils/datetime'
 import FiltrosDirectorio from './FiltrosDirectorio'
+import { EntidadResponse } from '@/shared/services/ControlesService'
 
 type Distrito = {
     id: string
@@ -105,13 +106,10 @@ export default function TreeTableMonitoreo3Niveles() {
     const [data, setData] = useState<Departamento[]>([])
     const [query, setQuery] = useState("Peru");
 
-    async function fetchValues(distrito: string) {
-        const response = await apiGetDirectorio(distrito)
-        setData(mapMonitoreoResponseToData(response))
+    function newData(data: Departamento[]) {
+        setData(data);
+        setExpanded(new Set())
     }
-    useEffect(() => {
-        //boot();
-    }, []);
 
     const toggle = (key: string) => {
         const next = new Set(expanded)
@@ -119,12 +117,36 @@ export default function TreeTableMonitoreo3Niveles() {
         setExpanded(next)
     }
 
-    function onDistrito(distrito: string) {
+    function fillData(response: DirectorioResponse[]) {
+        if (response.length > 0) {
+            const first = response[0];
+            setQuery(`${first.distrito}, ${first.provincia}, ${first.departamento}, Peru`);
+        }
+        newData(mapMonitoreoResponseToData(response))
+        setExpanded(new Set(response.map((i) => `EE:${i.id}`)))
+    }
+
+    async function onDistrito(distrito: string) {
+        newData([]);
         if (distrito) {
-            fetchValues(distrito)
+            const response = await apiGetDirectorio(distrito)
+            fillData(response);
             return;
         }
-        setData([]);
+        setQuery("Peru");
+    }
+    async function onSearchEntidad(entidad: EntidadResponse | null) {
+        newData([]);
+        if (entidad) {
+            const distritoId = String(entidad.distrito_id);
+            const response = await apiGetDirectorio(distritoId)
+            const item = response.find(e => e.id_distrito == entidad.distrito_id);
+            if (item) {
+                fillData([item]);
+                return;
+            }
+        }
+        setQuery("Peru");
     }
 
     return (
@@ -132,7 +154,7 @@ export default function TreeTableMonitoreo3Niveles() {
             <div className="space-y-6">
                 {/* Encabezado */}
                 <div className="text-center">
-                    <FiltrosDirectorio onDistrito={onDistrito} />
+                    <FiltrosDirectorio onDistrito={onDistrito} onSearchEntidad={onSearchEntidad}/>
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
@@ -156,7 +178,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                         return (
                                             <Fragment key={dep.id}>
                                                 {/* Fila Departamento */}
-                                                <tr className="bg-amber-50 hover:bg-slate-50/60">
+                                                <tr className="bg-amber-50 hover:bg-slate-50/60 hidden">
                                                     <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200"
                                                         onClick={() => {
                                                             toggle(depKey);
@@ -185,14 +207,14 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     </td>
                                                 </tr>
 
-                                                {depOpen &&
+                                                {//depOpen &&
                                                     dep.provincias.map((prov) => {
                                                         const provKey = `P:${prov.id}`
                                                         const provOpen =
                                                             expanded.has(provKey)
                                                         return (
                                                             <Fragment key={prov.id}>
-                                                                <tr className="bg-cyan-50 hover:bg-slate-50/60">
+                                                                <tr className="bg-cyan-50 hover:bg-slate-50/60 hidden">
                                                                     <td className="bg-cyan-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
                                                                         onClick={() => {
                                                                             toggle(provKey);
@@ -226,13 +248,13 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                 </tr>
 
                                                                 {/* Distritos de la Provincia */}
-                                                                {provOpen &&
+                                                                {//provOpen &&
                                                                     prov.distritos.map((d) => {
                                                                         const distKey = `D:${d.id}`
                                                                         const distOpen = expanded.has(distKey)
                                                                         return (
                                                                             <Fragment key={d.id}>
-                                                                                <tr className="hover:bg-slate-50 bg-emerald-5">
+                                                                                <tr className="hover:bg-slate-50 bg-emerald-5 hidden">
                                                                                     <td className="bg-emerald-50 cursor-pointer sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200"
                                                                                         onClick={() => {
                                                                                             toggle(distKey);
@@ -265,14 +287,14 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                     </td>
                                                                                 </tr>
                                                                                 {/* Entidades de distrito */}
-                                                                                {distOpen &&
+                                                                                {//distOpen &&
                                                                                     d.entidades.map((entidad) => {
-                                                                                        const entidadKey = `D:${entidad.id}`
+                                                                                        const entidadKey = `EE:${entidad.id}`
                                                                                         const entidadOpen = expanded.has(entidadKey)
                                                                                         return (
-                                                                                            <Fragment key={d.id}>
+                                                                                            <Fragment key={entidad.id}>
                                                                                                 <tr className="hover:bg-slate-50 bg-purple-5">
-                                                                                                    <td className="bg-purple-50 cursor-pointer sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200"
+                                                                                                    <td className="bg-purple-50 cursor-pointer sticky left-0 z-10 p-3 ring-1 ring-slate-200"
                                                                                                         onClick={() => {
                                                                                                             toggle(entidadKey);
                                                                                                             setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
