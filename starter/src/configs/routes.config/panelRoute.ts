@@ -194,7 +194,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.resumenDptoAsistTecFortalec',
-        path: '/fortalecimiento/resumenDptoAsistTecFortalec',
+        path: '/fortalecimiento/iniciopi/atfc',
         component: lazy(
             () => import('@/views/difat/ResumenDptoAsistTecFortalec'),
         ),
@@ -202,7 +202,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.resumenDptoAsistTecFortalec.entasi',
-        path: '/fortalecimiento/resumenDptoAsistTecFortalec/entasi',
+        path: '/fortalecimiento/entidadesasistidaspi',
         component: lazy(
             () => import('@/views/difat/PprdNivelNacionalEntasi'),
         ),
@@ -210,7 +210,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.resumenDptoAsistTecFortalec.fasesPprd',
-        path: '/fortalecimiento/resumenDptoAsistTecFortalec/fasesPprd',
+        path: '/fortalecimiento/fasespprdpi',
         component: lazy(
             () => import('@/views/difat/PprdNivelNacionalFasesPprd'),
         ),
@@ -218,7 +218,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.fortCapCursosBasYEspec',
-        path: '/fortalecimiento/fortCapCursosBasYEspec',
+        path: '/fortalecimiento/pprrdrapi',
         component: lazy(
             () => import('@/views/difat/FortCapCursosBasYEspec'),
         ),
@@ -234,7 +234,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.evaluadoresDeRiesgoAcred',
-        path: '/fortalecimiento/evaluadoresDeRiesgoAcred',
+        path: '/fortalecimiento/evarpi',
         component: lazy(
             () => import('@/views/difat/EvaluadoresDeRiesgoAcred'),
         ),
@@ -242,13 +242,13 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.fortCapYAmbitos',
-        path: '/fortalecimiento/fortCapYAmbitos',
+        path: '/fortalecimiento/paapi',
         component: lazy(() => import('@/views/difat/FortCapYAmbitos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.riesgoPorFenNaturales',
-        path: '/fortalecimiento/riesgoPorFenNaturales',
+        path: '/fortalecimiento/otrospi/pec',
         component: lazy(
             () => import('@/views/difat/RiesgoPorFenNaturales'),
         ),
@@ -256,7 +256,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.riesgoPorFenNaturales.reaspob',
-        path: '/fortalecimiento/riesgoPorFenNaturales/reaspob',
+        path: '/fortalecimiento/otrospi/reaspob',
         component: lazy(
             () => import('@/views/difat/RiesgoPorFenNaturales'),
         ),
@@ -264,7 +264,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.riesgoPorFenNaturales.actrepre',
-        path: '/fortalecimiento/riesgoPorFenNaturales/actrepre',
+        path: '/fortalecimiento/otrospi/actrepre',
         component: lazy(
             () => import('@/views/difat/RiesgoPorFenNaturales'),
         ),
@@ -279,62 +279,62 @@ const panelRoute: Routes = [
         authority: [],
     },
     {
-        key: 'fortalecimiento.instrumento.pdc',
-        path: '/fortalecimiento/instrumentos/pdc',
+        key: "fortalecimiento.instrumento.pdc",
+        path: '/fortalecimiento/planificacionpi/pdc',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.pdrc',
-        path: '/fortalecimiento/instrumentos/pdrc',
+        path: '/fortalecimiento/planificacionpi/pdrc',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.pdlc',
-        path: '/fortalecimiento/instrumentos/pdlc',
+        path: '/fortalecimiento/planificacionpi/pdlc',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.poi',
-        path: '/fortalecimiento/instrumentos/poi',
+        path: '/fortalecimiento/planificacionpi/poi',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.pei',
-        path: '/fortalecimiento/instrumentos/pei',
+        path: '/fortalecimiento/planificacionpi/pei',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.rof',
-        path: '/fortalecimiento/instrumentos/rof',
+        path: '/fortalecimiento/planificacionpi/rof',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.pdt',
-        path: '/fortalecimiento/instrumentos/pdt',
+        path: '/fortalecimiento/planificacionpi/pdt',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.eat',
-        path: '/fortalecimiento/instrumentos/eat',
+        path: '/fortalecimiento/planificacionpi/eat',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.instrumento.pdu',
-        path: '/fortalecimiento/instrumentos/pdu',
+        path: '/fortalecimiento/planificacionpi/pdu',
         component: lazy(() => import('@/views/difat/Instrumentos')),
         authority: [],
     },
     {
         key: 'fortalecimiento.otrasAsistenciasTecNacional',
-        path: '/fortalecimiento/otrasAsistenciasTecNacional',
+        path: '/fortalecimiento/otrospi',
         component: lazy(
             () => import('@/views/difat/OtrasAsistenciasTecNacional'),
         ),
@@ -342,7 +342,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.concursoBuenasPracticas.cb',
-        path: '/fortalecimiento/concursoBuenasPracticas/cb',
+        path: '/fortalecimiento/cursospi/cb',
         component: lazy(
             () => import('@/views/difat/ConcursoBuenasPracticas'),
         ),
@@ -350,7 +350,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.concursoBuenasPracticas.ce',
-        path: '/fortalecimiento/concursoBuenasPracticas/ce',
+        path: '/fortalecimiento/cursospi/ce',
         component: lazy(
             () => import('@/views/difat/ConcursoBuenasPracticas'),
         ),
@@ -358,7 +358,7 @@ const panelRoute: Routes = [
     },
     {
         key: 'fortalecimiento.fasesDelPprdNacional',
-        path: '/fortalecimiento/fasesDelPprdNacional',
+        path: '/fortalecimiento/evaluadorespi',
         component: lazy(
             () => import('@/views/difat/FasesDelPprdNacional'),
         ),

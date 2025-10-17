@@ -386,7 +386,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 subMenu: [
                     {
                         key: 'fortalecimiento.fortCapCursosBasYEspec',
-                        path: '/fortalecimiento/fortCapCursosBasYEspec',
+                        path: '/fortalecimiento/pprrdrapi',
                         title: 'PPRRD-RA',
                         tooltip: 'PPRRD por Regiones y Años',
                         translateKey: 'nav.fortalecimiento.fortCapCursosBasYEspec',
@@ -410,7 +410,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     */
                     {
                         key: 'fortalecimiento.fortCapYAmbitos',
-                        path: '/fortalecimiento/fortCapYAmbitos',
+                        path: '/fortalecimiento/paapi',
                         title: 'PAA',
                         tooltip: 'Programa Anual de Actividades',
                         translateKey: 'nav.fortalecimiento.fortCapYAmbitos',
@@ -421,7 +421,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.riesgoPorFenNaturales',
-                        path: '/fortalecimiento/riesgoPorFenNaturales',
+                        path: '/fortalecimiento/otrospi/pec',
                         title: 'PEC',
                         tooltip: 'Plan Educación Comunitaria - REP',
                         translateKey: 'nav.fortalecimiento.riesgoPorFenNaturales',
@@ -432,7 +432,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.riesgoPorFenNaturales.reaspob',
-                        path: '/fortalecimiento/riesgoPorFenNaturales/reaspob',
+                        path: '/fortalecimiento/otrospi/reaspob',
                         title: 'REAS-POB',
                         tooltip: 'Reasentamiento Poblacional',
                         translateKey: 'nav.fortalecimiento.riesgoPorFenNaturales.reaspob',
@@ -443,7 +443,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.otrasAsistenciasTecNacional',
-                        path: '/fortalecimiento/otrasAsistenciasTecNacional',
+                        path: '/fortalecimiento/otrospi',
                         title: 'OTROS',
                         tooltip: 'Otros',
                         translateKey: 'nav.fortalecimiento.otrasAsistenciasTecNacional',
@@ -454,7 +454,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.riesgoPorFenNaturales.actrepre',
-                        path: '/fortalecimiento/riesgoPorFenNaturales/actrepre',
+                        path: '/fortalecimiento/otrospi/actrepre',
                         title: 'ACT. REPRE.',
                         tooltip: 'Actividad representación',
                         translateKey: 'nav.fortalecimiento.riesgoPorFenNaturales.actrepre',
@@ -467,7 +467,7 @@ export const panelNavigationFull: NavigationTree[] = [
             },
             {
                 key: 'fortalecimiento.resumenInstrumentoNivNac.instrumentos',
-                path: '/fortalecimiento/resumenInstrumentoNivNac/instrumentos',
+                path: '/fortalecimiento/instrumentos',
                 title: 'INSTRUMENTOS',
                 tooltip: 'Instrumentos a Nivel Nacional',
                 translateKey: 'nav.fortalecimiento.resumenInstrumentoNivNac.instrumentos',
@@ -479,7 +479,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.pdc",
                         translateKey: "nav.fortalecimiento.instrumento.pdc",
                         title: "PDC",
-                        path: '/fortalecimiento/instrumentos/pdc',
+                        path: '/fortalecimiento/planificacionpi/pdc',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan de Desarrollo Concertado',
@@ -490,7 +490,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.pdrc",
                         translateKey: "nav.fortalecimiento.instrumento.pdrc",
                         title: "PDRC",
-                        path: '/fortalecimiento/instrumentos/pdrc',
+                        path: '/fortalecimiento/planificacionpi/pdrc',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan de Desarrollo Regional Concertado',
@@ -501,7 +501,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.pdlc",
                         translateKey: "nav.fortalecimiento.instrumento.pdlc",
                         title: "PDLC",
-                        path: '/fortalecimiento/instrumentos/pdlc',
+                        path: '/fortalecimiento/planificacionpi/pdlc',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan de Desarrollo Local Concertado',
@@ -512,7 +512,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.poi",
                         translateKey: "nav.fortalecimiento.instrumento.poi",
                         title: "POI",
-                        path: '/fortalecimiento/instrumentos/poi',
+                        path: '/fortalecimiento/planificacionpi/poi',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan Operativo Institucional',
@@ -523,7 +523,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.pei",
                         translateKey: "nav.fortalecimiento.instrumento.pei",
                         title: "PEI",
-                        path: '/fortalecimiento/instrumentos/pei',
+                        path: '/fortalecimiento/planificacionpi/pei',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan Estratégico Institucional',
@@ -534,7 +534,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.rof",
                         translateKey: "nav.fortalecimiento.instrumento.rof",
                         title: "ROF",
-                        path: '/fortalecimiento/instrumentos/rof',
+                        path: '/fortalecimiento/planificacionpi/rof',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Reglamento de Organizacion y Funciones',
@@ -545,7 +545,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.pdt",
                         translateKey: "nav.fortalecimiento.instrumento.pdt",
                         title: "PDT",
-                        path: '/fortalecimiento/instrumentos/pdt',
+                        path: '/fortalecimiento/planificacionpi/pdt',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan de Ordenamiento Territorial',
@@ -556,7 +556,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.eat",
                         translateKey: "nav.fortalecimiento.instrumento.eat",
                         title: "PAT",
-                        path: '/fortalecimiento/instrumentos/eat',
+                        path: '/fortalecimiento/planificacionpi/eat',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan de Accion Territorial',
@@ -567,7 +567,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: "fortalecimiento.instrumento.pdu",
                         translateKey: "nav.fortalecimiento.instrumento.pdu",
                         title: "PDU",
-                        path: '/fortalecimiento/instrumentos/pdu',
+                        path: '/fortalecimiento/planificacionpi/pdu',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
                         tooltip: 'Plan de Desarrollo Distrital / Documento de Desarrollo Disrital',
@@ -588,7 +588,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 subMenu: [
                     {
                         key: 'fortalecimiento.evaluadoresDeRiesgoAcred',
-                        path: '/fortalecimiento/evaluadoresDeRiesgoAcred',
+                        path: '/fortalecimiento/evarpi',
                         title: 'ERR',
                         tooltip: 'Evaluadores de Riesgo por Regiones Años',
                         translateKey: 'nav.fortalecimiento.evaluadoresDeRiesgoAcred',
@@ -599,7 +599,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.fasesDelPprdNacional',
-                        path: '/fortalecimiento/fasesDelPprdNacional',
+                        path: '/fortalecimiento/evaluadorespi',
                         title: 'ERA',
                         tooltip: 'Evaluadores de Riesgo Acreditados',
                         translateKey: 'nav.fortalecimiento.fasesDelPprdNacional',
@@ -610,7 +610,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.concursoBuenasPracticas.cb',
-                        path: '/fortalecimiento/concursoBuenasPracticas/cb',
+                        path: '/fortalecimiento/cursospi/cb',
                         title: 'CB',
                         tooltip: 'Cursos básicos',
                         translateKey: 'nav.fortalecimiento.concursoBuenasPracticas.cb',
@@ -621,7 +621,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.concursoBuenasPracticas.ce',
-                        path: '/fortalecimiento/concursoBuenasPracticas/ce',
+                        path: '/fortalecimiento/cursospi/ce',
                         title: 'CE',
                         tooltip: 'Cursos especializados',
                         translateKey: 'nav.fortalecimiento.concursoBuenasPracticas.ce',
@@ -644,8 +644,8 @@ export const panelNavigationFull: NavigationTree[] = [
                 subMenu: [
                     {
                         key: 'fortalecimiento.resumenDptoAsistTecFortalec',
-                        path: '/fortalecimiento/resumenDptoAsistTecFortalec',
-                        title: 'ATFC RA',
+                        path: '/fortalecimiento/iniciopi/atfc',
+                        title: 'AT y FC',
                         tooltip: 'Asistencia Técnica y Fortalecimiento de Capacidades por Regiones y Años',
                         translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec',
                         icon: '',
@@ -655,7 +655,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.resumenDptoAsistTecFortalec.entasi',
-                        path: '/fortalecimiento/resumenDptoAsistTecFortalec/entasi',
+                        path: '/fortalecimiento/entidadesasistidaspi',
                         title: 'ENTIDADES ASISTIDAS',
                         tooltip: 'Entidades Asistidas',
                         translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec.entasi',
@@ -666,7 +666,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     },
                     {
                         key: 'fortalecimiento.resumenDptoAsistTecFortalec.fasesPprd',
-                        path: '/fortalecimiento/resumenDptoAsistTecFortalec/fasesPprd',
+                        path: '/fortalecimiento/fasespprdpi',
                         title: 'FASES PPRD',
                         tooltip: 'Fases PPRD',
                         translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec.fasesPprd',

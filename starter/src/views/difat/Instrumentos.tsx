@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 export default function Instrumentos() {
-    const [url] = useState<string>(import.meta.env.VITE_RENAT_URL + "/tablero/planificacion-instrumentos/pi")
+    const [url] = useState<string>(import.meta.env.VITE_RENAT_URL + "/tablero/planificacion/pi")
     return (
         <div className="relative w-full h-full" style={{ paddingTop: '56.25%' }}>
             <iframe

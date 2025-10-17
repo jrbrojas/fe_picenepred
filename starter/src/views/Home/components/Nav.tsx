@@ -76,7 +76,7 @@ const navItems: NavItem[] = [
     },
     {
         label: 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA',
-        href: '/fortalecimiento/fortCapCursosBasYEspec',
+        href: '/fortalecimiento/pprrdrapi',
         protected: true,
     },
     {
