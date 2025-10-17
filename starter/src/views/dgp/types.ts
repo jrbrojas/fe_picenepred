@@ -12,6 +12,7 @@ export type PlantillaGroupItem = {
   total_centro_poblado?: number
   total_distritos?: number
   total_superficie_agricola?: number
+  total_mon_arqueologico?: number
   total_vias?: number
   departamentos: string
   departamentos_poblacion?: {
