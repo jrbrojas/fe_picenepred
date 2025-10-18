@@ -34,7 +34,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'monitoreo.enagerd.encuestas.formEnagerd2025',
-                    path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/FORMULARIO_ENAGERD_2025.pdf',
+                    path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/FORMULARIO_ENAGERD_2025.pdf#view=FitH&pagemode=none&zoom=140',
                     title: 'Form Enagerd 2025',
                     translateKey: 'nav.monitoreo.enagerd.encuestas.formEnagerd2025',
                     icon: '',
@@ -56,7 +56,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'monitoreo.enagerd.encuestas.programaTalleres',
-                    path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/ENAGERD_2025_ANEXO_3_TALLERES.pdf',
+                    path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/ENAGERD_2025_ANEXO_3_TALLERES.pdf#zoom=138',
                     title: 'Programa de talleres',
                     translateKey: 'nav.monitoreo.enagerd.encuestas.programaTalleres',
                     icon: '',
@@ -67,7 +67,7 @@ const navigationConfig: NavigationTree = {
                 },
                 {
                     key: 'enagerd.encuestas.especialistasResponsables',
-                    path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/ENAGERD_2025_ANEXO_4_TERRITORIOS.pdf',
+                    path: 'https://dimse.cenepred.gob.pe/simse/cenepred/docs/ENAGERD_2025_ANEXO_4_TERRITORIOS.pdf#view=FitH&pagemode=none&zoom=150',
                     title: 'Especialistas responsables',
                     translateKey: 'nav.monitoreo.enagerd.encuestas.especialistasResponsables',
                     icon: '',

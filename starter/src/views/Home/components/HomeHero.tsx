@@ -7,17 +7,17 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 const slides = [
-  { image: '/img/banner.jpg' },
-  { image: '/img/banner2.jpg' },
-  { image: '/img/banner3.jpg' },
-  { image: '/img/banner4.jpg' },
-  { image: '/img/banner5.jpg' },
-  { image: '/img/banner6.jpg' },
+  //{ image: '/img/banner.jpg' },
+  { image: '/img/1.webp' },
+  { image: '/img/2.webp' },
+  { image: '/img/3.webp' },
+  { image: '/img/4.webp' },
+  { image: '/img/5.webp' },
 ]
 
 export default function HomeHero() {
   return (
-    <section className="relative overflow-hidden w-screen ml-[calc(50%_-_50vw)]">
+    <section className="relative overflow-hidden w-screen ml-[calc(50%_-_50vw)]"> 
       {/* Contenedor Swiper */}
       <Swiper
         //modules={[Autoplay, Pagination, Navigation]}
