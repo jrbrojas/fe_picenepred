@@ -169,7 +169,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                             {nivelNombre[item.nivel]}
                                                         </div>
                                                         <p className="text-sm text-teal-600 mt-2">
-                                                            Departamentos en nivel:{" "}
+                                                            Departamentos:{" "}
                                                             <span className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} bg-white font-semibold`}>
                                                                 {item.departamentos && formatArray(item.departamentos)}
                                                             </span>

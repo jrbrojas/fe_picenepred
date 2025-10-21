@@ -202,7 +202,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
-                                                <td className="px-4 py-2">vias (Km): </td>
+                                                <td className="px-4 py-2">Vias (Km): </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
                                                     <td key={index} className="px-4 py-2">{item.total_vias}</td>
                                                 ))}
