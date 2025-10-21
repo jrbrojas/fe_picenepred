@@ -62,7 +62,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                         <div className='p-2'>
                             <div className="flex items-center justify-end pb-5">
                                 <Button variant="solid" icon={<BiDownload />}>
-                                    Descargar PDF
+                                    Descargar PPT
                                 </Button>
                             </div>
 

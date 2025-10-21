@@ -70,7 +70,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                     <Tabs defaultValue="inundaciones">
                         <TabList button={
                                 <Button variant="solid" icon={<BiDownload />}>
-                                    Descargar PDF
+                                    Descargar PPT
                                 </Button>
                             }
                         >
@@ -100,8 +100,8 @@ const LluviasAvisoTrimestralEstatico = () => {
 
                                             </div>
 
-                                            <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-                                                <div className='flex flex-col items-center gap-2'>
+                                            <div className='grid grid-cols-1 lg:grid-cols-5 gap-6'>
+                                                <div className='flex flex-col items-center justify-center gap-2'>
                                                     <div className='w-full flex justify-center'>
                                                         {escenario.mapas && escenario.mapas[index] && (
                                                             <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index].ruta} />
@@ -115,13 +115,13 @@ const LluviasAvisoTrimestralEstatico = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className='w-full flex justify-center'>
+                                                <div className='col-span-2 flex items-center justify-center'>
                                                     {escenario.mapas && escenario.mapas[index] && (
                                                         <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index].ruta} />
                                                     )}
                                                 </div>
 
-                                                <div>
+                                                <div className='col-span-2'>
                                                     <h2 className='text-4xl font-semibold text-teal-600'>{mesInicio.toUpperCase()} - {mesFin.toUpperCase()}</h2>
                                                     <div className='flex items-center gap-8'>
                                                         <h1 className='text-6xl font-semibold text-teal-600'>{year}</h1>

@@ -363,11 +363,11 @@ export default function TreeTableMonitoreo3Niveles() {
                                                         key={idx}
                                                         className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                     >
-                                                        {v}
+                                                        {v.toFixed(2)} %
                                                     </td>
                                                 ))}
                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                    {dTotals?.total}
+                                                    {dTotals?.total.toFixed(2)} %
                                                 </td>
                                             </tr>
 
@@ -421,12 +421,12 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             }
                                                                             className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                         >
-                                                                            {v}
+                                                                            {v.toFixed(2)} %
                                                                         </td>
                                                                     ),
                                                                 )}
                                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                    {pTotals.total}
+                                                                    {pTotals.total.toFixed(2)} %
                                                                 </td>
                                                             </tr>
 
@@ -487,13 +487,13 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                 className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                                             >
                                                                                                 {
-                                                                                                    v
-                                                                                                }
+                                                                                                    v.toFixed(2)
+                                                                                                } %
                                                                                             </td>
                                                                                         ),
                                                                                     )}
                                                                                     <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                        {valsDist.total}
+                                                                                        {valsDist.total} %
                                                                                     </td>
                                                                                 </tr>
                                                                                 {/* Entidades de Distrito */}
@@ -524,7 +524,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                             >
                                                                                                                 {
                                                                                                                     v.toFixed(2)
-                                                                                                                }
+                                                                                                                } %
                                                                                                             </td>
                                                                                                         ),
                                                                                                     )}
@@ -532,7 +532,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         {promedio(
                                                                                                             entidad.evaluacion,
                                                                                                             3
-                                                                                                        )}
+                                                                                                        )} %
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             </Fragment>

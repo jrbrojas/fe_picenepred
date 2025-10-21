@@ -56,13 +56,13 @@ type Departamento = {
 const COLS = [
     { tooltip: "PPRD", text: "PPRD" },
     { tooltip: "EVAR", text: "EVAR" },
-    { tooltip: "Educación comunitaria", text: "EC" },
-    { tooltip: "Reasentamiento poblacional", text: "RP" },
-    { tooltip: "Planes de reconstrucción", text: "PR" },
+    { tooltip: "Educación Comunitaria", text: "EC" },
+    { tooltip: "Reasentamiento Poblacional", text: "RP" },
+    { tooltip: "Planes de Reconstrucción", text: "PR" },
     { tooltip: "Gestión Ambiental", text: "GA" },
-    { tooltip: "Acondicionamiento territorial", text: "AT" },
-    { tooltip: "Desarrollo urbano", text: "DU" },
-    { tooltip: "Ordenamiento territorial", text: "OT" },
+    { tooltip: "Acondicionamiento Territorial", text: "AT" },
+    { tooltip: "Desarrollo Urbano", text: "DU" },
+    { tooltip: "Ordenamiento Territorial", text: "OT" },
     { tooltip: "Plan Estratégico Institucional (PEI)", text: "PEI" },
     { tooltip: "Plan Operativo Institucional (POI)", text: "POI" },
     { tooltip: "Plan Estratégico Sectorial Multianual (PESEM)", text: "PESEM" },
@@ -315,7 +315,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                             key={c.text}
                                             className="bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200"
                                         >
-                                            <Tooltip title={c.tooltip}>
+                                            <Tooltip title={`¿Tiene el instrumento ${c.tooltip}?`}>
                                                 <span className="cursor-pointer">{c.text}</span>
                                             </Tooltip>
                                         </th>
@@ -370,7 +370,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     </td>
                                                 ))}
                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                    {dTotals?.total.toFixed(2)}
+                                                    {dTotals?.total.toFixed(2)} %
                                                 </td>
                                             </tr>
 
@@ -428,7 +428,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                     ),
                                                                 )}
                                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                    {pTotals.total.toFixed(2)}
+                                                                    {pTotals.total.toFixed(2)} %
                                                                 </td>
                                                             </tr>
 
@@ -490,7 +490,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                 ),
                                                                             )}
                                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                {dTotals.total.toFixed(2)}
+                                                                                {dTotals.total.toFixed(2)} %
                                                                             </td>
                                                                         </tr>
                                                                         {/* Entidad del Distrito */}
@@ -529,7 +529,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                 ),
                                                                                             )}
                                                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                                {(promedioPorSuma(entidad.monitoreo, 16) * 100).toFixed(2)}
+                                                                                                {(promedioPorSuma(entidad.monitoreo, 16) * 100).toFixed(2)} %
                                                                                             </td>
                                                                                         </tr>
                                                                                     </Fragment>
