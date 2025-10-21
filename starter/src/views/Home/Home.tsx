@@ -15,7 +15,8 @@ const Home = () => {
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
-            <header className="border-b border-slate-200 bg-white">
+            <header className="fixed top-0 left-0 w-full z-50 border-b border-slate-200 bg-white shadow-md">
+
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4">
                     <div className="flex items-center gap-3 ml-0 lg:ml-20">
                         <img
@@ -70,7 +71,7 @@ const Home = () => {
                 </div>
             </header>
 
-            <main className="flex-1 mx-auto w-full max-w-7xl">
+            <main className="flex-1 mx-auto w-full max-w-7xl mt-[150px]">
                 <section className="relative">
                     <HomeHero />
 
