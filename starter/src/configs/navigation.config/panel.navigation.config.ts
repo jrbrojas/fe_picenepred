@@ -646,7 +646,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         key: 'fortalecimiento.evaluadoresDeRiesgoAcred',
                         path: '/fortalecimiento/evarpi',
                         title: 'ERR',
-                        tooltip: 'Evaluadores de Riesgo por Regiones Años',
+                        tooltip: 'Evaluaciones de Riesgo por Regiones Años',
                         translateKey: 'nav.fortalecimiento.evaluadoresDeRiesgoAcred',
                         icon: '',
                         type: NAV_ITEM_TYPE_ITEM,
