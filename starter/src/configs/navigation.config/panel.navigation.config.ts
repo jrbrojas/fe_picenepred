@@ -544,7 +544,7 @@ export const panelNavigationFull: NavigationTree[] = [
                     {
                         key: "fortalecimiento.instrumento.pdt",
                         translateKey: "nav.fortalecimiento.instrumento.pdt",
-                        title: "PDT",
+                        title: "POT",
                         path: '/fortalecimiento/planificacionpi/pdt',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
@@ -570,7 +570,7 @@ export const panelNavigationFull: NavigationTree[] = [
                         path: '/fortalecimiento/planificacionpi/pdu',
                         icon: "",
                         type: NAV_ITEM_TYPE_ITEM,
-                        tooltip: 'Plan de Desarrollo Distrital / Documento de Desarrollo Disrital',
+                        tooltip: 'Plan de Desarrollo Urbano',
                         authority: [],
                         subMenu: []
                     }
@@ -586,17 +586,6 @@ export const panelNavigationFull: NavigationTree[] = [
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
-                    {
-                        key: 'fortalecimiento.evaluadoresDeRiesgoAcred',
-                        path: '/fortalecimiento/evarpi',
-                        title: 'ERR',
-                        tooltip: 'Evaluadores de Riesgo por Regiones Años',
-                        translateKey: 'nav.fortalecimiento.evaluadoresDeRiesgoAcred',
-                        icon: '',
-                        type: NAV_ITEM_TYPE_ITEM,
-                        authority: [],
-                        subMenu: [],
-                    },
                     {
                         key: 'fortalecimiento.fasesDelPprdNacional',
                         path: '/fortalecimiento/evaluadorespi',
@@ -648,6 +637,17 @@ export const panelNavigationFull: NavigationTree[] = [
                         title: 'AT y FC',
                         tooltip: 'Asistencia Técnica y Fortalecimiento de Capacidades por Regiones y Años',
                         translateKey: 'nav.fortalecimiento.resumenDptoAsistTecFortalec',
+                        icon: '',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
+                    },
+                    {
+                        key: 'fortalecimiento.evaluadoresDeRiesgoAcred',
+                        path: '/fortalecimiento/evarpi',
+                        title: 'ERR',
+                        tooltip: 'Evaluadores de Riesgo por Regiones Años',
+                        translateKey: 'nav.fortalecimiento.evaluadoresDeRiesgoAcred',
                         icon: '',
                         type: NAV_ITEM_TYPE_ITEM,
                         authority: [],
