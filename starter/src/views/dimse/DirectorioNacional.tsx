@@ -148,13 +148,24 @@ export default function TreeTableMonitoreo3Niveles() {
         }
         setQuery("Peru");
     }
+    async function onSearchText(text: string | null) {
+        newData([]);
+        if (text) {
+            const response = await apiGetDirectorio("", text)
+            if (response) {
+                fillData(response);
+                return;
+            }
+        }
+        setQuery("Peru");
+    }
 
     return (
         <>
             <div className="space-y-6">
                 {/* Encabezado */}
                 <div className="text-center">
-                    <FiltrosDirectorio onDistrito={onDistrito} onSearchEntidad={onSearchEntidad}/>
+                    <FiltrosDirectorio onDistrito={onDistrito} onSearchEntidad={onSearchEntidad} onSearchText={onSearchText}/>
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
@@ -330,7 +341,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                             <tr className="hover:bg-slate-50 bg-purple-5">
                                                                                                                 <td className="bg-purple-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
                                                                                                                     onClick={() => {
-                                                                                                                        toggle(entidadKey);
+                                                                                                                        //toggle(entidadKey);
                                                                                                                         //setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                                                     }}>
                                                                                                                     <div className="grid justify-items-center">

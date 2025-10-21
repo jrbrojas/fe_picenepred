@@ -32,7 +32,19 @@ export async function apiGetCategorias() {
     })
 }
 
-export async function apiGetDirectorio(distrito: string) {
+export async function apiGetDirectorio(distrito: string, text: string = "") {
+    if (!distrito.trim()) {
+        if (!text.trim()) {
+            return ApiServiceDimse.fetchDataWithAxios<DirectorioResponse[]>({
+                url: `/directorio`,
+                method: 'get',
+            })
+        }
+        return ApiServiceDimse.fetchDataWithAxios<DirectorioResponse[]>({
+            url: `/directorio?q=${text}`,
+            method: 'get',
+        })
+    }
     return ApiServiceDimse.fetchDataWithAxios<DirectorioResponse[]>({
         url: `/directorio?distrito=${distrito}`,
         method: 'get',

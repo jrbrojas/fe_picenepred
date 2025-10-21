@@ -3,12 +3,32 @@ import Card from '@/components/ui/Card'
 import Segment from '@/components/ui/Segment'
 import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
-import { Select } from '@/components/ui'
+import { Select, Tooltip } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import promedioDeGrupo, { Valor, promedio, promedioPorSuma } from './promedio'
 import MapaPeru from './MapaPeru'
 import { MonitoreoResponse, RespuestaElement } from './types'
 import { apiGetCategorias, apiGetMonitoreo } from '@/services/MonitoreService'
+import { Pregunta, preguntas } from '@/constants/preguntas.constant'
+
+
+interface PreguntaTooltipProps {
+    pregunta: Pregunta|null
+}
+const PreguntaTooltip = (props: PreguntaTooltipProps) => {
+    if (!props.pregunta) {
+        return null
+    }
+    function getTooltipText(codigo: string) {
+        const pregunta = preguntas.find(c => c.codigo == codigo)
+        return pregunta?.pregunta || "";
+    }
+    return (
+        <div>
+            <p>{props.pregunta.pregunta}</p>
+        </div>
+    );
+}
 
 const datita = {
     campagin: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
@@ -313,6 +333,10 @@ export default function TreeTableMonitoreo3Niveles() {
         setSelectedDistrito(newValue)
     }
 
+    function getPregunta(codigo: string): Pregunta | null{
+        return preguntas.find(c => c.codigo == codigo) || null
+    }
+
     // Efecto para actualizar el gráfico cuando cambian los filtros
     useEffect(() => {
         updateChartData()
@@ -383,18 +407,22 @@ export default function TreeTableMonitoreo3Niveles() {
                     <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
                         <thead>
                             <tr>
-                                <th onClick={() => { setQuery(`Peru`); }} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
+                                <th onClick={() => { setQuery(`Peru`); }} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-2 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
                                     Localización
                                 </th>
                                 {COLS.map((c) => (
                                     <th
                                         key={c}
-                                        className="bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200"
+                                        className="bg-slate-50 p-2 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200"
                                     >
-                                        {c}
+                                        {!getPregunta(c) ? c :
+                                            <Tooltip title={<PreguntaTooltip pregunta={getPregunta(c)} />}>
+                                                {c}
+                                            </Tooltip>
+                                        }
                                     </th>
                                 ))}
-                                <th className="w-[120px] bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap">
+                                <th className="w-[120px] bg-slate-50 p-2 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap">
                                     Total %
                                 </th>
                             </tr>
@@ -444,7 +472,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                 </td>
                                             ))}
                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                {dTotals?.total.toFixed(2)}
+                                                {dTotals?.total.toFixed(2)} %
                                             </td>
                                         </tr>
 
@@ -502,7 +530,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                 ),
                                                             )}
                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                {pTotals.total.toFixed(2)}
+                                                                {pTotals.total.toFixed(2)} %
                                                             </td>
                                                         </tr>
 
@@ -564,7 +592,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                 ),
                                                                             )}
                                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                {dTotals.total.toFixed(2)}
+                                                                                {dTotals.total.toFixed(2)} %
                                                                             </td>
                                                                         </tr>
                                                                         {/* Entidad del Distrito */}
@@ -603,7 +631,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                 ),
                                                                                             )}
                                                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                                {(promedioPorSuma(entidad.monitoreo, 30) * 100).toFixed(2)}
+                                                                                                {(promedioPorSuma(entidad.monitoreo, 30) * 100).toFixed(2)} %
                                                                                             </td>
                                                                                         </tr>
                                                                                     </Fragment>

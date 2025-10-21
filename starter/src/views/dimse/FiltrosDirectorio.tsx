@@ -2,7 +2,7 @@ import { useDepartamentos } from '@/shared/stores/controls/depas'
 import { useProvincias } from '@/shared/stores/controls/provs'
 import { useDistritos } from '@/shared/stores/controls/distrito'
 import { Controller, useForm } from 'react-hook-form'
-import { FormItem, Button, Select } from '@/components/ui'
+import { FormItem, Button, Select, Input } from '@/components/ui'
 import { Option } from '@/shared/types'
 import { useEffect, useMemo, useState } from 'react'
 import { useEntidades } from '@/shared/stores/controls/entidades'
@@ -10,6 +10,7 @@ import { TbFilter } from "react-icons/tb";
 import { EntidadResponse } from '@/shared/services/ControlesService'
 
 export type EntidadForm = {
+    search: string,
     departamento: Option | null,
     provincia: Option | null,
     distrito: Option | null,
@@ -19,10 +20,12 @@ export type EntidadForm = {
 interface Props {
     onDistrito: (id: string) => void,
     onSearchEntidad: (e: EntidadResponse | null) => void,
+    onSearchText: (text: string) => void,
 }
 export default function FiltrosDirectorio({
     onDistrito,
     onSearchEntidad,
+    onSearchText,
 }: Props) {
     const [verFiltros, setVerFiltros] = useState(false)
     // filtros
@@ -33,6 +36,7 @@ export default function FiltrosDirectorio({
 
     const { control, reset, setValue, watch, getValues } = useForm<EntidadForm>({
         defaultValues: {
+            search: "",
             departamento: null,
             provincia: null,
             distrito: null,
@@ -80,28 +84,31 @@ export default function FiltrosDirectorio({
             onSearchEntidad(e || null)
         }
     }, [entidad])
+    function onEnter(e: React.KeyboardEvent) {
+        // verificar si es enter
+        if (e.key == "Enter") {
+            onSearchText(getValues("search"))
+        }
+    }
     return (
         <form onSubmit={(e) => e.preventDefault()} className="grid w-full gap-4 text-left">
             <div className="flex w-full gap-4">
                 <Controller
-                    name="entidad"
+                    name="search"
                     control={control}
                     render={({ field }) => (
-                        <Select
-                            options={entidadesOptions}
+                        <Input
                             value={field.value}
                             className="flex-1"
-                            placeholder="Ingrese nombre entidad a buscar"
-                            isClearable
-                            onChange={(opt: Option | null) => {
-                                field.onChange(opt);
+                            placeholder="Buscar por nombre, dni del responsable, nombre de entidad"
+                            onKeyUp={onEnter}
+                            onChange={evt => {
+                                field.onChange(evt);
                                 // reset dependientes
+                                setValue("entidad", null);
                                 setValue("departamento", null);
                                 setValue("provincia", null);
                                 setValue("distrito", null);
-                            }}
-                            components={{
-                                DropdownIndicator: null
                             }}
                         />
                     )}
@@ -115,7 +122,32 @@ export default function FiltrosDirectorio({
                     setValue("departamento", null);
                     setValue("provincia", null);
                     setValue("distrito", null);
-                }} type="button">Buscar</Button>
+                }} type="button">Filtros</Button>
+            </div>
+            <div className={verFiltros ? "flex w-full gap-4" : "hidden"}>
+                <FormItem label="Entidad" className="flex-1 mb-0">
+                    <Controller
+                        name="entidad"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                options={entidadesOptions}
+                                value={field.value}
+                                className="flex-1"
+                                placeholder="Entidad"
+                                isClearable
+                                onChange={(opt: Option | null) => {
+                                    field.onChange(opt);
+                                    // reset dependientes
+                                    setValue("search", "");
+                                    setValue("departamento", null);
+                                    setValue("provincia", null);
+                                    setValue("distrito", null);
+                                }}
+                            />
+                        )}
+                    />
+                </FormItem>
             </div>
             <div className={verFiltros ? "flex w-full gap-4 text-left" : "hidden"}>
             <FormItem label="Departamento" className="flex-1">
@@ -131,6 +163,7 @@ export default function FiltrosDirectorio({
                             onChange={(opt: Option | null) => {
                                 field.onChange(opt);
                                 // reset dependientes
+                                setValue("search", "");
                                 setValue("entidad", null);
                                 setValue("provincia", null);
                                 setValue("distrito", null);

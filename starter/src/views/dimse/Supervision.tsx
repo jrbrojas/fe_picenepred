@@ -313,20 +313,25 @@ export default function TreeTableMonitoreo3Niveles() {
                         <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
                             <thead>
                                 <tr>
-                                    <th className="sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
+                                    <th className="sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-left text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200" rowSpan={2}>
                                         Localización
                                     </th>
+                                    <th className="w-[120px] bg-slate-50 p-2 text-center text-[14px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap" colSpan={4}>
+                                        % DE AVANCE
+                                    </th>
+                                    <th className="w-[120px] bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap" rowSpan={2}>
+                                        Total %
+                                    </th>
+                                </tr>
+                                <tr>
                                     {COLS.map((c) => (
                                         <th
                                             key={c}
-                                            className="bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200"
+                                            className="bg-slate-50 p-2 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200"
                                         >
                                             {c}
                                         </th>
                                     ))}
-                                    <th className="w-[120px] bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap">
-                                        Total %
-                                    </th>
                                 </tr>
                             </thead>
 
@@ -374,7 +379,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     </td>
                                                 ))}
                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                    {dTotals?.total.toFixed(2)}
+                                                    {dTotals?.total.toFixed(2)} %
                                                 </td>
                                             </tr>
 
@@ -432,7 +437,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                     ),
                                                                 )}
                                                                 <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                    {pTotals.total.toFixed(2)}
+                                                                    {pTotals.total.toFixed(2)} %
                                                                 </td>
                                                             </tr>
 
@@ -496,7 +501,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                         ),
                                                                                     )}
                                                                                     <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                        {valsDist.total}
+                                                                                        {valsDist.total.toFixed(2)} %
                                                                                     </td>
                                                                                 </tr>
                                                                                 {/* Entidades de Distrito */}
@@ -527,7 +532,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                             >
                                                                                                                 {
                                                                                                                     v.toFixed(2)
-                                                                                                                }
+                                                                                                                } %
                                                                                                             </td>
                                                                                                         ),
                                                                                                     )}
@@ -537,7 +542,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                                 entidad.supervision,
                                                                                                                 entidad.supervision.filter(i => i > 0).length // solo entra al promedio si el valor es mayor a 0
                                                                                                             ) || 0
-                                                                                                        ).toFixed(2)}
+                                                                                                        ).toFixed(2)} %
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             </Fragment>
