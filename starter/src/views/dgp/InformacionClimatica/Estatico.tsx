@@ -60,7 +60,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                 <p className='mr-5 ml-2'>PLAN MULTISECTORIAL</p>
                             </div>
                             <Button variant="solid" icon={<BiDownload />}>
-                                Descargar PDF
+                                Descargar PPT
                             </Button>
                         </div>
 
@@ -132,7 +132,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
-                                                <td className="px-4 py-2">vias (Km): </td>
+                                                <td className="px-4 py-2">Vias (Km): </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
                                                     <td key={index} className="px-4 py-2">{item.total_vias}</td>
                                                 ))}

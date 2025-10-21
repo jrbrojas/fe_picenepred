@@ -73,7 +73,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                         <div className='p-2'>
                             <div className="flex items-center justify-end pb-5">
                                 <Button variant="solid" icon={<BiDownload />}>
-                                    Descargar PDF
+                                    Descargar PPT
                                 </Button>
                             </div>
 
@@ -91,9 +91,9 @@ const BajasTempAvisoTrimestralEstatico = () => {
 
                             </div>
 
-                            <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+                            <div className='grid grid-cols-1 lg:grid-cols-5 gap-6'>
 
-                                <div className='flex flex-col items-center gap-2'>
+                                <div className='flex flex-col items-center justify-center gap-2'>
                                     <div className='w-full flex justify-center'>
                                         {escenario.mapas && escenario.mapas[0] && (
                                             <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0].ruta} />
@@ -107,13 +107,13 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                     </div>
                                 </div>
 
-                                <div className='w-full flex justify-center'>
+                                <div className='col-span-2 flex items-center justify-center'>
                                     {escenario.mapas && escenario.mapas[0] && (
                                         <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
                                     )}
                                 </div>
 
-                                <div>
+                                <div className='col-span-2'>
                                     <h2 className='text-4xl font-semibold text-teal-600'>{mesInicio.toUpperCase()} - {mesFin.toUpperCase()}</h2>
                                     <div className='flex items-center gap-8 pb-5'>
                                         <h1 className='text-6xl font-semibold text-teal-600'>{year}</h1>
