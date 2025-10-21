@@ -193,14 +193,14 @@ function AppNavLink({
                 }, 150)
               }}
             >
-              {/* ⛔️ solo renderizamos el link visible del primer nivel */}
+              {/* solo renderizamos el link visible del primer nivel */}
               <AppNavLink
                 item={{ ...submenuItem, submenu: undefined } as NavItem}
                 className="block rounded-md px-3 py-2 text-sm text-white hover:bg-[#30BDCC] transition-colors duration-200"
                 onDone={onDone}
               />
         
-              {/* ✅ submenú lateral visible solo al hacer hover */}
+              {/* submenú lateral visible solo al hacer hover */}
               {submenuItem.submenu && hoveredIndex === i && (
                 <ul
                   className="absolute left-[98%] top-0 z-[60] w-56 rounded-md bg-[#078199] p-2 text-white shadow-xl ring-1 ring-black/5 transition-all duration-150"
