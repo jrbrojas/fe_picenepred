@@ -102,7 +102,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                         )}
                                         {data['inundaciones'].slice(0, 1).map((item, index) => (
                                             <div key={index} className="text-sm text-teal-600 font-semibold p-4 bg-blue-100/80">
-                                                Departamentos con mayor población expuesta:
+                                                Departamento población expuesta:
                                                 {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
                                                     <p key={index} className='flex justify-between items-center'>
                                                         <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}

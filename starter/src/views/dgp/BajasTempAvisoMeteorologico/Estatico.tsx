@@ -178,7 +178,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
 
                                                     {/* Departamentos con mayor población */}
                                                     <div className="mt-4 text-sm text-teal-600 font-semibold">
-                                                        Departamentos con mayor población expuesta:
+                                                        Departamento población expuesta:
                                                         {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
                                                             <p key={index} className='flex justify-between items-center'>
                                                                 <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}
