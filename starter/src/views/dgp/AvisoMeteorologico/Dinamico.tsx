@@ -2,8 +2,7 @@ const LluviasAvisoMeteorologicoDinamico = () => {
     return (
         <div className="bg-white rounded-lg shadow-md p-4">
             <div className="w-full h-[80vh]" >
-                <iframe title="lluvias_aviso_meteorologico" width="100%" height="100%" src="https://app.powerbi.com/view?r=eyJrIjoiZDNkMmE0NjEtNTNjZC00ZGVjLTgwMDctOGVjODJkZDliODQ1IiwidCI6IjM2MDJjOGY2LTQ3NzgtNGQwYi04OTczLTY5MTczYjE3N2U4YiIsImMiOjR9" allowFullScreen={true}></iframe>
-
+                <iframe title="1.lluvias_aviso_meteorologico" width="100%" height="100%" src="https://app.powerbi.com/view?r=eyJrIjoiYTdkMjVkYmItMTc1Yy00YmM1LTg0NGEtNzIzZDA5MWU0NjVlIiwidCI6IjM2MDJjOGY2LTQ3NzgtNGQwYi04OTczLTY5MTczYjE3N2U4YiIsImMiOjR9" allowFullScreen={true}></iframe>
             </div>
         </div>
     )

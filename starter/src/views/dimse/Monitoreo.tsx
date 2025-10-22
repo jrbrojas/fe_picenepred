@@ -13,12 +13,13 @@ import { Pregunta, preguntas } from '@/constants/preguntas.constant'
 
 
 interface PreguntaTooltipProps {
-    pregunta: Pregunta|null
+    pregunta: Pregunta | null
 }
 const PreguntaTooltip = (props: PreguntaTooltipProps) => {
     if (!props.pregunta) {
         return null
     }
+
     function getTooltipText(codigo: string) {
         const pregunta = preguntas.find(c => c.codigo == codigo)
         return pregunta?.pregunta || "";
@@ -28,25 +29,6 @@ const PreguntaTooltip = (props: PreguntaTooltipProps) => {
             <p>{props.pregunta.pregunta}</p>
         </div>
     );
-}
-
-const datita = {
-    campagin: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
-    email: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
-    label: [
-        '01 Jan',
-        '02 Jan',
-        '03 Jan',
-        '04 Jan',
-        '05 Jan',
-        '06 Jan',
-        '07 Jan',
-        '08 Jan',
-        '09 Jan',
-        '10 Jan',
-        '11 Jan',
-        '12 Jan',
-    ],
 }
 
 type Entidad = {
@@ -73,15 +55,13 @@ type Departamento = {
     provincias: Provincia[]
 }
 
+type ApexSeries = Array<{
+    name: string
+    data: number[]
+}>
+
 const COLS = Array.from({ length: 30 }, (_, i) => `P${i + 1}`)
 
-const sumByIndex = (rows: number[][]) => {
-    const res = Array(COLS.length).fill(0)
-    return res
-    ////rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
-    rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
-    return res
-}
 function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento[] {
     let data: Departamento[] = [];
     const mapValores = (respuestas: RespuestaElement[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? 1 : 0)
@@ -155,17 +135,24 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
     }
     return data;
 }
-type Counter = { cols: number[]; total: number }
+
+type Counter = {
+    cols: number[];
+    total: number
+}
+
 interface CategoriaOption {
     value: string;
     label: string;
 }
+
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
     const [categorias, setCategorias] = useState<CategoriaOption[]>([])
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
+    const [chartSeries, setChartSeries] = useState([{ name: "Porcentaje", data: [] as number[] }])
     const [fetching, setFetching] = useState(true)
     const [query, setQuery] = useState("Peru");
 
@@ -179,10 +166,12 @@ export default function TreeTableMonitoreo3Niveles() {
         await fetchValues(newValue.value)
         setFetching(false)
     }
+
     async function fetchValues(categoria: string) {
         const response = await apiGetMonitoreo(categoria)
         setData(mapMonitoreoResponseToData(response))
     }
+
     async function boot(): Promise<void> {
         const res = await apiGetCategorias()
         setCategorias(res.map(cat => ({
@@ -239,57 +228,10 @@ export default function TreeTableMonitoreo3Niveles() {
         return { provTotals, depTotals, distTotals }
     }, [data])
 
-    const [category, setCategory] = useState('all')
-
-    const series = useMemo(() => {
-        const campaignSeries = {
-            name: 'Campaign (ROI)',
-            type: 'column',
-            data: datita.campagin,
-            color: function ({
-                dataPointIndex,
-                value,
-            }: {
-                dataPointIndex: number
-                value: number
-            }) {
-                if (
-                    dataPointIndex > 0 &&
-                    value < datita.campagin[dataPointIndex - 1]
-                ) {
-                    return COLORS[7]
-                }
-                return COLORS[9]
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
-        }
-
-        const emailSeries = {
-            name: 'Email (ROI)',
-            type: 'line',
-            data: datita.email,
-            color: COLORS[0],
-        }
-
-        if (category === 'all') {
-            return [campaignSeries, emailSeries]
-        }
-
-        if (category === 'campagin') {
-            return [campaignSeries]
-        }
-
-        if (category === 'email') {
-            return [emailSeries]
-        }
-
-        return []
-    }, [category])
     // Estados para los filtros
     const [selectedDepartamento, setSelectedDepartamento] = useState<CategoriaOption | null>(null)
     const [selectedProvincia, setSelectedProvincia] = useState<CategoriaOption | null>(null)
     const [selectedDistrito, setSelectedDistrito] = useState<CategoriaOption | null>(null)
-    const [chartSeries, setChartSeries] = useState<any[]>([])
 
     // Opciones para los selects
     const departamentoOptions = useMemo(() =>
@@ -333,7 +275,7 @@ export default function TreeTableMonitoreo3Niveles() {
         setSelectedDistrito(newValue)
     }
 
-    function getPregunta(codigo: string): Pregunta | null{
+    function getPregunta(codigo: string): Pregunta | null {
         return preguntas.find(c => c.codigo == codigo) || null
     }
 
@@ -380,11 +322,14 @@ export default function TreeTableMonitoreo3Niveles() {
         //    seriesName = 'Perú'
         //}
 
-        setChartSeries([{
-            name: [], //seriesName,
-            data: [] //seriesData
-        }])
+        // setChartSeries([{
+        //     name: [], //seriesName,
+        //     data: [] //seriesData
+        // }])
     }
+
+    // data ordenada para el grafico de barras
+    const ordenData = [...data].sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
     return (
         <>
             <div className="space-y-6">
@@ -626,7 +571,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         }
                                                                                                         className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                                                     >
-                                                                                                            {v}
+                                                                                                        {v}
                                                                                                     </td>
                                                                                                 ),
                                                                                             )}
@@ -674,7 +619,7 @@ export default function TreeTableMonitoreo3Niveles() {
                 </div>
 
                 <Card className="h-full">
-                    <div className="flex items-center justify-between mb-4">
+                    {/* <div className="flex items-center justify-between mb-4">
                         <div className="flex gap-2">
                             <Select
                                 className="min-w-[150px]"
@@ -700,7 +645,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 isDisabled={!selectedProvincia}
                             />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="mt-6">
                         <ApexChart
@@ -719,12 +664,21 @@ export default function TreeTableMonitoreo3Niveles() {
                                             pan: true,
                                             reset: true
                                         }
-                                    }
+                                    },
+                                    events: {
+                                        dataPointSelection: (event, chartContext, config) => {
+                                            const index = config.dataPointIndex
+                                            const departamento = data[index].nombre
+                                            setQuery(`${departamento}, Peru`);
+                                        }
+                                    },
+
                                 },
                                 plotOptions: {
                                     bar: {
                                         horizontal: false,
                                         columnWidth: '55%',
+                                        distributed: true,
                                         borderRadius: 4,
                                         borderRadiusApplication: 'end',
                                     },
@@ -738,9 +692,9 @@ export default function TreeTableMonitoreo3Niveles() {
                                     colors: ['transparent']
                                 },
                                 xaxis: {
-                                    categories: COLS,
+                                    categories: data.map((d) => d.nombre),
                                     title: {
-                                        text: 'Indicadores (P1-P30)'
+                                        text: 'Regiones'
                                     },
                                     labels: {
                                         rotate: -45,
@@ -751,7 +705,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 },
                                 yaxis: {
                                     title: {
-                                        text: 'Cantidad de "Sí"'
+                                        text: 'Porcentajes %'
                                     },
                                     min: 0,
                                     max: function (max) {
@@ -765,13 +719,16 @@ export default function TreeTableMonitoreo3Niveles() {
                                 tooltip: {
                                     y: {
                                         formatter: function (val) {
-                                            return val + " entidad(es) respondieron 'Sí'"
+                                            return val + "% respondieron 'Sí'"
                                         }
                                     }
                                 },
                                 colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
                             }}
-                            series={chartSeries}
+                            series={[{
+                                name: 'Porcentajes %',
+                                data: ordenData.map(dep => Number(depTotals.get(dep.id)?.total ?? 0))
+                            }]}
                             type="bar"
                             height={450}
                         />

@@ -10,25 +10,6 @@ import MapaPeru from './MapaPeru'
 import { MonitoreoResponse, RespuestaElement } from './types'
 import { apiGetCategorias, apiGetSeguimiento } from '@/services/MonitoreService'
 
-const datita = {
-    campagin: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
-    email: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
-    label: [
-        '01 Jan',
-        '02 Jan',
-        '03 Jan',
-        '04 Jan',
-        '05 Jan',
-        '06 Jan',
-        '07 Jan',
-        '08 Jan',
-        '09 Jan',
-        '10 Jan',
-        '11 Jan',
-        '12 Jan',
-    ],
-}
-
 type Entidad = {
     id: string
     nombre: string
@@ -72,13 +53,6 @@ const COLS = [
     { tooltip: "Planes de Desarrollo Local (PDL)", text: "PDL" }
 ]
 
-
-const sumByIndex = (rows: number[][]) => {
-    const res = Array(COLS.length).fill(0)
-    ////rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
-    rows.forEach((vals) => vals.forEach((v, i) => (res[i] += v)))
-    return res
-}
 function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento[] {
     let data: Departamento[] = [];
     const mapValores = (respuestas: RespuestaElement[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? 1 : 0)
@@ -152,11 +126,14 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
     }
     return data;
 }
+
 type Counter = { cols: number[]; total: number }
+
 interface CategoriaOption {
     value: string;
     label: string;
 }
+
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
@@ -165,8 +142,6 @@ export default function TreeTableMonitoreo3Niveles() {
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [fetching, setFetching] = useState(true)
     const [query, setQuery] = useState("Peru");
-
-
 
     async function onCategoria(newValue: SingleValue<CategoriaOption>) {
         if (!newValue) {
@@ -177,10 +152,12 @@ export default function TreeTableMonitoreo3Niveles() {
         await fetchValues(newValue.value)
         setFetching(false)
     }
+
     async function fetchValues(categoria: string) {
         const response = await apiGetSeguimiento(categoria)
         setData(mapMonitoreoResponseToData(response))
     }
+
     async function boot(): Promise<void> {
         const res = await apiGetCategorias()
         setCategorias(res.map(cat => ({
@@ -237,52 +214,8 @@ export default function TreeTableMonitoreo3Niveles() {
         return { provTotals, depTotals, distTotals }
     }, [data])
 
-    const [category, setCategory] = useState('all')
-
-    const series = useMemo(() => {
-        const campaignSeries = {
-            name: 'Campaign (ROI)',
-            type: 'column',
-            data: datita.campagin,
-            color: function ({
-                dataPointIndex,
-                value,
-            }: {
-                dataPointIndex: number
-                value: number
-            }) {
-                if (
-                    dataPointIndex > 0 &&
-                    value < datita.campagin[dataPointIndex - 1]
-                ) {
-                    return COLORS[7]
-                }
-                return COLORS[9]
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
-        }
-
-        const emailSeries = {
-            name: 'Email (ROI)',
-            type: 'line',
-            data: datita.email,
-            color: COLORS[0],
-        }
-
-        if (category === 'all') {
-            return [campaignSeries, emailSeries]
-        }
-
-        if (category === 'campagin') {
-            return [campaignSeries]
-        }
-
-        if (category === 'email') {
-            return [emailSeries]
-        }
-
-        return []
-    }, [category])
+    // data ordenada para el grafico de barras
+    const ordenData = [...data].sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
 
     return (
         <>
@@ -432,116 +365,116 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                 </td>
                                                             </tr>
 
-                                                        {/* Distritos de la Provincia */}
-                                                        {provOpen &&
-                                                            prov.distritos.map((d) => {
-                                                                const distKey = `DD:${prov.id}`
-                                                                const distOpen = expanded.has(distKey)
-                                                                const dTotals = distTotals.get(d.id)!
-                                                                return (
-                                                                    <Fragment>
-                                                                        <tr
-                                                                            key={
-                                                                                d.id
-                                                                            }
-                                                                            className="hover:bg-slate-50 bg-emerald-50"
-                                                                        >
-                                                                            <td onClick={() => {
-                                                                                toggle(distKey);
-                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                            }} className="cursor-pointer bg-emerald-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                                <button
-                                                                                    type="button"
-                                                                                    aria-expanded={
-                                                                                        distOpen
-                                                                                    }
-                                                                                    className="inline-flex items-center gap-2"
-                                                                                >
-                                                                                    <svg
-                                                                                        className={`h-4 w-4 transform transition-transform ${distOpen ? 'rotate-90' : ''}`}
-                                                                                        viewBox="0 0 24 24"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        strokeWidth="2"
-                                                                                        strokeLinecap="round"
-                                                                                        strokeLinejoin="round"
-                                                                                    >
-                                                                                        <path d="M9 18l6-6-6-6" />
-                                                                                    </svg>
-                                                                                    <span className="text-sm font-semibold text-slate-800">
-                                                                                        {
-                                                                                            d.nombre
+                                                            {/* Distritos de la Provincia */}
+                                                            {provOpen &&
+                                                                prov.distritos.map((d) => {
+                                                                    const distKey = `DD:${prov.id}`
+                                                                    const distOpen = expanded.has(distKey)
+                                                                    const dTotals = distTotals.get(d.id)!
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <tr
+                                                                                key={
+                                                                                    d.id
+                                                                                }
+                                                                                className="hover:bg-slate-50 bg-emerald-50"
+                                                                            >
+                                                                                <td onClick={() => {
+                                                                                    toggle(distKey);
+                                                                                    setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                }} className="cursor-pointer bg-emerald-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        aria-expanded={
+                                                                                            distOpen
                                                                                         }
-                                                                                    </span>
-                                                                                </button>
-                                                                            </td>
-                                                                            {dTotals.cols.map(
-                                                                                (
-                                                                                    v,
-                                                                                    i,
-                                                                                ) => (
-                                                                                    <td
-                                                                                        key={
-                                                                                            i
-                                                                                        }
-                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                        className="inline-flex items-center gap-2"
                                                                                     >
-                                                                                    </td>
-                                                                                ),
-                                                                            )}
-                                                                            <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                {dTotals.total.toFixed(2)} %
-                                                                            </td>
-                                                                        </tr>
-                                                                        {/* Entidad del Distrito */}
-                                                                        {distOpen &&
-                                                                            d.entidades.map((entidad) => {
-                                                                                return (
-                                                                                    <Fragment>
-                                                                                        <tr
-                                                                                            key={
-                                                                                                entidad.id
-                                                                                            }
-                                                                                            className="hover:bg-slate-50 bg-purple-50"
+                                                                                        <svg
+                                                                                            className={`h-4 w-4 transform transition-transform ${distOpen ? 'rotate-90' : ''}`}
+                                                                                            viewBox="0 0 24 24"
+                                                                                            fill="none"
+                                                                                            stroke="currentColor"
+                                                                                            strokeWidth="2"
+                                                                                            strokeLinecap="round"
+                                                                                            strokeLinejoin="round"
                                                                                         >
-                                                                                            <td onClick={() => {
-                                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                                            }} className="cursor-pointer bg-purple-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                                                <span className="text-sm font-semibold text-slate-800">
-                                                                                                    {
-                                                                                                        entidad.nombre
-                                                                                                    }
-                                                                                                </span>
-                                                                                            </td>
-                                                                                            {entidad.monitoreo.map(
-                                                                                                (
-                                                                                                    v,
-                                                                                                    i,
-                                                                                                ) => (
-                                                                                                    <td
-                                                                                                        key={
-                                                                                                            i
+                                                                                            <path d="M9 18l6-6-6-6" />
+                                                                                        </svg>
+                                                                                        <span className="text-sm font-semibold text-slate-800">
+                                                                                            {
+                                                                                                d.nombre
+                                                                                            }
+                                                                                        </span>
+                                                                                    </button>
+                                                                                </td>
+                                                                                {dTotals.cols.map(
+                                                                                    (
+                                                                                        v,
+                                                                                        i,
+                                                                                    ) => (
+                                                                                        <td
+                                                                                            key={
+                                                                                                i
+                                                                                            }
+                                                                                            className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                        >
+                                                                                        </td>
+                                                                                    ),
+                                                                                )}
+                                                                                <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                    {dTotals.total.toFixed(2)} %
+                                                                                </td>
+                                                                            </tr>
+                                                                            {/* Entidad del Distrito */}
+                                                                            {distOpen &&
+                                                                                d.entidades.map((entidad) => {
+                                                                                    return (
+                                                                                        <Fragment>
+                                                                                            <tr
+                                                                                                key={
+                                                                                                    entidad.id
+                                                                                                }
+                                                                                                className="hover:bg-slate-50 bg-purple-50"
+                                                                                            >
+                                                                                                <td onClick={() => {
+                                                                                                    setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                                }} className="cursor-pointer bg-purple-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
+                                                                                                    <span className="text-sm font-semibold text-slate-800">
+                                                                                                        {
+                                                                                                            entidad.nombre
                                                                                                         }
-                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
-                                                                                                    >
+                                                                                                    </span>
+                                                                                                </td>
+                                                                                                {entidad.monitoreo.map(
+                                                                                                    (
+                                                                                                        v,
+                                                                                                        i,
+                                                                                                    ) => (
+                                                                                                        <td
+                                                                                                            key={
+                                                                                                                i
+                                                                                                            }
+                                                                                                            className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                                        >
                                                                                                             {v}
-                                                                                                    </td>
-                                                                                                ),
-                                                                                            )}
-                                                                                            <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                                {(promedioPorSuma(entidad.monitoreo, 16) * 100).toFixed(2)} %
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </Fragment>
-                                                                                )
-                                                                            })}
-                                                                    </Fragment>
-                                                                )
-                                                            })}
-                                                    </Fragment>
-                                                )
-                                            })}
-                                    </Fragment>
+                                                                                                        </td>
+                                                                                                    ),
+                                                                                                )}
+                                                                                                <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
+                                                                                                    {(promedioPorSuma(entidad.monitoreo, 16) * 100).toFixed(2)} %
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </Fragment>
+                                                                                    )
+                                                                                })}
+                                                                        </Fragment>
+                                                                    )
+                                                                })}
+                                                        </Fragment>
+                                                    )
+                                                })}
+                                        </Fragment>
                                     )
                                 })}
                             </tbody>
@@ -570,84 +503,91 @@ export default function TreeTableMonitoreo3Niveles() {
                 <div className="relative min-h-[450px] rounded-xl overflow-hidden ring-1 ring-slate-200 bg-slate-100">
                     <MapaPeru query={query} />
                 </div>
-                <Card className="h-full">
-                    <div className="flex items-center justify-between">
-                        <h4>Ads performance</h4>
-                        <div>
-                            <Segment
-                                className="gap-1"
-                                value={category}
-                                size="sm"
-                                onChange={(val) => setCategory(val as string)}
-                            >
-                                <Segment.Item value="all">All</Segment.Item>
-                                <Segment.Item value="campagin">
-                                    Campagin
-                                </Segment.Item>
-                                <Segment.Item value="email">Email</Segment.Item>
-                            </Segment>
-                        </div>
-                    </div>
 
+                <Card className="h-full">
                     <div className="mt-6">
                         <ApexChart
                             options={{
                                 chart: {
-                                    type: 'line',
-                                    zoom: { enabled: false },
-                                    toolbar: { show: false },
-                                },
-                                legend: { show: false },
-                                stroke: {
-                                    width:
-                                        category === 'email' ? 2.5 : [0, 2.5],
-                                    curve: 'smooth',
-                                    lineCap: 'round',
-                                },
-                                states: { hover: { filter: { type: 'none' } } },
-                                tooltip: {
-                                    custom: ({ series, dataPointIndex }) => {
-                                        const renderCampaignData = () => `
-                <div class="flex items-center gap-2">
-                  <div class="h-[10px] w-[10px] rounded-full" style="background-color: ${COLORS[9]}"></div>
-                  <div class="flex gap-2">Campaign: <span class="font-bold">${series[0][dataPointIndex]}</span></div>
-                </div>`
-                                        const renderEmailData = () => `
-                <div class="flex items-center gap-2">
-                  <div class="h-[10px] w-[10px] rounded-full" style="background-color: ${COLORS[0]}"></div>
-                  <div class="flex gap-2">Email: <span class="font-bold">${series[category === 'all' ? 1 : 0][dataPointIndex]
-                                            }</span></div>
-                </div>`
-                                        const content =
-                                            category === 'all'
-                                                ? `${renderCampaignData()}${renderEmailData()}`
-                                                : category === 'campagin'
-                                                    ? renderCampaignData()
-                                                    : renderEmailData()
-                                        return `
-                <div class="py-2 px-4 rounded-xl">
-                  <div class="flex flex-col gap-2">
-                    <div>${datita.label[dataPointIndex]}</div>
-                    ${content}
-                  </div>
-                </div>`
+                                    type: 'bar',
+                                    height: 350,
+                                    toolbar: {
+                                        show: true,
+                                        tools: {
+                                            download: true,
+                                            selection: true,
+                                            zoom: true,
+                                            zoomin: true,
+                                            zoomout: true,
+                                            pan: true,
+                                            reset: true
+                                        }
                                     },
+                                    events: {
+                                        dataPointSelection: (event, chartContext, config) => {
+                                            const index = config.dataPointIndex
+                                            const departamento = data[index].nombre
+                                            setQuery(`${departamento}, Peru`);
+                                        }
+                                    },
+
                                 },
-                                labels: datita.label,
-                                yaxis:
-                                    category === 'all'
-                                        ? [{}, { opposite: true }]
-                                        : [],
                                 plotOptions: {
                                     bar: {
                                         horizontal: false,
-                                        columnWidth: '35px',
+                                        columnWidth: '55%',
+                                        distributed: true,
                                         borderRadius: 4,
                                         borderRadiusApplication: 'end',
                                     },
                                 },
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                stroke: {
+                                    show: true,
+                                    width: 2,
+                                    colors: ['transparent']
+                                },
+                                xaxis: {
+                                    categories: data.map((d) => d.nombre),
+                                    title: {
+                                        text: 'Regiones'
+                                    },
+                                    labels: {
+                                        rotate: -45,
+                                        style: {
+                                            fontSize: '10px'
+                                        }
+                                    }
+                                },
+                                yaxis: {
+                                    title: {
+                                        text: 'Porcentajes %'
+                                    },
+                                    min: 0,
+                                    max: function (max) {
+                                        // Para asegurar que el máximo sea al menos 1 si hay datos
+                                        return Math.max(max, 1);
+                                    }
+                                },
+                                fill: {
+                                    opacity: 1
+                                },
+                                tooltip: {
+                                    y: {
+                                        formatter: function (val) {
+                                            return val + "% respondieron 'Sí'"
+                                        }
+                                    }
+                                },
+                                colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
                             }}
-                            series={series}
+                            series={[{
+                                name: 'Porcentajes %',
+                                data: ordenData.map(dep => Number(depTotals.get(dep.id)?.total ?? 0))
+                            }]}
+                            type="bar"
                             height={450}
                         />
                     </div>
