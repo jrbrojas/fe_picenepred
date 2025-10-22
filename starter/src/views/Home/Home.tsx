@@ -19,8 +19,8 @@ const Home = () => {
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
             <header className="fixed top-0 left-0 w-full z-30 border-b border-slate-200 bg-white shadow-md">
 
-                <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4">
-                    <div className="flex items-center gap-3 ml-0 lg:ml-20">
+                <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4">
+                    <div className="flex items-center justify-center gap-3 w-full lg:w-auto ml-0 lg:ml-20">
                         <img
                             src="/img/logo/logo-cenepred.jpg"
                             alt="CENEPRED"
@@ -31,7 +31,7 @@ const Home = () => {
                         <img
                             src="/img/logo/logo_sigrid.png"
                             alt="CENEPRED"
-                            className="h-7 md:h-17 w-auto object-contain cursor-pointer"
+                            className="h-17 md:h-17 w-auto object-contain cursor-pointer"
                             loading="lazy"
                             onClick={() =>
                                 window.open(
@@ -70,7 +70,7 @@ const Home = () => {
 
                     <button
                         type="button"
-                        className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-primary lg:hidden"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-primary lg:hidden"
                         aria-expanded={open}
                         aria-controls="mobile-nav"
                         onClick={() => setOpen(!open)}
@@ -102,7 +102,7 @@ const Home = () => {
                     </button>
                 </div>
 
-                <div className="w-full text-white shadow-sm bg-[#078199]">
+                <div className="w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-[#078199]">
                     <Nav open={open} setOpen={setOpen} />
                 </div>
             </header>
