@@ -260,13 +260,13 @@ export default function TreeTableMonitoreo3Niveles() {
                             </thead>
 
                             <tbody>
-                                {data.map((dep) => {
+                                {ordenData.map((dep) => {
                                     const depKey = `D:${dep.id}`
                                     const depOpen = expanded.has(depKey)
                                     const dTotals = depTotals.get(dep.id)!
 
                                     return (
-                                        <Fragment key={dep.id}>
+                                        <Fragment key={`FRAGP-${depKey}`}>
                                             {/* Fila Departamento */}
                                             <tr className="bg-amber-50 hover:bg-slate-50/60">
                                                 <td className="sticky bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200">
@@ -317,7 +317,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     )!
 
                                                     return (
-                                                        <Fragment key={prov.id}>
+                                                        <Fragment key={`FRAGP-${provKey}`}>
                                                             <tr className="bg-cyan-50 hover:bg-slate-50/60">
                                                                 <td className="sticky bg-cyan-50 left-0 z-10 p-3 pl-10 ring-1 ring-slate-200">
                                                                     <button
@@ -372,7 +372,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                     const distOpen = expanded.has(distKey)
                                                                     const dTotals = distTotals.get(d.id)!
                                                                     return (
-                                                                        <Fragment>
+                                                                        <Fragment key={`FRAGDI-${distKey}`}>
                                                                             <tr
                                                                                 key={
                                                                                     d.id
@@ -429,8 +429,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             {/* Entidad del Distrito */}
                                                                             {distOpen &&
                                                                                 d.entidades.map((entidad) => {
+                                                                                    const entKey = `ENT:${entidad.id}`
+
                                                                                     return (
-                                                                                        <Fragment>
+                                                                                        <Fragment key={`FRAGENT-${entKey}`}>
                                                                                             <tr
                                                                                                 key={
                                                                                                     entidad.id
@@ -550,7 +552,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                     colors: ['transparent']
                                 },
                                 xaxis: {
-                                    categories: data.map((d) => d.nombre),
+                                    categories: ordenData.map((d) => d.nombre),
                                     title: {
                                         text: 'Regiones'
                                     },

@@ -274,13 +274,13 @@ export default function TreeTableMonitoreo3Niveles() {
                             </thead>
 
                             <tbody>
-                                {data.map((dep) => {
+                                {ordenData.map((dep) => {
                                     const depKey = `D:${dep.id}`
                                     const depOpen = expanded.has(depKey)
                                     const dTotals = depTotals.get(dep.id)!
 
                                     return (
-                                        <Fragment key={dep.id}>
+                                        <Fragment key={`FRAGP-${depKey}`}>
                                             {/* Fila Departamento */}
                                             <tr className="bg-amber-50 hover:bg-slate-50/60">
                                                 <td className="sticky left-0 z-10 p-3 ring-1 ring-slate-200">
@@ -331,7 +331,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     )!
 
                                                     return (
-                                                        <Fragment key={prov.id}>
+                                                        <Fragment key={`FRAGP-${provKey}`}>
                                                             <tr className="bg-cyan-50 hover:bg-slate-50/60">
                                                                 <td className="sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200">
                                                                     <button
@@ -387,7 +387,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         const distOpen = expanded.has(distKey)
                                                                         const valsDist: Counter = distTotals.get(d.id) || { cols: [], total: 0 }
                                                                         return (
-                                                                            <Fragment>
+                                                                            <Fragment key={`FRAGDI-${distKey}`}>
                                                                                 <tr
                                                                                     key={
                                                                                         `${d.id}-${index}`
@@ -445,8 +445,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                 {/* Entidades de Distrito */}
                                                                                 {distOpen &&
                                                                                     d.entidades.map((entidad) => {
+                                                                                        const entKey = `ENT:${entidad.id}`
+                                                                                        
                                                                                         return (
-                                                                                            <Fragment>
+                                                                                            <Fragment key={`FRAGENT-${entKey}`}>
                                                                                                 <tr key={entidad.id} className='hover:bg-slate-50 bg-purple-50'>
                                                                                                     <td onClick={() => {
                                                                                                         setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
@@ -567,7 +569,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                     colors: ['transparent']
                                 },
                                 xaxis: {
-                                    categories: data.map((d) => d.nombre),
+                                    categories: ordenData.map((d) => d.nombre),
                                     title: {
                                         text: 'Regiones'
                                     },
