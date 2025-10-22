@@ -446,10 +446,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                 {distOpen &&
                                                                                     d.entidades.map((entidad) => {
                                                                                         const entKey = `ENT:${entidad.id}`
-                                                                                        
+
                                                                                         return (
                                                                                             <Fragment key={`FRAGENT-${entKey}`}>
-                                                                                                <tr key={entidad.id} className='hover:bg-slate-50 bg-purple-50'>
+                                                                                                <tr className='hover:bg-slate-50 bg-purple-50'>
                                                                                                     <td onClick={() => {
                                                                                                         setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                                     }} className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
@@ -596,7 +596,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 tooltip: {
                                     y: {
                                         formatter: function (val) {
-                                            return val + "% respondieron 'Sí'"
+                                            return val + "% de avance"
                                         }
                                     }
                                 },

@@ -545,15 +545,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         {distOpen &&
                                                                             d.entidades.map((entidad) => {
                                                                                 const entKey = `ENT:${entidad.id}`
-                                                                                
+
                                                                                 return (
                                                                                     <Fragment key={`FRAGENT-${entKey}`}>
-                                                                                        <tr
-                                                                                            key={
-                                                                                                entidad.id
-                                                                                            }
-                                                                                            className="hover:bg-slate-50 bg-purple-50"
-                                                                                        >
+                                                                                        <tr className="hover:bg-slate-50 bg-purple-50">
                                                                                             <td onClick={() => {
                                                                                                 setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                             }} className="cursor-pointer bg-purple-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
