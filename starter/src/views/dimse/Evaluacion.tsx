@@ -580,7 +580,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 tooltip: {
                                     y: {
                                         formatter: function (val) {
-                                            return val + "% evaluacion total"
+                                            return val + "% Evaluacion total"
                                         }
                                     }
                                 },

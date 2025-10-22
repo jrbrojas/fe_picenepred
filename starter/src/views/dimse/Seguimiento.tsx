@@ -450,7 +450,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                     ) => (
                                                                                                         <td
                                                                                                             key={
-                                                                                                                i
+                                                                                                                `${entidad.id}-${i}`
                                                                                                             }
                                                                                                             className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                                                         >
