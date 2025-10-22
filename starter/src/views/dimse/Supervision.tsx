@@ -280,7 +280,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                     const dTotals = depTotals.get(dep.id)!
 
                                     return (
-                                        <Fragment key={`FRAGP-${depKey}`}>
+                                        <Fragment key={`FRAGD-${depKey}`}>
                                             {/* Fila Departamento */}
                                             <tr className="bg-amber-50 hover:bg-slate-50/60">
                                                 <td className="sticky left-0 z-10 p-3 ring-1 ring-slate-200">
@@ -388,12 +388,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         const valsDist: Counter = distTotals.get(d.id) || { cols: [], total: 0 }
                                                                         return (
                                                                             <Fragment key={`FRAGDI-${distKey}`}>
-                                                                                <tr
-                                                                                    key={
-                                                                                        `${d.id}-${index}`
-                                                                                    }
-                                                                                    className="hover:bg-slate-50 bg-emerald-50"
-                                                                                >
+                                                                                <tr className="hover:bg-slate-50 bg-emerald-50">
                                                                                     <td className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
                                                                                         <button
                                                                                             type="button"

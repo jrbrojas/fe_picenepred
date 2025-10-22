@@ -381,7 +381,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 const dTotals = depTotals.get(dep.id)!
 
                                 return (
-                                    <Fragment key={`FRAGP-${depKey}`}>
+                                    <Fragment key={`FRAGD-${depKey}`}>
                                         {/* Fila Departamento */}
                                         <tr className="bg-amber-50 hover:bg-slate-50/60">
                                             <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200"
@@ -425,11 +425,8 @@ export default function TreeTableMonitoreo3Niveles() {
                                         {depOpen &&
                                             dep.provincias.map((prov) => {
                                                 const provKey = `P:${prov.id}`
-                                                const provOpen =
-                                                    expanded.has(provKey)
-                                                const pTotals = provTotals.get(
-                                                    prov.id,
-                                                )!
+                                                const provOpen = expanded.has(provKey)
+                                                const pTotals = provTotals.get(prov.id,)!
 
                                                 return (
                                                     <Fragment key={`FRAGP-${provKey}`}>
@@ -483,17 +480,12 @@ export default function TreeTableMonitoreo3Niveles() {
                                                         {/* Distritos de la Provincia */}
                                                         {provOpen &&
                                                             prov.distritos.map((d) => {
-                                                                const distKey = `DD:${prov.id}`
+                                                                const distKey = `DD:${d.id}`
                                                                 const distOpen = expanded.has(distKey)
                                                                 const dTotals = distTotals.get(d.id)!
                                                                 return (
                                                                     <Fragment key={`FRAGDI-${distKey}`}>
-                                                                        <tr
-                                                                            key={
-                                                                                d.id
-                                                                            }
-                                                                            className="hover:bg-slate-50 bg-emerald-50"
-                                                                        >
+                                                                        <tr className="hover:bg-slate-50 bg-emerald-50">
                                                                             <td onClick={() => {
                                                                                 toggle(distKey);
                                                                                 setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
@@ -530,7 +522,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                 ) => (
                                                                                     <td
                                                                                         key={
-                                                                                            i
+                                                                                            `${d.id}-${i}`
                                                                                         }
                                                                                         className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                                     >
