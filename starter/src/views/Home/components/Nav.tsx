@@ -242,14 +242,12 @@ function AppNavLink({
     </Link>
   )
 }
-
-export default function Nav() {
-  const [open, setOpen] = useState(false)
-
+//@ts-ignore
+export default function Nav({ open, setOpen }) {
   return (
     <>
-      <nav className="menuhome flex items-center justify-center py-3">
-        <ul className="hidden lg:flex items-center gap-8">
+      <nav className={`menuhome flex items-center justify-center lg:py-3`}>
+        <ul className="hidden lg:flex items-center gap-8 text-center">
           {navItems.map((item) => (
             <li key={item.label}>
               <AppNavLink
@@ -259,25 +257,6 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-white lg:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          onClick={() => setOpen(!open)}
-        >
-          <svg
-            className="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          Menú
-        </button>
       </nav>
 
       <div id="mobile-nav" className={`lg:hidden ${open ? 'block' : 'hidden'}`}>

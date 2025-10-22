@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:prod": "vite build --mode prod",
     "preview": "vite preview",
     "prettier": "npx prettier src --check",
     "prettier:fix": "npm run prettier -- --write",

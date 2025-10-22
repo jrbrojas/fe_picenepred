@@ -7,11 +7,13 @@ import { Button } from '@/components/ui'
 import HomeHero from './components/HomeHero'
 import Monitoreo from './components/Monitoreo'
 import Nav from './components/Nav'
+import { useState } from 'react'
 
 const Home = () => {
     const isLarge = useIsLargeScreen()
     const { authenticated } = useAuth()
     const navigate = useNavigate()
+    const [open, setOpen] = useState(false);
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
@@ -22,7 +24,7 @@ const Home = () => {
                         <img
                             src="/img/logo/logo-cenepred.jpg"
                             alt="CENEPRED"
-                            className="h-12 lg:h-24 w-auto object-contain mr-0 lg:mr-5"
+                            className="h-24 lg:h-24 w-auto object-contain mr-0 lg:mr-5"
                             loading="lazy"
                         />
                         <div className="h-17 lg:w-px bg-teal-600" />
@@ -40,7 +42,7 @@ const Home = () => {
                         />
                     </div>
 
-                    <div className="flex flex-col lg:flex-row items-center gap-3">
+                    <div className="flex flex-col lg:flex-row items-center gap-3 xs:hidden lg:block">
                         {authenticated ? (
                             <UserDropdown />
                         ) : (
@@ -56,7 +58,7 @@ const Home = () => {
                                 <Button
                                     size={isLarge ? 'lg' : 'xs'}
                                     onClick={() => navigate(`/sign-in`)}
-                                    className="text-xs lg:text-sm"
+                                    className="text-xs lg:text-sm border-3 border-primary text-primary"
                                 >
                                     {' '}
                                     INICIAR SESIÓN
@@ -64,14 +66,48 @@ const Home = () => {
                             </div>
                         )}
                     </div>
+
+
+                    <button
+                        type="button"
+                        className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-primary lg:hidden"
+                        aria-expanded={open}
+                        aria-controls="mobile-nav"
+                        onClick={() => setOpen(!open)}
+                        >
+                        {open ? (
+                        <svg
+                            className="h-15 w-15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            >
+                            <path d="M5 15l7-7 7 7" />
+                        </svg>
+                        ) : (
+                        <svg
+                            className="h-15 w-15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                        >
+                            <path d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        )}
+
+                    </button>
                 </div>
 
                 <div className="w-full text-white shadow-sm bg-[#078199]">
-                    <Nav />
+                    <Nav open={open} setOpen={setOpen} />
                 </div>
             </header>
 
-            <main className="flex-1 mx-auto w-full max-w-7xl mt-[150px]">
+            <main className="flex-1 mx-auto w-full max-w-7xl mt-[80px] lg:mt-[150px]">
                 <section className="relative">
                     <HomeHero />
 

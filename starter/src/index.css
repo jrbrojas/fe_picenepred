@@ -1,1 +1,17 @@
 @import './assets/styles/app.css';
+:root {
+  --primary: #56cdda;
+  --secondary: #ff5733;
+}
+
+/*
+*, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: #078199 !important;
+}
+.hover\:text-primary {
+    &:hover {
+        @media (hover: hover) {
+            color: #078199 !important;
+        }
+    }
+}*/
