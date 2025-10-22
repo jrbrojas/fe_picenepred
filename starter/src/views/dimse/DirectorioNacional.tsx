@@ -129,7 +129,7 @@ export default function TreeTableMonitoreo3Niveles() {
     async function onDistrito(distrito: string) {
         newData([]);
         if (distrito) {
-            const response = await apiGetDirectorio(distrito)
+            const response = await apiGetDirectorio(String(distrito))
             fillData(response);
             return;
         }
@@ -138,11 +138,9 @@ export default function TreeTableMonitoreo3Niveles() {
     async function onSearchEntidad(entidad: EntidadResponse | null) {
         newData([]);
         if (entidad) {
-            const distritoId = String(entidad.distrito_id);
-            const response = await apiGetDirectorio(distritoId)
-            const item = response.find(e => e.id_distrito == entidad.distrito_id);
-            if (item) {
-                fillData([item]);
+            const response = await apiGetDirectorio("", "", String(entidad.id))
+            if (response) {
+                fillData(response);
                 return;
             }
         }
@@ -345,7 +343,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                                         //setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                                                     }}>
                                                                                                                     <div className="grid justify-items-center">
-                                                                                                                        <h3 className='mb-4'>Datos del responsable:</h3>
+                                                                                                                        <h3 className='mb-4'>Datos del Responsable:</h3>
                                                                                                                         <div className="grid grid-cols-4 justify-items-between gap-4 min-w-full">
                                                                                                                             <div>
                                                                                                                                 <p>Nombre</p>
