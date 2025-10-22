@@ -170,7 +170,7 @@ function AppNavLink({
 
         {open && (
           <ul
-          className="absolute left-0 top-full mt-2 z-50 w-56 rounded-md bg-[#078199] p-2 text-white shadow-lg ring-1 ring-black/5 transition-all duration-150"
+          className="absolute left-0 top-full mt-2 z-50 w-56 rounded-md bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] p-2 text-white shadow-lg ring-1 ring-black/5 transition-all duration-150"
           onMouseEnter={() => timerRef.current && clearTimeout(timerRef.current)}
           onMouseLeave={() => {
             timerRef.current = setTimeout(() => {

@@ -102,7 +102,7 @@ const Home = () => {
                     </button>
                 </div>
 
-                <div className="w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-[#078199]">
+                <div className="w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199]">
                     <Nav open={open} setOpen={setOpen} />
                 </div>
             </header>
