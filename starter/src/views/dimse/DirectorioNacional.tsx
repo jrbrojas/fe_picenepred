@@ -1,10 +1,13 @@
 import { Fragment, useEffect, useState } from 'react'
 import MapaPeru from './MapaPeru'
-import { DirectorioResponse } from './types'
-import { apiGetDirectorio } from '@/services/MonitoreService'
+import { apiExportarExcelDeEntidades, apiGetDirectorio } from '@/services/MonitoreService'
 import { formatDateYYYYMMDD } from '@/utils/datetime'
 import FiltrosDirectorio from './FiltrosDirectorio'
 import { EntidadResponse } from '@/shared/services/ControlesService'
+import { Button } from '@/components/ui'
+import { FaFileExcel } from "react-icons/fa6";
+import { DirectorioResponse } from './responses/directorio/types'
+import { DirectorioInfo } from './DirectorioInfo'
 
 type Distrito = {
     id: string
@@ -35,6 +38,7 @@ type Entidad = {
     rol: string
     fecha_inicio: Date
     fecha_fin: Date
+    originalData: DirectorioResponse
 }
 
 function mapMonitoreoResponseToData(response: DirectorioResponse[]): Departamento[] {
@@ -51,6 +55,7 @@ function mapMonitoreoResponseToData(response: DirectorioResponse[]): Departament
         fecha_inicio: new Date(item.fecha_inicio),
         rol: item.rol,
         telefono: item.telefono,
+        originalData: item
     })
     for (let i = 0; i < response.length; i++) {
         const monitoreo = response[i];
@@ -105,6 +110,7 @@ export default function TreeTableMonitoreo3Niveles() {
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
     const [query, setQuery] = useState("Peru");
+    const [originalData, setOriginalData] = useState<DirectorioResponse[]>([])
 
     function newData(data: Departamento[]) {
         setData(data);
@@ -122,6 +128,7 @@ export default function TreeTableMonitoreo3Niveles() {
             const first = response[0];
             setQuery(`${first.distrito}, ${first.provincia}, ${first.departamento}, Peru`);
         }
+        setOriginalData(response)
         newData(mapMonitoreoResponseToData(response))
         setExpanded(new Set(response.map((i) => `EE:${i.id}`)))
     }
@@ -158,6 +165,32 @@ export default function TreeTableMonitoreo3Niveles() {
         setQuery("Peru");
     }
 
+    async function onExportExcel() {
+        try {
+            const ids = Array.from(new Set(originalData.map((i) => i.id_entidad)))
+
+            const response: any = await apiExportarExcelDeEntidades(ids);
+
+            // Crear un objeto URL temporal con el Blob del PDF
+            const url = window.URL.createObjectURL(response);
+
+            // Crear un link oculto para forzar la descarga
+            const link = document.createElement("a");
+            link.href = url;
+            const timestamp = new Date().getTime();
+            link.setAttribute("download", `entidades_${timestamp}.xlsx`); // nombre del archivo
+            document.body.appendChild(link);
+            link.click();
+
+            // Limpiar
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Error al descargar el Excel:", error);
+        }
+
+    }
+
     return (
         <>
             <div className="space-y-6">
@@ -174,7 +207,14 @@ export default function TreeTableMonitoreo3Niveles() {
                                 <thead>
                                     <tr>
                                         <th onClick={() => { setQuery(`Peru`); }} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
-                                            Localización
+                                            <div className='flex items-center justify-center w-full min-h-[48px] h-full relative'>
+                                                Localización
+                                                <Button
+                                                    className="absolute top-0 right-0"
+                                                    onClick={onExportExcel}
+                                                    icon={<FaFileExcel />}
+                                                >Exportar</Button>
+                                            </div>
                                         </th>
                                     </tr>
                                 </thead>
@@ -343,45 +383,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                                         //setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                                                     }}>
                                                                                                                     <div className="grid justify-items-center">
-                                                                                                                        <h3 className='mb-4'>Datos del Responsable:</h3>
-                                                                                                                        <div className="grid grid-cols-4 justify-items-between gap-4 min-w-full">
-                                                                                                                            <div>
-                                                                                                                                <p>Nombre</p>
-                                                                                                                                <p className="font-bold text-lg">{entidad.nombre}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>Apellido</p>
-                                                                                                                                <p className="font-bold text-lg">{entidad.apellido}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>DNI</p>
-                                                                                                                                <p className="font-bold text-lg">{entidad.dni}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>Cargo</p>
-                                                                                                                                <p className="font-bold text-lg">{entidad.cargo}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>Email</p>
-                                                                                                                                <p className="font-bold text-lg">{entidad.email}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>Telefono</p>
-                                                                                                                                <p className="font-bold text-lg">{entidad.telefono}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>Rol</p>
-                                                                                                                                <p className="font-bold text-lg">{entidad.rol}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>Fecha Inicio</p>
-                                                                                                                                <p className="font-bold text-lg">{formatDateYYYYMMDD(entidad.fecha_inicio)}</p>
-                                                                                                                            </div>
-                                                                                                                            <div>
-                                                                                                                                <p>Fecha Fin</p>
-                                                                                                                                <p className="font-bold text-lg">{formatDateYYYYMMDD(entidad.fecha_fin)}</p>
-                                                                                                                            </div>
-                                                                                                                        </div>
+                                                                                                                        <DirectorioInfo directorio={entidad.originalData}/>
                                                                                                                     </div>
                                                                                                                 </td>
                                                                                                             </tr>

@@ -45,7 +45,8 @@ const navItems: NavItem[] = [
         submenu: [
           {
             label: 'Responsable por entidad',
-            href: '/sign-in?next=/monitoreo/directorioNacional',
+            href: '/monitoreo/directorioNacional',
+            protected: true,
           },
           {
             label: 'Visor',
