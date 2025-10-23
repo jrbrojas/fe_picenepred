@@ -24,14 +24,14 @@ const Home = () => {
                         <img
                             src="/img/logo/logo-cenepred.jpg"
                             alt="CENEPRED"
-                            className="h-24 lg:h-24 w-auto object-contain mr-0 lg:mr-5"
+                            className="h-15 sm:h-24 sm:lg:h-24 w-auto object-contain mr-0 lg:mr-5"
                             loading="lazy"
                         />
-                        <div className="h-17 lg:w-px bg-teal-600" />
+                        <div className="sm:h-17 lg:w-px bg-teal-600" />
                         <img
                             src="/img/logo/logo_sigrid.png"
                             alt="CENEPRED"
-                            className="h-17 md:h-17 w-auto object-contain cursor-pointer"
+                            className="h-10 sm:h-17 sm:md:h-17 w-auto object-contain cursor-pointer"
                             loading="lazy"
                             onClick={() =>
                                 window.open(
@@ -42,7 +42,7 @@ const Home = () => {
                         />
                     </div>
 
-                    <div className="flex flex-col lg:flex-row items-center gap-3 xs:hidden lg:block">
+                    <div className="flex flex-col lg:flex-row items-center gap-3 hidden lg:block">
                         {authenticated ? (
                             <UserDropdown />
                         ) : (
@@ -108,7 +108,7 @@ const Home = () => {
             </header>
 
             <main className="flex-1 mx-auto w-full max-w-7xl mt-[80px] lg:mt-[150px]">
-                <section className="relative">
+                <section className="relative bg-white">
                     <HomeHero />
 
                     <Monitoreo />

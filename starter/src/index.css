@@ -4,6 +4,10 @@
   --secondary: #ff5733;
 }
 
+html {
+    background-color: rgb(255, 255, 255);
+}
+
 /*
 *, ::after, ::before, ::backdrop, ::file-selector-button {
     border-color: #078199 !important;

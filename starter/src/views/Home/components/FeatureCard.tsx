@@ -20,12 +20,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   href = 'https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0 ',
   external = false,
 }) => (
-  <div className="flex h-full flex-col items-center justify-between rounded-2xl bg-white p-8 text-center shadow-md ring-1 ring-slate-100 transition hover:bg-[#32C3D21F]">
+  <div className="flex h-full flex-col items-center justify-between rounded-2xl bg-white p-8 text-center ring-slate-100 transition hover:bg-[#32C3D21F]">
     <div className="mb-6 grid h-28 w-28 place-items-center rounded-full bg-[#EAF7F9] text-[#0097A7]">
       {img ? (
         img
       ) : imgSrc ? (
-        <img src={imgSrc} alt={title ?? ''} className="h-14 w-14 object-contain" />
+        <img src={imgSrc} alt={title ?? ''} className="w-30 object-contain" />
       ) : null}
     </div>
     <h3 className="mb-2 text-lg font-semibold text-[#004748]">{title}</h3>

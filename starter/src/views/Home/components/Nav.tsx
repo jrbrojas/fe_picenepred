@@ -2,6 +2,9 @@ import { useAuth } from '@/auth'
 import { Notification, toast } from '@/components/ui'
 import { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router'
+import UserDropdown from '@/components/template/UserProfileDropdown'
+import { Button } from '@/components/ui'
+import useIsLargeScreen from '@/utils/hooks/useIsLargeScreen'
 
 const REDIRECT_KEY = 'redirectTo'
 
@@ -127,6 +130,10 @@ function AppNavLink({
   }
 
   const handleAnchorClick = (e: React.MouseEvent) => {
+    if (item.href === '#') {
+      e.preventDefault()
+      return
+    }
     if (item.protected && !authenticated) {
       e.preventDefault()
       toast.push(
@@ -170,7 +177,7 @@ function AppNavLink({
 
         {open && (
           <ul
-          className="absolute left-0 top-full mt-2 z-50 w-56 rounded-md bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] p-2 text-white shadow-lg ring-1 ring-black/5 transition-all duration-150"
+          className="relative lg:absolute left-0 top-full mt-2 z-50 w-56 rounded-md bg-none lg:bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] p-2 text-white lg:shadow-lg lg:ring-1 ring-black/5 transition-all duration-150"
           onMouseEnter={() => timerRef.current && clearTimeout(timerRef.current)}
           onMouseLeave={() => {
             timerRef.current = setTimeout(() => {
@@ -203,7 +210,7 @@ function AppNavLink({
               {/* submenú lateral visible solo al hacer hover */}
               {submenuItem.submenu && hoveredIndex === i && (
                 <ul
-                  className="absolute left-[98%] top-0 z-[60] w-56 rounded-md bg-[#078199] p-2 text-white shadow-xl ring-1 ring-black/5 transition-all duration-150"
+                  className="relative lg:absolute ps-5 lg:ps-0 lg:left-[98%] top-0 z-[60] w-56 rounded-md bg-none lg:bg-[#078199] p-2 text-white lg:shadow-xl lg:ring-1 ring-black/5 transition-all duration-150"
                   onMouseEnter={() => timerRef.current && clearTimeout(timerRef.current)}
                   onMouseLeave={() => {
                     timerRef.current = setTimeout(() => {
@@ -244,9 +251,12 @@ function AppNavLink({
 }
 //@ts-ignore
 export default function Nav({ open, setOpen }) {
+  const { authenticated } = useAuth()
+    const isLarge = useIsLargeScreen()
+    const navigate = useNavigate()
   return (
     <>
-      <nav className={`menuhome flex items-center justify-center lg:py-3`}>
+      <nav className={`menuhome flex items-center justify-center ${open ? 'py-2' : ''} lg:py-3`}>
         <ul className="hidden lg:flex items-center gap-8 text-center">
           {navItems.map((item) => (
             <li key={item.label}>
@@ -260,12 +270,38 @@ export default function Nav({ open, setOpen }) {
       </nav>
 
       <div id="mobile-nav" className={`lg:hidden ${open ? 'block' : 'hidden'}`}>
-        <ul className="grid gap-2 pb-3">
+        <ul className="grid">
+          <li>
+            <div className="flex flex-col lg:flex-row items-center gap-3 block lg:hidden pb-3">
+                {authenticated ? (
+                    <UserDropdown />
+                ) : (
+                    <div className="flex lg:flex-row items-center gap-3">
+                        <Button
+                            size={isLarge ? 'lg' : 'xs'}
+                            onClick={() => navigate(`/sign-up`)}
+                            variant="plain"
+                            className="text-xs lg:text-sm"
+                        >
+                            REGISTRARSE
+                        </Button>
+                        <Button
+                            size={isLarge ? 'lg' : 'xs'}
+                            onClick={() => navigate(`/sign-in`)}
+                            className="text-xs lg:text-sm border-0 text-primary"
+                        >
+                            {' '}
+                            INICIAR SESIÓN
+                        </Button>
+                    </div>
+                )}
+            </div>
+          </li>
           {navItems.map((item) => (
             <li key={item.label}>
               <AppNavLink
                 item={item}
-                className="block rounded-md px-3 py-2 text-center text-sm font-medium text-white/95 hover:bg-white/10 hover:text-white transition-colors"
+                className="border-t-1 border-primary rounded-none block rounded-md px-3 py-3 ps-6 lg:ps-0 lg:text-center text-sm font-medium text-white/95 hover:bg-white/10 hover:text-white transition-colors"
                 onDone={() => setOpen(false)}
               />
             </li>
