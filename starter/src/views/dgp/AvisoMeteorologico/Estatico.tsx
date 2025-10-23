@@ -7,6 +7,7 @@ import { FaHome, FaUsers } from "react-icons/fa";
 import { BiDownload, BiSolidSchool } from 'react-icons/bi'
 import { BsHospital } from "react-icons/bs";
 import ImageLoad from "../ImageLoad";
+import NumeroFormateado from "../../../utils/numerFormat";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -27,7 +28,7 @@ const formatNombreArray = (pgArray: string) => {
 
     // separar por comas
     let items = clean.split(",").filter((v) => v && v !== "NULL");
-    
+
     // Retornar como lista con viñetas
     return (
         <div>
@@ -80,7 +81,6 @@ const LluviasAvisoMeteorologicoEstatico = () => {
         </Card>
     )
 
-
     if (!isLoading && tipoPeligro.length == 0) {
         return <NoDataMessage />;
     }
@@ -96,10 +96,10 @@ const LluviasAvisoMeteorologicoEstatico = () => {
 
                     <Tabs defaultValue="inundaciones">
                         <TabList button={
-                                <Button variant="solid" icon={<BiDownload />}>
-                                    Descargar PPT
-                                </Button>
-                            }
+                            <Button variant="solid" icon={<BiDownload />}>
+                                Descargar PPT
+                            </Button>
+                        }
                         >
                             {tipoPeligro.map(tipo => (
                                 <TabNav key={tipo} value={tipo}>{formatTabName(tipo)}</TabNav>
@@ -123,7 +123,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                             </div>
 
                                             <div className='flex justify-between items-center mb-10'>
-                                                <h1 className="text-5xl font-semibold text-teal-600 ml-8">Escenario de Riesgo</h1>
+                                                <h1 className="text-5xl font-semibold text-teal-600 ml-8">Escenario de Riesgos por exposición</h1>
                                                 <div className="text-2xl p-2 font-semibold text-white bg-green-600 bg-opacity-70 rounded-xl mr-10">
                                                     <p className='ml-3 mr-3'>{escenario.nombre}</p>
                                                 </div>
@@ -151,35 +151,35 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                                     <div className="flex items-center gap-3">
                                                                         <TbMapPin className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{tipo == 'inundaciones' ? item.total_centro_poblado : item.total_distritos}</p>
+                                                                            <p className="text-xl font-bold">{tipo == 'inundaciones' ? NumeroFormateado(item.total_centro_poblado) : NumeroFormateado(item.total_distritos)}</p>
                                                                             <p className="text-md">{tipo == 'inundaciones' ? 'Centros Poblados' : 'Distritos'}</p>
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex items-center gap-3">
                                                                         <FaUsers className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{item.total_poblacion}</p>
+                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
                                                                             <p className="text-md">Población</p>
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex items-center gap-3">
                                                                         <FaHome className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{item.total_vivienda}</p>
+                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_vivienda)}</p>
                                                                             <p className="text-md">Viviendas</p>
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex items-center gap-3">
                                                                         <BiSolidSchool className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{item.total_inst_educativa}</p>
+                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_inst_educativa)}</p>
                                                                             <p className="text-md">Inst. Educativas</p>
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex items-center gap-3">
                                                                         <BsHospital className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{item.total_est_salud}</p>
+                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_est_salud)}</p>
                                                                             <p className="text-md">Est. de Salud</p>
                                                                         </div>
                                                                     </div>
@@ -189,25 +189,31 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                                         <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
                                                                             {item.nivel}
                                                                         </div>
-                                                                        <p className="text-sm text-teal-600 mt-2">
+                                                                        <div className="text-sm text-teal-600 mt-2">
                                                                             Departamentos:{" "}
                                                                             <span className={`${nivelColorClasses[item.nivel.toUpperCase()]} bg-white font-semibold`}>
                                                                                 {item.departamentos && formatNombreArray(item.departamentos)}
                                                                             </span>
-                                                                        </p>
+                                                                        </div>
                                                                     </div>
 
                                                                     <div className="mt-4 text-sm text-teal-600 font-semibold">
-                                                                        Departamento población expuesta:
+                                                                        Departamentos con población expuesta:
                                                                         {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
-                                                                            <p key={index} className='flex justify-between items-center'>
+                                                                            <div key={index} className='flex justify-between items-center'>
                                                                                 <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}
-                                                                            </p>
+                                                                            </div>
                                                                         ))}
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         ))}
+                                                    </div>
+                                                    <div className='flex flex-col items-center justify-center gap-2 mt-8'>
+                                                        <span className='font-bold'>Fuente: CENEPRED (2025)</span>
+                                                        <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
+                                                            {escenario.url_base}
+                                                        </a>
                                                     </div>
                                                 </div>
 

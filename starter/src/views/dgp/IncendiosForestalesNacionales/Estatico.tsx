@@ -7,6 +7,7 @@ import { FaHome, FaHotel, FaUsers } from "react-icons/fa";
 import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital, BsTreeFill } from "react-icons/bs";
+import NumeroFormateado from "@/utils/numerFormat";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -45,7 +46,6 @@ const IncendiosForestalesNacionalesEstatico = () => {
         </Card>
     )
 
-
     if (!isLoading && tipoPeligro.length == 0) {
         return <NoDataMessage />;
     }
@@ -80,15 +80,25 @@ const IncendiosForestalesNacionalesEstatico = () => {
 
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
 
-                                <div className='w-full flex justify-start'>
-                                    <div className='flex flex-col gap-4'>
+                                <div className="w-full flex justify-start">
+                                    <div className="flex flex-col gap-4 w-full">
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0].ruta} />
+                                            <ImageLoad
+                                                path={
+                                                    escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta
+                                                }
+                                                className="max-w-full h-auto object-contain"
+                                            />
                                         )}
 
-                                        <div className='flex flex-col items-center gap-2'>
-                                            <span className='font-bold'>Fuente: CENEPRED (2025)</span>
-                                            <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
+                                        <div className="flex flex-col items-center text-center gap-2 w-full">
+                                            <span className="font-bold">Fuente: CENEPRED (2025)</span>
+                                            <a
+                                                className="bg-teal-600 px-3 py-2 text-white rounded-md hover:bg-teal-700 transition break-words whitespace-normal w-full max-w-full text-sm"
+                                                href={escenario.url_base}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
                                                 {escenario.url_base}
                                             </a>
                                         </div>
@@ -102,7 +112,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                         )}
                                         {data['inundaciones'].slice(0, 1).map((item, index) => (
                                             <div key={index} className="text-sm text-teal-600 font-semibold p-4 bg-blue-100/80">
-                                                Departamento población expuesta:
+                                                Departamentos con población expuesta:
                                                 {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
                                                     <p key={index} className='flex justify-between items-center'>
                                                         <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}
@@ -127,7 +137,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <TbMapPin className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_centro_poblado}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_centro_poblado)}</p>
                                                     <p className="text-md">Centros poblados</p>
                                                 </div>
                                             </div>
@@ -135,7 +145,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <FaUsers className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_poblacion}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
                                                     <p className="text-md">Población</p>
                                                 </div>
                                             </div>
@@ -143,7 +153,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <FaHome className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_vivienda}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_vivienda)}</p>
                                                     <p className="text-md">Viviendas</p>
                                                 </div>
                                             </div>
@@ -151,7 +161,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <BiSolidSchool className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_inst_educativa}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_inst_educativa)}</p>
                                                     <p className="text-md">Inst. Educativas</p>
                                                 </div>
                                             </div>
@@ -159,7 +169,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <BsHospital className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_est_salud}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_est_salud)}</p>
                                                     <p className="text-md">Est. de Salud</p>
                                                 </div>
                                             </div>
@@ -167,7 +177,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <BsTreeFill className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_superficie_agricola}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_superficie_agricola)}</p>
                                                     <p className="text-md">Sup. Agricola (Ha)</p>
                                                 </div>
                                             </div>
@@ -175,7 +185,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <FaHotel className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_mon_arqueologico}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_mon_arqueologico)}</p>
                                                     <p className="text-md">Mon. Arqueológicos</p>
                                                 </div>
                                             </div>
