@@ -48,7 +48,7 @@ export default function HomeHero() {
                   {/* Bloque SIGRID, fuera del contenedor centrado */}
                   <div className="absolute bottom-6 md:bottom-10 left-0 z-10 px-0 md:px-0">
 
-                  <div className="flex items-stretch gap-6 bg-[#30BDCC]/90 backdrop-blur-sm p-6 md:p-10 text-white w-[88vw] md:w-[92vw] lg:w-[68vw] h-[220px] shadow-lg">
+                  <div className="flex items-stretch gap-6 bg-[#30BDCC]/70 backdrop-blur-sm p-6 md:p-10 text-white w-[88vw] md:w-[92vw] lg:w-[68vw] h-[220px] shadow-lg">
                     {/* Línea vertical amarilla */}
                     <div className="w-[10px] bg-[#E4DE40] ml-4 md:ml-10" style={{
                       background: 'linear-gradient(to bottom, #E4DE40 45%, white 45%)',
