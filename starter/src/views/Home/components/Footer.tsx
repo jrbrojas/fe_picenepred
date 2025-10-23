@@ -7,7 +7,7 @@ const Footer = () => {
                         <img
                             src="/img/logo/logo_cenepred_white.png"
                             alt="CENEPRED"
-                            className="w-auto object-contain"
+                            className="w-auto object-contain m-auto"
                             loading="lazy"
                         />
                     </div>

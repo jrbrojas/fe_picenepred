@@ -17,7 +17,7 @@ const Home = () => {
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
-            <header className="fixed top-0 left-0 w-full z-30 lg:border-b lg:border-slate-200 shadow-md">
+            <header className="fixed top-0 left-0 w-full z-30 lg:border-b lg:border-slate-200 lg:shadow-md lg:bg-white">
 
                 <div className="relative mx-auto flex max-w-7xl items-center bg-white justify-between gap-6 px-4 py-4">
                     <div className="flex items-center justify-center gap-3 w-full lg:w-auto ml-0 lg:ml-20">
