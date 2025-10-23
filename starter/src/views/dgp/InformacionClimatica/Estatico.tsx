@@ -4,6 +4,7 @@ import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import ImageLoad from "../ImageLoad";
 import { BiDownload } from "react-icons/bi";
+import NumeroFormateado from "@/utils/numerFormat";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -29,7 +30,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                 Aún no se han registrado datos para este escenario.
             </p>
         </div>
-    );
+    )
 
     const CardSkeleton = () => (
         <Card>
@@ -72,7 +73,6 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                         </div>
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
-
                             <div className='grid grid-cols-2 border rounded-xl border-teal-600 shadow-md bg-white'>
                                 <div className='w-full flex justify-center p-5'>
                                     {escenario.mapas && escenario.mapas[0] && (
@@ -98,43 +98,43 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Distritos: </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_distritos}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_distritos)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Población: </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_poblacion}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_poblacion)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Viviendas: </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_vivienda}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_vivienda)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">E. Salud: </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_est_salud}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_est_salud)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">I. Educativas: </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_inst_educativa}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_inst_educativa)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">S. Agricola (Ha): </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_superficie_agricola}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_superficie_agricola)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Vias (Km): </td>
                                                 {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_vias}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_vias)}</td>
                                                 ))}
                                             </tr>
 
@@ -168,52 +168,60 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Distritos: </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_distritos}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_distritos)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Población: </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_poblacion}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_poblacion)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Viviendas: </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_vivienda}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_vivienda)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">E. Salud: </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_est_salud}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_est_salud)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">I. Educativas: </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_inst_educativa}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_inst_educativa)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">S. Agricola (Ha): </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_superficie_agricola}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_superficie_agricola)}</td>
                                                 ))}
                                             </tr>
                                             <tr className="odd:bg-gray-50">
                                                 <td className="px-4 py-2">Vias (Km): </td>
                                                 {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                    <td key={index} className="px-4 py-2">{item.total_vias}</td>
+                                                    <td key={index} className="px-4 py-2">{NumeroFormateado(item.total_vias)}</td>
                                                 ))}
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
+
                             </div>
                         </div>
+                        <div className='flex flex-col items-center justify-center gap-2 mt-8'>
+                            <span className='font-bold'>Fuente: CENEPRED (2025)</span>
+                            <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
+                                {escenario.url_base}
+                            </a>
+                        </div>
 
-                    </>)}
+                    </>
+                )}
             </AdaptiveCard>
         </Container>
 

@@ -7,6 +7,7 @@ import { FaHome, FaUsers } from "react-icons/fa";
 import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital } from "react-icons/bs";
+import NumeroFormateado from "@/utils/numerFormat";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -79,26 +80,23 @@ const BajasTempInformacionClimaticaEstatico = () => {
 
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
 
-                                <div className='w-full flex justify-start'>
-                                    <div className='flex flex-col gap-4'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0].ruta} />
-                                        )}
-
-                                        <div className='flex flex-col items-center gap-2'>
-                                            <span className='font-bold'>Fuente: CENEPRED (2025)</span>
-                                            <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
-                                                {escenario.url_base}
-                                            </a>
-                                        </div>
-                                    </div>
+                                <div className='flex flex-col gap-4 w-full'>
+                                    {escenario.mapas && escenario.mapas[0] && (
+                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0].ruta} />
+                                    )}
                                 </div>
 
-                                <div className='col-span-2'>
+                                <div className='col-span-2 flex-col gap-2 items-center justify-center'>
                                     <div className='w-full flex justify-center'>
                                         {escenario.mapas && escenario.mapas[0] && (
                                             <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
                                         )}
+                                    </div>
+                                    <div className='flex flex-col items-center gap-2 w-full'>
+                                        <span className='font-bold'>Fuente: CENEPRED (2025)</span>
+                                        <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
+                                            {escenario.url_base}
+                                        </a>
                                     </div>
 
                                 </div>
@@ -110,7 +108,7 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <TbMapPin className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_distritos}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_distritos)}</p>
                                                     <p className="text-md">Distritos</p>
                                                 </div>
                                             </div>
@@ -118,7 +116,7 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <FaUsers className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_poblacion}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
                                                     <p className="text-md">Población</p>
                                                 </div>
                                             </div>
@@ -126,7 +124,7 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <FaHome className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_vivienda}</p>
+                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_vivienda)}</p>
                                                     <p className="text-md">Viviendas</p>
                                                 </div>
                                             </div>
@@ -137,7 +135,7 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                                 {item.nivel}
                                             </div>
                                             <div className="mt-3 text-sm text-teal-600 font-semibold">
-                                                Departamento población expuesta:
+                                                Departamentos con población expuesta:
                                                 {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
                                                     <p key={index} className='flex justify-between items-center'>
                                                         <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}

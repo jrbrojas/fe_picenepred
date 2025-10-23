@@ -7,6 +7,7 @@ import { FaHome, FaUsers } from "react-icons/fa";
 import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital } from "react-icons/bs";
+import NumeroFormateado from "../../../utils/numerFormat";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MA': 'text-red-500 bg-red-500',
@@ -56,7 +57,6 @@ const BajasTempAvisoTrimestralEstatico = () => {
         </Card>
     )
 
-
     if (!isLoading && tipoPeligro.length == 0) {
         return <NoDataMessage />;
     }
@@ -80,7 +80,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <div className='flex-1 flex flex-col items-center text-center'>
                                     <h2 className="text-4xl text-center font-semibold text-teal-600">
-                                        Escenario de Riesgo
+                                        Escenario de Riesgo por exposición
                                     </h2>
                                     <p className='text-blue-400 text-lg'>{escenario.nombre}</p>
                                     <p className='text-teal-600 text-lg'>{escenario.titulo_base}</p>
@@ -125,7 +125,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                 <div className="flex items-center gap-3">
                                                     <FaUsers className="text-cyan-600" size={50} />
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                        <p className="text-xl font-bold">{item.total_poblacion}</p>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
                                                         <p className="text-md">Población</p>
                                                     </div>
                                                 </div>
@@ -133,7 +133,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                 <div className="flex items-center gap-3">
                                                     <TbMapPin className="text-cyan-600" size={50} />
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                        <p className="text-xl font-bold">{item.total_centro_poblado}</p>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_centro_poblado)}</p>
                                                         <p className="text-md">Centros Poblados</p>
                                                     </div>
                                                 </div>
@@ -141,7 +141,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                 <div className="flex items-center gap-3">
                                                     <FaHome className="text-cyan-600" size={50} />
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                        <p className="text-xl font-bold">{item.total_vivienda}</p>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_vivienda)}</p>
                                                         <p className="text-md">Viviendas</p>
                                                     </div>
                                                 </div>
@@ -149,7 +149,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                 <div className="flex items-center gap-3">
                                                     <BiSolidSchool className="text-cyan-600" size={50} />
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                        <p className="text-xl font-bold">{item.total_inst_educativa}</p>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_inst_educativa)}</p>
                                                         <p className="text-md">Inst. Educativas</p>
                                                     </div>
                                                 </div>
@@ -157,7 +157,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                 <div className="flex items-center gap-3">
                                                     <BsHospital className="text-cyan-600" size={50} />
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                        <p className="text-xl font-bold">{item.total_est_salud}</p>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_est_salud)}</p>
                                                         <p className="text-md">Est. de Salud</p>
                                                     </div>
                                                 </div>
@@ -168,7 +168,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                     {nivelNombre[item.nivel]}
                                                 </div>
                                                 <div className="mt-3 text-sm text-teal-600 font-semibold">
-                                                    Departamento población expuesta:
+                                                    Departamentos con población expuesta:
                                                     {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
                                                         <p key={index} className='flex justify-between items-center'>
                                                             <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}
