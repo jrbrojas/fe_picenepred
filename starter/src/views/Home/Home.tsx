@@ -17,9 +17,9 @@ const Home = () => {
 
     return (
         <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800">
-            <header className="fixed top-0 left-0 w-full z-30 border-b border-slate-200 bg-white shadow-md">
+            <header className="fixed top-0 left-0 w-full z-30 lg:border-b lg:border-slate-200 lg:shadow-md">
 
-                <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4">
+                <div className="relative mx-auto flex max-w-7xl items-center bg-white justify-between gap-6 px-4 py-4">
                     <div className="flex items-center justify-center gap-3 w-full lg:w-auto ml-0 lg:ml-20">
                         <img
                             src="/img/logo/logo-cenepred.jpg"
@@ -102,7 +102,7 @@ const Home = () => {
                     </button>
                 </div>
 
-                <div className="w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199]">
+                <div className="w-full md:w-1/2 lg:w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] ml-auto">
                     <Nav open={open} setOpen={setOpen} />
                 </div>
             </header>

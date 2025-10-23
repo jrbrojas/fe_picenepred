@@ -2,6 +2,7 @@ import React from 'react'
 import { BiChevronRight } from 'react-icons/bi'
 import AulaVirtual from './AulaVirtual'
 import FeatureCard from './FeatureCard'
+import MonitoreoCarrusel from './MonitoreoCarrusel'
 
 const Container: React.FC<React.PropsWithChildren<{ className?: string }>> = ({
     children,
@@ -19,6 +20,7 @@ export default function Monitoreo() {
         <div className="min-h-screen">
             <section className="py-14">
                 <Container>
+                    {/*
                     <div className="mb-10 text-center">
                         <h2 className="text-2xl font-bold text-slate-800">
                             Monitoreo online
@@ -27,7 +29,6 @@ export default function Monitoreo() {
                             y en tiempo real
                         </p>
                     </div>
-
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                         <FeatureCard
                             imgSrc="/img/Frame1.png"
@@ -48,7 +49,8 @@ export default function Monitoreo() {
                             Explora riesgos a nivel local, regional o nacional
                         </FeatureCard>
                     </div>
-
+                    */}
+                    <MonitoreoCarrusel/>
                     <AulaVirtual />
                 </Container>
             </section>
