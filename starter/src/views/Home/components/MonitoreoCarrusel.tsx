@@ -127,6 +127,7 @@ const MonitoreoCarrusel: React.FC<AulaVirtualProps> = ({
                             <SwiperSlide key={c.id}>
                                 <div className="relative w-full aspect-w-16 aspect-h-9">                                    
                                     <FeatureCard
+                                        key={c.id}
                                         imgSrc={c.imageSrc}
                                         title={c.title}
                                     >{c.imageAlt}
@@ -140,6 +141,7 @@ const MonitoreoCarrusel: React.FC<AulaVirtualProps> = ({
                 <div className="hidden lg:grid lg:grid-cols-3 lg:gap-8">
                     {courses.map((c) => (
                         <FeatureCard
+                            key={c.id}
                             imgSrc={c.imageSrc}
                             title={c.title}
                         >{c.imageAlt}
