@@ -1,5 +1,18 @@
-import { CategoriaResponse, MonitoreoResponse, SupervicionResponse, DirectorioResponse } from '@/views/dimse/types'
+import { CategoriaResponse, MonitoreoResponse, SupervicionResponse } from '@/views/dimse/types'
 import ApiServiceDimse from './ApiServiceDimse'
+import { DirectorioResponse } from '@/views/dimse/responses/directorio/types';
+
+export async function apiExportarExcelDeEntidades(ids: number[]) {
+    const params = ids.reduce((acc, item) => {
+        acc += `entidad[]=${item}&`;
+        return acc;
+    }, "")
+    return ApiServiceDimse.fetchDataWithAxios<MonitoreoResponse[]>({
+        url: `/directorio/exportar-excel?${params}`,
+        method: 'get',
+        responseType: 'blob',
+    })
+}
 
 export async function apiGetMonitoreo(categoria: string) {
     return ApiServiceDimse.fetchDataWithAxios<MonitoreoResponse[]>({
@@ -32,7 +45,7 @@ export async function apiGetCategorias() {
     })
 }
 
-export async function apiGetDirectorio(distrito: string, text: string = "", entidadId: string = "") {
+export async function apiGetDirectorio(distrito: string, text: string = "", entidadId: string = ""): Promise<DirectorioResponse[]> {
     if (distrito.trim()) {
         return ApiServiceDimse.fetchDataWithAxios<DirectorioResponse[]>({
             url: `/directorio?distrito=${distrito}`,
