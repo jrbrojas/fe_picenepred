@@ -26,7 +26,7 @@ export default function HomeHero() {
         loop
         pagination={{ clickable: true }}
         navigation
-        className="relative w-full h-[50vh] sm:h-[65vh] md:h-[70vh] lg:h-screen"
+        className="relative w-full h-[50vh] sm:h-[65vh] md:h-[70vh] lg:90vh"
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
@@ -43,12 +43,12 @@ export default function HomeHero() {
             >
               
               {/* Contenido anclado abajo (idéntico al tuyo) */}
-                <div className="absolute inset-x-0 bottom-0">
+                <div className="absolute inset-x-0 bottom-0 md:bottom-5">
                   
                   {/* Bloque SIGRID, fuera del contenedor centrado */}
                   <div className="absolute bottom-0 left-0 z-10 px-0 md:px-0">
 
-                  <div className="flex items-stretch gap-6 bg-[#30BDCC]/70 backdrop-blur-sm p-6 md:p-10 text-white w-[122vw] lg:w-[68vw] h-[220px] shadow-lg">
+                  <div className="flex items-stretch gap-6 bg-[#30BDCC]/70 backdrop-blur-sm p-6 md:p-10 text-white w-[122vw] md:w-auto  h-[220px] shadow-lg">
                     {/* Línea vertical amarilla */}
                     <div className="w-[10px] bg-[#E4DE40] ml-4 md:ml-10" style={{
                       background: 'linear-gradient(to bottom, #E4DE40 45%, white 45%)',

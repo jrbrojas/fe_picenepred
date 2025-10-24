@@ -107,7 +107,7 @@ const Home = () => {
                 </div>
             </header>
 
-            <main className="flex-1 mx-auto w-full max-w-7xl mt-[80px] lg:mt-[150px]">
+            <main className="flex-1 mx-auto w-full max-w-7xl mt-[80px] lg:mt-[185px]">
                 <section className="relative bg-white">
                     <HomeHero />
 
