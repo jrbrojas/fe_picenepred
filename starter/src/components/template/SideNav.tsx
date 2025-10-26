@@ -64,7 +64,7 @@ return (
     >
         <Link
             to={appConfig.unAuthenticatedEntryPath}
-            className="side-nav-header flex flex-col justify-center"
+            className="side-nav-header flex flex-col items-center justify-center"
             style={{ height: HEADER_HEIGHT }}
         >
             <Logo

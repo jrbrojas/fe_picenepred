@@ -64,13 +64,24 @@ const MenuCollapse = (props: MenuCollapseProps) => {
             'menu-collapse-item-active',
         className,
     )
-
+    const noToggleLabels = [
+        'gestion-procesos',
+        'difat',
+        'dimse',
+    ]
+    const includeEvent = noToggleLabels.includes(props.eventKey+"")
     return (
         <div className="menu-collapse">
             <div
                 className={menuCollapseItemClass}
                 role="presentation"
-                onClick={toggleCollapse}
+                onClick={(e) => {
+                    if (includeEvent) {
+                        e.preventDefault()
+                        return
+                    }
+                    toggleCollapse(e)                    
+                }}
             >
                 <span className="flex items-center gap-2">
                     {dotIndent && (
@@ -93,7 +104,7 @@ const MenuCollapse = (props: MenuCollapseProps) => {
                     }}
                     transition={{ duration: 0.15 }}
                 >
-                    {sideCollapsed ? null : <TbChevronDown />}
+                    {sideCollapsed || includeEvent ? null : <TbChevronDown />}
                 </motion.span>
             </div>
             <CollapseContextProvider value={isExpanded}>

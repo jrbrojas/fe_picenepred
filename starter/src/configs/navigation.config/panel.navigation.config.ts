@@ -11,7 +11,7 @@ import enagerd from './enagerd'
 import visoresGeo from './visores-geo'
 
 export const panelNavigationFull: NavigationTree[] = [
-    {
+    /*{
         key: 'dashboard',
         path: '/dashboard',
         title: 'Inicio',
@@ -20,7 +20,7 @@ export const panelNavigationFull: NavigationTree[] = [
         type: NAV_ITEM_TYPE_ITEM,
         authority: [],
         subMenu: [],
-    },
+    },*/
     {
         key: 'gestion-procesos',
         path: '/gestion-procesos',

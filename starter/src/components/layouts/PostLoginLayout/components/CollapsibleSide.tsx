@@ -11,6 +11,9 @@ import LayoutBase from '@/components//template/LayoutBase'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_COLLAPSIBLE_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
+import { Button } from '@/components/ui'
+import { HiHome } from 'react-icons/hi'
+import { Link } from 'react-router'
 
 const CollapsibleSide = ({ children }: CommonProps) => {
     const { larger, smaller } = useResponsive()
@@ -29,7 +32,14 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                             <>
                                 {smaller.lg && <MobileNav />}
                                 {larger.lg && <SideNavToggle />}
-                                {/* <Search /> */}
+                                {<Link to="/" title="Ir al inicio">
+                                    <Button
+                                        variant="plain"
+                                        shape="circle"
+                                        size="sm"
+                                        icon={<HiHome className="text-xl" />}
+                                    />
+                                </Link>}
                             </>
                         }
                         headerEnd={

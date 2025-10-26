@@ -8,6 +8,13 @@ html {
     background-color: rgb(255, 255, 255);
 }
 
+.menu > .menu-collapse > .menu-collapse-item {
+    background-color: none !important;
+    &.menu-collapse-item-active {
+        background-color: white !important;
+    }
+}
+
 /*
 *, ::after, ::before, ::backdrop, ::file-selector-button {
     border-color: #078199 !important;

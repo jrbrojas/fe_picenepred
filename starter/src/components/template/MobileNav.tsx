@@ -9,6 +9,7 @@ import appConfig from '@/configs/app.config'
 import { useThemeStore } from '@/store/themeStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
 import { useSessionUser } from '@/store/authStore'
+import { usePanelNavigation } from '@/configs/navigation.config/panel.navigation.config'
 
 const VerticalMenuContent = lazy(
     () => import('@/components/template/VerticalMenuContent'),
@@ -30,6 +31,7 @@ const MobileNav = ({
     translationSetup = appConfig.activeNavTranslation,
 }: MobileNavProps) => {
     const [isOpen, setIsOpen] = useState(false)
+    const navs = usePanelNavigation()
 
     const handleOpenDrawer = () => {
         setIsOpen(true)
@@ -50,7 +52,7 @@ const MobileNav = ({
                 <MobileNavToggle toggled={isOpen} />
             </div>
             <Drawer
-                title="Navigation"
+                title="MENÚ"
                 isOpen={isOpen}
                 bodyClass={classNames('p-0')}
                 width={330}
@@ -62,7 +64,7 @@ const MobileNav = ({
                     {isOpen && (
                         <VerticalMenuContent
                             collapsed={false}
-                            navigationTree={navigationConfig}
+                            navigationTree={navs}
                             routeKey={currentRouteKey}
                             userAuthority={[userAuthority]}
                             direction={direction}
