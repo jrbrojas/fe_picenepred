@@ -6,8 +6,8 @@ import { COLORS } from '@/constants/chart.constant'
 import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
-import { MonitoreoResponse, RespuestaElement } from './types'
 import { apiGetCategorias, apiGetEvaluacion } from '@/services/MonitoreService'
+import { EvaluacionResponse, Respuesta } from '@/services/types/getevaluacion'
 
 type Entidad = {
     id: string
@@ -35,12 +35,12 @@ type Departamento = {
 
 const COLS = ["Monitoreo", "Seguimiento", "Supervision"];
 
-function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento[] {
+function mapMonitoreoResponseToData(response: EvaluacionResponse[]): Departamento[] {
     let data: Departamento[] = [];
-    const mapValores = (respuestas: RespuestaElement[], i: string) => respuestas.find(r => r.nombre == i)?.calculo || 0
-    const mapMonitoResponseToEntidad = (m: MonitoreoResponse): Entidad => ({
-        id: String(m.entidad.id),
-        nombre: m.entidad.nombre,
+    const mapValores = (respuestas: Respuesta[], i: string) => respuestas.find(r => r.nombre == i)?.calculo || 0
+    const mapMonitoResponseToEntidad = (m: EvaluacionResponse): Entidad => ({
+        id: String(m.id),
+        nombre: m.nombre,
         evaluacion: [
             mapValores(m.respuestas, "Monitoreo"),
             mapValores(m.respuestas, "Seguimiento"),
@@ -49,17 +49,17 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
     })
     for (let i = 0; i < response.length; i++) {
         const monitoreo = response[i];
-        const indexDepartamento = data.findIndex((item) => item.id == monitoreo.departamento.iddpto);
+        const indexDepartamento = data.findIndex((item) => +item.id == monitoreo.distrito.provincia.departamento_id);
         // no esta el departamento
         if (indexDepartamento === -1) {
             data.push({
-                id: monitoreo.departamento.iddpto,
-                nombre: monitoreo.departamento.nombre,
+                id: String(monitoreo.distrito.provincia.departamento_id),
+                nombre: monitoreo.distrito.provincia.departamento.nombre,
                 provincias: [{
-                    id: monitoreo.provincia.idprov,
-                    nombre: monitoreo.provincia.nombre,
+                    id: String(monitoreo.distrito.provincia_id),
+                    nombre: monitoreo.distrito.provincia.nombre,
                     distritos: [{
-                        id: monitoreo.distrito.ubigeo,
+                        id: String(monitoreo.distrito.id),
                         nombre: monitoreo.distrito.nombre,
                         entidades: [
                             mapMonitoResponseToEntidad(monitoreo)
@@ -69,27 +69,27 @@ function mapMonitoreoResponseToData(response: MonitoreoResponse[]): Departamento
             })
             continue;
         }
-        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => item.id == monitoreo.provincia.idprov);
+        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => +item.id == monitoreo.distrito.provincia_id);
         // no esta la provincia
         if (indexProvincia === -1) {
             data[indexDepartamento].provincias.push({
-                id: monitoreo.provincia.idprov,
-                nombre: monitoreo.provincia.nombre,
+                id: String(monitoreo.distrito.provincia_id),
+                nombre: monitoreo.distrito.provincia.nombre,
                 distritos: [{
-                    id: monitoreo.distrito.ubigeo,
+                    id: String(monitoreo.distrito.id),
                     nombre: monitoreo.distrito.nombre,
                     entidades: [
                         mapMonitoResponseToEntidad(monitoreo)
                     ]
                 }]
-            });
+           });
             continue;
         }
-        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => item.id == monitoreo.distrito.ubigeo);
+        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => +item.id == monitoreo.distrito.id);
         // no esta el distrito
         if (indexDistrito === -1) {
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
-                id: monitoreo.distrito.ubigeo,
+                id: String(monitoreo.distrito.id),
                 nombre: monitoreo.distrito.nombre,
                 entidades: [
                     mapMonitoResponseToEntidad(monitoreo)

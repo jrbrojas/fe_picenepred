@@ -2,7 +2,7 @@ const endpointConfig = {
     depa: '/departamentos',
     prov: '/provincias',
     dis: '/distritos',
-    entidades: '/entidad',
+    entidades: '/entidades',
     categorias: '/directorio/categorias',
     rols: '/directorio/roles',
     cargos: '/directorio/cargos',

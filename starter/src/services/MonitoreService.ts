@@ -1,6 +1,10 @@
-import { CategoriaResponse, MonitoreoResponse, SupervicionResponse } from '@/views/dimse/types'
+import { CategoriaResponse } from '@/views/dimse/types'
 import ApiServiceDimse from './ApiServiceDimse'
-import { DirectorioResponse } from '@/views/dimse/responses/directorio/types';
+import { MonitoreoResponse } from './types/getmonitoreo';
+import { SeguimientoResponse } from './types/getseguimiento';
+import { SupervisionResponse } from './types/getsupervision';
+import { EvaluacionResponse } from './types/getevaluacion';
+import { DirectorioResponse } from './types/getdirectorio';
 
 export async function apiExportarExcelDeEntidades(ids: number[]) {
     const params = ids.reduce((acc, item) => {
@@ -16,31 +20,31 @@ export async function apiExportarExcelDeEntidades(ids: number[]) {
 
 export async function apiGetMonitoreo(categoria: string) {
     return ApiServiceDimse.fetchDataWithAxios<MonitoreoResponse[]>({
-        url: `/monitoreo?categoria=${categoria}`,
+        url: `/monitoreo/tabla?categoria=${categoria}`,
         method: 'get',
     })
 }
 export async function apiGetSeguimiento(categoria: string) {
-    return ApiServiceDimse.fetchDataWithAxios<MonitoreoResponse[]>({
-        url: `/seguimiento?categoria=${categoria}`,
+    return ApiServiceDimse.fetchDataWithAxios<SeguimientoResponse[]>({
+        url: `/seguimiento/tabla?categoria=${categoria}`,
         method: 'get',
     })
 }
 export async function apiGetSupervision(categoria: string) {
-    return ApiServiceDimse.fetchDataWithAxios<SupervicionResponse[]>({
-        url: `/supervision?categoria=${categoria}`,
+    return ApiServiceDimse.fetchDataWithAxios<SupervisionResponse[]>({
+        url: `/supervision/tabla?categoria=${categoria}`,
         method: 'get',
     })
 }
 export async function apiGetEvaluacion(categoria: string) {
-    return ApiServiceDimse.fetchDataWithAxios<MonitoreoResponse[]>({
+    return ApiServiceDimse.fetchDataWithAxios<EvaluacionResponse[]>({
         url: `/evaluacion/resumen-categoria?categoria=${categoria}`,
         method: 'get',
     })
 }
 export async function apiGetCategorias() {
     return ApiServiceDimse.fetchDataWithAxios<CategoriaResponse[]>({
-        url: '/directorio/categorias',
+        url: '/categorias',
         method: 'get',
     })
 }

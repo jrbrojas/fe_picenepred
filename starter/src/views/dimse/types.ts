@@ -45,47 +45,6 @@ export interface CategoriaResponse {
     updated_at: null;
 }
 
-export interface MonitoreoResponse {
-    id: number;
-    entidad_id: string;
-    categoria_responsable_id: string;
-    ubigeo: string;
-    provincia_idprov: string;
-    departamento_iddpto: string;
-    anio: string;
-    que_implementa: string;
-    sustento: string;
-    n_personas_en_la_instancia: string;
-    n_personas_grd: string;
-    created_at: Date;
-    updated_at: Date;
-    entidad: Entidad;
-    respuestas: RespuestaElement[];
-    departamento: Departamento;
-    provincia: Provincia;
-    distrito: Distrito;
-}
-export interface SupervicionResponse {
-    id: number;
-    entidad_id: string;
-    categoria_responsable_id: string;
-    ubigeo: string;
-    provincia_idprov: string;
-    departamento_iddpto: string;
-    anio: string;
-    que_implementa: string;
-    sustento: string;
-    n_personas_en_la_instancia: string;
-    n_personas_grd: string;
-    created_at: Date;
-    updated_at: Date;
-    entidad: Entidad;
-    secciones: RespuestaElement[];
-    departamento: Departamento;
-    provincia: Provincia;
-    distrito: Distrito;
-}
-
 export interface Departamento {
     id: number;
     iddpto: string;
