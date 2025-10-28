@@ -222,22 +222,23 @@ export default function TreeTableMonitoreo3Niveles() {
 
     return (
         <>
-            <div className="space-y-6">
-                {/* Encabezado */}
-                <div className="text-left flex justify-start">
-                    <label className="sm:min-w-[300px] min-w-full">
-                        <strong className="block mb-2">Categoria</strong>
-                        <Select
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-4">
+                <div>
+                    <h4 className="mb-1">Evaluación</h4>
+                    <p>Evaluación Ponderada de Avance de Implementación de GRD</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <span>Categoria:</span>
+                    <Select
                             options={categorias}
                             value={currentCategoria}
                             onChange={(n) => onCategoria(n)}
                             placeholder="Seleccione una categoria"
                             isDisabled={fetching}
                         />
-                    </label>
                 </div>
-
-                {/* Tabla */}
+            </div>
+            <Card bordered={true}>
                 <div className="flex items-center gap-2">
                     <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
                         <table className="table-fixed border-separate border-spacing-0">
@@ -501,14 +502,15 @@ export default function TreeTableMonitoreo3Niveles() {
                         </table>
                     </div>
                 </div>
-            </div>
+            </Card>
 
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
                 <div className="relative min-h-[450px] rounded-xl overflow-hidden ring-1 ring-slate-200 bg-slate-100">
                     <MapaPeru query={query} />
                 </div>
                 <Card className="h-full">
-                    <div className="mt-6">
+                    <div>
+                        <h6 className='mb-2'>Preguntas por localidad/entidad</h6>
                         <ApexChart
                             options={{
                                 chart: {
@@ -555,7 +557,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 xaxis: {
                                     categories: ordenData.map((d) => d.nombre),
                                     title: {
-                                        text: 'Regiones'
+                                        text: 'Localidad/Entidad'
                                     },
                                     labels: {
                                         rotate: -45,

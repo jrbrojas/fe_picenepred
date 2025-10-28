@@ -193,11 +193,17 @@ export default function TreeTableMonitoreo3Niveles() {
 
     return (
         <>
-            <div className="space-y-6">
-                {/* Encabezado */}
-                <div className="text-center">
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-4">
+                <div>
+                    <h4 className="mb-1">Directorio Nacional</h4>
+                    <p>Lista de contactos a nivel nacional GRD</p>
+                </div>
+                <div className="flex items-center w-[100nw] md:w-[35vw] w-full justify-end">
                     <FiltrosDirectorio onDistrito={onDistrito} onSearchEntidad={onSearchEntidad} onSearchText={onSearchText}/>
                 </div>
+            </div>
+
+            <div className="space-y-6">
 
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
                     {/* Tabla */}

@@ -14,7 +14,9 @@ html {
         background-color: white !important;
     }
 }
-
+.bg-main {
+    background-color: #fafafa;
+}
 /*
 *, ::after, ::before, ::backdrop, ::file-selector-button {
     border-color: #078199 !important;

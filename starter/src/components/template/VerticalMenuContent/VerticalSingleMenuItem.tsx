@@ -97,34 +97,49 @@ const DefaultItem = (props: DefaultItemProps) => {
     } = props
 
     return (
-        <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
+    <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
+        {nav.tooltip ? (
+        <Tooltip title={nav.tooltip}>
             <MenuItem key={nav.key} eventKey={nav.key} dotIndent={indent}>
-                <Link
-                    to={nav.path}
-                    className="flex items-center gap-2 h-full w-full"
-                    target={nav.isExternalLink ? '_blank' : ''}
-                    onClick={() =>
-                        onLinkClick?.({
-                            key: nav.key,
-                            title: nav.title,
-                            path: nav.path,
-                        })
-                    }
-                >
-                    {showIcon && <VerticalMenuIcon icon={nav.icon} />}
-                    {showTitle && (
-                        (nav.tooltip ? (
-                            <Tooltip title={nav.tooltip}>
-                                <span>{nav.title}</span>
-                            </Tooltip>
-                        ) : (
-                            <span>{nav.title}</span>
-                        ))
-                    )}
-                </Link>
+            <Link
+                to={nav.path}
+                className="flex items-center gap-2 h-full w-full"
+                target={nav.isExternalLink ? '_blank' : ''}
+                onClick={() =>
+                onLinkClick?.({
+                    key: nav.key,
+                    title: nav.title,
+                    path: nav.path,
+                })
+                }
+            >
+                {showIcon && <VerticalMenuIcon icon={nav.icon} />}
+                {showTitle && <span>{nav.title}</span>}
+            </Link>
             </MenuItem>
-        </AuthorityCheck>
+        </Tooltip>
+        ) : (
+        <MenuItem key={nav.key} eventKey={nav.key} dotIndent={indent}>
+            <Link
+            to={nav.path}
+            className="flex items-center gap-2 h-full w-full"
+            target={nav.isExternalLink ? '_blank' : ''}
+            onClick={() =>
+                onLinkClick?.({
+                key: nav.key,
+                title: nav.title,
+                path: nav.path,
+                })
+            }
+            >
+            {showIcon && <VerticalMenuIcon icon={nav.icon} />}
+            {showTitle && <span>{nav.title}</span>}
+            </Link>
+        </MenuItem>
+        )}
+    </AuthorityCheck>
     )
+
 }
 
 const VerticalSingleMenuItem = ({

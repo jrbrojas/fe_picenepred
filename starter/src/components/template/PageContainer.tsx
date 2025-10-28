@@ -152,7 +152,7 @@ const PageContainer = (props: PageContainerProps) => {
                             'bg-white dark:bg-gray-900',
                     )}
                 >
-                    <main className="h-full">
+                    <main className="h-full bg-main">
                         <div
                             className={classNames(
                                 pageContainerDefaultClass,

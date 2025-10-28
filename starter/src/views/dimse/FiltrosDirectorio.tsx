@@ -100,7 +100,7 @@ export default function FiltrosDirectorio({
                         <Input
                             value={field.value}
                             className="flex-1"
-                            placeholder="Buscar por nombre, dni del responsable, nombre de entidad"
+                            placeholder="Buscar por nombre, dni o entidad"
                             onKeyUp={onEnter}
                             onChange={evt => {
                                 field.onChange(evt);
