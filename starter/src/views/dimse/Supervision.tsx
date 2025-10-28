@@ -6,8 +6,9 @@ import { COLORS } from '@/constants/chart.constant'
 import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
-import { RespuestaElement, SupervicionResponse } from './types'
+import { RespuestaElement } from './types'
 import { apiGetCategorias, apiGetSupervision } from '@/services/MonitoreService'
+import { SupervisionResponse, SupervisionRespuesta } from '@/services/types/getsupervision'
 
 type Entidad = {
     id: string
@@ -35,28 +36,28 @@ type Departamento = {
 
 const COLS = ["Actividades", "Programas", "Proyectos", "Otros"]
 
-function mapMonitoreoResponseToData(response: SupervicionResponse[]): Departamento[] {
+function mapMonitoreoResponseToData(response: SupervisionResponse[]): Departamento[] {
     let data: Departamento[] = [];
-    const mapValores = (respuestas: RespuestaElement[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? parseFloat(r.promedio) : 0)
+    const mapValores = (respuestas: SupervisionRespuesta[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? parseFloat(r.promedio) : 0)
     for (let i = 0; i < response.length; i++) {
         const monitoreo = response[i];
-        const indexDepartamento = data.findIndex((item) => item.id == monitoreo.departamento_iddpto);
+        const indexDepartamento = data.findIndex((item) => +item.id == monitoreo.entidad.distrito.provincia.departamento_id);
         // no esta el departamento
         if (indexDepartamento === -1) {
             data.push({
-                id: monitoreo.departamento_iddpto,
-                nombre: monitoreo.departamento.nombre,
+                id: String(monitoreo.entidad.distrito.provincia.departamento_id),
+                nombre: monitoreo.entidad.distrito.provincia.departamento.nombre,
                 provincias: [{
-                    id: monitoreo.provincia_idprov,
-                    nombre: monitoreo.provincia.nombre,
+                    id: String(monitoreo.entidad.distrito.provincia_id),
+                    nombre: monitoreo.entidad.distrito.provincia.nombre,
                     distritos: [{
-                        id: monitoreo.ubigeo,
-                        nombre: monitoreo.distrito.nombre,
+                        id: String(monitoreo.entidad.distrito_id),
+                        nombre: monitoreo.entidad.distrito.nombre,
                         entidades: [
                             {
                                 id: String(monitoreo.entidad.id),
                                 nombre: monitoreo.entidad.nombre,
-                                supervision: mapValores(monitoreo.secciones),
+                                supervision: mapValores(monitoreo.supervision_respuestas)
                             }
                         ]
                     }]
@@ -64,37 +65,37 @@ function mapMonitoreoResponseToData(response: SupervicionResponse[]): Departamen
             })
             continue;
         }
-        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => item.id == monitoreo.provincia_idprov);
+        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => +item.id == monitoreo.entidad.distrito.provincia_id);
         // no esta la provincia
         if (indexProvincia === -1) {
             data[indexDepartamento].provincias.push({
-                id: monitoreo.provincia_idprov,
-                nombre: monitoreo.provincia.nombre,
+                id: String(monitoreo.entidad.distrito.provincia_id),
+                nombre: monitoreo.entidad.distrito.provincia.nombre,
                 distritos: [{
-                    id: monitoreo.ubigeo,
-                    nombre: monitoreo.distrito.nombre,
+                    id: String(monitoreo.entidad.distrito_id),
+                    nombre: monitoreo.entidad.distrito.nombre,
                     entidades: [
                         {
                             id: String(monitoreo.entidad.id),
                             nombre: monitoreo.entidad.nombre,
-                            supervision: mapValores(monitoreo.secciones),
+                            supervision: mapValores(monitoreo.supervision_respuestas)
                         }
                     ]
                 }]
             });
             continue;
         }
-        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => item.id == monitoreo.ubigeo);
+        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => +item.id == monitoreo.entidad.distrito_id);
         // no esta el distrito
         if (indexDistrito === -1) {
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
-                id: monitoreo.ubigeo,
-                nombre: monitoreo.distrito.nombre,
+                id: String(monitoreo.entidad.distrito_id),
+                nombre: monitoreo.entidad.distrito.nombre,
                 entidades: [
                     {
                         id: String(monitoreo.entidad.id),
                         nombre: monitoreo.entidad.nombre,
-                        supervision: mapValores(monitoreo.secciones),
+                        supervision: mapValores(monitoreo.supervision_respuestas)
                     }
                 ]
             })
@@ -103,9 +104,8 @@ function mapMonitoreoResponseToData(response: SupervicionResponse[]): Departamen
         data[indexDepartamento].provincias[indexProvincia].distritos[indexDistrito].entidades.push({
             id: String(monitoreo.entidad.id),
             nombre: monitoreo.entidad.nombre,
-            supervision: mapValores(monitoreo.secciones),
+            supervision: mapValores(monitoreo.supervision_respuestas)
         })
-
     }
     return data;
 }

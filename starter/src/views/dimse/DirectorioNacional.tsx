@@ -1,13 +1,12 @@
 import { Fragment, useEffect, useState } from 'react'
 import MapaPeru from './MapaPeru'
 import { apiExportarExcelDeEntidades, apiGetDirectorio } from '@/services/MonitoreService'
-import { formatDateYYYYMMDD } from '@/utils/datetime'
 import FiltrosDirectorio from './FiltrosDirectorio'
 import { EntidadResponse } from '@/shared/services/ControlesService'
 import { Button } from '@/components/ui'
 import { FaFileExcel } from "react-icons/fa6";
-import { DirectorioResponse } from './responses/directorio/types'
 import { DirectorioInfo } from './DirectorioInfo'
+import { DirectorioResponse } from '@/services/types/getdirectorio'
 
 type Distrito = {
     id: string
@@ -45,59 +44,59 @@ function mapMonitoreoResponseToData(response: DirectorioResponse[]): Departament
     let data: Departamento[] = [];
     const mapValores = (item: DirectorioResponse): Entidad => ({
         id: item.id,
-        nombre: item.nombre,
-        nombre_entidad: item.nombre_entidad,
-        apellido: item.apellido,
-        cargo: item.cargo,
-        dni: item.dni,
-        email: item.email,
-        fecha_fin: new Date(item.fecha_fin),
-        fecha_inicio: new Date(item.fecha_inicio),
-        rol: item.rol,
-        telefono: item.telefono,
+        nombre: item.responsable.nombre,
+        nombre_entidad: item.entidad.nombre,
+        apellido: item.responsable.apellido,
+        cargo: item.responsable.cargo.nombre,
+        dni: item.responsable.dni,
+        email: item.responsable.email,
+        fecha_fin: new Date(item.responsable.fecha_fin),
+        fecha_inicio: new Date(item.responsable.fecha_inicio),
+        rol: item.responsable.roles_responsable.nombre,
+        telefono: item.responsable.telefono,
         originalData: item
     })
     for (let i = 0; i < response.length; i++) {
         const monitoreo = response[i];
-        const indexDepartamento = data.findIndex((item) => item.id == String(monitoreo.id_departamento));
+        const indexDepartamento = data.findIndex((item) => item.id == String(monitoreo.entidad.distrito.provincia.departamento_id));
         // no esta el departamento
         if (indexDepartamento === -1) {
             data.push({
-                id: String(monitoreo.id_departamento),
-                nombre: monitoreo.departamento,
+                id: String(monitoreo.entidad.distrito.provincia.departamento_id),
+                nombre: monitoreo.entidad.distrito.provincia.departamento.nombre,
                 provincias: [{
-                    id: String(monitoreo.id_provincia),
-                    nombre: monitoreo.provincia,
+                    id: String(monitoreo.entidad.distrito.provincia_id),
+                    nombre: monitoreo.entidad.distrito.provincia.nombre,
                     distritos: [{
-                        id: monitoreo.ubigeo,
-                        nombre: monitoreo.distrito,
+                        id: String(monitoreo.entidad.distrito_id),
+                        nombre: monitoreo.entidad.distrito.nombre,
                         entidades: [mapValores(monitoreo)]
                     }]
                 }]
             })
             continue;
         }
-        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => item.id == String(monitoreo.id_provincia));
+        const indexProvincia = data[indexDepartamento].provincias.findIndex((item) => item.id == String(monitoreo.entidad.distrito.provincia_id));
         // no esta la provincia
         if (indexProvincia === -1) {
             data[indexDepartamento].provincias.push({
-                id: String(monitoreo.id_provincia),
-                nombre: monitoreo.provincia,
+                id: String(monitoreo.entidad.distrito.provincia_id),
+                nombre: monitoreo.entidad.distrito.provincia.nombre,
                 distritos: [{
-                    id: monitoreo.ubigeo,
-                    nombre: monitoreo.distrito,
-                    entidades: [mapValores(monitoreo)],
+                    id: String(monitoreo.entidad.distrito_id),
+                    nombre: monitoreo.entidad.distrito.nombre,
+                    entidades: [mapValores(monitoreo)]
                 }]
             });
             continue;
         }
-        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => item.id == monitoreo.ubigeo);
+        const indexDistrito = data[indexDepartamento].provincias[indexProvincia].distritos.findIndex((item) => item.id == String(monitoreo.entidad.distrito_id));
         // no esta el distrito
         if (indexDistrito === -1) {
             data[indexDepartamento].provincias[indexProvincia].distritos.push({
-                id: monitoreo.ubigeo,
-                nombre: monitoreo.distrito,
-                entidades: [mapValores(monitoreo)],
+                id: String(monitoreo.entidad.distrito_id),
+                nombre: monitoreo.entidad.distrito.nombre,
+                entidades: [mapValores(monitoreo)]
             })
             continue;
         }
@@ -126,7 +125,7 @@ export default function TreeTableMonitoreo3Niveles() {
     function fillData(response: DirectorioResponse[]) {
         if (response.length > 0) {
             const first = response[0];
-            setQuery(`${first.distrito}, ${first.provincia}, ${first.departamento}, Peru`);
+            setQuery(`${first.entidad.distrito.nombre}, ${first.entidad.distrito.provincia.nombre}, ${first.entidad.distrito.provincia.departamento.nombre}, Peru`);
         }
         setOriginalData(response)
         newData(mapMonitoreoResponseToData(response))
@@ -167,7 +166,7 @@ export default function TreeTableMonitoreo3Niveles() {
 
     async function onExportExcel() {
         try {
-            const ids = Array.from(new Set(originalData.map((i) => i.id_entidad)))
+            const ids = Array.from(new Set(originalData.map((i) => i.entidad_id)))
 
             const response: any = await apiExportarExcelDeEntidades(ids);
 

@@ -1,34 +1,3 @@
-export interface DirectorioResponse {
-    id:              number;
-    fecha_registro:  Date;
-    nombre:          string;
-    apellido:        string;
-    dni:             string;
-    email:           string;
-    ubigeo:          string;
-    telefono:        string;
-    fecha_inicio:    Date;
-    fecha_fin:       Date;
-    id_cargo:        number;
-    id_categoria:    number;
-    id_rol:          number;
-    id_departamento: number;
-    id_provincia:    number;
-    id_entidad:      number;
-    id_distrito:     number;
-    created_at:      Date;
-    updated_at:      Date;
-    nombre_entidad:  string;
-    departamento:    string;
-    provincia:       string;
-    distrito:        string;
-    categoria:       string;
-    cargo:           string;
-    rol:             string;
-    historial:       Historial[];
-    entidad:         Entidad;
-}
-
 export interface Entidad {
     id:              number;
     nombre:          string;
