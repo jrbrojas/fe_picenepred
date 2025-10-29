@@ -124,7 +124,7 @@ const SignInForm = (props: SignInFormProps) => {
                     type="submit"
                     disabled={!verified || disableSubmit}
                 >
-                    {isSubmitting ? 'Iniciando...' : 'Iniciar sesión'}
+                    {isSubmitting ? 'INGRESANDO...' : 'INGRESAR'}
                 </Button>
             </Form>
         </div>

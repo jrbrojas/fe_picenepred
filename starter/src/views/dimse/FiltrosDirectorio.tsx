@@ -6,7 +6,7 @@ import { FormItem, Button, Select, Input } from '@/components/ui'
 import { Option } from '@/shared/types'
 import { useEffect, useMemo, useState } from 'react'
 import { useEntidades } from '@/shared/stores/controls/entidades'
-import { TbFilter } from "react-icons/tb";
+import { TbFilter, TbSearch } from "react-icons/tb";
 import { EntidadResponse } from '@/shared/services/ControlesService'
 
 export type EntidadForm = {
@@ -100,7 +100,7 @@ export default function FiltrosDirectorio({
                         <Input
                             value={field.value}
                             className="flex-1"
-                            placeholder="Buscar por nombre, dni o entidad"
+                            placeholder="Ingrese nombre, dni o entidad"
                             onKeyUp={onEnter}
                             onChange={evt => {
                                 field.onChange(evt);
@@ -113,7 +113,7 @@ export default function FiltrosDirectorio({
                         />
                     )}
                 />
-                <Button icon={<TbFilter />} onClick={() => {
+                <Button icon={<TbSearch />} onClick={() => {
                     setVerFiltros(!verFiltros)
                     if (verFiltros) {
                         setValue("entidad", null)
@@ -122,7 +122,7 @@ export default function FiltrosDirectorio({
                     setValue("departamento", null);
                     setValue("provincia", null);
                     setValue("distrito", null);
-                }} type="button">Filtros</Button>
+                }} type="button">Buscar</Button>
             </div>
             <div className={verFiltros ? "flex w-full gap-4" : "hidden"}>
                 <FormItem label="Entidad" className="flex-1 mb-0">

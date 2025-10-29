@@ -59,11 +59,7 @@ export const SignInBase = ({
             </div>
 
             <div className="mb-8">
-                <h1 className="mb-2">Sistema CENEPRED</h1>
-                <p className="font-medium text-gray-600">
-                    Ingrese sus credenciales para acceder al sistema
-                </p>
-
+                <h1 className="mb-2 text-center">Sistema CENEPRED</h1>
             </div>
 
             {message && (
