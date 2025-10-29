@@ -114,64 +114,15 @@ const panelRoute: Routes = [
     {
         key: 'gestionProcesos.sismosTsunamiNacional.estatico',
         path: '/gestion-procesos/sismosTsunamiNacional/estatico',
-        component: lazy(() => import('@/views/dgp/Otros')),
+        component: lazy(() => import('@/views/dgp/SismosTsunamiNacional/Estatico')),
         authority: [],
     },
     {
         key: 'gestionProcesos.sismosTsunamiNacional.dinamico',
         path: '/gestion-procesos/sismosTsunamiNacional/dinamico',
-        component: lazy(() => import('@/views/dgp/Otros')),
+        component: lazy(() => import('@/views/dgp/SismosTsunamiNacional/Dinamico')),
         authority: [],
     },
-    {
-        key: 'gestionProcesos.sismosTsunamiOtrosAmbitos.estatico',
-        path: '/gestion-procesos/sismosTsunamiOtrosAmbitos/estatico',
-        component: lazy(() => import('@/views/dgp/Otros')),
-        authority: [],
-    },
-    {
-        key: 'gestionProcesos.sismosTsunamiOtrosAmbitos.dinamico',
-        path: '/gestion-procesos/sismosTsunamiOtrosAmbitos/dinamico',
-        component: lazy(() => import('@/views/dgp/Otros')),
-        authority: [],
-    },
-    // {
-    //     key: 'gestionProcesos.sequiasNacional.estatico',
-    //     path: '/gestion-procesos/sequiasNacional/estatico',
-    //     component: lazy(() => import('@/views/dgp/Otros')),
-    //     authority: [],
-    // },
-    // {
-    //     key: 'gestionProcesos.sequiasNacional.dinamico',
-    //     path: '/gestion-procesos/sequiasNacional/dinamico',
-    //     component: lazy(() => import('@/views/dgp/Otros')),
-    //     authority: [],
-    // },
-    // {
-    //     key: 'gestionProcesos.sequiasDepartamental.estatico',
-    //     path: '/gestion-procesos/sequiasDepartamental/estatico',
-    //     component: lazy(() => import('@/views/dgp/Otros')),
-    //     authority: [],
-    // },
-    // {
-    //     key: 'gestionProcesos.sequiasDepartamental.dinamico',
-    //     path: '/gestion-procesos/sequiasDepartamental/dinamico',
-    //     component: lazy(() => import('@/views/dgp/Otros')),
-    //     authority: [],
-    // },
-    // {
-    //     key: 'gestionProcesos.volcanesNacional.estatico',
-    //     path: '/gestion-procesos/volcanesNacional/estatico',
-    //     component: lazy(() => import('@/views/dgp/Otros')),
-    //     authority: [],
-    // },
-    // {
-    //     key: 'gestionProcesos.volcanesNacional.dinamico',
-    //     path: '/gestion-procesos/volcanesNacional/dinamico',
-    //     component: lazy(() => import('@/views/dgp/Otros')),
-    //     authority: [],
-    // },
-
 
     // Rutas para Fortalecimiento (DIFAT)
     {
