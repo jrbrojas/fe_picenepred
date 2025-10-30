@@ -8,6 +8,7 @@ import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital, BsTreeFill } from "react-icons/bs";
 import NumeroFormateado from "@/utils/numerFormat";
+import TableInstrumentos from "../TableInstrumentos";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -21,10 +22,10 @@ const nivelColorClasses: { [key: string]: string } = {
 }
 
 const SismosTsunamiNacionalEstatico = () => {
-    const { escenario, data, isLoading } = usePlantilla('9');
+    const { escenario, data, instrumentos, isLoading } = usePlantilla('9');
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
-
+        
     const formatTabName = (name: string) => {
         return name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, ' ');
     }
@@ -67,7 +68,7 @@ const SismosTsunamiNacionalEstatico = () => {
 
                     <Tabs defaultValue="sismos">
                         <TabList button={
-                            <Button variant="solid" icon={<BiDownload />}>
+                            <Button size="xs" variant="solid" icon={<BiDownload />}>
                                 Descargar PPT
                             </Button>
                         }
@@ -79,19 +80,19 @@ const SismosTsunamiNacionalEstatico = () => {
 
                         {tipoPeligro.map((tipo, index) => (
                             <TabContent key={tipo} value={tipo}>
-                                <div className="p-4">
+                                <div className="p-2">
 
                                     {data[tipo] && data[tipo].length > 0 ? (
                                         <div className='p-2'>
 
                                             <div className='flex justify-between gap-4 items-center mb-5'>
                                                 <div className='flex-1 flex flex-col items-center text-center'>
-                                                    <h2 className="text-2xl text-center font-semibold text-teal-600">
+                                                    <h4 className="text-center font-semibold text-teal-600">
                                                         {escenario.nombre}
-                                                    </h2>
-                                                    <h2 className="text-2xl text-center font-semibold text-green-600/70">
+                                                    </h4>
+                                                    <h4 className="text-center font-semibold text-green-600/70">
                                                         {escenario.subtitulo}
-                                                    </h2>
+                                                    </h4>
                                                 </div>
                                             </div>
 
@@ -127,11 +128,11 @@ const SismosTsunamiNacionalEstatico = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className='col-span-3 flex flex-col gap-4'>
-                                                    <div className='flex flex-col justify-start items-start'>
-                                                        <span className='font-bold'>ELEMENTOS EXPUESTOS A NIVEL NACIONAL</span>
+                                                <div className='col-span-3 flex flex-col gap-2'>
+                                                    <div className='flex justify-center items-center gap-4'>
+                                                        <span className='text-sm font-bold'>ELEMENTOS EXPUESTOS A NIVEL NACIONAL</span>
                                                         {data[tipo].slice(0, 1).map((item, index) => (
-                                                            <div key={`${index}-${item.nivel}`} className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold p-2 rounded`}>
+                                                            <div key={`${tipo}-${index}-${item.nivel}`} className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center text-sm font-semibold p-2 rounded`}>
                                                                 {item.nivel.toUpperCase()}
                                                             </div>
                                                         ))}
@@ -144,15 +145,15 @@ const SismosTsunamiNacionalEstatico = () => {
                                                     </div>
 
                                                     {data[tipo].slice(0, 1).map((item, index) => (
-                                                        <div className='flex flex-col gap-5 items-center'>
-                                                            <div key={`${index}-poblacion`} className="flex flex-col gap-3 justify-center items-center">
+                                                        <div key={`${tipo}-${index}-data`} className='flex flex-col gap-5 items-center'>
+                                                            <div  className="flex flex-col gap-3 justify-center items-center">
 
                                                                 <div className="flex flex-wrap justify-center items-center gap-6 bg-gray-200/50 rounded-xl p-4 max-w-full overflow-hidden">
                                                                     {/* Población */}
                                                                     <div className="flex items-center gap-5">
                                                                         <FaUsers className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
+                                                                            <p className="text-lg font-bold">{NumeroFormateado(item.total_poblacion)}</p>
                                                                             <p className="text-md">Población</p>
                                                                         </div>
                                                                     </div>
@@ -161,7 +162,7 @@ const SismosTsunamiNacionalEstatico = () => {
 
                                                                         <TbMapPin className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_distritos)}</p>
+                                                                            <p className="text-lg font-bold">{NumeroFormateado(item.total_distritos)}</p>
                                                                             <p className="text-md">Distritos</p>
                                                                         </div>
                                                                     </div>
@@ -169,7 +170,7 @@ const SismosTsunamiNacionalEstatico = () => {
                                                                     <div className="flex items-center gap-5">
                                                                         <FaHome className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_vivienda)}</p>
+                                                                            <p className="text-lg font-bold">{NumeroFormateado(item.total_vivienda)}</p>
                                                                             <p className="text-md">Viviendas</p>
                                                                         </div>
                                                                     </div>
@@ -177,7 +178,7 @@ const SismosTsunamiNacionalEstatico = () => {
                                                                     <div className="flex items-center gap-5">
                                                                         <BiSolidSchool className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_inst_educativa)}</p>
+                                                                            <p className="text-lg font-bold">{NumeroFormateado(item.total_inst_educativa)}</p>
                                                                             <p className="text-md">Inst. Educativas</p>
                                                                         </div>
                                                                     </div>
@@ -185,14 +186,14 @@ const SismosTsunamiNacionalEstatico = () => {
                                                                     <div className="flex items-center gap-5">
                                                                         <BsHospital className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_est_salud)}</p>
+                                                                            <p className="text-lg font-bold">{NumeroFormateado(item.total_est_salud)}</p>
                                                                             <p className="text-md">Est. de Salud</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                             </div>
-                                                            <div key={`${index}-red-vial`} className="flex flex-col gap-3 justify-center items-center">
+                                                            <div className="flex flex-col gap-3 justify-center items-center">
 
                                                                 <div className="flex flex-wrap justify-center items-center gap-6 bg-gray-200/50 rounded-xl p-4 max-w-full overflow-hidden">
                                                                     {/* Red viales */}
@@ -200,15 +201,15 @@ const SismosTsunamiNacionalEstatico = () => {
                                                                         <FaCarSide className="text-cyan-600" size={50} />
                                                                         <div className='flex flex-col gap-2 items-start'>
                                                                             <div className='flex-1 flex gap-2 font-semibold items-center text-teal-600'>
-                                                                                <p className="text-xl font-bold">{NumeroFormateado(item.total_red_vial_nacional)}</p>
+                                                                                <p className="text-lg font-bold">{NumeroFormateado(item.total_red_vial_nacional)}</p>
                                                                                 <p className="text-md">Red Vial Nacional</p>
                                                                             </div>
                                                                             <div className='flex-1 flex gap-2 font-semibold items-center text-teal-600'>
-                                                                                <p className="text-xl font-bold">{NumeroFormateado(item.total_red_vial_departamental)}</p>
+                                                                                <p className="text-lg font-bold">{NumeroFormateado(item.total_red_vial_departamental)}</p>
                                                                                 <p className="text-md">Red Vial Departamental</p>
                                                                             </div>
                                                                             <div className='flex-1 flex gap-2 font-semibold items-center text-teal-600'>
-                                                                                <p className="text-xl font-bold">{NumeroFormateado(item.total_red_vial_vecinal)}</p>
+                                                                                <p className="text-lg font-bold">{NumeroFormateado(item.total_red_vial_vecinal)}</p>
                                                                                 <p className="text-md">Red Vial Vecinal</p>
                                                                             </div>
                                                                         </div>
@@ -217,13 +218,19 @@ const SismosTsunamiNacionalEstatico = () => {
                                                                     <div className="flex items-center gap-5">
                                                                         <FaFaucet className="text-cyan-600" size={50} />
                                                                         <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                                            <p className="text-xl font-bold">{NumeroFormateado(item.total_red_agua)}</p>
+                                                                            <p className="text-lg font-bold">{NumeroFormateado(item.total_red_agua)}</p>
                                                                             <p className="text-md">Red de Agua Potable (Tuberias)</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                             </div>
+                                                            <div className="w-full overflow-x-auto p-3">
+                                                                <div className="min-w-[720px] sm:min-w-0">
+                                                                    <TableInstrumentos instrumentos={instrumentos} tipo={tipo} />
+                                                                </div>
+                                                            </div>
+
                                                         </div>
 
 

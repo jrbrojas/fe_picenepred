@@ -21,6 +21,24 @@ const nivelColorClasses: { [key: string]: string } = {
     '': 'text-gray-500 bg-gray-500',
 }
 
+const formatNombreArray = (pgArray: string) => {
+    if (!pgArray) return "";
+
+    // quitar llaves { }
+    let clean = pgArray.replace(/[{}"]/g, "");
+
+    // separar por comas
+    let items = clean.split(",").filter((v) => v && v !== "NULL");
+
+    return (
+        <div>
+            {items.map((item, index) => (
+                <div key={index}>• {item.trim()}</div>
+            ))}
+        </div>
+    );
+};
+
 const LluviasAvisoTrimestralEstatico = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('2');
     const year = new Date().getFullYear();
@@ -71,7 +89,7 @@ const LluviasAvisoTrimestralEstatico = () => {
 
                     <Tabs defaultValue="inundaciones">
                         <TabList button={
-                            <Button variant="solid" icon={<BiDownload />}>
+                            <Button size="xs" variant="solid" icon={<BiDownload />}>
                                 Descargar PPT
                             </Button>
                         }
@@ -182,6 +200,13 @@ const LluviasAvisoTrimestralEstatico = () => {
                                                             <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
                                                                 {item.nivel}
                                                             </div>
+                                                            <p className="text-sm text-teal-600 mt-2">
+                                                                Departamentos:{" "}
+                                                                <span className={`${nivelColorClasses[item.nivel.toUpperCase()]} bg-white font-semibold`}>
+                                                                    {item.departamentos && formatNombreArray(item.departamentos)}
+                                                                </span>
+                                                            </p>
+
                                                             <div className="mt-3 text-sm text-teal-600 font-semibold">
                                                                 Departamentos con población expuesta:
                                                                 {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
@@ -203,7 +228,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                                             </div>
                                         </div>
 
-                                        <div className="w-full md:w-150 lg:w-200 overflow-x-auto">
+                                        <div className="w-full md:w-150 lg:w-200 overflow-x-auto mt-5">
                                             <div className="min-w-[720px] sm:min-w-0">
                                                 <TableInstrumentos instrumentos={instrumentos} tipo={tipo} />
                                             </div>

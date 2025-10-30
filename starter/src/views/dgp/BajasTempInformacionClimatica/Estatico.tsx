@@ -61,15 +61,11 @@ const BajasTempInformacionClimaticaEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-                            <div className="flex items-center justify-end pb-5">
-                                <Button variant="solid" icon={<BiDownload />}>
-                                    Descargar PPT
-                                </Button>
-                            </div>
 
                             <div className='flex justify-between gap-4 items-center mb-3'>
-                                <div className='flex-1 items-center text-center'>
+                                <div className='flex-1 flex-col items-center text-center'>
                                     <h3 className="text-center font-semibold text-teal-600">{escenario.nombre}</h3>
+                                    <h3 className="text-center font-semibold text-green-600/60">{escenario.subtitulo}</h3>
                                 </div>
                                 <h4 className="p-2 font-medium text-white bg-teal-600 rounded-full">HELADAS</h4>
                             </div>
@@ -152,8 +148,17 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                                 ))}
                                             </div>
                                         </div>
+                                        <div className="flex items-center justify-center pb-5 w-full">
+                                            <Button size="xs" variant="solid" icon={<BiDownload />}>
+                                                Descargar PPT
+                                            </Button>
+                                        </div>
+
                                     </div>
                                 ))}
+
+
+
                             </div>
 
                         </div>

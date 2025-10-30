@@ -57,16 +57,15 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                         {Array.from({ length: 3 }).map((_, index) => <CardSkeleton key={index} />)}
                     </div>) : (
                     <div className='p-2'>
-                        <div className="flex items-center justify-end pb-5">
-                            <Button variant="solid" icon={<BiDownload />}>
-                                Descargar PPT
-                            </Button>
-                        </div>
 
                         <div className='flex justify-between gap-4 items-center mb-3'>
-                            <div className="text-lg p-2 font-semibold text-white bg-teal-600 rounded-full">
+                            <div className="text-md p-2 font-semibold text-white bg-teal-600 rounded-full">
                                 <p>PLAN MULTISECTORIAL</p>
                             </div>
+                            <Button size="xs" variant="solid" icon={<BiDownload />}>
+                                Descargar PPT
+                            </Button>
+
                         </div>
 
                         <div className='flex-1 flex flex-col items-center text-center mb-5'>

@@ -363,6 +363,28 @@ export const panelNavigationFull: NavigationTree[] = [
                     }
                 ],
             },
+            {
+                key: 'gestionProcesos.general',
+                path: '/gestion-procesos/informe-general',
+                title: 'INFORME GENERAL',
+                translateKey: 'nav.gestionProcesos.informeGeneral',
+                icon: 'file',
+                type: NAV_ITEM_TYPE_TITLE,
+                authority: [],
+                subMenu: []
+            },
+            {
+                key: 'gestionProcesos.general.informe',
+                path: '/gestion-procesos/informe-general',
+                title: 'INFORME GENERAL',
+                tooltip: 'Informe General',
+                translateKey: 'nav.gestionProcesos.informeGeneral',
+                icon: '',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+
         ],
     },
     {

@@ -90,7 +90,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                     (
                         <div className='p-2'>
                             <div className="flex items-center justify-end pb-5">
-                                <Button variant="solid" icon={<BiDownload />}>
+                                <Button size="xs" variant="solid" icon={<BiDownload />}>
                                     Descargar PPT
                                 </Button>
                             </div>

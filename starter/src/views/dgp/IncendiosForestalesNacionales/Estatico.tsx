@@ -61,19 +61,13 @@ const IncendiosForestalesNacionalesEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-                            <div className="flex items-center justify-end pb-5">
-                                <Button variant="solid" icon={<BiDownload />}>
-                                    Descargar PPT
-                                </Button>
-                            </div>
-
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <div className='flex-1 items-center text-center'>
                                     <h3 className="text-center font-semibold text-teal-600">{escenario.nombre}</h3>
                                 </div>
-                                <h4 className="p-2 font-medium text-white bg-teal-600 rounded-full">
+                                <h5 className="p-2 font-medium text-white bg-teal-600 rounded-full">
                                     INCENDIOS FORESTALES
-                                </h4>
+                                </h5>
                             </div>
 
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
@@ -89,20 +83,6 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             />
                                         )}
 
-                                        <div className="w-full overflow-x-auto">
-                                            <div className="min-w-[720px] sm:min-w-0">
-                                                <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className='col-span-2'>
-                                    <div className='w-full flex flex-col gap-4 justify-center'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
-                                                escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
-                                        )}
                                         {data['inundaciones'].slice(0, 1).map((item, index) => (
                                             <div key={index} className="text-sm text-teal-600 font-semibold p-4 bg-blue-100/80">
                                                 Departamentos con población expuesta:
@@ -124,6 +104,21 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             >
                                                 {escenario.url_base}
                                             </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div className='col-span-2'>
+                                    <div className='w-full flex flex-col gap-4 justify-center'>
+                                        {escenario.mapas && escenario.mapas[0] && (
+                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
+                                                escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
+                                        )}
+                                        <div className="w-full overflow-x-auto">
+                                            <div className="min-w-[720px] sm:min-w-0">
+                                                <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
+                                            </div>
                                         </div>
 
                                     </div>
@@ -194,6 +189,12 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                                     <p className="text-md">Mon. Arqueológicos</p>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-center pb-5">
+                                            <Button size="xs" variant="solid" icon={<BiDownload />}>
+                                                Descargar PPT
+                                            </Button>
                                         </div>
 
                                     </div>

@@ -35,6 +35,24 @@ const BajasTempAvisoTrimestralEstatico = () => {
     const mesInicio = new Date(escenario.fecha_inicio).toLocaleString('es-ES', { month: 'long' });
     const mesFin = new Date(escenario.fecha_fin).toLocaleString('es-ES', { month: 'long' });
 
+    const formatNombreArray = (pgArray: string) => {
+        if (!pgArray) return "";
+
+        // quitar llaves { }
+        let clean = pgArray.replace(/[{}"]/g, "");
+
+        // separar por comas
+        let items = clean.split(",").filter((v) => v && v !== "NULL");
+
+        return (
+            <div>
+                {items.map((item, index) => (
+                    <div key={index}>• {item.trim()}</div>
+                ))}
+            </div>
+        );
+    };
+
     const NoDataMessage = () => (
         <div className="flex flex-col items-center justify-center py-10 text-center">
             <div className="bg-yellow-100 text-yellow-600 p-4 rounded-full mb-4">
@@ -74,7 +92,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                     (
                         <div className='p-2'>
                             <div className="flex items-center justify-end pb-5">
-                                <Button variant="solid" icon={<BiDownload />}>
+                                <Button size="xs" variant="solid" icon={<BiDownload />}>
                                     Descargar PPT
                                 </Button>
                             </div>
@@ -171,6 +189,13 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                 <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
                                                     {nivelNombre[item.nivel]}
                                                 </div>
+                                                <div className="text-sm text-teal-600">
+                                                    Departamentos:
+                                                    <span className={`${nivelColorClasses[item.nivel.toUpperCase()]} bg-white font-semibold`}>
+                                                        {item.departamentos && formatNombreArray(item.departamentos)}
+                                                    </span>
+                                                </div>
+
                                                 <div className="mt-3 text-sm text-teal-600 font-semibold">
                                                     Departamentos con población expuesta:
                                                     {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (

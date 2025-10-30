@@ -71,11 +71,6 @@ const IncendiosForestalesRegionalesEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-                            <div className="flex items-center justify-end pb-5">
-                                <Button variant="solid" icon={<BiDownload />}>
-                                    Descargar PPT
-                                </Button>
-                            </div>
 
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <div className='flex-1 flex flex-col items-center text-center'>
@@ -90,7 +85,7 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                 </div>
                                 <div className='flex flex-col gap-3 items-center'>
                                     <div className="p-2 bg-teal-600 rounded-full">
-                                        <h4 className='font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
+                                        <h5 className='font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h5>
                                     </div>
                                 </div>
 
@@ -197,6 +192,12 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                                     <p className="text-md">Sup. Agricola (Ha)</p>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-center pb-5">
+                                            <Button size="xs" variant="solid" icon={<BiDownload />}>
+                                                Descargar PPT
+                                            </Button>
                                         </div>
 
                                     </div>

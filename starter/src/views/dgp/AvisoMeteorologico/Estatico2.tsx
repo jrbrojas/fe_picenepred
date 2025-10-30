@@ -96,7 +96,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
 
                     <Tabs defaultValue="inundaciones">
                         <TabList button={
-                            <Button variant="solid" icon={<BiDownload />}>
+                            <Button size="xs" variant="solid" icon={<BiDownload />}>
                                 Descargar PPT
                             </Button>
                         }

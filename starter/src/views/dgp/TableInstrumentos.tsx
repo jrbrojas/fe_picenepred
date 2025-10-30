@@ -43,8 +43,8 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
   if (!nivel) return null
 
   return (
-    <Table compact>
-      <THead>
+    <Table className='border border-gray-300' compact>
+      <THead className='bg-gray-100'>
         <Tr>
           <Th>DEPARTAMENTO / PROVINCIA / DISTRITO</Th>
           <Th>PPRRD</Th>
@@ -71,7 +71,7 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
           return (
             <Fragment key={`dep-${depName}`}>
               {/* Encabezado DEP */}
-              <Tr className="bg-teal-600 text-white font-semibold">
+              <Tr className="bg-teal-50/60 font-semibold text-[#055E70]">
                 <Td colSpan={1} className="text-start">
                   <button
                     type="button"
@@ -108,7 +108,7 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
 
                   return (
                     <Fragment key={`prov-${key}`}>
-                      <Tr className="bg-teal-50 text-teal-900">
+                      <Tr className="bg-teal-50/40 font-semibold text-gray-800">
                         <Td colSpan={1} className="pl-8">
                           <button
                             type="button"
