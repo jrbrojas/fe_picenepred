@@ -517,20 +517,6 @@ export default function TreeTableMonitoreo3Niveles() {
                                     )
                                 })}
                             </tbody>
-
-                            <tfoot>
-                                <tr>
-                                    <td
-                                        className="bg-white p-3 text-right text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                    />
-                                    <td
-                                        colSpan={COLS.length}
-                                        className="bg-white p-3 text-center text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                    >
-                                    </td>
-                                    <td className="bg-white p-3 ring-1 ring-slate-200" />
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

@@ -386,7 +386,7 @@ export default function TreeTableMonitoreo3Niveles() {
                 </div>
             </div>
 
-            <Card bordered={true}>
+            <Card bordered={true} className="flex">
                 <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
                     <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
                         <thead>
@@ -604,7 +604,9 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                 ),
                                                                                             )}
                                                                                             <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                                {(promedioPorSuma(entidad.monitoreo, 30) * 100).toFixed(2)} %
+                                                                                                <Tooltip title={`Cantidad de Si: ${entidad.monitoreo.filter(m => m == 1).length}`}>
+                                                                                                    {(promedioPorSuma(entidad.monitoreo, 30) * 100).toFixed(2)} %
+                                                                                                </Tooltip>
                                                                                             </td>
                                                                                         </tr>
                                                                                     </Fragment>
@@ -620,23 +622,6 @@ export default function TreeTableMonitoreo3Niveles() {
                                 )
                             })}
                         </tbody>
-
-                        <tfoot>
-                            <tr>
-                                <td
-                                    colSpan={1}
-                                    className="bg-white p-3 text-right text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                />
-                                <td
-                                    colSpan={COLS.length}
-                                    className="bg-white p-3 text-center text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                >
-                                    Valor de clasificación:{' '}
-                                    <span className="font-medium">0 / 1</span>
-                                </td>
-                                <td className="bg-white p-3 ring-1 ring-slate-200" />
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </Card>
@@ -657,7 +642,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
                             </TabContent>
                             <TabContent value="tab2">
-                                <ChartPorEntidad<Evaluacion>
+                                <ChartPorEntidad<Monitoreo>
                                     info={originalData}
                                     onSelect={onSelectChartEntidad}
                                 />
