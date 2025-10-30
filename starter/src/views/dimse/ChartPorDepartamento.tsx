@@ -1,19 +1,19 @@
 import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
-export interface ChartPorEntidadInfo {
+export interface ChartInfo {
     chartNombre: string
     chartLugar: string
     chartTotal: number
     chartAcronimo: string
 }
-export interface ChartPorEntidadProps<T extends ChartPorEntidadInfo> {
+export interface ChartPorDepartamentoProps<T extends ChartInfo> {
     info: T[]
     onSelect?: (info: T) => void
 }
-export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
+export function ChartPorDepartamento<T extends ChartInfo>({
     info = [],
     onSelect = undefined,
-}: ChartPorEntidadProps<T>) {
+}: ChartPorDepartamentoProps<T>) {
     return (
         <div>
             <ApexChart
@@ -66,10 +66,10 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                     xaxis: {
                         categories: info.map((i) => i.chartAcronimo),
                         title: {
-                            text: 'Entidades'
+                            text: 'Departamentos'
                         },
                         labels: {
-                            rotate: -45
+                            rotate: -45,
                         }
                     },
                     yaxis: {
@@ -83,19 +83,10 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                         opacity: 1
                     },
                     tooltip: {
-                        custom: function(e) {
-                            const item = info[e.dataPointIndex];
-                            console.log(e.config)
-                            return `
-                              <div class="my-tooltip p-2">
-                                <div>${item.chartNombre}</div>
-                                <div>${item.chartLugar}</div>
-                                <div class="flex items-center gap-2">
-                                    <div class="bg-red-600 text-xs font-bold rounded-full" style="width: 8px; height: 8px"></div>
-                                    <div>${item.chartTotal} % Evaluacion total</div>
-                                </div>
-                              </div>
-                            `
+                        y: {
+                            formatter: function (val) {
+                                return val + "% respondieron 'Sí'"
+                            }
                         }
                     },
                     colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
@@ -108,5 +99,5 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                 height={450}
             />
         </div>
-    );
+    )
 }

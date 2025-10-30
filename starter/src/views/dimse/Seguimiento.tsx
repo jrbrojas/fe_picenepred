@@ -10,6 +10,7 @@ import MapaPeru from './MapaPeru'
 import { RespuestaElement } from './types'
 import { apiGetCategorias, apiGetSeguimiento } from '@/services/MonitoreService'
 import { SeguimientoResponse, SeguimientoRespuesta } from '@/services/types/getseguimiento'
+import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
 
 type Entidad = {
     id: string
@@ -216,7 +217,21 @@ export default function TreeTableMonitoreo3Niveles() {
     }, [data])
 
     // data ordenada para el grafico de barras
-    const ordenData = [...data].sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
+    interface DepartamentoChart extends Departamento, ChartInfo {}
+    const ordenData: DepartamentoChart[] = [...data]
+        .sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
+        .map<DepartamentoChart>((item) => {
+            return {
+                ...item,
+                chartAcronimo: item.nombre,
+                chartNombre: item.nombre,
+                chartLugar: item.nombre,
+                chartTotal: Number(depTotals.get(item.id)?.total ?? 0),
+            }
+    })
+    function onSelect(departamento: DepartamentoChart) {
+        setQuery(`${departamento.nombre}, Peru`);
+    }
 
     return (
         <>
@@ -448,7 +463,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         }
                                                                                                         className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
                                                                                                     >
-                                                                                                        {v}
+                                                                                                        {v ? 'SI' : 'NO'}
                                                                                                     </td>
                                                                                                 ),
                                                                                             )}
@@ -500,87 +515,7 @@ export default function TreeTableMonitoreo3Niveles() {
                 <Card className="h-full">
                     <div>
                         <h6 className='mb-2'>Preguntas por localidad/entidad</h6>
-                        <ApexChart
-                            options={{
-                                legend: {
-                                    show: false,
-                                },
-                                chart: {
-                                    type: 'bar',
-                                    height: 350,
-                                    toolbar: {
-                                        show: true,
-                                        tools: {
-                                            download: true,
-                                            selection: true,
-                                            zoom: true,
-                                            zoomin: true,
-                                            zoomout: true,
-                                            pan: true,
-                                            reset: true
-                                        }
-                                    },
-                                    events: {
-                                        dataPointSelection: (event, chartContext, config) => {
-                                            const index = config.dataPointIndex
-                                            const departamento = ordenData[index].nombre
-                                            setQuery(`${departamento}, Peru`);
-                                        }
-                                    },
-
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        horizontal: false,
-                                        columnWidth: '55%',
-                                        distributed: true,
-                                        borderRadius: 4,
-                                        borderRadiusApplication: 'end',
-                                    },
-                                },
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                stroke: {
-                                    show: true,
-                                    width: 2,
-                                    colors: ['transparent']
-                                },
-                                xaxis: {
-                                    categories: ordenData.map((d) => d.nombre),
-                                    title: {
-                                        text: 'Departamentos'
-                                    },
-                                    labels: {
-                                        rotate: -45,
-                                    }
-                                },
-                                yaxis: {
-                                    title: {
-                                        text: 'Porcentajes %'
-                                    },
-                                    min: 0,
-                                    max: 100,
-                                },
-                                fill: {
-                                    opacity: 1
-                                },
-                                tooltip: {
-                                    y: {
-                                        formatter: function (val) {
-                                            return val + "% respondieron 'Sí'"
-                                        }
-                                    }
-                                },
-                                colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
-                            }}
-                            series={[{
-                                name: 'Porcentajes %',
-                                data: ordenData.map(dep => Number(depTotals.get(dep.id)?.total ?? 0))
-                            }]}
-                            type="bar"
-                            height={450}
-                        />
+                        <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
                     </div>
                 </Card>
             </div>
