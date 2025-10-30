@@ -8,6 +8,7 @@ import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital, BsTreeFill } from "react-icons/bs";
 import NumeroFormateado from "@/utils/numerFormat";
+import TableInstrumentos from "../TableInstrumentos";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -19,7 +20,7 @@ const nivelColorClasses: { [key: string]: string } = {
 }
 
 const IncendiosForestalesRegionalesEstatico = () => {
-    const { escenario, data, isLoading } = usePlantilla('8');
+    const { escenario, data, instrumentos, isLoading } = usePlantilla('8');
     const tipoPeligro = Object.keys(data);
 
     const formatDepartamentArray = (pgArray: string) => {
@@ -78,24 +79,19 @@ const IncendiosForestalesRegionalesEstatico = () => {
 
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <div className='flex-1 flex flex-col items-center text-center'>
-                                    <h2 className="text-center font-semibold text-teal-600">
+                                    <h3 className="text-center font-semibold text-teal-600">
                                         {escenario.nombre}
-                                    </h2>
+                                    </h3>
                                     {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                        <h2 key={index} className='font-bold text-green-600/70'>
-                                            DEPARTAMENTO DE {formatDepartamentArray(item.departamentos)}
-                                        </h2>
+                                        <h3 key={index} className='font-bold text-green-600/70'>
+                                            DEPARTAMENTO DE {formatDepartamentArray(item.departamentos ?? null)}
+                                        </h3>
                                     ))}
                                 </div>
                                 <div className='flex flex-col gap-3 items-center'>
                                     <div className="p-2 bg-teal-600 rounded-full">
-                                        <p className='text-2xl font-medium text-white mr-5 ml-5'>INCENDIO FORESTALES</p>
+                                        <h4 className='font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
                                     </div>
-                                    {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                        <div className=" p-2 bg-green-600 bg-opacity-70 rounded-2xl">
-                                            <p className='text-2xl font-medium text-white ml-3 mr-3'>{formatDepartamentArray(item.departamentos)}</p>
-                                        </div>
-                                    ))}
                                 </div>
 
                             </div>
@@ -107,16 +103,16 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                         {escenario.mapas && escenario.mapas[0] && (
                                             <ImageLoad
                                                 path={
-                                                    escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta
+                                                    escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0] ?
+                                                        escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta : null
                                                 }
-                                                className="max-w-full h-auto object-contain"
                                             />
                                         )}
 
                                         <div className="flex flex-col items-center text-center gap-2 w-full">
-                                            <span className="font-bold">Fuente: CENEPRED (2025)</span>
+                                            <span className="text-xs">Fuente: CENEPRED (2025)</span>
                                             <a
-                                                className="bg-teal-600 px-3 py-2 text-white rounded-md hover:bg-teal-700 transition break-words whitespace-normal w-full max-w-full text-sm"
+                                                className="bg-teal-600 px-3 py-2 text-white rounded-md hover:bg-teal-700 transition break-words whitespace-normal w-full max-w-full text-xs"
                                                 href={escenario.url_base}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
@@ -128,16 +124,25 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                 </div>
 
                                 <div className='col-span-2'>
-                                    <div className='w-full flex flex-col justify-center'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
-                                        )}
+                                    <div className='flex flex-col gap-8'>
+                                        <div className='w-full flex flex-col justify-center'>
+                                            {escenario.mapas && escenario.mapas[0] && (
+                                                <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
+                                                    escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
+                                            )}
+                                        </div>
+                                        <div className="w-full overflow-x-auto">
+                                            <div className="min-w-[720px] sm:min-w-0">
+                                                <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
+                                            </div>
+                                        </div>
                                     </div>
+
 
                                 </div>
 
                                 {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                    <div key={index} className="flex flex-col gap-3 justify-center items-center">
+                                    <div key={index} className="flex flex-col gap-3 justify-start items-center">
                                         {/* Nivel de riesgo */}
                                         <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold p-2 w-full rounded`}>
                                             {item.nivel}

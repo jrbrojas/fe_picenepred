@@ -1,13 +1,15 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
-import Segment from '@/components/ui/Segment'
-import ApexChart from 'react-apexcharts'
-import { COLORS } from '@/constants/chart.constant'
-import { Select } from '@/components/ui'
+import Tabs from '@/components/ui/Tabs'
+import { Select, Tooltip } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
 import { apiGetCategorias, apiGetEvaluacion } from '@/services/MonitoreService'
 import { EvaluacionResponse, Respuesta } from '@/services/types/getevaluacion'
+import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
+import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
+
+const { TabNav, TabList, TabContent } = Tabs
 
 type Entidad = {
     id: string
@@ -110,12 +112,13 @@ interface CategoriaOption {
     value: string;
     label: string;
 }
-
+interface Evaluacion extends EvaluacionResponse, ChartPorEntidadInfo {}
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
     const [categorias, setCategorias] = useState<CategoriaOption[]>([])
+    const [originalData, setOriginalData] = useState<Evaluacion[]>([])
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [fetching, setFetching] = useState(true)
     const [query, setQuery] = useState("Peru");
@@ -131,9 +134,26 @@ export default function TreeTableMonitoreo3Niveles() {
         setFetching(false)
     }
 
+    function onSelectChartEntidad(info: Evaluacion) {
+        setQuery(`${info.distrito.nombre}, ${info.distrito.provincia.nombre}, ${info.distrito.provincia.departamento.nombre}, Perú`)
+    }
+
     async function fetchValues(categoria: string) {
         const response = await apiGetEvaluacion(categoria)
         setData(mapMonitoreoResponseToData(response))
+        setOriginalData(
+            response.map(i => {
+                const n = i.respuestas.map(r => r.calculo);
+                const nombre2 = i.nombre.replace(/MUNICIPALIDAD PROVINCIAL DE|MUNICIPALIDAD DISTRITAL DE/, "")
+                return {
+                    ...i,
+                    chartNombre: i.nombre,
+                    chartAcronimo: nombre2,
+                    chartTotal: promedio(n, 3),
+                    chartLugar: `${i.distrito.nombre} - ${i.distrito.provincia.nombre} - ${i.distrito.provincia.departamento.nombre}`
+                }
+            }).sort((a, b) => b.chartTotal - a.chartTotal)
+        )
     }
 
     async function boot(): Promise<void> {
@@ -142,7 +162,7 @@ export default function TreeTableMonitoreo3Niveles() {
             value: String(cat.id),
             label: cat.nombre
         })))
-        //const first = res[0]
+        //const first = res[0]=
         //setCurrentCategoria({
         //    value: String(first.id),
         //    label: first.nombre,
@@ -218,7 +238,21 @@ export default function TreeTableMonitoreo3Niveles() {
     }, [data])
 
     // data ordenada para el grafico de barras
-    const ordenData = [...data].sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
+    interface DepartamentoChart extends Departamento, ChartInfo {}
+    const ordenData: DepartamentoChart[] = [...data]
+        .sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
+        .map<DepartamentoChart>((item) => {
+            return {
+                ...item,
+                chartAcronimo: item.nombre,
+                chartNombre: item.nombre,
+                chartLugar: item.nombre,
+                chartTotal: Number(depTotals.get(item.id)?.total ?? 0),
+            }
+    })
+    function onSelect(departamento: DepartamentoChart) {
+        setQuery(`${departamento.nombre}, Peru`);
+    }
 
     return (
         <>
@@ -230,6 +264,7 @@ export default function TreeTableMonitoreo3Niveles() {
                 <div className="flex items-center gap-2">
                     <span>Categoria:</span>
                     <Select
+                            className="w-[360px]"
                             options={categorias}
                             value={currentCategoria}
                             onChange={(n) => onCategoria(n)}
@@ -272,6 +307,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                             {/* Fila Departamento */}
                                             <tr className="bg-amber-50 hover:bg-slate-50/60">
                                                 <td className="sticky left-0 z-10 p-3 ring-1 ring-slate-200">
+                                                    <Tooltip title="Departamento">
                                                     <button
                                                         type="button"
                                                         onClick={() => {
@@ -296,6 +332,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                             {dep.nombre}
                                                         </span>
                                                     </button>
+                                                    </Tooltip>
                                                 </td>
                                                 {dTotals?.cols?.map((v, idx) => (
                                                     <td
@@ -322,6 +359,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                         <Fragment key={`FRAGP-${provKey}`}>
                                                             <tr className="bg-cyan-50 hover:bg-slate-50/60">
                                                                 <td className="sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200">
+                                                                    <Tooltip title="Provincia">
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => {
@@ -350,6 +388,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             }
                                                                         </span>
                                                                     </button>
+                                                                    </Tooltip>
                                                                 </td>
                                                                 {pTotals.cols.map(
                                                                     (v, idx) => (
@@ -379,6 +418,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                             <Fragment key={`FRAGDI-${distKey}`}>
                                                                                 <tr className="hover:bg-slate-50 bg-emerald-50">
                                                                                     <td className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
+                                                                                        <Tooltip title="Distrito">
                                                                                         <button
                                                                                             type="button"
                                                                                             onClick={() => {
@@ -407,6 +447,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                 }
                                                                                             </span>
                                                                                         </button>
+                                                                                        </Tooltip>
                                                                                     </td>
                                                                                     {valsDist.cols.map(
                                                                                         (
@@ -440,11 +481,13 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                     <td onClick={() => {
                                                                                                         setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                                     }} className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
+                                                                                                        <Tooltip title="Entidad">
                                                                                                         <span className="text-sm font-semibold text-slate-800">
                                                                                                             {
                                                                                                                 entidad.nombre
                                                                                                             }
                                                                                                         </span>
+                                                                                                        </Tooltip>
                                                                                                     </td>
                                                                                                     {entidad.evaluacion.map(
                                                                                                         (
@@ -483,22 +526,6 @@ export default function TreeTableMonitoreo3Niveles() {
                                     )
                                 })}
                             </tbody>
-
-                            <tfoot>
-                                <tr>
-                                    <td
-                                        className="bg-white p-3 text-right text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                    />
-                                    <td
-                                        colSpan={COLS.length}
-                                        className="bg-white p-3 text-center text-[11px] text-slate-500 ring-1 ring-slate-200"
-                                    >
-                                        Valor de clasificación:{' '}
-                                        <span className="font-medium">0 / 1</span>
-                                    </td>
-                                    <td className="bg-white p-3 ring-1 ring-slate-200" />
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -509,93 +536,23 @@ export default function TreeTableMonitoreo3Niveles() {
                     <MapaPeru query={query} />
                 </div>
                 <Card className="h-full">
-                    <div>
-                        <h6 className='mb-2'>Preguntas por localidad/entidad</h6>
-                        <ApexChart
-                            options={{
-                                chart: {
-                                    type: 'bar',
-                                    height: 350,
-                                    toolbar: {
-                                        show: true,
-                                        tools: {
-                                            download: true,
-                                            selection: true,
-                                            zoom: true,
-                                            zoomin: true,
-                                            zoomout: true,
-                                            pan: true,
-                                            reset: true
-                                        }
-                                    },
-                                    events: {
-                                        dataPointSelection: (event, chartContext, config) => {
-                                            const index = config.dataPointIndex
-                                            const departamento = data[index].nombre
-                                            setQuery(`${departamento}, Peru`);
-                                        }
-                                    },
-
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        horizontal: false,
-                                        columnWidth: '55%',
-                                        distributed: true,
-                                        borderRadius: 4,
-                                        borderRadiusApplication: 'end',
-                                    },
-                                },
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                stroke: {
-                                    show: true,
-                                    width: 2,
-                                    colors: ['transparent']
-                                },
-                                xaxis: {
-                                    categories: ordenData.map((d) => d.nombre),
-                                    title: {
-                                        text: 'Localidad/Entidad'
-                                    },
-                                    labels: {
-                                        rotate: -45,
-                                        style: {
-                                            fontSize: '10px'
-                                        }
-                                    }
-                                },
-                                yaxis: {
-                                    title: {
-                                        text: 'Porcentajes %'
-                                    },
-                                    min: 0,
-                                    max: function (max) {
-                                        // Para asegurar que el máximo sea al menos 1 si hay datos
-                                        return Math.max(max, 1);
-                                    }
-                                },
-                                fill: {
-                                    opacity: 1
-                                },
-                                tooltip: {
-                                    y: {
-                                        formatter: function (val) {
-                                            return val + "% Evaluacion total"
-                                        }
-                                    }
-                                },
-                                colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
-                            }}
-                            series={[{
-                                name: 'Porcentajes %',
-                                data: ordenData.map(dep => Number(depTotals.get(dep.id)?.total ?? 0))
-                            }]}
-                            type="bar"
-                            height={450}
-                        />
-                    </div>
+                    <Tabs defaultValue="tab1">
+                        <TabList>
+                            <TabNav value="tab1">Por Deparmentos</TabNav>
+                            <TabNav value="tab2">Por Entidades</TabNav>
+                        </TabList>
+                        <div className="p-6">
+                            <TabContent value="tab1">
+                                <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
+                            </TabContent>
+                            <TabContent value="tab2">
+                                <ChartPorEntidad<Evaluacion>
+                                    info={originalData}
+                                    onSelect={onSelectChartEntidad}
+                                />
+                            </TabContent>
+                        </div>
+                    </Tabs>
                 </Card>
             </div>
         </>

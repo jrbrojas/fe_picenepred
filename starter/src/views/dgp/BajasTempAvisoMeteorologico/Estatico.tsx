@@ -52,7 +52,7 @@ const formatArray = (pgArray: string) => {
     return items.slice(0, -1).join(", ") + " y " + items[items.length - 1];
 };
 
-const LluviasAvisoMeteorologicoEstatico = () => {
+const BajasTempAvisoMeteorologicoEstatico = () => {
     const { escenario, data, isLoading } = usePlantilla('4');
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
@@ -213,4 +213,4 @@ const LluviasAvisoMeteorologicoEstatico = () => {
     )
 }
 
-export default LluviasAvisoMeteorologicoEstatico
+export default BajasTempAvisoMeteorologicoEstatico

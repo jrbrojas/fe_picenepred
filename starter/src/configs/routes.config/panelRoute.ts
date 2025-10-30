@@ -18,7 +18,7 @@ const panelRoute: Routes = [
     {
         key: 'gestionProcesos.lluviasAvisoMeteorologico.estatico',
         path: '/gestion-procesos/lluviasAvisoMeteorologico/estatico',
-        component: lazy(() => import('@/views/dgp/AvisoMeteorologico/Estatico')),
+        component: lazy(() => import('@/views/dgp/AvisoMeteorologico/Estatico2')),
         authority: [],
     },
     {
@@ -54,7 +54,7 @@ const panelRoute: Routes = [
     {
         key: 'gestionProcesos.bajasTempAvisoMeteorologico.estatico',
         path: '/gestion-procesos/bajasTempAvisoMeteorologico/estatico',
-        component: lazy(() => import('@/views/dgp/BajasTempAvisoMeteorologico/Estatico')),
+        component: lazy(() => import('@/views/dgp/BajasTempAvisoMeteorologico/Estatico2')),
         authority: [],
     },
     {

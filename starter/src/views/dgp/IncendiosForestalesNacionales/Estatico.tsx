@@ -8,6 +8,7 @@ import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital, BsTreeFill } from "react-icons/bs";
 import NumeroFormateado from "@/utils/numerFormat";
+import TableInstrumentos from "../TableInstrumentos";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -19,7 +20,7 @@ const nivelColorClasses: { [key: string]: string } = {
 }
 
 const IncendiosForestalesNacionalesEstatico = () => {
-    const { escenario, data, isLoading } = usePlantilla('7');
+    const { escenario, data, instrumentos, isLoading } = usePlantilla('7');
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
 
@@ -67,15 +68,12 @@ const IncendiosForestalesNacionalesEstatico = () => {
                             </div>
 
                             <div className='flex justify-between gap-4 items-center mb-3'>
-                                <div className='flex-1 flex flex-col items-center text-center'>
-                                    <h2 className="text-2xl text-center font-semibold text-teal-600">
-                                        {escenario.nombre}
-                                    </h2>
+                                <div className='flex-1 items-center text-center'>
+                                    <h3 className="text-center font-semibold text-teal-600">{escenario.nombre}</h3>
                                 </div>
-                                <h2 className="text-2xl p-2 font-medium text-white bg-teal-600 rounded-full">
-                                    <p className='mr-5 ml-5'>INCENDIO FORESTALES</p>
-                                </h2>
-
+                                <h4 className="p-2 font-medium text-white bg-teal-600 rounded-full">
+                                    INCENDIOS FORESTALES
+                                </h4>
                             </div>
 
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
@@ -85,30 +83,25 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                         {escenario.mapas && escenario.mapas[0] && (
                                             <ImageLoad
                                                 path={
-                                                    escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta
+                                                    escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0] ?
+                                                        escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta : null
                                                 }
-                                                className="max-w-full h-auto object-contain"
                                             />
                                         )}
 
-                                        <div className="flex flex-col items-center text-center gap-2 w-full">
-                                            <span className="font-bold">Fuente: CENEPRED (2025)</span>
-                                            <a
-                                                className="bg-teal-600 px-3 py-2 text-white rounded-md hover:bg-teal-700 transition break-words whitespace-normal w-full max-w-full text-sm"
-                                                href={escenario.url_base}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                {escenario.url_base}
-                                            </a>
+                                        <div className="w-full overflow-x-auto">
+                                            <div className="min-w-[720px] sm:min-w-0">
+                                                <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className='col-span-2'>
-                                    <div className='w-full flex flex-col justify-center'>
+                                    <div className='w-full flex flex-col gap-4 justify-center'>
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
+                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
+                                                escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
                                         )}
                                         {data['inundaciones'].slice(0, 1).map((item, index) => (
                                             <div key={index} className="text-sm text-teal-600 font-semibold p-4 bg-blue-100/80">
@@ -121,12 +114,24 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             </div>
                                         ))}
 
+                                        <div className="flex flex-col items-center text-center gap-2 w-full">
+                                            <span className="text-xs">Fuente: CENEPRED (2025)</span>
+                                            <a
+                                                className="bg-teal-600 px-3 py-2 text-white rounded-md hover:bg-teal-700 transition break-words whitespace-normal w-full max-w-full text-sm"
+                                                href={escenario.url_base}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {escenario.url_base}
+                                            </a>
+                                        </div>
+
                                     </div>
 
                                 </div>
 
                                 {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                    <div key={index} className="flex flex-col gap-3 justify-center items-center">
+                                    <div key={index} className="flex flex-col gap-3 justify-start items-center">
                                         {/* Nivel de riesgo */}
                                         <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold p-2 w-full rounded`}>
                                             {item.nivel}
@@ -145,7 +150,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <FaUsers className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
+                                                    <p className="text-xl font-bold">{item.total_poblacion}</p>
                                                     <p className="text-md">Población</p>
                                                 </div>
                                             </div>
@@ -153,7 +158,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <div className="flex items-center gap-8">
                                                 <FaHome className="text-cyan-600" size={50} />
                                                 <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_vivienda)}</p>
+                                                    <p className="text-xl font-bold">{item.total_vivienda}</p>
                                                     <p className="text-md">Viviendas</p>
                                                 </div>
                                             </div>
@@ -195,6 +200,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                 ))}
                             </div>
                         </div>
+
                     )}
             </AdaptiveCard>
         </Container>
