@@ -156,7 +156,7 @@ export default function TreeTableMonitoreo3Niveles() {
                     ...i,
                     chartNombre: i.entidad.nombre,
                     chartAcronimo: nombre2,
-                    chartTotal: promedio(n, n.length),
+                    chartTotal: promedio(n, 4),
                     chartLugar: `${i.entidad.distrito.nombre} - ${i.entidad.distrito.provincia.nombre} - ${i.entidad.distrito.provincia.departamento.nombre}`
                 }
             }).sort((a, b) => b.chartTotal - a.chartTotal)
@@ -194,17 +194,10 @@ export default function TreeTableMonitoreo3Niveles() {
         return Number(((sum / total)).toFixed(2));
     }
 
-    function promedioDeGrupo(arr: number[][], total: number): number {
-        const promedios = arr.map((a) => promedio(a, total))
-        return promedio(promedios, promedios.length);
-    }
-
     const { provTotals, depTotals, distTotals } = useMemo(() => {
         const distTotals = new Map<string, Counter>()
         const provTotals = new Map<string, Counter>()
         const depTotals = new Map<string, Counter>()
-        const validacion = (i: number) => i > 0
-        const aplicarValidacion = (n: number[]) => n.filter(validacion)
 
         for (const dep of data) {
             const promediosDeProvincias = []
@@ -214,12 +207,12 @@ export default function TreeTableMonitoreo3Niveles() {
                 const columnasDeDistritos = []
                 for (const dist of prov.distritos) {
                     const numbers = dist.entidades.map(i => i.supervision);
-                    const arrayPromedios = numbers.map(i => promedio(i, aplicarValidacion(i).length))
+                    const arrayPromedios = numbers.map(i => promedio(i, i.length))
                     const total = promedio(arrayPromedios, arrayPromedios.length) || 0;
                     const cols = [0, 0, 0, 0];
                     for (let i = 0; i < 4; i++) {
                         const valoresColumna = numbers.map((v) => v[i])
-                        cols[i] = promedio(valoresColumna, aplicarValidacion(valoresColumna).length) || 0
+                        cols[i] = promedio(valoresColumna, valoresColumna.length) || 0
                     }
                     promediosDeDistritos.push(total)
                     columnasDeDistritos.push(cols)
@@ -229,7 +222,7 @@ export default function TreeTableMonitoreo3Niveles() {
                 const cols = [0, 0, 0, 0];
                 for (let i = 0; i < 4; i++) {
                     const valoresColumna = columnasDeDistritos.map((v) => v[i])
-                    cols[i] = promedio(valoresColumna, aplicarValidacion(valoresColumna).length) || 0
+                    cols[i] = promedio(valoresColumna, valoresColumna.length) || 0
                 }
                 promediosDeProvincias.push(total)
                 columnasDeProvincias.push(cols)
@@ -239,7 +232,7 @@ export default function TreeTableMonitoreo3Niveles() {
             const cols = [0, 0, 0, 0];
             for (let i = 0; i < 4; i++) {
                 const valoresColumna = columnasDeProvincias.map((v) => v[i])
-                cols[i] = promedio(valoresColumna, aplicarValidacion(valoresColumna).length) || 0
+                cols[i] = promedio(valoresColumna, valoresColumna.length) || 0
             }
             depTotals.set(dep.id, { cols, total })
         }
@@ -520,7 +513,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         {(
                                                                                                             promedio(
                                                                                                                 entidad.supervision,
-                                                                                                                entidad.supervision.filter(i => i > 0).length // solo entra al promedio si el valor es mayor a 0
+                                                                                                                4,
                                                                                                             ) || 0
                                                                                                         ).toFixed(2)} %
                                                                                                     </td>
