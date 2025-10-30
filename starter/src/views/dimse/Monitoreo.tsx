@@ -250,104 +250,8 @@ export default function TreeTableMonitoreo3Niveles() {
         return { provTotals, depTotals, distTotals }
     }, [data])
 
-    // Estados para los filtros
-    const [selectedDepartamento, setSelectedDepartamento] = useState<CategoriaOption | null>(null)
-    const [selectedProvincia, setSelectedProvincia] = useState<CategoriaOption | null>(null)
-    const [selectedDistrito, setSelectedDistrito] = useState<CategoriaOption | null>(null)
-
-    // Opciones para los selects
-    const departamentoOptions = useMemo(() =>
-        data.map(dep => ({
-            value: dep.id,
-            label: dep.nombre
-        })), [data])
-
-    const provinciaOptions = useMemo(() => {
-        if (!selectedDepartamento) return []
-        const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-        return departamento?.provincias.map(prov => ({
-            value: prov.id,
-            label: prov.nombre
-        })) || []
-    }, [data, selectedDepartamento])
-
-    const distritoOptions = useMemo(() => {
-        if (!selectedProvincia || !selectedDepartamento) return []
-        const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-        const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
-        return provincia?.distritos.map(dist => ({
-            value: dist.id,
-            label: dist.nombre
-        })) || []
-    }, [data, selectedDepartamento, selectedProvincia])
-
-    // Manejadores de cambio
-    const handleDepartamentoChange = (newValue: SingleValue<CategoriaOption>) => {
-        setSelectedDepartamento(newValue)
-        setSelectedProvincia(null)
-        setSelectedDistrito(null)
-    }
-
-    const handleProvinciaChange = (newValue: SingleValue<CategoriaOption>) => {
-        setSelectedProvincia(newValue)
-        setSelectedDistrito(null)
-    }
-
-    const handleDistritoChange = (newValue: SingleValue<CategoriaOption>) => {
-        setSelectedDistrito(newValue)
-    }
-
     function getPregunta(codigo: string): Pregunta | null {
         return preguntas.find(c => c.codigo == codigo) || null
-    }
-
-    // Efecto para actualizar el gráfico cuando cambian los filtros
-    useEffect(() => {
-        updateChartData()
-    }, [selectedDepartamento, selectedProvincia, selectedDistrito, data])
-
-    const updateChartData = () => {
-        //let seriesData: number[] = Array(COLS.length).fill(0)
-        //let seriesName = 'Perú'
-
-        //if (selectedDepartamento && !selectedProvincia && !selectedDistrito) {
-        //    // Filtrar por departamento
-        //    const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-        //    if (departamento) {
-        //        const allDistritos = departamento.provincias.flatMap(prov => prov.distritos)
-        //        seriesData = sumByIndex(allDistritos.map(d => d.valores))
-        //        seriesName = `Departamento: ${departamento.nombre}`
-        //    }
-        //} else if (selectedDepartamento && selectedProvincia && !selectedDistrito) {
-        //    // Filtrar por provincia
-        //    const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-        //    const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
-        //    if (provincia) {
-        //        seriesData = sumByIndex(provincia.distritos.map(d => d.valores))
-        //        seriesName = `Provincia: ${provincia.nombre}`
-        //    }
-        //} else if (selectedDepartamento && selectedProvincia && selectedDistrito) {
-        //    // Filtrar por distrito
-        //    const departamento = data.find(dep => dep.id === selectedDepartamento.value)
-        //    const provincia = departamento?.provincias.find(prov => prov.id === selectedProvincia.value)
-        //    const distrito = provincia?.distritos.find(dist => dist.id === selectedDistrito.value)
-        //    if (distrito) {
-        //        seriesData = distrito.valores
-        //        seriesName = `Distrito: ${distrito.nombre}`
-        //    }
-        //} else {
-        //    // Datos de todo Perú
-        //    const allDistritos = data.flatMap(dep =>
-        //        dep.provincias.flatMap(prov => prov.distritos)
-        //    )
-        //    seriesData = sumByIndex(allDistritos.map(d => d.valores))
-        //    seriesName = 'Perú'
-        //}
-
-        // setChartSeries([{
-        //     name: [], //seriesName,
-        //     data: [] //seriesData
-        // }])
     }
 
     // data ordenada para el grafico de barras
@@ -387,7 +291,7 @@ export default function TreeTableMonitoreo3Niveles() {
                 </div>
             </div>
 
-            <Card bordered={true} className="flex">
+            <Card bordered={true} className="flex overflow-x-scroll">
                 <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
                     <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
                         <thead>
@@ -398,7 +302,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 {COLS.map((c) => (
                                     <th
                                         key={c}
-                                        className="bg-slate-50 p-2 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200"
+                                        className="bg-slate-50 p-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 min-w-[36px] max-w-[36px]"
                                     >
                                         {!getPregunta(c) ? c :
                                             <Tooltip title={<PreguntaTooltip pregunta={getPregunta(c)} />}>
@@ -413,7 +317,7 @@ export default function TreeTableMonitoreo3Niveles() {
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody className="[&_tr_last-child_td_>_span.tooltip-wrapper]:whitespace-nowrap">
                             {ordenData.map((dep) => {
                                 const depKey = `D:${dep.id}`
                                 const depOpen = expanded.has(depKey)

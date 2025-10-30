@@ -284,7 +284,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 {COLS.map((c) => (
                                     <th
                                         key={c.text}
-                                        className="bg-slate-50 p-3 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200"
+                                        className="bg-slate-50 p-3 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 min-w-[60px] max-w-[60px]"
                                     >
                                         <Tooltip title={`¿Tiene el instrumento ${c.tooltip}?`}>
                                             <span className="cursor-pointer">{c.text}</span>
