@@ -84,7 +84,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             <Form onSubmit={handleSubmit(onSignUp)} >
                 <div className='grid grid-cols-2 gap-3'>
                     <FormItem
-                        label="Nombres"
+                        label="Nombre(s)"
                         invalid={Boolean(errors.nombres)}
                         errorMessage={errors.nombres?.message}
                     >
@@ -94,7 +94,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             render={({ field }) => (
                                 <Input
                                     type="text"
-                                    placeholder="Ingresar nombres completos"
+                                    placeholder="Ingrese nombre(s)"
                                     autoComplete="off"
                                     {...field}
                                 />
@@ -113,7 +113,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             render={({ field }) => (
                                 <Input
                                     type="text"
-                                    placeholder="Ingresar apellidos completos"
+                                    placeholder="Ingrese apellidos"
                                     autoComplete="off"
                                     {...field}
                                 />
@@ -131,7 +131,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             control={control}
                             render={({ field }) => (
                                 <Select
-                                    placeholder="Seleccione un rol"
+                                    placeholder="Seleccione"
                                     isClearable
                                     options={roles}
                                     value={roles.filter(
@@ -189,7 +189,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 tabIndex={-1}
                             >
-                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                {!showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                             </button>
                         </div>
                     </FormItem>
@@ -220,7 +220,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 onClick={() => setShowConfirm(!showConfirm)}
                                 tabIndex={-1}
                             >
-                                {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                                {!showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                     </div>
                     </FormItem>

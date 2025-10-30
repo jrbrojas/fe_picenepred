@@ -31,7 +31,7 @@ const PasswordInput = (props: PasswordInputProps) => {
                     role="button"
                     onClick={onPasswordVisibleClick}
                 >
-                    {pwInputType === 'password' ? (
+                    {pwInputType === 'text' ? (
                         <HiOutlineEyeOff />
                     ) : (
                         <HiOutlineEye />

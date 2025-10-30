@@ -76,10 +76,10 @@ const MenuCollapse = (props: MenuCollapseProps) => {
                 className={menuCollapseItemClass}
                 role="presentation"
                 onClick={(e) => {
-                    if (includeEvent) {
+                    /*if (includeEvent) {
                         e.preventDefault()
                         return
-                    }
+                    }*/
                     toggleCollapse(e)                    
                 }}
             >

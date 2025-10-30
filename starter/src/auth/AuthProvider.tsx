@@ -112,8 +112,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         try {
             const resp = await apiSignUp(values)
             if (resp) {
-                handleSignIn({ accessToken: resp.token }, resp.user)
-                redirect()
+                //handleSignIn({ accessToken: resp.token }, resp.user)
+                navigatorRef.current?.navigate('/sign-in')
                 return {
                     status: 'success',
                     message: '',

@@ -46,7 +46,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'METEOROLÓGICO',
                 tooltip: 'Lluvias Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoMeteorologico',
-                icon: '',
+                icon: 'uiGraphChart',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -78,7 +78,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'TRIMESTRAL',
                 tooltip: 'Lluvias Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.lluviasAvisoTrimestral',
-                icon: '',
+                icon: 'uiDataDisplayTable',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -112,7 +112,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'CLIMÁTICA',
                 tooltip: 'Lluvias Información Climática',
                 translateKey: 'nav.gestionProcesos.lluviasInformacionClimatica',
-                icon: '',
+                icon: 'uiGraphMaps',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -154,7 +154,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'METEOROLÓGICO',
                 tooltip: 'Bajas Temp Aviso Meteorológico',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoMeteorologico',
-                icon: '',
+                icon: 'uiGraphChart',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -186,7 +186,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'TRIMESTRAL',
                 tooltip: 'Bajas Temp Aviso Trimestral',
                 translateKey: 'nav.gestionProcesos.bajasTempAvisoTrimestral',
-                icon: '',
+                icon: 'uiDataDisplayTable',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -220,7 +220,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 tooltip: 'Bajas Temp Información Climática',
                 translateKey:
                     'nav.gestionProcesos.bajasTempInformacionClimatica',
-                icon: '',
+                icon: 'uiGraphMaps',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -262,7 +262,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'F. NACIONALES',
                 tooltip: 'Incendios Forestales Nacionales',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesNacional',
-                icon: '',
+                icon: 'uiDataDisplayTag',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -295,7 +295,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'F. REGIONALES',
                 tooltip: 'Incendios Forestales Regionales',
                 translateKey: 'nav.gestionProcesos.incendiosForestalesRegional',
-                icon: '',
+                icon: 'navigation',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -337,7 +337,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'TSUNAMI',
                 tooltip: 'Sismos Tsunami Nacionales',
                 translateKey: 'nav.gestionProcesos.sismosTsunamiNacional',
-                icon: '',
+                icon: 'uiNavigationTabs',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -380,7 +380,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'PLANES',
                 tooltip: 'Instrumentos a Nivel Nacional',
                 translateKey: 'nav.fortalecimiento.resumenInstrumentoNivNac.planes',
-                icon: '',
+                icon: 'uiGraphMaps',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -471,7 +471,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'INSTRUMENTOS',
                 tooltip: 'Instrumentos a Nivel Nacional',
                 translateKey: 'nav.fortalecimiento.resumenInstrumentoNivNac.instrumentos',
-                icon: '',
+                icon: 'documentation',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -582,7 +582,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'FORTALECIMIENTO DE CAPACIDADES',
                 tooltip: 'Instrumentos a Nivel Nacional',
                 translateKey: 'nav.fortalecimiento.resumenInstrumentoNivNac.fortalecimiento',
-                icon: '',
+                icon: 'utilsDoc',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -627,7 +627,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'ASISTENCIA TÉCNICA',
                 tooltip: 'Instrumentos a Nivel Nacional',
                 translateKey: 'nav.fortalecimiento.resumenInstrumentoNivNac.asistencia',
-                icon: '',
+                icon: 'helpCeterArticle',
                 type: NAV_ITEM_TYPE_COLLAPSE,
                 authority: [],
                 subMenu: [
@@ -728,7 +728,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'Monitoreo',
                 tooltip: 'Avance de Implementación de la Política Nacional y el PLANAGERD',
                 translateKey: 'nav.monitoreo.monitoreo',
-                icon: '',
+                icon: 'uiDataDisplayCard',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
@@ -739,7 +739,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'Seguimiento',
                 tooltip: 'Estado de Aprobación de Instrumentos',
                 translateKey: 'nav.monitoreo.seguimiento',
-                icon: '',
+                icon: 'productList',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
@@ -750,7 +750,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'Supervisión',
                 tooltip: 'Estado de Implementación de Instrumentos',
                 translateKey: 'nav.monitoreo.supervision',
-                icon: '',
+                icon: 'uiGraphChart',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
@@ -761,7 +761,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'Evaluación',
                 tooltip: 'Evaluación Ponderada de Avance de Implementación de GRD',
                 translateKey: 'nav.monitoreo.evaluacion',
-                icon: '',
+                icon: 'uiFormsCheckbox',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
@@ -772,7 +772,7 @@ export const panelNavigationFull: NavigationTree[] = [
                 title: 'Directorio Nacional',
                 tooltip: 'Directorio Nacional GRD',
                 translateKey: 'nav.monitoreo.directorioNacional',
-                icon: '',
+                icon: 'customers',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],

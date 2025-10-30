@@ -53,12 +53,7 @@ const CollapsedItem = ({
     return (
         <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
             {renderAsIcon ? (
-                <Tooltip
-                    title={nav.title}
-                    placement={direction === 'rtl' ? 'left' : 'right'}
-                >
-                    {children}
-                </Tooltip>
+                children
             ) : (
                 <Dropdown.Item active={currentKey === nav.key}>
                     {nav.path ? (

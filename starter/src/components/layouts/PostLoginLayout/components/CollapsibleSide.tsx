@@ -13,11 +13,25 @@ import { LAYOUT_COLLAPSIBLE_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
 import { Button, Tooltip } from '@/components/ui'
 import { HiHome } from 'react-icons/hi'
-import { Link, useNavigate } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 
 const CollapsibleSide = ({ children }: CommonProps) => {
     const { larger, smaller } = useResponsive()
     const navigate = useNavigate();
+    const location = useLocation()
+
+    let titleExt = ''
+    let title = ''
+    if (location.pathname.startsWith('/monitoreo')) {
+        titleExt = 'MONITOREO, SEGUIMIENTO Y EVALUACIÓN'
+        title = 'DIMSE'
+    } else if (location.pathname.startsWith('/fortalecimiento')) {
+        titleExt = 'FORTALECIMIENTO Y ASISTENCIA TÉCNICA'
+        title = 'DIFAT'
+    } else if (location.pathname.startsWith('/gestion-procesos')) {
+        titleExt = 'GESTIÓN DE PROCESOS'
+        title = 'DGP'
+    }
     return (
         <LayoutBase
             type={LAYOUT_COLLAPSIBLE_SIDE}
@@ -42,6 +56,8 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                                         onClick={() => navigate('/')}
                                     />
                                 </Tooltip>}
+                                <h3 className="text-primary block md:hidden">{title}</h3>
+                                <h3 className="text-primary hidden md:block">{titleExt}</h3>
                             </>
                         }
                         headerEnd={
