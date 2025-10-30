@@ -1,6 +1,7 @@
 export type GetPlantillasResponse = {
   escenario: Escenario,
   plantillas: GroupPlantilla
+  instrumentos: GroupInstrumentos
 }
 
 export type PlantillaGroupItem = {
@@ -19,6 +20,23 @@ export type PlantillaGroupItem = {
     departamento: string
     total_poblacion: number | string
   }[]
+}
+
+export type InstrumentosItem = {
+  nivel: string
+  departamentos: {
+    provincias: {
+      distritos: {
+        pprrd: number,
+        evar: number,
+        pec: number,
+      }[]
+    }[]
+  }[]
+}
+
+export type GroupInstrumentos = {
+  [key: string]: InstrumentosItem[]
 }
 
 export type GroupPlantilla = {

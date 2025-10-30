@@ -8,6 +8,7 @@ import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital } from "react-icons/bs";
 import NumeroFormateado from "../../../utils/numerFormat";
+import TableInstrumentos from "../TableInstrumentos";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MA': 'text-red-500 bg-red-500',
@@ -28,7 +29,7 @@ const nivelNombre: { [key: string]: string } = {
 }
 
 const BajasTempAvisoTrimestralEstatico = () => {
-    const { escenario, data, isLoading } = usePlantilla('5');
+    const { escenario, data, instrumentos, isLoading } = usePlantilla('5');
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
     const mesInicio = new Date(escenario.fecha_inicio).toLocaleString('es-ES', { month: 'long' });
@@ -61,6 +62,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
         return <NoDataMessage />;
     }
 
+
     return (
         <Container>
             <AdaptiveCard>
@@ -79,62 +81,64 @@ const BajasTempAvisoTrimestralEstatico = () => {
 
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <div className='flex-1 flex flex-col items-center text-center'>
-                                    <h2 className="text-4xl text-center font-semibold text-teal-600">
-                                        Escenario de Riesgo por exposición
+                                    <h2 className="text-center font-semibold text-teal-600">
+                                        Escenario de riesgos por exposición
                                     </h2>
                                     <p className='text-blue-400 text-lg'>{escenario.nombre}</p>
                                     <p className='text-teal-600 text-lg'>{escenario.titulo_base}</p>
                                 </div>
-                                <h2 className="text-2xl p-2 font-medium text-white bg-teal-600 rounded-full">
-                                    <p className='mr-5 ml-5'>AVISO TRIMESTRAL</p>
-                                </h2>
-
+                                <div className="p-2 text-lg font-medium text-white bg-teal-600 rounded-full">
+                                    <p>AVISO TRIMESTRAL</p>
+                                </div>
                             </div>
 
-                            <div className='grid grid-cols-1 lg:grid-cols-5 gap-6'>
+                            <div className='grid grid-cols-1 lg:grid-cols-5 gap-3'>
 
                                 <div className='flex flex-col items-center justify-center gap-2'>
-                                    <div className='w-full flex justify-center'>
+                                    <div className='flex justify-center w-full'>
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0].ruta} />
+                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0] ?
+                                                escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0].ruta : null} />
                                         )}
 
                                     </div>
-                                    <div className='w-full flex justify-center'>
+                                    <div className='flex justify-center w-full'>
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0].ruta} />
+                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0] ?
+                                                escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0].ruta : null} />
                                         )}
                                     </div>
                                 </div>
 
                                 <div className='col-span-2 flex items-center justify-center'>
                                     {escenario.mapas && escenario.mapas[0] && (
-                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
+                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
+                                            escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
                                     )}
                                 </div>
 
                                 <div className='col-span-2'>
-                                    <h2 className='text-4xl font-semibold text-teal-600'>{mesInicio.toUpperCase()} - {mesFin.toUpperCase()}</h2>
-                                    <div className='flex items-center gap-8 pb-5'>
-                                        <h1 className='text-6xl font-semibold text-teal-600'>{year}</h1>
-                                    </div>
+                                    <h3 className='font-semibold text-teal-600 text-center'>
+                                        {mesInicio.toUpperCase()} - {mesFin.toUpperCase()} {year}
+                                    </h3>
+
                                     {data['inundaciones'].slice(0, 1).map((item, index) => (
                                         <div key={index} className="grid grid-cols-2 border rounded-xl border-teal-600 shadow-md bg-white">
                                             <div className="p-2 space-y-4">
+                                                {/* Distritos */}
+                                                <div className="flex items-center gap-3">
+                                                    <TbMapPin className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_centro_poblado)}</p>
+                                                        <p className="text-md">{'Centros Poblados'}</p>
+                                                    </div>
+                                                </div>
                                                 {/* Población */}
                                                 <div className="flex items-center gap-3">
                                                     <FaUsers className="text-cyan-600" size={50} />
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
                                                         <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
                                                         <p className="text-md">Población</p>
-                                                    </div>
-                                                </div>
-                                                {/* Centros poblados */}
-                                                <div className="flex items-center gap-3">
-                                                    <TbMapPin className="text-cyan-600" size={50} />
-                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_centro_poblado)}</p>
-                                                        <p className="text-md">Centros Poblados</p>
                                                     </div>
                                                 </div>
                                                 {/* Viviendas */}
@@ -162,9 +166,9 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="border-l border-teal-600 p-2 flex flex-col">
+                                            <div className="border-l border-teal-600 p-2 flex flex-col justify-between">
                                                 {/* Nivel de riesgo */}
-                                                <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded mt-10`}>
+                                                <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
                                                     {nivelNombre[item.nivel]}
                                                 </div>
                                                 <div className="mt-3 text-sm text-teal-600 font-semibold">
@@ -179,12 +183,18 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                         </div>
                                     ))}
 
-                                    <div className='flex flex-col items-center gap-2 pt-5'>
-                                        <span className='font-bold'>Fuente: CENEPRED (2025)</span>
+                                    <div className='flex items-center gap-2 mt-5'>
+                                        <span className='text-xs'>Fuente: CENEPRED (2025)</span>
                                         <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
                                             {escenario.url_base}
                                         </a>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div className="w-full md:w-150 lg:w-200 overflow-x-auto mt-5">
+                                <div className="min-w-[720px] sm:min-w-0">
+                                    <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
                                 </div>
                             </div>
 

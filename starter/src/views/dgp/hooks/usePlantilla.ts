@@ -17,6 +17,7 @@ export default function usePlantilla(formulario: string) {
     return {
         escenario: data?.escenario || {},
         data: data?.plantillas || {},
+        instrumentos: data?.instrumentos || {},
         error,
         isLoading,
         mutate,
