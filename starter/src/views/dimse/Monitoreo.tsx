@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
-import { Select, Tooltip } from '@/components/ui'
+import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import promedioDeGrupo, { Valor, promedio, promedioPorSuma } from './promedio'
 import MapaPeru from './MapaPeru'
@@ -10,28 +10,9 @@ import { MonitoreoResponse, MonitoreoRespuesta } from '@/services/types/getmonit
 import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
 import Tabs from '@/components/ui/Tabs'
 import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
+import { Tooltip } from 'react-tooltip'
 
 const { TabNav, TabList, TabContent } = Tabs
-
-
-interface PreguntaTooltipProps {
-    pregunta: Pregunta | null
-}
-const PreguntaTooltip = (props: PreguntaTooltipProps) => {
-    if (!props.pregunta) {
-        return null
-    }
-
-    function getTooltipText(codigo: string) {
-        const pregunta = preguntas.find(c => c.codigo == codigo)
-        return pregunta?.pregunta || "";
-    }
-    return (
-        <div>
-            <p>{props.pregunta.pregunta}</p>
-        </div>
-    );
-}
 
 type Entidad = {
     id: string
@@ -56,11 +37,6 @@ type Departamento = {
     nombre: string
     provincias: Provincia[]
 }
-
-type ApexSeries = Array<{
-    name: string
-    data: number[]
-}>
 
 const COLS = Array.from({ length: 30 }, (_, i) => `P${i + 1}`)
 
@@ -273,6 +249,7 @@ export default function TreeTableMonitoreo3Niveles() {
 
     return (
         <>
+            <Tooltip id="monitoreo-tooltip" style={{ zIndex: 1000 }} opacity={1}/>
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-4">
                 <div>
                     <h4 className="mb-1">Monitoreo</h4>
@@ -303,12 +280,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                     <th
                                         key={c}
                                         className="bg-slate-50 p-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 min-w-[36px] max-w-[36px]"
+                                        data-tooltip-id='monitoreo-tooltip'
+                                        data-tooltip-content={getPregunta(c)?.pregunta || ''}
                                     >
-                                        {!getPregunta(c) ? c :
-                                            <Tooltip title={<PreguntaTooltip pregunta={getPregunta(c)} />}>
-                                                {c}
-                                            </Tooltip>
-                                        }
+                                        {c}
                                     </th>
                                 ))}
                                 <th className="w-[120px] bg-slate-50 p-2 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap">
@@ -328,11 +303,12 @@ export default function TreeTableMonitoreo3Niveles() {
                                         {/* Fila Departamento */}
                                         <tr className="bg-amber-50 hover:bg-slate-50/60">
                                             <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200"
+                                                data-tooltip-id='monitoreo-tooltip'
+                                                data-tooltip-content='Departamento'
                                                 onClick={() => {
                                                     toggle(depKey);
                                                     setQuery(`${dep.nombre}, Peru`);
                                                 }}>
-                                                <Tooltip title="Departamento">
                                                 <button
                                                     type="button"
                                                     aria-expanded={depOpen}
@@ -353,7 +329,6 @@ export default function TreeTableMonitoreo3Niveles() {
                                                         {dep.nombre}
                                                     </span>
                                                 </button>
-                                                </Tooltip>
                                             </td>
                                             {dTotals?.cols?.map((v, idx) => (
                                                 <td
@@ -377,11 +352,12 @@ export default function TreeTableMonitoreo3Niveles() {
                                                     <Fragment key={`FRAGP-${provKey}`}>
                                                         <tr className="bg-cyan-50 hover:bg-slate-50/60">
                                                             <td className="bg-cyan-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
+                                                                data-tooltip-id='monitoreo-tooltip'
+                                                                data-tooltip-content='Provincia'
                                                                 onClick={() => {
                                                                     toggle(provKey);
                                                                     setQuery(`${prov.nombre}, ${dep.nombre}, Peru`);
                                                                 }}>
-                                                                <Tooltip title="Provincia">
                                                                 <button
                                                                     type="button"
                                                                     aria-expanded={
@@ -406,7 +382,6 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         }
                                                                     </span>
                                                                 </button>
-                                                                </Tooltip>
                                                             </td>
                                                             {pTotals.cols.map(
                                                                 (v, idx) => (
@@ -433,11 +408,13 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                 return (
                                                                     <Fragment key={`FRAGDI-${distKey}`}>
                                                                         <tr className="hover:bg-slate-50 bg-emerald-50">
-                                                                            <td onClick={() => {
+                                                                            <td
+                                                                                data-tooltip-id='monitoreo-tooltip'
+                                                                                data-tooltip-content='Distrito'
+                                                                                onClick={() => {
                                                                                 toggle(distKey);
                                                                                 setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                             }} className="cursor-pointer bg-emerald-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                                <Tooltip title="Distrito">
                                                                                 <button
                                                                                     type="button"
                                                                                     aria-expanded={
@@ -462,7 +439,6 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                         }
                                                                                     </span>
                                                                                 </button>
-                                                                                </Tooltip>
                                                                             </td>
                                                                             {dTotals.cols.map(
                                                                                 (
@@ -490,16 +466,17 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                 return (
                                                                                     <Fragment key={`FRAGENT-${entKey}`}>
                                                                                         <tr className="hover:bg-slate-50 bg-purple-50">
-                                                                                            <td onClick={() => {
+                                                                                            <td
+                                                                                                data-tooltip-id='monitoreo-tooltip'
+                                                                                                data-tooltip-content='Entidad'
+                                                                                                onClick={() => {
                                                                                                 setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                             }} className="cursor-pointer bg-purple-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                                                <Tooltip title="Entidad">
                                                                                                 <span className="text-sm font-semibold text-slate-800">
                                                                                                     {
                                                                                                         entidad.nombre
                                                                                                     }
                                                                                                 </span>
-                                                                                                </Tooltip>
                                                                                             </td>
                                                                                             {entidad.monitoreo.map(
                                                                                                 (
@@ -516,10 +493,12 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                     </td>
                                                                                                 ),
                                                                                             )}
-                                                                                            <td className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200">
-                                                                                                <Tooltip title={`Cantidad de Si: ${entidad.monitoreo.filter(m => m == 1).length}`}>
+                                                                                            <td
+                                                                                                data-tooltip-id='monitoreo-tooltip'
+                                                                                                data-tooltip-content={`Cantidad de Si: ${entidad.monitoreo.filter(m => m == 1).length}`}
+                                                                                                className="p-3 text-center text-sm font-semibold text-slate-800 ring-1 ring-slate-200"
+                                                                                            >
                                                                                                     {(promedioPorSuma(entidad.monitoreo, 30) * 100).toFixed(2)} %
-                                                                                                </Tooltip>
                                                                                             </td>
                                                                                         </tr>
                                                                                     </Fragment>
