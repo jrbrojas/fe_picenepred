@@ -524,6 +524,9 @@ export default function TreeTableMonitoreo3Niveles() {
                         <h6 className='mb-2'>Preguntas por localidad/entidad</h6>
                         <ApexChart
                             options={{
+                                legend: {
+                                    show: false
+                                },
                                 chart: {
                                     type: 'bar',
                                     height: 350,
@@ -542,7 +545,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                     events: {
                                         dataPointSelection: (event, chartContext, config) => {
                                             const index = config.dataPointIndex
-                                            const departamento = data[index].nombre
+                                            const departamento = ordenData[index].nombre
                                             setQuery(`${departamento}, Peru`);
                                         }
                                     },
@@ -568,13 +571,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                 xaxis: {
                                     categories: ordenData.map((d) => d.nombre),
                                     title: {
-                                        text: 'Localidad/Entidad'
+                                        text: 'Departamentos'
                                     },
                                     labels: {
                                         rotate: -45,
-                                        style: {
-                                            fontSize: '10px'
-                                        }
                                     }
                                 },
                                 yaxis: {
@@ -582,10 +582,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                         text: 'Porcentajes %'
                                     },
                                     min: 0,
-                                    max: function (max) {
-                                        // Para asegurar que el máximo sea al menos 1 si hay datos
-                                        return Math.max(max, 1);
-                                    }
+                                    max: 100,
                                 },
                                 fill: {
                                     opacity: 1
