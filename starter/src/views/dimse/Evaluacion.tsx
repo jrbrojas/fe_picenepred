@@ -2,12 +2,16 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
 import Segment from '@/components/ui/Segment'
 import ApexChart from 'react-apexcharts'
+import Tabs from '@/components/ui/Tabs'
 import { COLORS } from '@/constants/chart.constant'
 import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
 import { apiGetCategorias, apiGetEvaluacion } from '@/services/MonitoreService'
 import { EvaluacionResponse, Respuesta } from '@/services/types/getevaluacion'
+import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
+
+const { TabNav, TabList, TabContent } = Tabs
 
 type Entidad = {
     id: string
@@ -110,12 +114,13 @@ interface CategoriaOption {
     value: string;
     label: string;
 }
-
+interface Evaluacion extends EvaluacionResponse, ChartPorEntidadInfo {}
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
     const [categorias, setCategorias] = useState<CategoriaOption[]>([])
+    const [originalData, setOriginalData] = useState<Evaluacion[]>([])
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [fetching, setFetching] = useState(true)
     const [query, setQuery] = useState("Peru");
@@ -131,9 +136,32 @@ export default function TreeTableMonitoreo3Niveles() {
         setFetching(false)
     }
 
+    function onSelectChartEntidad(info: Evaluacion) {
+        setQuery(`${info.distrito.nombre}, ${info.distrito.provincia.nombre}, ${info.distrito.provincia.departamento.nombre}, Perú`)
+    }
+
     async function fetchValues(categoria: string) {
         const response = await apiGetEvaluacion(categoria)
         setData(mapMonitoreoResponseToData(response))
+        setOriginalData(
+            response.map(i => {
+                const n = i.respuestas.map(r => r.calculo);
+                const acronimo = i.nombre.split(/\s+/)
+                    .map(palabra => palabra[0])
+                    .join('')
+                    .toUpperCase()
+                const acronimo2 = i.nombre.startsWith("MUNICIPALIDAD DISTRITAL") ? "Muni Dist" :
+                    i.nombre.startsWith("MUNICIPALIDAD PROVINCIAL") ? "Muni Prov" : null
+                const nombre2 = i.nombre.replace(/MUNICIPALIDAD PROVINCIAL DE|MUNICIPALIDAD DISTRITAL DE/, "")
+                return {
+                    ...i,
+                    chartNombre: i.nombre,
+                    chartAcronimo: nombre2,
+                    chartTotal: promedio(n, 3),
+                    chartLugar: `${i.distrito.nombre} - ${i.distrito.provincia.nombre} - ${i.distrito.provincia.departamento.nombre}`
+                }
+            }).sort((a, b) => b.chartTotal - a.chartTotal)
+        )
     }
 
     async function boot(): Promise<void> {
@@ -142,7 +170,7 @@ export default function TreeTableMonitoreo3Niveles() {
             value: String(cat.id),
             label: cat.nombre
         })))
-        //const first = res[0]
+        //const first = res[0]=
         //setCurrentCategoria({
         //    value: String(first.id),
         //    label: first.nombre,
@@ -509,10 +537,19 @@ export default function TreeTableMonitoreo3Niveles() {
                     <MapaPeru query={query} />
                 </div>
                 <Card className="h-full">
+                    <Tabs defaultValue="tab1">
+                        <TabList>
+                            <TabNav value="tab1">Por Deparmentos</TabNav>
+                            <TabNav value="tab2">Por Entidades</TabNav>
+                        </TabList>
+                        <div className="p-6">
+                        <TabContent value="tab1">
                     <div>
-                        <h6 className='mb-2'>Preguntas por localidad/entidad</h6>
                         <ApexChart
                             options={{
+                                legend: {
+                                    show: false,
+                                },
                                 chart: {
                                     type: 'bar',
                                     height: 350,
@@ -531,8 +568,8 @@ export default function TreeTableMonitoreo3Niveles() {
                                     events: {
                                         dataPointSelection: (event, chartContext, config) => {
                                             const index = config.dataPointIndex
-                                            const departamento = data[index].nombre
-                                            setQuery(`${departamento}, Peru`);
+                                            const departamento = ordenData[index].nombre
+                                            setQuery(`${departamento}, Perú`);
                                         }
                                     },
 
@@ -557,13 +594,10 @@ export default function TreeTableMonitoreo3Niveles() {
                                 xaxis: {
                                     categories: ordenData.map((d) => d.nombre),
                                     title: {
-                                        text: 'Localidad/Entidad'
+                                        text: 'Departamentos'
                                     },
                                     labels: {
                                         rotate: -45,
-                                        style: {
-                                            fontSize: '10px'
-                                        }
                                     }
                                 },
                                 yaxis: {
@@ -571,10 +605,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                         text: 'Porcentajes %'
                                     },
                                     min: 0,
-                                    max: function (max) {
-                                        // Para asegurar que el máximo sea al menos 1 si hay datos
-                                        return Math.max(max, 1);
-                                    }
+                                    max: 100,
                                 },
                                 fill: {
                                     opacity: 1
@@ -596,6 +627,15 @@ export default function TreeTableMonitoreo3Niveles() {
                             height={450}
                         />
                     </div>
+                    </TabContent>
+                    <TabContent value="tab2">
+                        <ChartPorEntidad<Evaluacion>
+                            info={originalData}
+                            onSelect={onSelectChartEntidad}
+                        />
+                    </TabContent>
+                </div>
+                </Tabs>
                 </Card>
             </div>
         </>
