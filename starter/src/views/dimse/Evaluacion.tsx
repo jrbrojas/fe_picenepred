@@ -1,15 +1,13 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
-import Segment from '@/components/ui/Segment'
-import ApexChart from 'react-apexcharts'
 import Tabs from '@/components/ui/Tabs'
-import { COLORS } from '@/constants/chart.constant'
 import { Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
 import { apiGetCategorias, apiGetEvaluacion } from '@/services/MonitoreService'
 import { EvaluacionResponse, Respuesta } from '@/services/types/getevaluacion'
 import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
+import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -146,12 +144,6 @@ export default function TreeTableMonitoreo3Niveles() {
         setOriginalData(
             response.map(i => {
                 const n = i.respuestas.map(r => r.calculo);
-                const acronimo = i.nombre.split(/\s+/)
-                    .map(palabra => palabra[0])
-                    .join('')
-                    .toUpperCase()
-                const acronimo2 = i.nombre.startsWith("MUNICIPALIDAD DISTRITAL") ? "Muni Dist" :
-                    i.nombre.startsWith("MUNICIPALIDAD PROVINCIAL") ? "Muni Prov" : null
                 const nombre2 = i.nombre.replace(/MUNICIPALIDAD PROVINCIAL DE|MUNICIPALIDAD DISTRITAL DE/, "")
                 return {
                     ...i,
@@ -246,7 +238,21 @@ export default function TreeTableMonitoreo3Niveles() {
     }, [data])
 
     // data ordenada para el grafico de barras
-    const ordenData = [...data].sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
+    interface DepartamentoChart extends Departamento, ChartInfo {}
+    const ordenData: DepartamentoChart[] = [...data]
+        .sort((a, b) => Number(depTotals.get(b.id)?.total ?? 0) - Number(depTotals.get(a.id)?.total ?? 0))
+        .map<DepartamentoChart>((item) => {
+            return {
+                ...item,
+                chartAcronimo: item.nombre,
+                chartNombre: item.nombre,
+                chartLugar: item.nombre,
+                chartTotal: Number(depTotals.get(item.id)?.total ?? 0),
+            }
+    })
+    function onSelect(departamento: DepartamentoChart) {
+        setQuery(`${departamento.nombre}, Peru`);
+    }
 
     return (
         <>
@@ -521,8 +527,6 @@ export default function TreeTableMonitoreo3Niveles() {
                                         colSpan={COLS.length}
                                         className="bg-white p-3 text-center text-[11px] text-slate-500 ring-1 ring-slate-200"
                                     >
-                                        Valor de clasificación:{' '}
-                                        <span className="font-medium">0 / 1</span>
                                     </td>
                                     <td className="bg-white p-3 ring-1 ring-slate-200" />
                                 </tr>
@@ -543,99 +547,17 @@ export default function TreeTableMonitoreo3Niveles() {
                             <TabNav value="tab2">Por Entidades</TabNav>
                         </TabList>
                         <div className="p-6">
-                        <TabContent value="tab1">
-                    <div>
-                        <ApexChart
-                            options={{
-                                legend: {
-                                    show: false,
-                                },
-                                chart: {
-                                    type: 'bar',
-                                    height: 350,
-                                    toolbar: {
-                                        show: true,
-                                        tools: {
-                                            download: true,
-                                            selection: true,
-                                            zoom: true,
-                                            zoomin: true,
-                                            zoomout: true,
-                                            pan: true,
-                                            reset: true
-                                        }
-                                    },
-                                    events: {
-                                        dataPointSelection: (event, chartContext, config) => {
-                                            const index = config.dataPointIndex
-                                            const departamento = ordenData[index].nombre
-                                            setQuery(`${departamento}, Perú`);
-                                        }
-                                    },
-
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        horizontal: false,
-                                        columnWidth: '55%',
-                                        distributed: true,
-                                        borderRadius: 4,
-                                        borderRadiusApplication: 'end',
-                                    },
-                                },
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                stroke: {
-                                    show: true,
-                                    width: 2,
-                                    colors: ['transparent']
-                                },
-                                xaxis: {
-                                    categories: ordenData.map((d) => d.nombre),
-                                    title: {
-                                        text: 'Departamentos'
-                                    },
-                                    labels: {
-                                        rotate: -45,
-                                    }
-                                },
-                                yaxis: {
-                                    title: {
-                                        text: 'Porcentajes %'
-                                    },
-                                    min: 0,
-                                    max: 100,
-                                },
-                                fill: {
-                                    opacity: 1
-                                },
-                                tooltip: {
-                                    y: {
-                                        formatter: function (val) {
-                                            return val + "% Evaluacion total"
-                                        }
-                                    }
-                                },
-                                colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
-                            }}
-                            series={[{
-                                name: 'Porcentajes %',
-                                data: ordenData.map(dep => Number(depTotals.get(dep.id)?.total ?? 0))
-                            }]}
-                            type="bar"
-                            height={450}
-                        />
-                    </div>
-                    </TabContent>
-                    <TabContent value="tab2">
-                        <ChartPorEntidad<Evaluacion>
-                            info={originalData}
-                            onSelect={onSelectChartEntidad}
-                        />
-                    </TabContent>
-                </div>
-                </Tabs>
+                            <TabContent value="tab1">
+                                <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
+                            </TabContent>
+                            <TabContent value="tab2">
+                                <ChartPorEntidad<Evaluacion>
+                                    info={originalData}
+                                    onSelect={onSelectChartEntidad}
+                                />
+                            </TabContent>
+                        </div>
+                    </Tabs>
                 </Card>
             </div>
         </>

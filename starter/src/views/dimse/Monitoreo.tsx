@@ -8,6 +8,10 @@ import { apiGetCategorias, apiGetMonitoreo } from '@/services/MonitoreService'
 import { Pregunta, preguntas } from '@/constants/preguntas.constant'
 import { MonitoreoResponse, MonitoreoRespuesta } from '@/services/types/getmonitoreo'
 import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
+import Tabs from '@/components/ui/Tabs'
+import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
+
+const { TabNav, TabList, TabContent } = Tabs
 
 
 interface PreguntaTooltipProps {
@@ -144,11 +148,13 @@ interface CategoriaOption {
     label: string;
 }
 
+interface Monitoreo extends MonitoreoResponse, ChartPorEntidadInfo {}
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
     const [categorias, setCategorias] = useState<CategoriaOption[]>([])
+    const [originalData, setOriginalData] = useState<Monitoreo[]>([])
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [chartSeries, setChartSeries] = useState([{ name: "Porcentaje", data: [] as number[] }])
     const [fetching, setFetching] = useState(true)
@@ -165,9 +171,27 @@ export default function TreeTableMonitoreo3Niveles() {
         setFetching(false)
     }
 
+    function onSelectChartEntidad(info: Monitoreo) {
+        setQuery(`${info.entidad.distrito.nombre}, ${info.entidad.distrito.provincia.nombre}, ${info.entidad.distrito.provincia.departamento.nombre}, Perú`)
+    }
+
     async function fetchValues(categoria: string) {
         const response = await apiGetMonitoreo(categoria)
         setData(mapMonitoreoResponseToData(response))
+        const mapValores = (respuestas: MonitoreoRespuesta[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? 1 : 0)
+        setOriginalData(
+            response.map(i => {
+                const n = mapValores(i.monitoreo_respuestas)
+                const nombre2 = i.entidad.nombre.replace(/MUNICIPALIDAD PROVINCIAL DE|MUNICIPALIDAD DISTRITAL DE/, "")
+                return {
+                    ...i,
+                    chartNombre: i.entidad.nombre,
+                    chartAcronimo: nombre2,
+                    chartTotal: promedioPorSuma(n, n.length) * 100,
+                    chartLugar: `${i.entidad.distrito.nombre} - ${i.entidad.distrito.provincia.nombre} - ${i.entidad.distrito.provincia.departamento.nombre}`
+                }
+            }).sort((a, b) => b.chartTotal - a.chartTotal)
+        )
     }
 
     async function boot(): Promise<void> {
@@ -573,7 +597,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         key={
                                                                                                             `${entidad.id}-${i}`
                                                                                                         }
-                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 text-[11px]"
                                                                                                     >
                                                                                                         {v ? 'SI' : 'NO'}
                                                                                                     </td>
@@ -623,10 +647,23 @@ export default function TreeTableMonitoreo3Niveles() {
                 </div>
 
                 <Card className="h-full">
-                    <div>
-                        <h6 className='mb-2'>Preguntas por localidad/entidad</h6>
-                        <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
-                    </div>
+                    <Tabs defaultValue="tab1">
+                        <TabList>
+                            <TabNav value="tab1">Por Deparmentos</TabNav>
+                            <TabNav value="tab2">Por Entidades</TabNav>
+                        </TabList>
+                        <div className="p-6">
+                            <TabContent value="tab1">
+                                <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
+                            </TabContent>
+                            <TabContent value="tab2">
+                                <ChartPorEntidad<Evaluacion>
+                                    info={originalData}
+                                    onSelect={onSelectChartEntidad}
+                                />
+                            </TabContent>
+                        </div>
+                    </Tabs>
                 </Card>
             </div>
         </>

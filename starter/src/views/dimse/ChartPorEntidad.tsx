@@ -1,5 +1,8 @@
 import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
+function roundToTwo(num) {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+}
 export interface ChartPorEntidadInfo {
     chartNombre: string
     chartLugar: string
@@ -53,10 +56,20 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                             distributed: true,
                             borderRadius: 4,
                             borderRadiusApplication: 'end',
+                            dataLabels: {
+                                position: 'top',
+                            },
                         },
                     },
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        formatter(val, opts) {
+                            return val + " %"
+                        },
+                        offsetY: -20,
+                        style: {
+                            colors: ['light-dark'],
+                        },
                     },
                     stroke: {
                         show: true,
@@ -85,14 +98,13 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                     tooltip: {
                         custom: function(e) {
                             const item = info[e.dataPointIndex];
-                            console.log(e.config)
                             return `
                               <div class="my-tooltip p-2">
                                 <div>${item.chartNombre}</div>
                                 <div>${item.chartLugar}</div>
                                 <div class="flex items-center gap-2">
                                     <div class="bg-red-600 text-xs font-bold rounded-full" style="width: 8px; height: 8px"></div>
-                                    <div>${item.chartTotal} % Evaluacion total</div>
+                                    <div>${roundToTwo(item.chartTotal)} %</div>
                                 </div>
                               </div>
                             `
@@ -102,7 +114,7 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                 }}
                 series={[{
                     name: 'Porcentajes %',
-                    data: info.map(i => i.chartTotal),
+                    data: info.map(i => roundToTwo(i.chartTotal)),
                 }]}
                 type="bar"
                 height={450}

@@ -1,16 +1,16 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
-import Segment from '@/components/ui/Segment'
-import ApexChart from 'react-apexcharts'
-import { COLORS } from '@/constants/chart.constant'
 import { Select, Tooltip } from '@/components/ui'
 import { SingleValue } from 'react-select'
-import promedioDeGrupo, { Valor, promedio, promedioPorSuma } from './promedio'
+import promedioDeGrupo, { Valor, promedioPorSuma } from './promedio'
 import MapaPeru from './MapaPeru'
-import { RespuestaElement } from './types'
 import { apiGetCategorias, apiGetSeguimiento } from '@/services/MonitoreService'
 import { SeguimientoResponse, SeguimientoRespuesta } from '@/services/types/getseguimiento'
 import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
+import Tabs from '@/components/ui/Tabs'
+import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
+
+const { TabNav, TabList, TabContent } = Tabs
 
 type Entidad = {
     id: string
@@ -136,11 +136,13 @@ interface CategoriaOption {
     label: string;
 }
 
+interface Seguimiento extends SeguimientoResponse, ChartPorEntidadInfo {}
 export default function TreeTableMonitoreo3Niveles() {
     // Set de expandibles: claves tipo "D:<depId>" y "P:<provId>"
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
     const [categorias, setCategorias] = useState<CategoriaOption[]>([])
+    const [originalData, setOriginalData] = useState<Seguimiento[]>([])
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [fetching, setFetching] = useState(true)
     const [query, setQuery] = useState("Peru");
@@ -155,9 +157,27 @@ export default function TreeTableMonitoreo3Niveles() {
         setFetching(false)
     }
 
+    function onSelectChartEntidad(info: Seguimiento) {
+        setQuery(`${info.entidad.distrito.nombre}, ${info.entidad.distrito.provincia.nombre}, ${info.entidad.distrito.provincia.departamento.nombre}, Perú`)
+    }
+
     async function fetchValues(categoria: string) {
         const response = await apiGetSeguimiento(categoria)
         setData(mapMonitoreoResponseToData(response))
+        const mapValores = (respuestas: SeguimientoRespuesta[]) => respuestas.map((r) => r.respuesta.toLowerCase() === "si" ? 1 : 0)
+        setOriginalData(
+            response.map(i => {
+                const n = mapValores(i.seguimiento_respuestas)
+                const nombre2 = i.entidad.nombre.replace(/MUNICIPALIDAD PROVINCIAL DE|MUNICIPALIDAD DISTRITAL DE/, "")
+                return {
+                    ...i,
+                    chartNombre: i.entidad.nombre,
+                    chartAcronimo: nombre2,
+                    chartTotal: promedioPorSuma(n, n.length) * 100,
+                    chartLugar: `${i.entidad.distrito.nombre} - ${i.entidad.distrito.provincia.nombre} - ${i.entidad.distrito.provincia.departamento.nombre}`
+                }
+            }).sort((a, b) => b.chartTotal - a.chartTotal)
+        )
     }
 
     async function boot(): Promise<void> {
@@ -461,7 +481,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         key={
                                                                                                             `${entidad.id}-${i}`
                                                                                                         }
-                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 text-[11px]"
                                                                                                     >
                                                                                                         {v ? 'SI' : 'NO'}
                                                                                                     </td>
@@ -513,10 +533,23 @@ export default function TreeTableMonitoreo3Niveles() {
                 </div>
 
                 <Card className="h-full">
-                    <div>
-                        <h6 className='mb-2'>Preguntas por localidad/entidad</h6>
-                        <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
-                    </div>
+                    <Tabs defaultValue="tab1">
+                        <TabList>
+                            <TabNav value="tab1">Por Deparmentos</TabNav>
+                            <TabNav value="tab2">Por Entidades</TabNav>
+                        </TabList>
+                        <div className="p-6">
+                            <TabContent value="tab1">
+                                <ChartPorDepartamento info={ordenData} onSelect={onSelect} />
+                            </TabContent>
+                            <TabContent value="tab2">
+                                <ChartPorEntidad<Seguimiento>
+                                    info={originalData}
+                                    onSelect={onSelectChartEntidad}
+                                />
+                            </TabContent>
+                        </div>
+                    </Tabs>
                 </Card>
             </div>
         </>

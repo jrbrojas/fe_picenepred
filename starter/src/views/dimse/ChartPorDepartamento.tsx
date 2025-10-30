@@ -1,5 +1,8 @@
 import ApexChart from 'react-apexcharts'
 import { COLORS } from '@/constants/chart.constant'
+function roundToTwo(num) {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+}
 export interface ChartInfo {
     chartNombre: string
     chartLugar: string
@@ -53,10 +56,20 @@ export function ChartPorDepartamento<T extends ChartInfo>({
                             distributed: true,
                             borderRadius: 4,
                             borderRadiusApplication: 'end',
+                            dataLabels: {
+                                position: 'top',
+                            },
                         },
                     },
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        formatter(val, opts) {
+                            return Number(val).toFixed(2) + " %"
+                        },
+                        offsetY: -20,
+                        style: {
+                            colors: ['light-dark'],
+                        },
                     },
                     stroke: {
                         show: true,
@@ -66,15 +79,24 @@ export function ChartPorDepartamento<T extends ChartInfo>({
                     xaxis: {
                         categories: info.map((i) => i.chartAcronimo),
                         title: {
-                            text: 'Departamentos'
+                            text: 'Departamentos',
+                            style: {
+                                fontSize: '14px'
+                            }
                         },
                         labels: {
                             rotate: -45,
+                            style: {
+                                cssClass: 'text-wrap'
+                            }
                         }
                     },
                     yaxis: {
                         title: {
-                            text: 'Porcentajes %'
+                            text: 'Porcentajes %',
+                            style: {
+                                fontSize: '14px'
+                            }
                         },
                         min: 0,
                         max: 100,
@@ -83,17 +105,24 @@ export function ChartPorDepartamento<T extends ChartInfo>({
                         opacity: 1
                     },
                     tooltip: {
-                        y: {
-                            formatter: function (val) {
-                                return val + "% respondieron 'Sí'"
-                            }
+                        custom: function(e) {
+                            const item = info[e.dataPointIndex];
+                            return `
+                              <div class="my-tooltip p-2">
+                                <div>${item.chartNombre}</div>
+                                <div class="flex items-center gap-2">
+                                    <div class="bg-red-600 text-xs font-bold rounded-full" style="width: 8px; height: 8px"></div>
+                                    <div>${roundToTwo(item.chartTotal)} %</div>
+                                </div>
+                              </div>
+                            `
                         }
                     },
                     colors: [COLORS[0], COLORS[3], COLORS[6], COLORS[9]],
                 }}
                 series={[{
                     name: 'Porcentajes %',
-                    data: info.map(i => i.chartTotal),
+                    data: info.map(i => roundToTwo(i.chartTotal)),
                 }]}
                 type="bar"
                 height={450}
