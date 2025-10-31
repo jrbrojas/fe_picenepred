@@ -28,3 +28,19 @@ html {
         }
     }
 }*/
+.menu-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-weight: bolder !important;
+  text-transform: uppercase;
+  color: #078199;
+}
+
+.menu-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #20b9d8;
+  margin-left: 10px;
+}

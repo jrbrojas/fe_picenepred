@@ -110,7 +110,20 @@ const DefaultItem = (props: DefaultItemProps) => {
                 }
             >
                 {showIcon && <VerticalMenuIcon icon={nav.icon} />}
-                {showTitle && <span>{nav.title}</span>}
+                    {showTitle && (
+                        <>
+                            {['gestionProcesos.general.informe', 'monitoreo.monitoreo', 'monitoreo.seguimiento', 'monitoreo.supervision', 'monitoreo.evaluacion', 'monitoreo.directorioNacional'].includes(nav.key) ? (
+                                <span>{nav.title}</span>
+                            ) : (
+                                <>
+                                    <span className="hidden md:block">{nav.title}</span>
+                                    <span className="block md:hidden">
+                                        {nav.tooltip ? nav.tooltip : nav.title}
+                                    </span>
+                                </>
+                            )}
+                        </>
+                    )}
             </Link>
             </MenuItem>
         </Tooltip>
