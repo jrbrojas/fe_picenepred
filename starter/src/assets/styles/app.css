@@ -26,3 +26,6 @@
     z-index: 5;
 }
 
+.table-nowrap tr td:last-child {
+    white-space: nowrap;
+}

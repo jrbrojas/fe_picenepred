@@ -270,7 +270,7 @@ export default function TreeTableMonitoreo3Niveles() {
 
             <Card bordered={true} className="flex overflow-x-scroll">
                 <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-                    <table className="min-w-[1000px] table-fixed border-separate border-spacing-0">
+                    <table className="min-w-[1000px] table-fixed border-separate border-spacing-0 table-nowrap">
                         <thead>
                             <tr>
                                 <th onClick={() => { setQuery(`Peru`); }} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-2 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
