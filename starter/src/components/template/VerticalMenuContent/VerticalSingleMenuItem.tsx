@@ -7,6 +7,7 @@ import Dropdown from '@/components/ui/Dropdown'
 import type { CommonProps } from '@/@types/common'
 import type { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
+import navigationIcon from '@/configs/navigation-icon.config'
 
 const { MenuItem } = Menu
 
@@ -69,7 +70,7 @@ const CollapsedItem = ({
                                 })
                             }
                         >
-                            <span>{nav.title}</span>
+                            ▶<span className='ms-2'>{nav.tooltip ? nav.tooltip : nav.title}</span>
                         </Link>
                     ) : (
                         <span>{nav.title}</span>
