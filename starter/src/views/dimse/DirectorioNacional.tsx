@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import MapaPeru from './MapaPeru'
 import { apiExportarExcelDeEntidades, apiGetDirectorio } from '@/services/MonitoreService'
 import FiltrosDirectorio from './FiltrosDirectorio'
@@ -109,6 +109,7 @@ export default function TreeTableMonitoreo3Niveles() {
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
     const [data, setData] = useState<Departamento[]>([])
     const [query, setQuery] = useState("Peru");
+    const [busquedaHecha, setBusquedaHecha] = useState(false);
     const [originalData, setOriginalData] = useState<DirectorioResponse[]>([])
 
     function newData(data: Departamento[]) {
@@ -136,6 +137,8 @@ export default function TreeTableMonitoreo3Niveles() {
         newData([]);
         if (distrito) {
             const response = await apiGetDirectorio(String(distrito))
+            console.log("DEBUG", 'onDistrito');
+            setBusquedaHecha(true);
             fillData(response);
             return;
         }
@@ -145,6 +148,8 @@ export default function TreeTableMonitoreo3Niveles() {
         newData([]);
         if (entidad) {
             const response = await apiGetDirectorio("", "", String(entidad.id))
+            console.log("DEBUG", 'onSearchEntidad');
+            setBusquedaHecha(true);
             if (response) {
                 fillData(response);
                 return;
@@ -156,6 +161,8 @@ export default function TreeTableMonitoreo3Niveles() {
         newData([]);
         if (text) {
             const response = await apiGetDirectorio("", text)
+            console.log("DEBUG", 'onSearchText');
+            setBusquedaHecha(true);
             if (response) {
                 fillData(response);
                 return;
@@ -192,12 +199,12 @@ export default function TreeTableMonitoreo3Niveles() {
 
     return (
         <>
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-4">
+            <div className="grid w-full mb-2 gap-4">
                 <div>
                     <h4 className="mb-1">Directorio Nacional</h4>
                     <p>Lista de contactos a nivel nacional GRD</p>
                 </div>
-                <div className="flex items-center w-[100nw] md:w-[35vw] w-full justify-end">
+                <div className="w-full">
                     <FiltrosDirectorio onDistrito={onDistrito} onSearchEntidad={onSearchEntidad} onSearchText={onSearchText}/>
                 </div>
             </div>
@@ -225,6 +232,15 @@ export default function TreeTableMonitoreo3Niveles() {
                                 </thead>
 
                                 <tbody>
+                                    {busquedaHecha && data.length == 0 ?
+                                        (
+                                            <tr className="bg-slate-50/60">
+                                                <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200 text-center">
+                                                    No se encontraron resultados
+                                                </td>
+                                            </tr>
+                                        ) : null
+                                    }
                                     {data.map((dep) => {
                                         const depKey = `D:${dep.id}`
                                         const depOpen = expanded.has(depKey)

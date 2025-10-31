@@ -2,11 +2,11 @@ import { useDepartamentos } from '@/shared/stores/controls/depas'
 import { useProvincias } from '@/shared/stores/controls/provs'
 import { useDistritos } from '@/shared/stores/controls/distrito'
 import { Controller, useForm } from 'react-hook-form'
-import { FormItem, Button, Select, Input } from '@/components/ui'
+import { FormItem, Button, Select, Input, InputGroup } from '@/components/ui'
 import { Option } from '@/shared/types'
 import { useEffect, useMemo, useState } from 'react'
 import { useEntidades } from '@/shared/stores/controls/entidades'
-import { TbFilter, TbSearch } from "react-icons/tb";
+import { TbFilterPlus, TbSearch } from "react-icons/tb";
 import { EntidadResponse } from '@/shared/services/ControlesService'
 
 export type EntidadForm = {
@@ -97,9 +97,9 @@ export default function FiltrosDirectorio({
                     name="search"
                     control={control}
                     render={({ field }) => (
+                        <InputGroup className="flex-1">
                         <Input
                             value={field.value}
-                            className="flex-1"
                             placeholder="Ingrese nombre, dni o entidad"
                             onKeyUp={onEnter}
                             onChange={evt => {
@@ -111,9 +111,26 @@ export default function FiltrosDirectorio({
                                 setValue("distrito", null);
                             }}
                         />
+                            <Button
+                                icon={<TbSearch />}
+                                onClick={(evt) => {
+                                    setValue("search", field.value)
+                                    onSearchText(getValues("search"))
+
+                                    // reset dependientes
+                                    setValue("entidad", null);
+                                    setValue("departamento", null);
+                                    setValue("provincia", null);
+                                    setValue("distrito", null);
+                                }}
+                                type="button"
+                            >Buscar</Button>
+                        </InputGroup>
                     )}
                 />
-                <Button icon={<TbSearch />} onClick={() => {
+                <Button
+                    icon={<TbFilterPlus />}
+                    onClick={() => {
                     setVerFiltros(!verFiltros)
                     if (verFiltros) {
                         setValue("entidad", null)
@@ -122,7 +139,9 @@ export default function FiltrosDirectorio({
                     setValue("departamento", null);
                     setValue("provincia", null);
                     setValue("distrito", null);
-                }} type="button">Buscar</Button>
+                    }}
+                    type="button"
+                >Mas Filtros</Button>
             </div>
             <div className={verFiltros ? "flex w-full gap-4" : "hidden"}>
                 <FormItem label="Entidad" className="flex-1 mb-0">
