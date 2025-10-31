@@ -51,7 +51,7 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                     },
                     plotOptions: {
                         bar: {
-                            horizontal: false,
+                            horizontal: true,
                             columnWidth: '55%',
                             distributed: true,
                             borderRadius: 4,
@@ -66,7 +66,7 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                         formatter(val, opts) {
                             return val + " %"
                         },
-                        offsetY: -20,
+                        offsetX: 30,
                         style: {
                             colors: ['light-dark'],
                         },
@@ -79,18 +79,25 @@ export function ChartPorEntidad<T extends ChartPorEntidadInfo>({
                     xaxis: {
                         categories: info.map((i) => i.chartAcronimo),
                         title: {
-                            text: 'Entidades'
+                            text: 'Porcentajes %'
                         },
                         labels: {
-                            rotate: -45
+                            rotate: -45,
+                            style: {
+                                fontSize: '8px'
+                            }
                         }
                     },
                     yaxis: {
                         title: {
-                            text: 'Porcentajes %'
+                            text: 'Entidades'
                         },
                         min: 0,
                         max: 100,
+                        labels: {
+                            minWidth: 100,
+                            maxWidth: 400,
+                        },
                     },
                     fill: {
                         opacity: 1
