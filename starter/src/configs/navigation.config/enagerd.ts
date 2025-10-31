@@ -7,6 +7,7 @@ const navigationConfig: NavigationTree = {
     key: 'monitoreo.enagerd',
     path: '/monitoreo/enagerd',
     title: 'Enagerd',
+    tooltip: 'Enagerd',
     translateKey: 'nav.monitoreo.enagerd',
     icon: 'dashboardAnalytic',
     type: NAV_ITEM_TYPE_COLLAPSE,

@@ -14,6 +14,7 @@ import useTranslation from '@/utils/hooks/useTranslation'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
 import type { TraslationFn } from '@/@types/common'
+import { Tooltip } from '@/components/ui'
 
 export interface VerticalMenuContentProps {
     collapsed?: boolean
@@ -63,7 +64,8 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
     } = props
 
     // 👇 Si de verdad solo quieres mostrar el primer grupo del menú
-    const navTreeToRender = navigationTree[0]?.subMenu || navigationTree
+    const navTreeToRender = navigationTree.flatMap(root => root.subMenu || [])
+
 
     const { t } = useTranslation(!translationSetup)
     const [defaulExpandKey, setDefaulExpandKey] = useState<string[]>([])
@@ -124,7 +126,9 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
                                 userAuthority={userAuthority}
                                 t={t as TraslationFn}
                                 onLinkClick={onMenuItemClick}
-                            >
+                            >   <h6 className="bg-primary text-white w-full font-extrabold text-center rounded px-2 uppercase">
+                                    { collapsed ? `${nav?.tooltip || ''}` : ''}
+                                </h6>
                                 {nav.subMenu &&
                                     nav.subMenu.length > 0 &&
                                     renderNavigation(nav.subMenu, nextCascade, true)}
