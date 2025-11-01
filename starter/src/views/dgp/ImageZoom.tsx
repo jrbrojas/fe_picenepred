@@ -219,7 +219,7 @@ function Zoom({ src, alt = "Imagen", open, onClose }: Props) {
 
 export default function ImageZoom({ src, alt = "Mapa" }: { src: string | null; alt?: string }) {
   const [open, setOpen] = useState(false);
-  const imageUrl = `${appConfig.urlImagePrefix}/${src}`;
+  const imageUrl = `${appConfig.urlImagePrefixDGP}/${src}`;
 
 
   if (!src) {
