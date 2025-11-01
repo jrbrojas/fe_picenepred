@@ -61,17 +61,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-                            <div className='flex justify-between gap-4 items-center mb-3'>
-                                <div className='flex-1 items-center text-center'>
-                                    <h3 className="text-center font-semibold text-teal-600">{escenario.nombre}</h3>
-                                </div>
-                                <h5 className="p-2 font-medium text-white bg-teal-600 rounded-full">
-                                    INCENDIOS FORESTALES
-                                </h5>
-                            </div>
-
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
-
                                 <div className="w-full flex justify-start">
                                     <div className="flex flex-col gap-4 w-full">
                                         {escenario.mapas && escenario.mapas[0] && (
@@ -110,23 +100,31 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                 </div>
 
                                 <div className='col-span-2'>
-                                    <div className='w-full flex flex-col gap-4 justify-center'>
+                                    <div className='w-full flex flex-col gap-4 justify-center items-center'>
+                                        <div className='flex-1 items-center text-center'>
+                                            <h4 className="text-center font-semibold text-teal-600">{escenario.nombre}</h4>
+                                        </div>
+
                                         {escenario.mapas && escenario.mapas[0] && (
                                             <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
                                                 escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
                                         )}
-                                        <div className="w-full overflow-x-auto">
+
+                                        <div className="w-full overflow-x-auto p-2">
                                             <div className="min-w-[720px] sm:min-w-0">
                                                 <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
 
                                 {data['inundaciones'].slice(0, 1).map((item, index) => (
                                     <div key={index} className="flex flex-col gap-3 justify-start items-center">
+
+                                        <div className="p-2 bg-teal-600 rounded-full">
+                                            <h4 className='text-sm font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
+                                        </div>
+
                                         {/* Nivel de riesgo */}
                                         <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold p-2 w-full rounded`}>
                                             {item.nivel}
@@ -189,12 +187,6 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                                     <p className="text-md">Mon. Arqueológicos</p>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div className="flex items-center justify-center pb-5">
-                                            <Button size="xs" variant="solid" icon={<BiDownload />}>
-                                                Descargar PPT
-                                            </Button>
                                         </div>
 
                                     </div>

@@ -89,12 +89,6 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-                            <div className="flex items-center justify-end pb-5">
-                                <Button size="xs" variant="solid" icon={<BiDownload />}>
-                                    Descargar PPT
-                                </Button>
-                            </div>
-
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <span className="text-lg p-2 font-medium text-white bg-teal-600 rounded-lg">
                                     Aviso N° {escenario.aviso}
@@ -136,10 +130,10 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                         {data['inundaciones'].slice(0, 1).map((item, index) => (
                                             <div key={`data-inundaciones-${index}`} className="p-3 h-full flex flex-col justify-between text-left"> {/* h-full */}
                                                 <div className="flex flex-col gap-2">
-                                                    <div className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
+                                                    <div className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} text-xs text-white text-center font-semibold py-1 rounded`}>
                                                         {nivelNombre[item.nivel]}
                                                     </div>
-                                                    <div className="text-sm text-teal-600">
+                                                    <div className="text-xs text-teal-600">
                                                         Departamentos:
                                                         <span className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} bg-white font-semibold`}>
                                                             {item.departamentos && formatNombreArray(item.departamentos)}
@@ -159,7 +153,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                             </div>
                                         ))}
 
-                                        <div className="p-2 col-span-2">
+                                        <div className="p-2 col-span-2 flex justify-center items-center">
                                             <div className="grid grid-cols-[1fr_auto_1fr] justify-items-center items-center gap-6 w-full text-teal-600 font-semibold">
 
                                                 {/* Datos del bloque izquierdo */}
@@ -210,10 +204,10 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                         {data['inundaciones'].slice(1, 2).map((item, index) => (
                                             <div key={`data-inundaciones-${index}`} className="p-3 h-full flex flex-col justify-between text-left"> {/* h-full */}
                                                 <div className="flex flex-col gap-2">
-                                                    <div className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} text-white text-center font-semibold py-1 rounded`}>
+                                                    <div className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} text-xs text-white text-center font-semibold py-1 rounded`}>
                                                         {nivelNombre[item.nivel]}
                                                     </div>
-                                                    <div className="text-sm text-teal-600">
+                                                    <div className="text-xs text-teal-600">
                                                         Departamentos:
                                                         <span className={`${nivelColorClasses[nivelNombre[item.nivel].toUpperCase()]} bg-white font-semibold`}>
                                                             {item.departamentos && formatNombreArray(item.departamentos)}

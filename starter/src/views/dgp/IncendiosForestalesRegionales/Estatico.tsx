@@ -71,26 +71,6 @@ const IncendiosForestalesRegionalesEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-
-                            <div className='flex justify-between gap-4 items-center mb-3'>
-                                <div className='flex-1 flex flex-col items-center text-center'>
-                                    <h3 className="text-center font-semibold text-teal-600">
-                                        {escenario.nombre}
-                                    </h3>
-                                    {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                        <h3 key={index} className='font-bold text-green-600/70'>
-                                            DEPARTAMENTO DE {formatDepartamentArray(item.departamentos ?? null)}
-                                        </h3>
-                                    ))}
-                                </div>
-                                <div className='flex flex-col gap-3 items-center'>
-                                    <div className="p-2 bg-teal-600 rounded-full">
-                                        <h5 className='font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h5>
-                                    </div>
-                                </div>
-
-                            </div>
-
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
 
                                 <div className="w-full flex justify-start">
@@ -119,8 +99,19 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                 </div>
 
                                 <div className='col-span-2'>
-                                    <div className='flex flex-col gap-8'>
-                                        <div className='w-full flex flex-col justify-center'>
+                                    <div className='flex flex-col gap-2'>
+                                        <div className='flex-1 flex flex-col items-center text-center'>
+                                            <h3 className="text-sm text-center font-semibold text-teal-600">
+                                                {escenario.nombre}
+                                            </h3>
+                                            {data['inundaciones'].slice(0, 1).map((item, index) => (
+                                                <h3 key={index} className='text-sm text-center font-bold text-green-600/70'>
+                                                    DEPARTAMENTO DE {formatDepartamentArray(item.departamentos ?? null)}
+                                                </h3>
+                                            ))}
+                                        </div>
+
+                                        <div className='w-full flex flex-col items-center justify-center'>
                                             {escenario.mapas && escenario.mapas[0] && (
                                                 <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
                                                     escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
@@ -132,12 +123,15 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
 
                                 {data['inundaciones'].slice(0, 1).map((item, index) => (
                                     <div key={index} className="flex flex-col gap-3 justify-start items-center">
+
+                                        <div className="p-2 bg-teal-600 rounded-full">
+                                            <h4 className='text-sm font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
+                                        </div>
+
                                         {/* Nivel de riesgo */}
                                         <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold p-2 w-full rounded`}>
                                             {item.nivel}
@@ -192,12 +186,6 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                                     <p className="text-md">Sup. Agricola (Ha)</p>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div className="flex items-center justify-center pb-5">
-                                            <Button size="xs" variant="solid" icon={<BiDownload />}>
-                                                Descargar PPT
-                                            </Button>
                                         </div>
 
                                     </div>
