@@ -91,10 +91,10 @@ const SismosTsunamiNacionalEstatico = () => {
                                                     </div>
                                                 </div>
 
-                                                {escenario.mapas && escenario.mapas[0] && (
+                                                {escenario.mapas && escenario.mapas[index] && (
                                                     <ImageZoom
                                                         src={
-                                                            escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta
+                                                            escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[index].ruta
                                                         }
                                                     />
                                                 )}
@@ -133,8 +133,8 @@ const SismosTsunamiNacionalEstatico = () => {
                                                 </div>
 
                                                 <div className='w-full flex justify-center items-center'>
-                                                    {escenario.mapas && escenario.mapas[0] && (
-                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
+                                                    {escenario.mapas && escenario.mapas[index] && (
+                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index].ruta} />
                                                     )}
                                                 </div>
 
