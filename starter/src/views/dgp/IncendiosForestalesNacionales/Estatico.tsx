@@ -1,14 +1,14 @@
-import { Button, Card, Skeleton, Tabs } from "@/components/ui";
+import { Card, Skeleton, Tabs } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaHotel, FaUsers } from "react-icons/fa";
-import ImageLoad from "../ImageLoad";
-import { BiDownload, BiSolidSchool } from "react-icons/bi";
+import { BiSolidSchool } from "react-icons/bi";
 import { BsHospital, BsTreeFill } from "react-icons/bs";
 import NumeroFormateado from "@/utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -61,12 +61,14 @@ const IncendiosForestalesNacionalesEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
+
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
+
                                 <div className="w-full flex justify-start">
                                     <div className="flex flex-col gap-4 w-full">
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad
-                                                path={
+                                            <ImageZoom
+                                                src={
                                                     escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0] ?
                                                         escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta : null
                                                 }
@@ -106,7 +108,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                         </div>
 
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
+                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
                                                 escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
                                         )}
 

@@ -4,10 +4,10 @@ import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
-import ImageLoad from "../ImageLoad";
 import { BiDownload } from "react-icons/bi";
 import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -245,7 +245,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
 
                                 <div className='flex items-center  justify-center w-full'>
                                     {escenario.mapas && escenario.mapas[0] && (
-                                        <ImageLoad path={escenario.mapas[0] ?
+                                        <ImageZoom src={escenario.mapas[0] ?
                                             escenario.mapas[0].ruta : null} />
                                     )}
                                 </div>

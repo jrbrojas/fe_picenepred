@@ -6,9 +6,9 @@ import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
 import { BiDownload, BiSolidSchool } from 'react-icons/bi'
 import { BsHospital } from "react-icons/bs";
-import ImageLoad from "../ImageLoad";
 import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -291,7 +291,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
 
                                             <div className='flex items-center  justify-center'>
                                                 {escenario.mapas && escenario.mapas[index] && (
-                                                    <ImageLoad path={escenario.mapas[index] ?
+                                                    <ImageZoom src={escenario.mapas[index] ?
                                                         escenario.mapas[index].ruta : null} />
                                                 )}
                                             </div>

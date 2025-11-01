@@ -3,12 +3,12 @@ import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
-import { FaCarSide, FaFaucet, FaHome, FaHotel, FaUsers } from "react-icons/fa";
-import ImageLoad from "../ImageLoad";
+import { FaCarSide, FaFaucet, FaHome, FaUsers } from "react-icons/fa";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
-import { BsHospital, BsTreeFill } from "react-icons/bs";
+import { BsHospital } from "react-icons/bs";
 import NumeroFormateado from "@/utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -92,12 +92,13 @@ const SismosTsunamiNacionalEstatico = () => {
                                                 </div>
 
                                                 {escenario.mapas && escenario.mapas[0] && (
-                                                    <ImageLoad
-                                                        path={
+                                                    <ImageZoom
+                                                        src={
                                                             escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta
                                                         }
                                                     />
                                                 )}
+
 
                                                 <div className="flex flex-col items-center text-center gap-2 w-full">
                                                     <span className="font-bold">Fuente: CENEPRED (2025)</span>
@@ -133,7 +134,7 @@ const SismosTsunamiNacionalEstatico = () => {
 
                                                 <div className='w-full flex justify-center items-center'>
                                                     {escenario.mapas && escenario.mapas[0] && (
-                                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
+                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta} />
                                                     )}
                                                 </div>
 

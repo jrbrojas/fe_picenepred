@@ -4,11 +4,11 @@ import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
-import ImageLoad from "../ImageLoad";
 import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital } from "react-icons/bs";
 import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MA': 'text-red-500 bg-red-500',
@@ -115,14 +115,14 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                 <div className='flex flex-col items-center justify-center gap-2'>
                                     <div className='flex justify-center w-full'>
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0] ?
+                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0] ?
                                                 escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0].ruta : null} />
                                         )}
 
                                     </div>
                                     <div className='flex justify-center w-full'>
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0] ?
+                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0] ?
                                                 escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0].ruta : null} />
                                         )}
                                     </div>
@@ -130,7 +130,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
 
                                 <div className='col-span-2 flex items-center justify-center'>
                                     {escenario.mapas && escenario.mapas[0] && (
-                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
+                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
                                             escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
                                     )}
                                 </div>

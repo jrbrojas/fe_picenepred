@@ -6,9 +6,9 @@ import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
 import { BiDownload, BiSolidSchool } from 'react-icons/bi'
 import { BsHospital } from "react-icons/bs";
-import ImageLoad from "../ImageLoad";
 import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -123,22 +123,22 @@ const LluviasAvisoTrimestralEstatico = () => {
                                             <div className='flex flex-col justify-center items-center gap-2'>
                                                 <div className='w-full flex justify-center'>
                                                     {escenario.mapas && escenario.mapas[index] && (
-                                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index] ?
+                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index] ?
                                                             escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index].ruta : null} />
                                                     )}
 
                                                 </div>
                                                 <div className='w-full flex justify-center'>
                                                     {escenario.mapas && escenario.mapas[index] && (
-                                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[index] ?
+                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[index] ?
                                                             escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[index].ruta : null} />
                                                     )}
                                                 </div>
                                             </div>
 
-                                            <div className='col-span-2 flex items-center justify-center'>
+                                            <div className='col-span-2 flex items-start justify-center'>
                                                 {escenario.mapas && escenario.mapas[index] && (
-                                                    <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index] ?
+                                                    <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index] ?
                                                         escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index].ruta : null} />
                                                 )}
                                             </div>

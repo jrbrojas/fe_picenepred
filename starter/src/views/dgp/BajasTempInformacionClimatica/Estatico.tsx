@@ -1,14 +1,12 @@
-import { Button, Card, Skeleton, Tabs } from "@/components/ui";
+import { Card, Skeleton, Tabs } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaUsers } from "react-icons/fa";
-import ImageLoad from "../ImageLoad";
-import { BiDownload, BiSolidSchool } from "react-icons/bi";
-import { BsHospital } from "react-icons/bs";
 import NumeroFormateado from "@/utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -63,11 +61,14 @@ const BajasTempInformacionClimaticaEstatico = () => {
                         <div className='p-2'>
                             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
 
-                                <div className='flex flex-col gap-4 w-full'>
-                                    {escenario.mapas && escenario.mapas[0] && (
-                                        <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0] ?
-                                            escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0].ruta : null} />
-                                    )}
+                                <div className='flex flex-col gap-4'>
+                                    <div className='flex justify-center items-center overflow-hidden rounded-lg'>
+                                        {escenario.mapas && escenario.mapas[0] && (
+                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0] ?
+                                                escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0].ruta : null} />
+                                        )}
+                                    </div>
+
                                     <div className="flex flex-col items-center text-center gap-2 w-full">
                                         <span className="text-xs">Fuente: CENEPRED (2025)</span>
                                         <a
@@ -82,14 +83,14 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                 </div>
 
                                 <div className='col-span-2 flex-col items-center justify-center'>
-                                    <div className='flex-1 flex-col items-center text-center'>
-                                        <h5 className="text-sm text-center font-semibold text-teal-600">{escenario.nombre}</h5>
-                                        <h5 className="text-sm text-center font-semibold text-green-600/60">{escenario.subtitulo}</h5>
+                                    <div className='flex-1 flex-col items-center text-center mb-2'>
+                                        <h6 className="text-center font-semibold text-teal-600">{escenario.nombre}</h6>
+                                        <h6 className="text-center font-semibold text-green-600/60">{escenario.subtitulo}</h6>
                                     </div>
 
-                                    <div className='w-full flex justify-center mb-4'>
+                                    <div className='w-full mb-4'>
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
+                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
                                                 escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
                                         )}
                                     </div>
@@ -102,13 +103,13 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                 </div>
 
                                 {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                    <div key={index} className="flex flex-col gap-3 justify-start items-center">
+                                    <div key={index} className="flex flex-col gap-3 justify-start items-center w-full">
 
                                         <div className="p-2 bg-teal-600 rounded-full">
                                             <h4 className='text-sm font-medium text-white mr-4 ml-4'>HELADAS</h4>
                                         </div>
 
-                                        <div className="bg-gray-200/50 rounded-4xl p-12 space-y-5">
+                                        <div className="bg-gray-200/50 rounded-4xl p-5 space-y-5 w-full">
                                             {/* Distritos */}
                                             <div className="flex items-center gap-8">
                                                 <TbMapPin className="text-cyan-600" size={50} />
@@ -134,16 +135,17 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex flex-col p-8">
+
+                                        <div className="flex flex-col p-5">
                                             {/* Nivel de riesgo */}
-                                            <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded mt-10`}>
+                                            <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded `}>
                                                 {item.nivel}
                                             </div>
-                                            <div className="mt-3 text-sm text-teal-600 font-semibold">
+                                            <div className="mt-5 text-xs text-teal-600 font-semibold">
                                                 Departamentos con población expuesta:
                                                 {item.departamentos_poblacion && item.departamentos_poblacion?.map((depa, index) => (
                                                     <p key={index} className='flex justify-between items-center'>
-                                                        <span className="font-bold">{depa.departamento}</span> {depa.total_poblacion}
+                                                        <span className="font-bold">{depa.departamento}</span> {NumeroFormateado(depa.total_poblacion)}
                                                     </p>
                                                 ))}
                                             </div>

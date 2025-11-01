@@ -2,10 +2,9 @@ import { Button, Card, Skeleton, Tabs } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
-import ImageLoad from "../ImageLoad";
-import { BiDownload } from "react-icons/bi";
 import NumeroFormateado from "@/utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
+import ImageZoom from "../ImageZoom";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -76,7 +75,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                 <div className='grid grid-cols-2 items-stretch border rounded-xl border-teal-600'>
                                     <div className='w-full h-full p-3 flex justify-center items-center aspect-[3/4]'>
                                         {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageLoad path={escenario.mapas[0] ? escenario.mapas[0].ruta : null} />
+                                            <ImageZoom src={escenario.mapas[0] ? escenario.mapas[0].ruta : null} />
                                         )}
                                     </div>
                                     <div className='flex flex-col text-center justify-start items-center mt-3'>
@@ -159,7 +158,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                 <div className='grid grid-cols-2 items-stretch border rounded-xl border-teal-600'>
                                     <div className='w-full h-full p-3 flex justify-center items-center aspect-[3/4]'>
                                         {escenario.mapas && escenario.mapas[1] && (
-                                            <ImageLoad path={escenario.mapas[1] ? escenario.mapas[1].ruta : null} />
+                                            <ImageZoom src={escenario.mapas[1] ? escenario.mapas[1].ruta : null} />
                                         )}
                                     </div>
                                     <div className='flex flex-col text-center justify-start items-center mt-3'>
