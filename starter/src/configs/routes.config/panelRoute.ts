@@ -123,6 +123,12 @@ const panelRoute: Routes = [
         component: lazy(() => import('@/views/dgp/SismosTsunamiNacional/Dinamico')),
         authority: [],
     },
+    {
+        key: 'gestionProcesos.informe.general',
+        path: '/gestion-procesos/informe-general',
+        component: lazy(() => import('@/views/dgp/InformeGeneral')),
+        authority: [],
+    },
 
     // Rutas para Fortalecimiento (DIFAT)
     {

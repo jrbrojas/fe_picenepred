@@ -1,4 +1,4 @@
-const CenepredDashboard = () => {
+const InformeGeneral = () => {
     return (
         <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
             <iframe 
@@ -11,4 +11,4 @@ const CenepredDashboard = () => {
     )
 }
 
-export default CenepredDashboard
+export default InformeGeneral
