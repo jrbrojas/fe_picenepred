@@ -85,14 +85,15 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                         )}
 
                                         <div className="flex flex-col items-center text-center gap-2 w-full">
-                                            <span className="text-xs">Fuente: CENEPRED (2025)</span>
+                                            <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
                                             <a
-                                                className="bg-teal-600 px-3 py-2 text-white rounded-md hover:bg-teal-700 transition break-words whitespace-normal w-full max-w-full text-xs"
                                                 href={escenario.url_base}
                                                 target="_blank"
-                                                rel="noopener noreferrer"
+                                                rel="noreferrer"
+                                                title={escenario.url_base}
+                                                className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
                                             >
-                                                {escenario.url_base}
+                                                Ver mayor detalles
                                             </a>
                                         </div>
                                     </div>
