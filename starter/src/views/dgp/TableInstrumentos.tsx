@@ -53,14 +53,17 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
           <Th
               data-tooltip-id='dgp-tabla-instrumentos'
               data-tooltip-content='Plan de Prevención y Reducción del Riesgo de Desastres'
+              className='text-center'
           >PPRRD</Th>
           <Th
               data-tooltip-id='dgp-tabla-instrumentos'
               data-tooltip-content='Evaluación de Riesgo'
+              className='text-center'
           >EVAR</Th>
           <Th
               data-tooltip-id='dgp-tabla-instrumentos'
               data-tooltip-content='Reasentamiento Poblacional'
+              className='text-center'
           >REAS</Th>
         </Tr>
       </THead>
@@ -96,9 +99,9 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
                     {depName}
                   </button>
                 </Td>
-                <Td>{depTotals.pprrd}</Td>
-                <Td>{depTotals.evar}</Td>
-                <Td>{depTotals.reas}</Td>
+                <Td className="text-center">{depTotals.pprrd}</Td>
+                <Td className="text-center">{depTotals.evar}</Td>
+                <Td className="text-center">{depTotals.reas}</Td>
               </Tr>
 
               {/* Provincias del DEP (colapsables) */}
@@ -133,9 +136,9 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
                             {provName}
                           </button>
                         </Td>
-                        <Td>{provTotals.pprrd}</Td>
-                        <Td>{provTotals.evar}</Td>
-                        <Td>{provTotals.reas}</Td>
+                        <Td className="text-center">{provTotals.pprrd}</Td>
+                        <Td className="text-center">{provTotals.evar}</Td>
+                        <Td className="text-center">{provTotals.reas}</Td>
                       </Tr>
 
                       {/* Distritos */}
@@ -143,9 +146,9 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
                         Object.entries(provObj.distritos ?? {}).map(([distName, val]) => (
                           <Tr key={`dist-${depName}-${provName}-${distName}`} id={`prov-${key}-rows`}>
                             <Td className="pl-14">{distName}</Td>
-                            <Td>{Number(val?.pprrd ?? 0)}</Td>
-                            <Td>{Number(val?.evar ?? 0)}</Td>
-                            <Td>{Number(val?.reas ?? val?.reas_pob ?? val?.act_rep ?? 0)}</Td>
+                            <Td className="text-center">{Number(val?.pprrd ?? 0)}</Td>
+                            <Td className="text-center">{Number(val?.evar ?? 0)}</Td>
+                            <Td className="text-center">{Number(val?.reas ?? val?.reas_pob ?? val?.act_rep ?? 0)}</Td>
                           </Tr>
                         ))}
                     </Fragment>
