@@ -2,6 +2,7 @@ import { Fragment, useMemo, useState } from 'react'
 import { HiChevronRight, HiChevronDown } from 'react-icons/hi'
 import Table from '@/components/ui/Table'
 const { Tr, Th, Td, THead, TBody } = Table
+import { Tooltip } from 'react-tooltip'
 
 type NivelItem = {
   nivel: string
@@ -43,13 +44,24 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
   if (!nivel) return null
 
   return (
+  <>
+    <Tooltip id="dgp-tabla-instrumentos" style={{ zIndex: 3000 }} opacity={1}/>
     <Table className='border border-gray-300' compact>
       <THead className='bg-gray-100'>
         <Tr>
           <Th>DEPARTAMENTO / PROVINCIA / DISTRITO</Th>
-          <Th>PPRRD</Th>
-          <Th>EVAR</Th>
-          <Th>REAS</Th>
+          <Th
+              data-tooltip-id='dgp-tabla-instrumentos'
+              data-tooltip-content='Plan de Prevención y Reducción del Riesgo de Desastres'
+          >PPRRD</Th>
+          <Th
+              data-tooltip-id='dgp-tabla-instrumentos'
+              data-tooltip-content='Evaluación de Riesgo'
+          >EVAR</Th>
+          <Th
+              data-tooltip-id='dgp-tabla-instrumentos'
+              data-tooltip-content='Reasentamiento Poblacional'
+          >REAS</Th>
         </Tr>
       </THead>
       <TBody>
@@ -144,5 +156,6 @@ export default function TableInstrumentos({ instrumentos, tipo }: { instrumentos
         })}
       </TBody>
     </Table>
+  </>
   )
 }
