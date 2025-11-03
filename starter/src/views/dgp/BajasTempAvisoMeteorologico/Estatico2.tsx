@@ -8,6 +8,7 @@ import { BiDownload } from "react-icons/bi";
 import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
+import FechaRango from "../FechaReango";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -119,8 +120,10 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                         <div className='text-teal-600 flex flex-col gap-1 items-center'>
                                             <p className='text-lg font-semibold'>{escenario.subtitulo}</p>
                                             <p>
-                                                del {new Date(escenario.fecha_inicio).getDate()} al
-                                                {new Date(escenario.fecha_fin).getDate()} de {new Date(escenario.fecha_fin).toLocaleDateString("es-ES", { month: "long" })}
+                                                <FechaRango
+                                                    fechaInicio={escenario.fecha_inicio}
+                                                    fechaFin={escenario.fecha_fin}
+                                                />
                                             </p>
                                         </div>
                                     </div>
@@ -235,9 +238,15 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                     </div>
 
                                     <div className='flex items-center gap-2'>
-                                        <span className='text-xs'>Fuente: CENEPRED (2025)</span>
-                                        <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
-                                            {escenario.url_base}
+                                        <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
+                                        <a
+                                            href={escenario.url_base}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            title={escenario.url_base}
+                                            className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
+                                        >
+                                            Ver mayor detalles
                                         </a>
                                     </div>
 

@@ -209,9 +209,15 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                     ))}
 
                                     <div className='flex items-center gap-2 mt-5'>
-                                        <span className='text-xs'>Fuente: CENEPRED (2025)</span>
-                                        <a className='bg-teal-600 p-2 text-white rounded-md' href={escenario.url_base} target='_blank'>
-                                            {escenario.url_base}
+                                        <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
+                                        <a
+                                            href={escenario.url_base}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            title={escenario.url_base}
+                                            className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
+                                        >
+                                            Ver mayor detalles
                                         </a>
                                     </div>
                                 </div>
