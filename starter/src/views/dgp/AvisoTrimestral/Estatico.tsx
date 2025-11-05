@@ -148,7 +148,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                                                     {mesInicio.toUpperCase()} - {mesFin.toUpperCase()} {year}
                                                 </h3>
                                                 <h3 className='font-semibold text-green-600/70 text-center'>
-                                                    {tipo == 'inundaciones' ? 'Inundación' : 'Movimeinto en masa'}
+                                                    {tipo == 'inundaciones' ? 'Inundación' : 'Movimiento en masa'}
                                                 </h3>
 
                                                 {data[tipo].slice(0, 1).map((item, index) => (
@@ -228,7 +228,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                                                         title={escenario.url_base}
                                                         className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
                                                     >
-                                                        Ver mayor detalles
+                                                        Ver Informe Escenario de Riesgo
                                                     </a>
                                                 </div>
                                             </div>
