@@ -43,8 +43,8 @@ const SignInForm = (props: SignInFormProps) => {
 
     const { handleSubmit, formState: { errors }, control, } = useForm<SignInFormSchema>({
         defaultValues: {
-            email: 'crltorres@cenepred.gob.pe',
-            password: 'abcdef',
+            email: '',
+            password: '',
         },
         resolver: zodResolver(validationSchema),
     })
@@ -86,7 +86,7 @@ const SignInForm = (props: SignInFormProps) => {
                             <Input
                                 type="email"
                                 placeholder="correo@gmail.com"
-                                autoComplete="off"
+                                autoComplete="email"
                                 {...field}
                             />
                         )}

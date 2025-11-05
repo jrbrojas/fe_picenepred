@@ -2,7 +2,6 @@ import StackedSideNav from '@/components/template/StackedSideNav'
 import Header from '@/components/template/Header'
 import MobileNav from '@/components/template/MobileNav'
 import Search from '@/components/template/Search'
-import LanguageSelector from '@/components/template/LanguageSelector'
 import Notification from '@/components/template/Notification'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
 import SidePanel from '@/components//template/SidePanel'
@@ -32,7 +31,6 @@ const StackedSide = ({ children }: CommonProps) => {
                         }
                         headerEnd={
                             <>
-                                <LanguageSelector />
                                 <Notification />
                                 <SidePanel />
                                 <UserProfileDropdown hoverable={false} />

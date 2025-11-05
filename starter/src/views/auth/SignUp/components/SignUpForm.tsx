@@ -95,7 +95,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 <Input
                                     type="text"
                                     placeholder="Ingrese nombre(s)"
-                                    autoComplete="off"
+                                    autoComplete="given-name"
                                     {...field}
                                 />
                             )}
@@ -114,7 +114,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 <Input
                                     type="text"
                                     placeholder="Ingrese apellidos"
-                                    autoComplete="off"
+                                    autoComplete="family-name"
                                     {...field}
                                 />
                             )}
@@ -156,7 +156,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 <Input
                                     type="email"
                                     placeholder="Correo electrónico"
-                                    autoComplete="off"
+                                    autoComplete="email"
                                     {...field}
                                 />
                             )}
