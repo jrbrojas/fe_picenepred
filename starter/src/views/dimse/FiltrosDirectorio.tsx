@@ -101,6 +101,7 @@ export default function FiltrosDirectorio({
                         <Input
                             value={field.value}
                             placeholder="Ingrese nombre, dni o entidad"
+                            aria-label='Buscar por nombre, dni o entidad'
                             onKeyUp={onEnter}
                             onChange={evt => {
                                 field.onChange(evt);
@@ -130,6 +131,9 @@ export default function FiltrosDirectorio({
                 />
                 <Button
                     icon={<TbFilterPlus />}
+                    id="btn-directorio-filtros"
+                    aria-controls="contenedor-directorio-filtros"
+                    aria-expanded={verFiltros ? 'true' : 'false'}
                     onClick={() => {
                     setVerFiltros(!verFiltros)
                     if (verFiltros) {
@@ -143,7 +147,12 @@ export default function FiltrosDirectorio({
                     type="button"
                 >Mas Filtros</Button>
             </div>
-            <div className={verFiltros ? "flex w-full gap-4" : "hidden"}>
+            <div
+                className={verFiltros ? "flex w-full gap-4" : "hidden"}
+                id="contenedor-directorio-filtros"
+                role="region"
+                aria-labelledby="btn-directorio-filtros"
+            >
                 <FormItem label="Entidad" className="flex-1 mb-0">
                     <Controller
                         name="entidad"
