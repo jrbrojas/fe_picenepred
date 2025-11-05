@@ -62,6 +62,7 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                         }
                         headerEnd={
                             <>
+                                {/*<Search />*/}
                                 {/* <LanguageSelector /> */}
                                 {/* <Notification /> */}
                                 {/* <SidePanel /> */}

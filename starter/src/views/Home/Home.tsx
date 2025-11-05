@@ -8,6 +8,7 @@ import HomeHero from './components/HomeHero'
 import Monitoreo from './components/Monitoreo'
 import Nav from './components/Nav'
 import { useState } from 'react'
+import Search from '@/components/template/Search'
 
 const Home = () => {
     const isLarge = useIsLargeScreen()
@@ -47,6 +48,7 @@ const Home = () => {
                             <UserDropdown />
                         ) : (
                             <div className="flex flex-col lg:flex-row items-center gap-3">
+                                <Search />
                                 <Button
                                     size={isLarge ? 'lg' : 'xs'}
                                     onClick={() => navigate(`/sign-up`)}
