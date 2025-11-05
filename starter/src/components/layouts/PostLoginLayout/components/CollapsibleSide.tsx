@@ -3,7 +3,6 @@ import Header from '@/components/template/Header'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
 import Search from '@/components/template/Search'
-import LanguageSelector from '@/components/template/LanguageSelector'
 import Notification from '@/components/template/Notification'
 import UserProfileDropdown from '@/components//template/UserProfileDropdown'
 import SidePanel from '@/components//template/SidePanel'
@@ -62,7 +61,6 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                         }
                         headerEnd={
                             <>
-                                {/* <LanguageSelector /> */}
                                 {/* <Notification /> */}
                                 {/* <SidePanel /> */}
                                 <UserProfileDropdown hoverable={false} />
