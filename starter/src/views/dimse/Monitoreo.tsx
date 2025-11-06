@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
-import { Select } from '@/components/ui'
+import { Badge, Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import promedioDeGrupo, { Valor, promedio, promedioPorSuma } from './promedio'
 import MapaPeru from './MapaPeru'
@@ -11,6 +11,8 @@ import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
 import Tabs from '@/components/ui/Tabs'
 import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
 import { Tooltip } from 'react-tooltip'
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { FaTimesCircle } from "react-icons/fa";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -122,6 +124,29 @@ type Counter = {
 interface CategoriaOption {
     value: string;
     label: string;
+}
+
+function ListaRespuestas({ respuestas }: { respuestas: number[] }) {
+    function getPregunta(codigo: string): Pregunta | null {
+        return preguntas.find(c => c.codigo == codigo) || null
+    }
+    return (
+        <div
+            className="grid grid-cols-2 p-2"
+            style={{ gridTemplateColumns: "1fr auto" }}
+        >
+                    {respuestas.map(
+                        (r, index) => (<>
+                            <p className="p-2 whitespace-normal border border-dashed border-gray-200">{getPregunta(`P${index + 1}`)?.pregunta}</p>
+                            <p className="p-2 border border-dashed border-gray-200 flex items-center justify-center">
+                                <span className={"w-[48px] flex items-center justify-center gap-[2px] badge px-2 py-1 min-w-6 rounded-full text-xs font-semibold text-white " + (r == 1 ? 'bg-success':'bg-error') }>
+                                    {r == 1 ? (<><IoCheckmarkDoneCircle /> SI</>): (<><FaTimesCircle /> NO</>) }
+                                </span>
+                            </p>
+                        </>)
+                    )}
+        </div>
+    )
 }
 
 interface Monitoreo extends MonitoreoResponse, ChartPorEntidadInfo {}
@@ -270,23 +295,23 @@ export default function TreeTableMonitoreo3Niveles() {
 
             <Card bordered={true} className="flex overflow-x-scroll">
                 <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-                    <table className="min-w-[1000px] table-fixed border-separate border-spacing-0 table-nowrap">
+                    <table className="w-full table-fixed border-separate border-spacing-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th onClick={() => { setQuery(`Peru`); }} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-2 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
+                                <th onClick={() => { setQuery(`Peru`); }} className="w-[240px] text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-2 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
                                     Localización
                                 </th>
                                 {COLS.map((c) => (
                                     <th
                                         key={c}
-                                        className="bg-slate-50 p-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 min-w-[36px] max-w-[36px]"
+                                        className="w-[48px] max-w-[48px] bg-slate-50 p-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 lg:table-cell hidden"
                                         data-tooltip-id='monitoreo-tooltip'
                                         data-tooltip-content={getPregunta(c)?.pregunta || ''}
                                     >
                                         {c}
                                     </th>
                                 ))}
-                                <th className="w-[120px] bg-slate-50 p-2 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap">
+                                <th className="w-[100px] max-w-[100px] bg-slate-50 p-2 text-center text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 whitespace-nowrap">
                                     Total %
                                 </th>
                             </tr>
@@ -333,7 +358,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                             {dTotals?.cols?.map((v, idx) => (
                                                 <td
                                                     key={idx}
-                                                    className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                    className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 lg:table-cell hidden"
                                                 >
                                                 </td>
                                             ))}
@@ -389,7 +414,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         key={
                                                                             idx
                                                                         }
-                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 lg:table-cell hidden"
                                                                     >
                                                                     </td>
                                                                 ),
@@ -449,7 +474,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                         key={
                                                                                             `${d.id}-${i}`
                                                                                         }
-                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 lg:table-cell hidden"
                                                                                     >
                                                                                     </td>
                                                                                 ),
@@ -462,7 +487,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         {distOpen &&
                                                                             d.entidades.map((entidad) => {
                                                                                 const entKey = `ENT:${entidad.id}`
-
+                                                                                const entOpen = expanded.has(entKey)
                                                                                 return (
                                                                                     <Fragment key={`FRAGENT-${entKey}`}>
                                                                                         <tr className="hover:bg-slate-50 bg-purple-50">
@@ -470,13 +495,34 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                 data-tooltip-id='monitoreo-tooltip'
                                                                                                 data-tooltip-content='Entidad'
                                                                                                 onClick={() => {
-                                                                                                setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                                toggle(entKey);
+                                                                                                setQuery(`${entidad.nombre}, ${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
+                                                                                                //setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
                                                                                             }} className="cursor-pointer bg-purple-50 sticky left-0 z-10 p-3 pl-22 ring-1 ring-slate-200">
-                                                                                                <span className="text-sm font-semibold text-slate-800">
-                                                                                                    {
-                                                                                                        entidad.nombre
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    aria-expanded={
+                                                                                                        distOpen
                                                                                                     }
-                                                                                                </span>
+                                                                                                    className="inline-flex items-center gap-2"
+                                                                                                >
+                                                                                                    <svg
+                                                                                                        className={`h-4 w-4 transform transition-transform ${entOpen ? 'rotate-90' : ''}`}
+                                                                                                        viewBox="0 0 24 24"
+                                                                                                        fill="none"
+                                                                                                        stroke="currentColor"
+                                                                                                        strokeWidth="2"
+                                                                                                        strokeLinecap="round"
+                                                                                                        strokeLinejoin="round"
+                                                                                                    >
+                                                                                                        <path d="M9 18l6-6-6-6" />
+                                                                                                    </svg>
+                                                                                                    <span className="text-sm font-semibold text-slate-800">
+                                                                                                        {
+                                                                                                            entidad.nombre
+                                                                                                        }
+                                                                                                    </span>
+                                                                                                </button>
                                                                                             </td>
                                                                                             {entidad.monitoreo.map(
                                                                                                 (
@@ -487,7 +533,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         key={
                                                                                                             `${entidad.id}-${i}`
                                                                                                         }
-                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 text-[11px]"
+                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 text-[11px] lg:table-cell hidden"
                                                                                                     >
                                                                                                         {v ? 'SI' : 'NO'}
                                                                                                     </td>
@@ -501,6 +547,13 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                     {(promedioPorSuma(entidad.monitoreo, 30) * 100).toFixed(2)} %
                                                                                             </td>
                                                                                         </tr>
+                                                                                        {entOpen &&
+                                                                                            <tr className="table-row lg:hidden bg-slate">
+                                                                                                <td colSpan={2}>
+                                                                                                    <ListaRespuestas respuestas={entidad.monitoreo} />
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        }
                                                                                     </Fragment>
                                                                                 )
                                                                             })}

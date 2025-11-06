@@ -7,9 +7,10 @@ interface Props {
 }
 
 function getLugar(data: any[]) {
-    const item = data.find((item) => ["region", "state"].includes(item.addresstype));
-    if (!item) {
-        return data[0];
+    const item = data.filter((item) => ["region", "state", "office"].includes(item.addresstype));
+    if (item.length > 0) {
+        const itemPol = item.find(i => i.geojson.type == 'Polygon');
+        return itemPol ?? data[0];
     }
     return item;
 }
