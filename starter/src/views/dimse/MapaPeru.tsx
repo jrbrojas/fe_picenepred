@@ -7,12 +7,11 @@ interface Props {
 }
 
 function getLugar(data: any[]) {
-    const item = data.filter((item) => ["region", "state", "office"].includes(item.addresstype));
-    if (item.length > 0) {
-        const itemPol = item.find(i => i.geojson.type == 'Polygon');
+    if (data.length > 0) {
+        const itemPol = data.find(i => i.geojson.type == 'Polygon');
         return itemPol ?? data[0];
     }
-    return item;
+    return null;
 }
 
 // 🔹 Subcomponente que ajusta el zoom al polígono
@@ -33,35 +32,45 @@ export default function MapaPeru({ query }: Props) {
     const [bounds, setBounds] = useState<LatLngBoundsExpression | null>(null);
     const [loading, setLoading] = useState(false); // ✅ loading state
 
-    useEffect(() => {
-        if (!query) return;
+    function encontrarLugar(data: any, q: string) {
+        if (data.length > 0) {
+            const lugar = getLugar(data);
+            setGeojson(lugar.geojson);
 
+            if (lugar.boundingbox) {
+                const bb = lugar.boundingbox.map(Number);
+                setBounds([
+                    [bb[0], bb[2]],
+                    [bb[1], bb[3]],
+                ] as LatLngBoundsExpression);
+            }
+            return;
+        }
+        const palabras = q.split(', ')
+        if (palabras.length > 4) {
+            fetchBuscarLugar(palabras.slice(-4).join(', '))
+            return;
+        }
+        setGeojson(null);
+        setBounds(null);
+    }
+
+    function fetchBuscarLugar(q: string) {
         setLoading(true); // empieza a cargar
 
         const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-            query
+            q
         )}&polygon_geojson=1&format=jsonv2`;
 
         fetch(url)
             .then((res) => res.json())
-            .then((data) => {
-                if (data.length > 0) {
-                    const lugar = getLugar(data);
-                    setGeojson(lugar.geojson);
-
-                    if (lugar.boundingbox) {
-                        const bb = lugar.boundingbox.map(Number);
-                        setBounds([
-                            [bb[0], bb[2]],
-                            [bb[1], bb[3]],
-                        ] as LatLngBoundsExpression);
-                    }
-                } else {
-                    setGeojson(null);
-                    setBounds(null);
-                }
-            })
+            .then((data) => encontrarLugar(data, q))
             .finally(() => setLoading(false)); // termina la carga
+    }
+
+    useEffect(() => {
+        if (!query) return;
+        fetchBuscarLugar(query);
     }, [query]);
 
     return (
