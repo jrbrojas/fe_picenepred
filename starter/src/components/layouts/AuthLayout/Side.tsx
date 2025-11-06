@@ -10,7 +10,7 @@ const Side = ({ children, ...rest }: SideProps) => {
            <Container>
                 <div className="flex flex-row w-full">
                     <div className="flex flex-col justify-center items-end flex-1">
-                        <div className="w-full xl:max-w-[450px] px-8 max-w-[380px]">
+                        <div className="w-full max-w-[600px]">
                             {children
                             ? cloneElement(children as React.ReactElement, {
                                 ...rest,
