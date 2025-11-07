@@ -91,11 +91,11 @@ const BajasTempAvisoTrimestralEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-                            <div className="flex items-center justify-end pb-5">
+                            {/* <div className="flex items-center justify-end pb-5">
                                 <Button size="xs" variant="solid" icon={<BiDownload />}>
                                     Descargar PPT
                                 </Button>
-                            </div>
+                            </div> */}
 
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <div className='flex-1 flex flex-col items-center text-center'>
@@ -208,7 +208,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                         </div>
                                     ))}
 
-                                    <div className='flex items-center gap-2 mt-5'>
+                                    <div className='flex items-center gap-2 mt-3'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
                                         <a
                                             href={escenario.url_base}
@@ -217,7 +217,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                             title={escenario.url_base}
                                             className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
                                         >
-                                            Ver mayor detalles
+                                            Ver Informe Escenario de Riesgo
                                         </a>
                                     </div>
                                 </div>

@@ -100,8 +100,8 @@ const MonitoreoCarrusel: React.FC<AulaVirtualProps> = ({
                     <h2 className="text-3xl font-bold text-[#078199]">
                         Monitoreo online
                     </h2>
-                    <div className="mt-3 inline-flex rounded-full bg-[#32C3D2]/15 px-4 py-1 text-sm font-semibold text-[#078199]">
-                        y en tiempo real
+                    <div className="mt-3 inline-flex rounded-full bg-[#32C3D2]/15 px-4 py-1 text-sm font-semibold text-[#057389]">
+                         y en tiempo real
                     </div>
                 </div>
 
@@ -150,7 +150,7 @@ const MonitoreoCarrusel: React.FC<AulaVirtualProps> = ({
                 </div>
 
                 <div className="mt-10 flex justify-center">
-                    <button className="rounded-full border border-[#32C3D2] px-6 py-2 text-sm font-medium text-[#32C3D2] transition hover:bg-[#32C3D2] hover:text-white">
+                    <button className="rounded-full border border-[#1e7e88] px-6 py-2 text-sm font-medium text-[#1e7e88] transition hover:bg-[#1e7e88] hover:text-white">
                         Ver todo
                     </button>
                 </div>

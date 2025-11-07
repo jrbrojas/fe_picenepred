@@ -57,17 +57,19 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                     </div>) : (
                     <div className='p-2'>
                         <div className='flex justify-between gap-4 items-center mb-3'>
+
                             <div className="text-md p-2 font-semibold text-white bg-teal-600 rounded-full">
                                 <p>PLAN MULTISECTORIAL</p>
                             </div>
+                            <div className='flex-1 flex flex-col items-center text-center mb-5'>
+                                <h4 className="font-bold text-teal-600">
+                                    ESCENARIO DE RIESGO POR INUNDACIONES Y MOVIMIENTOS EN MASA
+                                </h4>
+                                <h4 className='font-bold text-green-600/70'>{escenario.nombre}</h4>
+                            </div>
+
                         </div>
 
-                        <div className='flex-1 flex flex-col items-center text-center mb-5'>
-                            <h4 className="font-bold text-teal-600">
-                                ESCENARIO DE RIESGO POR INUNDACIONES Y MOVIMIENTOS EN MASA
-                            </h4>
-                            <h4 className='font-bold text-green-600/70'>{escenario.nombre}</h4>
-                        </div>
 
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 items-stretch'>
 
@@ -150,13 +152,26 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                     <div className="min-w-[720px] sm:min-w-0">
                                         <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
                                     </div>
+                                    <div className='flex items-center gap-3 mt-3'>
+                                        <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
+                                        <a
+                                            href={escenario.url_base}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            title={escenario.url_base}
+                                            className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
+                                        >
+                                            Ver Informe Escnario de Riesgo
+                                        </a>
+                                    </div>
+
                                 </div>
 
                             </div>
 
                             <div className='flex flex-col gap-4 items-stretch justify-start'>
                                 <div className='grid grid-cols-2 items-stretch border rounded-xl border-teal-600'>
-                                    <div className='w-full h-full p-3 flex justify-center items-center aspect-[3/4]'>
+                                    <div className='w-full h-full p-4 flex justify-center items-center aspect-[3/4]'>
                                         {escenario.mapas && escenario.mapas[1] && (
                                             <ImageZoom src={escenario.mapas[1] ? escenario.mapas[1].ruta : null} />
                                         )}
@@ -237,22 +252,6 @@ const LluviasAvisoMeteorologicoEstatico = () => {
 
                             </div>
 
-                        </div>
-
-                        <div className='flex items-start justify-between gap-3 mt-5'>
-
-                            <div className='flex items-center gap-3'>
-                                <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
-                                <a
-                                    href={escenario.url_base}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    title={escenario.url_base}
-                                    className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
-                                >
-                                    Ver mayor detalles
-                                </a>
-                            </div>
                         </div>
 
                     </div>

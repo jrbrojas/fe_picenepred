@@ -246,7 +246,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                             title={escenario.url_base}
                                             className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
                                         >
-                                            Ver mayor detalles
+                                            Ver Informe Escenario de Riesgo
                                         </a>
                                     </div>
 

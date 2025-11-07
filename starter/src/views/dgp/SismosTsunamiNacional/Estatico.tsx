@@ -97,7 +97,7 @@ const SismosTsunamiNacionalEstatico = () => {
                                                 )}
 
 
-                                                <div className="flex flex-col items-center text-center gap-2 w-full">
+                                                <div className='w-full flex items-center gap-2'>
                                                     <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
                                                     <a
                                                         href={escenario.url_base}
@@ -106,7 +106,7 @@ const SismosTsunamiNacionalEstatico = () => {
                                                         title={escenario.url_base}
                                                         className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
                                                     >
-                                                        Ver mayor detalles
+                                                        Ver Informe Escenario de Riesgo
                                                     </a>
                                                 </div>
                                             </div>

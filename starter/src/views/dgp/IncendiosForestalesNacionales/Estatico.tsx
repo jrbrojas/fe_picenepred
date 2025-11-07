@@ -85,20 +85,6 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                                 ))}
                                             </div>
                                         ))}
-
-                                        <div className="flex flex-col items-center text-center gap-2 w-full">
-                                            <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
-                                            <a
-                                                href={escenario.url_base}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                title={escenario.url_base}
-                                                className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
-                                            >
-                                                Ver mayor detalles
-                                            </a>
-                                        </div>
-
                                     </div>
                                 </div>
 
@@ -121,79 +107,93 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                     </div>
                                 </div>
 
-                                {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                    <div key={index} className="flex flex-col gap-3 justify-start items-center">
+                                <div className="flex flex-col gap-3 items-center">
+                                    {data['inundaciones'].slice(0, 1).map((item, index) => (
+                                        <div key={index} className="flex flex-col gap-3 justify-start items-center">
 
-                                        <div className="p-2 bg-teal-600 rounded-full">
-                                            <h4 className='text-sm font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
+                                            <div className="p-2 bg-teal-600 rounded-full">
+                                                <h4 className='text-sm font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
+                                            </div>
+
+                                            {/* Nivel de riesgo */}
+                                            <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold p-2 w-full rounded`}>
+                                                {item.nivel}
+                                            </div>
+
+                                            <div className="bg-gray-200/50 rounded-4xl p-5 space-y-5">
+                                                {/* Centros poblados */}
+                                                <div className="flex items-center gap-8">
+                                                    <TbMapPin className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_centro_poblado)}</p>
+                                                        <p className="text-md">Centros poblados</p>
+                                                    </div>
+                                                </div>
+                                                {/* Población */}
+                                                <div className="flex items-center gap-8">
+                                                    <FaUsers className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{item.total_poblacion}</p>
+                                                        <p className="text-md">Población</p>
+                                                    </div>
+                                                </div>
+                                                {/* Viviendas */}
+                                                <div className="flex items-center gap-8">
+                                                    <FaHome className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{item.total_vivienda}</p>
+                                                        <p className="text-md">Viviendas</p>
+                                                    </div>
+                                                </div>
+                                                {/* Inst. Educativas */}
+                                                <div className="flex items-center gap-8">
+                                                    <BiSolidSchool className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_inst_educativa)}</p>
+                                                        <p className="text-md">Inst. Educativas</p>
+                                                    </div>
+                                                </div>
+                                                {/* Est. Salud */}
+                                                <div className="flex items-center gap-8">
+                                                    <BsHospital className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_est_salud)}</p>
+                                                        <p className="text-md">Est. de Salud</p>
+                                                    </div>
+                                                </div>
+                                                {/* Superficie agricola */}
+                                                <div className="flex items-center gap-8">
+                                                    <BsTreeFill className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_superficie_agricola)}</p>
+                                                        <p className="text-md">Sup. Agricola (Ha)</p>
+                                                    </div>
+                                                </div>
+                                                {/* Mon. Arqueologicos */}
+                                                <div className="flex items-center gap-8">
+                                                    <FaHotel className="text-cyan-600" size={50} />
+                                                    <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
+                                                        <p className="text-xl font-bold">{NumeroFormateado(item.total_mon_arqueologico)}</p>
+                                                        <p className="text-md">Mon. Arqueológicos</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
-
-                                        {/* Nivel de riesgo */}
-                                        <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold p-2 w-full rounded`}>
-                                            {item.nivel}
-                                        </div>
-
-                                        <div className="bg-gray-200/50 rounded-4xl p-5 space-y-5">
-                                            {/* Centros poblados */}
-                                            <div className="flex items-center gap-8">
-                                                <TbMapPin className="text-cyan-600" size={50} />
-                                                <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_centro_poblado)}</p>
-                                                    <p className="text-md">Centros poblados</p>
-                                                </div>
-                                            </div>
-                                            {/* Población */}
-                                            <div className="flex items-center gap-8">
-                                                <FaUsers className="text-cyan-600" size={50} />
-                                                <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_poblacion}</p>
-                                                    <p className="text-md">Población</p>
-                                                </div>
-                                            </div>
-                                            {/* Viviendas */}
-                                            <div className="flex items-center gap-8">
-                                                <FaHome className="text-cyan-600" size={50} />
-                                                <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{item.total_vivienda}</p>
-                                                    <p className="text-md">Viviendas</p>
-                                                </div>
-                                            </div>
-                                            {/* Inst. Educativas */}
-                                            <div className="flex items-center gap-8">
-                                                <BiSolidSchool className="text-cyan-600" size={50} />
-                                                <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_inst_educativa)}</p>
-                                                    <p className="text-md">Inst. Educativas</p>
-                                                </div>
-                                            </div>
-                                            {/* Est. Salud */}
-                                            <div className="flex items-center gap-8">
-                                                <BsHospital className="text-cyan-600" size={50} />
-                                                <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_est_salud)}</p>
-                                                    <p className="text-md">Est. de Salud</p>
-                                                </div>
-                                            </div>
-                                            {/* Superficie agricola */}
-                                            <div className="flex items-center gap-8">
-                                                <BsTreeFill className="text-cyan-600" size={50} />
-                                                <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_superficie_agricola)}</p>
-                                                    <p className="text-md">Sup. Agricola (Ha)</p>
-                                                </div>
-                                            </div>
-                                            {/* Mon. Arqueologicos */}
-                                            <div className="flex items-center gap-8">
-                                                <FaHotel className="text-cyan-600" size={50} />
-                                                <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
-                                                    <p className="text-xl font-bold">{NumeroFormateado(item.total_mon_arqueologico)}</p>
-                                                    <p className="text-md">Mon. Arqueológicos</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                    ))}
+                                    <div className='w-full flex items-center gap-2'>
+                                        <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
+                                        <a
+                                            href={escenario.url_base}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            title={escenario.url_base}
+                                            className="block bg-teal-600 p-2 text-white rounded-md overflow-hidden whitespace-nowrap text-ellipsis"
+                                        >
+                                            Ver Informe Escenario de Riesgo
+                                        </a>
                                     </div>
-                                ))}
+                                </div>
                             </div>
                         </div>
 

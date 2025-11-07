@@ -37,29 +37,32 @@ export const SignInBase = ({
 
     return (
         <>
-            <div className="mb-8">
-                <div className="flex items-center gap-5">
-                    <img
-                        src="/img/logo/logo-cenepred.jpg"
-                        alt="CENEPRED"
-                        onClick={() => navigate('/')}
-                        className="h-24 md:h-24 w-auto object-contain cursor-pointer"
-                    />
-                    <img
-                        src="/img/logo/logo_sigrid.png"
-                        alt="SIGRID"
-                        className="h-18"
-                        onClick={() =>
-                        (window.location.href =
-                            'https://sigrid.cenepred.gob.pe/sigridv3/')
-                        }
-                    />
+            <div className="flex items-center justify-center gap-5 mb-3">
+                <img
+                    src="/img/logo/logo-cenepred.jpg"
+                    alt="CENEPRED"
+                    onClick={() => navigate('/')}
+                    className="h-24 md:h-24 w-auto object-contain cursor-pointer"
+                />
+                <img
+                    src="/img/logo/logo_sigrid.png"
+                    alt="SIGRID"
+                    className="h-18 cursor-pointer"
+                    onClick={() =>
+                    (window.location.href =
+                        'https://sigrid.cenepred.gob.pe/sigridv3/')
+                    }
+                />
 
-                </div>
             </div>
 
-            <div className="mb-8">
-                <h1 className="mb-2 text-center">Sistema CENEPRED</h1>
+            <div className="text-center mb-3">
+                <h1 className="text-2xl font-bold text-[#0097a7] mb-2">
+                    Sistema CENEPRED
+                </h1>
+                <p className="font-medium text-gray-600">
+                    Ingrese sus datos para ingresar en el sistema.
+                </p>
             </div>
 
             {message && (

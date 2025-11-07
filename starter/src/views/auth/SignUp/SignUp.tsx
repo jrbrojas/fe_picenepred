@@ -31,7 +31,7 @@ export const SignUpBase = ({
                 <img
                     src="/img/logo/logo_sigrid.png"
                     alt="SIGRID"
-                    className="h-18"
+                    className="h-18 cursor-pointer"
                     onClick={() =>
                     (window.location.href =
                         'https://sigrid.cenepred.gob.pe/sigridv3/')
@@ -44,9 +44,6 @@ export const SignUpBase = ({
                 <h1 className="text-2xl font-bold text-[#0097a7] mb-2">
                     Sistema CENEPRED
                 </h1>
-                {/* <h2 className="text-lg font-semibold mb-2 text-gray-700">
-                    ¡Bienvenido de vuelta!
-                </h2> */}
                 <p className="font-medium text-gray-600">
                     Ingrese sus datos para registrarse en el sistema.
                 </p>

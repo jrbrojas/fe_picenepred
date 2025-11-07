@@ -139,7 +139,7 @@ const AulaVirtual: React.FC<AulaVirtualProps> = ({
                 </div>
 
                 <div className="mt-10 flex justify-center">
-                    <button className="rounded-full border border-[#32C3D2] px-6 py-2 text-sm font-medium text-[#32C3D2] transition hover:bg-[#32C3D2] hover:text-white">
+                    <button className="rounded-full border border-[#1e7e88] px-6 py-2 text-sm font-medium text-[#1e7e88] transition hover:bg-[#1e7e88] hover:text-white">
                         Ver todo
                     </button>
                 </div>
