@@ -277,7 +277,7 @@ export default function TreeTableMonitoreo3Niveles() {
             <Tooltip id="monitoreo-tooltip" style={{ zIndex: 1000 }} opacity={1}/>
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-4">
                 <div>
-                    <h4 className="mb-1">Monitoreo{query}</h4>
+                    <h4 className="mb-1">Monitoreo</h4>
                     <p>Avance de Implementación de la Política Nacional y el PLANAGERD</p>
                 </div>
                 <div className="flex items-center gap-2">
