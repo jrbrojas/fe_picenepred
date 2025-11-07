@@ -2,6 +2,7 @@ export type AppConfig = {
     apiPrefix: string
     apiPrefixDGP: string
     apiPrefixDIMSE: string
+    apiPrefixSearch: string
     urlImagePrefix: string
     urlImagePrefixDGP: string
     urlImagePrefixDIMSE: string
@@ -17,6 +18,7 @@ const appConfig: AppConfig = {
     apiPrefix: import.meta.env.VITE_API_URL,
     apiPrefixDGP: import.meta.env.VITE_API_URL_DGP,
     apiPrefixDIMSE: import.meta.env.VITE_API_URL_DIMSE,
+    apiPrefixSearch: import.meta.env.VITE_API_URL_SEARCH,
     urlImagePrefix: import.meta.env.VITE_API_STORAGE_URL,
     urlImagePrefixDGP: import.meta.env.VITE_API_STORAGE_URL_DGP,
     urlImagePrefixDIMSE: import.meta.env.VITE_API_STORAGE_URL_DIMSE,

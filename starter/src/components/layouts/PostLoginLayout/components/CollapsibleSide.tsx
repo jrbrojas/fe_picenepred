@@ -55,13 +55,12 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                                         onClick={() => navigate('/')}
                                     />
                                 </Tooltip>}
-                                <h3 className="text-primary block md:hidden">{title}</h3>
-                                <h3 className="text-primary hidden md:block">{titleExt}</h3>
+                                <h3 className="ms-2 text-primary block md:hidden">{title}</h3>
+                                <h3 className="ms-2 text-primary hidden md:block">{titleExt}</h3>
                             </>
                         }
                         headerEnd={
                             <>
-                                {/*<Search />*/}
                                 {/* <LanguageSelector /> */}
                                 {/* <Notification /> */}
                                 {/* <SidePanel /> */}

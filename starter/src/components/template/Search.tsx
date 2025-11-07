@@ -1,222 +1,196 @@
-import { useState, useEffect, useMemo } from 'react'
-import debounce from 'lodash/debounce'
-import { HiOutlineSearch, HiChevronRight } from 'react-icons/hi'
-import { PiMagnifyingGlassDuotone } from 'react-icons/pi'
-import Highlighter from 'react-highlight-words'
-import { motion, AnimatePresence } from 'framer-motion'
-import ScrollBar from '@/components/ui/ScrollBar'
+import { useState, useRef, useEffect } from 'react'
+import classNames from '@/utils/classNames'
+import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
+import ScrollBar from '@/components/ui/ScrollBar'
+import { HiOutlineSearch } from 'react-icons/hi'
+import { PiMagnifyingGlassDuotone } from 'react-icons/pi'
+import Highlighter from 'react-highlight-words'
+import apiGet from '@/services/ApiServiceSearch'
 
-
-// Mock de datos (puedes luego reemplazar con API real)
-/*const mockData = [
-  {
-    nombre: 'Informe de evaluación de riesgos originado por deslizamiento del suelo en el área de influencia de la quebrada El Zanjón',
-    tipo_docum: 'EVAR',
-    anio: '2021',
-    descripcio: 'Determina los niveles de riesgo por deslizamiento de suelo en el área de influencia de la Caseta de bombeo 1, Paita Alta, Piura.',
-    autor_corp: 'Municipalidad Provincial de Paita (MP Paita)',
-    ambito: 'PIURA - PAITA',
-  },
-  {
-    nombre: 'Informe de evaluación de riesgos por flujos de detritos en el centro poblado Aplao',
-    tipo_docum: 'EVAR',
-    anio: '2019',
-    descripcio: 'Riesgo por flujo de detritos originados por lluvias intensas en Aplao, Arequipa.',
-    autor_corp: 'Municipalidad Provincial de Castilla (MP Castilla)',
-    ambito: 'AREQUIPA - CASTILLA',
-  },
-  {
-    nombre: 'Evaluación de riesgo por fenómeno sísmico en Cusibamba Bajo, Misca y Limaccpata',
-    tipo_docum: 'EVAR',
-    anio: '2015',
-    descripcio: 'Caracteriza el fenómeno sísmico y escenarios de riesgo en Paruro, Cusco.',
-    autor_corp: 'Gobierno Regional del Cusco (GORE CUSCO)',
-    ambito: 'CUSCO - PARURO',
-  },
-]*/
-const mockData = [
-  {
-    nombre: "Informe de evaluación de riesgos originado por deslizamiento del suelo en el área de influencia de la quebrada El Zanjón, en la caseta de Bombeo 1, sector Paita Alta, distrito de Paita, provincia de Paita, departamento de Piura",
-    tipo_docum: "EVAR",
-    anio: "2021",
-    descripcio: "El objetivo del presente informe es determinar los niveles de riesgos por deslizamiento de suelo en el área de influencia de la infraestructura de la Caseta de bombeo 1, en la zona Paita Alta, distrito de Paita, provincia de Paita y departamento de Piura.",
-    ambito: "Caseta de Bombeo 1, DISTRITO PAITA, PAITA, PIURA"
-  },
-  {
-    nombre: "Informe de evaluación de riesgos por deslizamiento en el sector Oyón este, distrito de Oyón, provincia de Oyón, departamento de Lima",
-    tipo_docum: "EVAR",
-    anio: "2021",
-    descripcio: "El objetivo del presente informe es determinar los niveles de riesgo en el sector Oyón frente al peligro de movimientos en masa del tipo deslizamiento de sus laderas y taludes en el distrito y provincia de Oyón y departamento de Lima.",
-    ambito: "Sector Oyón este, DISTRITO OYON, OYON, LIMA"
-  },
-  {
-    nombre: "Informe de evaluación de riesgos por flujos de detritos originados por lluvias intensas en el centro poblado Aplao, anexos de Casquina y Caspani, distrito de Aplao, provincia de Castilla, departamento de Arequipa",
-    tipo_docum: "EVAR",
-    anio: "2019",
-    descripcio: "El presente estudio tuvo como objetivo determinar el nivel del riesgo por flujo de detritos originados por lluvias intensas en los anexos Casquina, Caspani y Centro Poblado de Aplao, distrito de Aplao, provincia de Castilla y departamento de Arequipa.",
-    ambito: "Centro poblado Aplao, anexos de Casquina y Caspani, DISTRITO APLAO, CASTILLA, AREQUIPA"
-  },
-  {
-    nombre: "Informe de evaluación del riesgo originado por inundación fluvial en el sector urbano del centro poblado de Chahuarma, distrito de Lircay, provincia de Angaraes, departamento de Huancavelica",
-    tipo_docum: "EVAR",
-    anio: "2020",
-    descripcio: "El objetivo del estudio fue determinar los niveles de riesgo originado por inundación en el sector urbano del centro poblado de Chahuarma, distrito de Lircay, provincia de Angaraes, departamento de Huancavelica.",
-    ambito: "Centro poblado Chahuarma, DISTRITO LIRCAY, ANGARAES, HUANCAVELICA"
-  },
-  {
-    nombre: "Informe de evaluación del riesgo de desastres por caída de suelos en la zona de reglamentación especial ZRESS10 'Chacahuaico', 'Magisterial Uvima Sute V', 'Monterrey' y Urb. 'Copropietarios La Amistad' de San Sebastián, provincia y departamento Cusco",
-    tipo_docum: "EVAR",
-    anio: "2021",
-    descripcio: "El objetivo del presente informe es determinar el nivel de Riesgo por caída de suelos en las A.P.V.s Chacahuaico, Magisterial Uvima Sute V, Monterrey y Urb. Copropietarios La Amistad, perteneciente a la Zona de Reglamentación Especial codificada como ZRESS10, ubicada en el distrito de San Sebastián, provincia y departamento de Cusco.",
-    ambito: "ZRESS10 'Chacahuaico', 'Magisterial Uvima Sute V', 'Monterrey' y Urb. 'Copropietarios La Amistad', DISTRITO SAN SEBASTIAN, CUSCO, CUSCO"
-  },
-  {
-    nombre: "Evaluación de riesgos originados por deslizamiento en las A.P.V. Virgen Concepción, Villa Franciscana y San Valentín, distrito de Santiago, provincia y departamento de Cusco",
-    tipo_docum: "EVAR",
-    anio: "2021",
-    descripcio: "El objetivo del presente informe es determinar el nivel de riesgo por deslizamiento en las agrupaciones vecinales Virgen Concepción, Villa Franciscana y San Valentín, del distrito de Santiago, provincia y departamento de Cusco.",
-    ambito: "A.P.V. Virgen Concepción, Villa Franciscana y San Valentín, DISTRITO SANTIAGO, CUSCO, CUSCO"
-  },
-  {
-    nombre: "Informe de evaluación del riesgo de desastres por propagación lateral en la zona de reglamentación especial ZRESS15 'APV Lucerinas, Lucerinas Sur, Magisterial Uvima Sut V y Monterrey', distrito de San Sebastián, provincia y departamento Cusco",
-    tipo_docum: "EVAR",
-    anio: "2021",
-    descripcio: "El presente informe tiene por objetivo determinar el nivel de riesgo por propagación lateral en las A.P.V.s Lucerinas, Lucerinas Sur, Magisterial Uvima Sute V y Monterrey, perteneciente a la Zona de Reglamentación Especial codificada como ZRESS15, ubicada en el distrito de San Sebastián, provincia y departamento de Cusco.",
-    ambito: "ZRESS15 'APV Lucerinas, Lucerinas Sur, Magisterial Uvima Sute V y Monterrey', DISTRITO SAN SEBASTIAN, CUSCO, CUSCO"
-  },
-  {
-    nombre: "Evaluación de riesgos originados por flujo de detritos en las A.P.V. Virgen Concepción, Villa Franciscana y San Valentín, distrito de Santiago, provincia y departamento de Cusco",
-    tipo_docum: "EVAR",
-    anio: "2021",
-    descripcio: "El objetivo del presente informe es determinar el nivel de riesgo por flujo de detritos en las agrupaciones vecinales Virgen Concepción, Villa Franciscana y San Valentín, del distrito de Santiago, provincia y departamento de Cusco.",
-    ambito: "A.P.V. Virgen Concepción, Villa Franciscana y San Valentín, DISTRITO SANTIAGO, CUSCO, CUSCO"
-  },
-  {
-    nombre: "Informe de evaluación de riesgo de inundación originado por el desborde del canal pluvial en el sector urbano del distrito de Sausa, provincia de Jauja, departamento de Junín",
-    tipo_docum: "EVAR",
-    anio: "2020",
-    descripcio: "El estudio determina los niveles de riesgo originado por el desborde del canal pluvial en el sector urbano del distrito de Sausa, provincia de Jauja, departamento de Junín, aplicando la metodología propuesta por el CENEPRED.",
-    ambito: "Canal pluvial del sector urbano, DISTRITO SAUSA, JAUJA, JUNIN"
-  },
-  {
-    nombre: "Informe de evaluación de riesgo originado por tsunami en el área delimitada por el sector Huanchaquito Bajo, centro poblado Huanchaquito, distrito Huanchaco, provincia Trujillo, departamento La Libertad",
-    tipo_docum: "EVAR",
-    anio: "2022",
-    descripcio: "El objetivo del presente informe es determinar los niveles de riesgo originado por tsunami en el área delimitada por el sector Huanchaquito Bajo, ubicado en el C.P. de Huanchaquito, del distrito de Huanchaco, en la provincia de Trujillo, departamento La Libertad.",
-    ambito: "Sector Huanchaquito Bajo, DISTRITO HUANCHACO, TRUJILLO, LA LIBERTAD"
-  }
-];
-export default function Search() {
+const _Search = ({ className }: { className?: string }) => {
+  const [searchDialogOpen, setSearchDialogOpen] = useState(false)
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState([])
-  const [open, setOpen] = useState(false)
+  const [results, setResults] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [searched, setSearched] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  // Función de búsqueda por palabras (no frase exacta)
-  const handleSearch = (term: string) => {
-    if (!term) {
-      setResults([])
-      return
-    }
-
-    // Separamos la búsqueda por palabras individuales
-    const words = term
-      .toLowerCase()
-      .split(/\s+/)
-      .filter((w) => w.length > 0)
-
-    const filtered = mockData.filter((item) =>
-      Object.values(item).some((value) => {
-        const text = value.toLowerCase()
-        // Todas las palabras deben estar presentes
-        return words.every((word) => text.includes(word))
-      })
-    )
-
-    setResults(filtered)
+  const handleSearchOpen = () => setSearchDialogOpen(true)
+  const handleSearchClose = () => {
+    setSearchDialogOpen(false)
+    setResults([])
+    setQuery('')
+    setSearched(false)
   }
 
-  // Debounce para evitar búsqueda en cada tecla
-  const debouncedSearch = useMemo(() => debounce(handleSearch, 300), [])
+  const handleSearch = async () => {
+    if (!query.trim()) return
+    setLoading(true)
+    setSearched(true)
+    try {
+      const response = await apiGet.fetchDataWithAxios({
+        method: 'GET',
+        url: `/searchs?q=${encodeURIComponent(query)}`,
+        headers: { 'X-API-KEY': 'API_KEY' },
+      })
+      if (response && (response as any).data) {
+        setResults((response as any).data)
+      } else {
+        setResults([])
+      }
+    } catch (error) {
+      console.error('Error al buscar:', error)
+      setResults([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleSearch()
+  }
 
   useEffect(() => {
-    debouncedSearch(query)
-  }, [query])
+    if (searchDialogOpen) {
+      const timeout = setTimeout(() => inputRef.current?.focus(), 150)
+      return () => clearTimeout(timeout)
+    }
+  }, [searchDialogOpen])
 
   return (
     <>
-      <Button
-        icon={<HiOutlineSearch />}
-        className="rounded-full p-2 hover:bg-gray-100"
-        onClick={() => setOpen(true)}
-      >
-        Buscar
-      </Button>
+      <div className={classNames(className, 'text-2xl cursor-pointer')} onClick={handleSearchOpen}>
+        <PiMagnifyingGlassDuotone />
+      </div>
 
-      <Dialog isOpen={open} onClose={() => setOpen(false)} width={600}>
-        <div className="p-4">
-          <div className="flex items-center gap-2 border-b pb-2">
-            <PiMagnifyingGlassDuotone className="text-gray-500 text-xl" />
-            <input
-              type="text"
-              placeholder="Buscar informes, distritos, autores..."
-              className="flex-1 outline-none bg-transparent text-gray-800"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              autoFocus
-            />
+      <Dialog
+        contentClassName="!p-0"
+        isOpen={searchDialogOpen}
+        closable={false}
+        onRequestClose={handleSearchClose}
+      >
+        <div className="bg-white dark:bg-gray-800 flex flex-col rounded-xl max-h-[80vh] overflow-hidden">
+
+          <div className="flex items-center mx-5 my-3 justify-between border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center flex-1">
+              <HiOutlineSearch className="text-xl text-gray-500" />
+              <input
+                ref={inputRef}
+                className="ring-0 outline-none block w-full p-4 text-base bg-transparent text-gray-900 dark:text-gray-100"
+                placeholder="Buscar informes, capacitaciones o supervisiones..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+            </div>
+            <Button size="xs" onClick={handleSearchClose}>
+              Esc
+            </Button>
           </div>
 
-          <ScrollBar className="mt-4 max-h-96">
-            <AnimatePresence>
-              {results.length > 0 ? (
-                results.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    className="p-3 border-b hover:bg-gray-50 transition cursor-pointer rounded-md"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <Highlighter
-                          highlightClassName="bg-yellow-200"
-                          searchWords={query.trim().split(/\s+/)}
-                          autoEscape={true}
-                          textToHighlight={item.nombre}
-                          className="font-semibold text-gray-800"
-                        />
-                        <p className="text-sm text-gray-600 mt-1">
-                          <Highlighter
-                            highlightClassName="bg-yellow-200"
-                            searchWords={query.trim().split(/\s+/)}
-                            autoEscape={true}
-                            textToHighlight={item.descripcio}
-                          />
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {item.ambito} • {item.anio} • {item.autor_corp}
-                        </p>
+          <div className="flex-1">
+            {(loading || results.length > 0 || searched) && (
+              <div className="p-4 flex-1">
+                {loading ? (
+                  <div className="text-center text-gray-500 my-10">Buscando...</div>
+                ) : (
+                  <ScrollBar className="max-h-[400px] overflow-y-auto">
+                    {results.length > 0 ? (
+                      results.map((item, i) => {
+                        if (item.base_datos === 'dgp' && item.origen === 'asistencia_tecnica') {
+                          let url = item.url ? item.url : '/fortalecimiento/cursospi/cb'
+                          return (
+                            <a target='_blank' href={url}>
+                              <div key={i} className="relative p-2 border-gray-200 dark:border-gray-700 mb-3 rounded-xl hover:shadow-sm transition-all bg-gray-50 dark:bg-gray-900">
+                                <span className="absolute top-0 left-0 px-2 py-0.5 font-bold text-[10px] rounded-md bg-blue-600 text-white dark:bg-blue-900 dark:text-blue-200 shadow-sm">
+                                  Asistencia técnica
+                                </span>
+                                <div className="flex justify-between items-start pt-3 pl-1">
+                                  <div className="flex-1">
+                                    <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-1">
+                                      <Highlighter
+                                        searchWords={query.trim().split(/\s+/)}
+                                        autoEscape
+                                        textToHighlight={item.instrumentos || item['categoria_instrumento'] || 'Sin título'}
+                                        highlightClassName="bg-yellow-200 text-gray-900"
+                                      />
+                                    </h3>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                      <Highlighter
+                                        searchWords={query.trim().split(/\s+/)}
+                                        autoEscape
+                                        textToHighlight={item.all_text || item['instrumentos'] || ''}
+                                        highlightClassName="bg-yellow-200 text-gray-900"
+                                      />
+                                    </p>
+                                    <div className="text-xs text-gray-500 mt-2 space-x-2">
+                                      {item.tipo_docum && <span>📄 {item.tipo_docum}</span>}
+                                      {item.periodo && <span>🗓️ {item.periodo}</span>}
+                                      {item.dpto && <span>📍 {item.dpto} - {item.provincia} - {item.distrito}</span>}
+                                      {item.url ? <span>🌐</span> : <span>🔗</span>}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          )
+                        } else if (item.base_datos === 'dgp' && item.origen === 'evar_distritos_2025032') {
+                          let url = '/fortalecimiento/evaluadorespi'
+                          return (
+                            <a target='_blank' href={url}>
+                              <div key={i} className="relative p-2 border-gray-200 dark:border-gray-700 mb-3 rounded-xl hover:shadow-sm transition-all bg-gray-50 dark:bg-gray-900">
+                                <span className="absolute top-0 left-0 px-2 py-0.5 font-bold text-[10px] rounded-md bg-green-600 text-white dark:bg-green-900 dark:text-green-200 shadow-sm">
+                                  Evar de distritos
+                                </span>
+                                <div className="flex justify-between items-start pt-3 pl-1">
+                                  <div className="flex-1">
+                                  <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-1">
+                                    <Highlighter
+                                      searchWords={query.trim().split(/\s+/)}
+                                      autoEscape
+                                      textToHighlight={item.nombre || item['NOMBRE DE CURSO'] || 'Sin título'}
+                                      highlightClassName="bg-yellow-200 text-gray-900"
+                                    />
+                                  </h3>
+                                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                    <Highlighter
+                                      searchWords={query.trim().split(/\s+/)}
+                                      autoEscape
+                                      textToHighlight={item.descripcio || item.respuesta || ''}
+                                      highlightClassName="bg-yellow-200 text-gray-900"
+                                    />
+                                  </p>
+                                    <div className="text-xs text-gray-500 mt-2 space-x-2">
+                                      {item.tipo_docum && <span>📄 {item.tipo_docum}</span>}
+                                      {item.anio && <span>🗓️ {item.anio}</span>}
+                                      {item.DEPARTAMEN && <span>📍 {item.DEPARTAMEN} - {item.PROVINCIA} - {item.DISTRITO}</span>}
+                                      {item.url ? <span>🌐</span> : <span>🔗</span>}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          )
+                        }
+                      })
+                    ) : searched ? (
+                      <div className="text-center text-gray-500 my-10">
+                        No se encontraron resultados para <strong>"{query}"</strong>
                       </div>
-                      <HiChevronRight className="text-gray-400 mt-1" />
-                    </div>
-                  </motion.div>
-                ))
-              ) : query ? (
-                <p className="text-center text-gray-500 mt-8">
-                  No se encontraron resultados.
-                </p>
-              ) : (
-                <p className="text-center text-gray-400 mt-8">
-                  Escribe para iniciar la búsqueda
-                </p>
-              )}
-            </AnimatePresence>
-          </ScrollBar>
+                    ) : null}
+                  </ScrollBar>
+                )}
+              </div>
+            )}
+
+          </div>
         </div>
       </Dialog>
     </>
   )
 }
+
+const Search = withHeaderItem(_Search)
+export default Search
