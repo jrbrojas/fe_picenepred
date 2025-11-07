@@ -61,7 +61,21 @@ const _Search = ({ className }: { className?: string }) => {
 
   return (
     <>
-      <div className={classNames(className, 'text-2xl cursor-pointer')} onClick={handleSearchOpen}>
+      <div className={classNames(className, 'text-2xl cursor-pointer hidden md:block xl:w-120 2xl:w-140')} style={{ backgroundColor: '#eaeaea92' }}>
+        <div className="flex items-center flex-1 pe-2">
+          <input
+            ref={inputRef}
+            className="ring-0 outline-none block w-full px-3 text-base bg-transparent text-gray-900 dark:text-gray-100"
+            placeholder="Buscar informes, capacitaciones o supervisiones..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <PiMagnifyingGlassDuotone />
+        </div>
+      </div>
+
+      <div className={classNames(className, 'text-2xl cursor-pointer block md:hidden')} onClick={handleSearchOpen}>
         <PiMagnifyingGlassDuotone />
       </div>
 
