@@ -308,7 +308,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 return (
                                     <Fragment key={`FRAGD-${depKey}`}>
                                         {/* Fila Departamento */}
-                                        <tr className="bg-amber-50 hover:bg-slate-50/60">
+                                        <tr className="bg-amber-50 hover:[&>td]:bg-[#ccffff]">
                                             <td
                                                 className="sticky bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200"
                                                 data-tooltip-id='seguimiento-tooltip'
@@ -359,7 +359,7 @@ export default function TreeTableMonitoreo3Niveles() {
 
                                                 return (
                                                     <Fragment key={`FRAGP-${provKey}`}>
-                                                        <tr className="bg-cyan-50 hover:bg-slate-50/60">
+                                                        <tr className="bg-cyan-50 hover:[&>td]:bg-[#ccffff]">
                                                             <td
                                                                 data-tooltip-id='seguimiento-tooltip'
                                                                 data-tooltip-content='Provincia'
@@ -418,7 +418,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                 const dTotals = distTotals.get(d.id)!
                                                                 return (
                                                                     <Fragment key={`FRAGDI-${distKey}`}>
-                                                                        <tr className="hover:bg-slate-50 bg-emerald-50">
+                                                                        <tr className="hover:[&>td]:bg-[#ccffff] bg-emerald-50">
                                                                             <td
                                                                                 data-tooltip-id='seguimiento-tooltip'
                                                                                 data-tooltip-content='Distrito'
@@ -476,7 +476,7 @@ export default function TreeTableMonitoreo3Niveles() {
 
                                                                                 return (
                                                                                     <Fragment key={`FRAGENT-${entKey}`}>
-                                                                                        <tr className="hover:bg-slate-50 bg-purple-50">
+                                                                                        <tr className="hover:[&>td]:bg-[#ccffff] bg-purple-50">
                                                                                             <td
                                                                                                 data-tooltip-id='seguimiento-tooltip'
                                                                                                 data-tooltip-content='Entidad'

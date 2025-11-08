@@ -133,7 +133,6 @@ const SignInForm = (props: SignInFormProps) => {
                     loading={isSubmitting}
                     variant="solid"
                     type="submit"
-                    disabled={!verified || disableSubmit}
                 >
                     {isSubmitting ? 'INGRESANDO...' : 'INGRESAR'}
                 </Button>

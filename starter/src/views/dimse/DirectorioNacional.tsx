@@ -398,7 +398,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                     (
                                                                                                         <Fragment key={d.id}>
                                                                                                             <tr className="hover:bg-slate-50 bg-purple-5">
-                                                                                                                <td className="bg-purple-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
+                                                                                                                <td className="bg-purple-50 cursor-pointer sticky left-0 z-10 p-4 ring-1 ring-slate-200"
                                                                                                                     onClick={() => {
                                                                                                                         //toggle(entidadKey);
                                                                                                                         //setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);

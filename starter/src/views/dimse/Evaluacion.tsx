@@ -307,11 +307,11 @@ export default function TreeTableMonitoreo3Niveles() {
                                     return (
                                         <Fragment key={`FRAGD-${depKey}`}>
                                             {/* Fila Departamento */}
-                                            <tr className="bg-amber-50 hover:bg-slate-50/60">
+                                            <tr className="bg-amber-50 hover:[&>td]:bg-[#ccffff]">
                                                 <td
                                                     data-tooltip-id='evaluacion-tooltip'
                                                     data-tooltip-content='Departamento'
-                                                    className="sticky left-0 z-10 p-3 ring-1 ring-slate-200"
+                                                    className="sticky bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200"
                                                     onClick={() => {
                                                         toggle(depKey);
                                                         setQuery(`${dep.nombre}, Peru`);
@@ -361,11 +361,11 @@ export default function TreeTableMonitoreo3Niveles() {
 
                                                     return (
                                                         <Fragment key={`FRAGP-${provKey}`}>
-                                                            <tr className="bg-cyan-50 hover:bg-slate-50/60">
+                                                            <tr className="bg-cyan-50 hover:[&>td]:bg-[#ccffff]">
                                                                 <td
                                                                     data-tooltip-id='evaluacion-tooltip'
                                                                     data-tooltip-content='Provincia'
-                                                                    className="sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
+                                                                    className="sticky bg-cyan-50 left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
                                                                     onClick={() => {
                                                                         toggle(provKey);
                                                                         setQuery(`${prov.nombre}, ${dep.nombre}, Peru`);
@@ -422,11 +422,11 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         const valsDist: Counter = distTotals.get(d.id) || { cols: [], total: 0}
                                                                         return (
                                                                             <Fragment key={`FRAGDI-${distKey}`}>
-                                                                                <tr className="hover:bg-slate-50 bg-emerald-50">
+                                                                                <tr className="hover:[&>td]:bg-[#ccffff] bg-emerald-50">
                                                                                     <td
                                                                                         data-tooltip-id='evaluacion-tooltip'
                                                                                         data-tooltip-content='Distrito'
-                                                                                        className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200"
+                                                                                        className="sticky bg-emerald-50 left-0 z-10 p-3 pl-16 ring-1 ring-slate-200"
                                                                                         onClick={() => {
                                                                                             toggle(distKey);
                                                                                             setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
@@ -485,13 +485,13 @@ export default function TreeTableMonitoreo3Niveles() {
 
                                                                                         return (
                                                                                             <Fragment key={`FRAGENT-${entKey}`}>
-                                                                                                <tr className='hover:bg-slate-50 bg-purple-50'>
+                                                                                                <tr className="hover:[&>td]:bg-[#ccffff] bg-purple-50">
                                                                                                     <td
                                                                                                         data-tooltip-id='evaluacion-tooltip'
                                                                                                         data-tooltip-content='Entidad'
                                                                                                         onClick={() => {
                                                                                                         setQuery(`${d.nombre}, ${prov.nombre}, ${dep.nombre}, Peru`);
-                                                                                                    }} className="sticky left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
+                                                                                                    }} className="sticky bg-purple-50 left-0 z-10 p-3 pl-16 ring-1 ring-slate-200">
                                                                                                         <span className="text-sm font-semibold text-slate-800">
                                                                                                             {
                                                                                                                 entidad.nombre

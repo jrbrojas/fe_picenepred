@@ -12,17 +12,11 @@ interface DirectorioInfoProps {
 export function DirectorioInfo({ directorio }: DirectorioInfoProps) {
     const historial = useMemo(() => {
         return directorio.historial_responsables.filter((_,i) => i > 0).sort((a, b) => b.id - a.id);
-    })
+    }, [directorio.historial_responsables])
     return (
         <>
             <h3 className='mb-4'>Datos de la Entidad:</h3>
-            <div className="grid grid-cols-4 justify-items-between gap-4 min-w-full">
-                {/*
-                <div>
-                    <p>Nombre</p>
-                    <p className="font-bold text-lg">{directorio.entidad.nombre}</p>
-                </div>
-                */}
+            <div className="grid grid-cols-4 max-[1080px]:grid-cols-2 justify-items-between gap-4 min-w-full pb-4">
                 <div>
                     <p>Departamento</p>
                     <p className="font-bold text-lg">{directorio.entidad.distrito.provincia.departamento.nombre}</p>
@@ -43,15 +37,9 @@ export function DirectorioInfo({ directorio }: DirectorioInfoProps) {
                     <p>Categoria</p>
                     <p className="font-bold text-lg">{directorio.entidad.categoria.nombre}</p>
                 </div>
-                {/*
-                <div>
-                    <p>Fecha de Registro</p>
-                    <p className="font-bold text-lg">{formatDateYYYYMMDD(new Date(directorio.fecha_inicio))}</p>
-                </div>
-                */}
             </div>
             <h3 className='mb-4'>Datos del Responsable:</h3>
-            <div className="grid grid-cols-4 justify-items-between gap-4 min-w-full">
+            <div className="grid grid-cols-4 max-[1080px]:grid-cols-2 justify-items-between gap-4 min-w-full pb-4">
                 <div>
                     <p>Nombre</p>
                     <p className="font-bold text-lg">{directorio.responsable.nombre}</p>
@@ -91,7 +79,8 @@ export function DirectorioInfo({ directorio }: DirectorioInfoProps) {
             </div>
             <h3 className='mb-4'>Historial de Responsables:</h3>
             {historial.length == 0 ? <p>No hay historial</p> :
-                <Table>
+                <div className="w-full">
+                <Table className="min-[1081]:table hidden">
                     <THead>
                         <Tr>
                             <Th>Nombres</Th>
@@ -115,6 +104,39 @@ export function DirectorioInfo({ directorio }: DirectorioInfoProps) {
                         )}
                     </TBody>
                 </Table>
+                <Table className="max-[1080]:hidden table">
+                    <TBody>
+                        {historial.map((r, index) =>
+                            <>
+                                <Tr key={r.id} className="border-slate-300 border-dashed">
+                                    <Td>Nombres</Td>
+                                    <Td>{r.responsable.nombre}</Td>
+                                </Tr>
+                                <Tr key={r.id} className="border-dashed border-b-slate-300">
+                                    <Td>Apellidos</Td>
+                                    <Td>{r.responsable.apellido}</Td>
+                                </Tr>
+                                <Tr key={r.id} className="border-dashed border-b-slate-300">
+                                    <Td>DNI</Td>
+                                    <Td>{r.responsable.dni}</Td>
+                                </Tr>
+                                <Tr key={r.id} className="border-dashed border-b-slate-300">
+                                    <Td>Fecha Inicio</Td>
+                                    <Td>{formatDateYYYYMMDD(new Date(r.responsable.fecha_inicio))}</Td>
+                                </Tr>
+                                <Tr key={r.id} className="border-dashed border-b-slate-300">
+                                    <Td>Fecha Fin</Td>
+                                    <Td>{formatDateYYYYMMDD(new Date(r.responsable.fecha_fin))}</Td>
+                                </Tr>
+                                <Tr key={r.id} className="border-solid border-b-slate-300">
+                                    <Td>Estado</Td>
+                                    <Td>{noHaPasado(new Date(r.responsable.fecha_fin)) ? 'Activo' : 'Inactivo'}</Td>
+                                </Tr>
+                            </>
+                        )}
+                    </TBody>
+                </Table>
+                </div>
             }
         </>
     )

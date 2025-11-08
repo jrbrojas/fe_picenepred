@@ -304,7 +304,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 {COLS.map((c) => (
                                     <th
                                         key={c}
-                                        className="w-[48px] max-w-[48px] bg-slate-50 p-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 lg:table-cell hidden"
+                                        className="w-[48px] max-w-[48px] bg-slate-50 p-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200 min-[1081px]:table-cell hidden"
                                         data-tooltip-id='monitoreo-tooltip'
                                         data-tooltip-content={getPregunta(c)?.pregunta || ''}
                                     >
@@ -326,7 +326,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                 return (
                                     <Fragment key={`FRAGD-${depKey}`}>
                                         {/* Fila Departamento */}
-                                        <tr className="bg-amber-50 hover:bg-slate-50/60">
+                                        <tr className="bg-amber-50 hover:[&>td]:bg-[#ccffff]">
                                             <td className="sticky cursor-pointer bg-amber-50 left-0 z-10 p-3 ring-1 ring-slate-200"
                                                 data-tooltip-id='monitoreo-tooltip'
                                                 data-tooltip-content='Departamento'
@@ -358,7 +358,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                             {dTotals?.cols?.map((v, idx) => (
                                                 <td
                                                     key={idx}
-                                                    className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 lg:table-cell hidden"
+                                                    className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 min-[1081px]:table-cell hidden"
                                                 >
                                                 </td>
                                             ))}
@@ -375,7 +375,7 @@ export default function TreeTableMonitoreo3Niveles() {
 
                                                 return (
                                                     <Fragment key={`FRAGP-${provKey}`}>
-                                                        <tr className="bg-cyan-50 hover:bg-slate-50/60">
+                                                        <tr className="bg-cyan-50 hover:[&>td]:bg-[#ccffff]">
                                                             <td className="bg-cyan-50 cursor-pointer sticky left-0 z-10 p-3 pl-10 ring-1 ring-slate-200"
                                                                 data-tooltip-id='monitoreo-tooltip'
                                                                 data-tooltip-content='Provincia'
@@ -414,7 +414,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                         key={
                                                                             idx
                                                                         }
-                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 lg:table-cell hidden"
+                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 min-[1081px]:table-cell hidden"
                                                                     >
                                                                     </td>
                                                                 ),
@@ -432,7 +432,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                 const dTotals = distTotals.get(d.id)!
                                                                 return (
                                                                     <Fragment key={`FRAGDI-${distKey}`}>
-                                                                        <tr className="hover:bg-slate-50 bg-emerald-50">
+                                                                        <tr className="hover:[&>td]:bg-[#ccffff] bg-emerald-50">
                                                                             <td
                                                                                 data-tooltip-id='monitoreo-tooltip'
                                                                                 data-tooltip-content='Distrito'
@@ -474,7 +474,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                         key={
                                                                                             `${d.id}-${i}`
                                                                                         }
-                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 lg:table-cell hidden"
+                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 min-[1081px]:table-cell hidden"
                                                                                     >
                                                                                     </td>
                                                                                 ),
@@ -490,7 +490,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                 const entOpen = expanded.has(entKey)
                                                                                 return (
                                                                                     <Fragment key={`FRAGENT-${entKey}`}>
-                                                                                        <tr className="hover:bg-slate-50 bg-purple-50">
+                                                                                        <tr className="hover:[&>td]:bg-[#ccffff] bg-purple-50">
                                                                                             <td
                                                                                                 data-tooltip-id='monitoreo-tooltip'
                                                                                                 data-tooltip-content='Entidad'
@@ -504,7 +504,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                     aria-expanded={
                                                                                                         distOpen
                                                                                                     }
-                                                                                                    className="inline-flex items-center gap-2"
+                                                                                                    className="inline-flex items-center gap-2 min-[1081px]:hidden"
                                                                                                 >
                                                                                                     <svg
                                                                                                         className={`h-4 w-4 transform transition-transform ${entOpen ? 'rotate-90' : ''}`}
@@ -523,6 +523,11 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         }
                                                                                                     </span>
                                                                                                 </button>
+                                                                                                <span className="max-[1080px]:hidden text-sm font-semibold text-slate-800">
+                                                                                                    {
+                                                                                                        entidad.nombre
+                                                                                                    }
+                                                                                                </span>
                                                                                             </td>
                                                                                             {entidad.monitoreo.map(
                                                                                                 (
@@ -533,7 +538,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                         key={
                                                                                                             `${entidad.id}-${i}`
                                                                                                         }
-                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 text-[11px] lg:table-cell hidden"
+                                                                                                        className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200 text-[11px] min-[1081px]:table-cell hidden"
                                                                                                     >
                                                                                                         {v ? 'SI' : 'NO'}
                                                                                                     </td>
@@ -548,7 +553,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                             </td>
                                                                                         </tr>
                                                                                         {entOpen &&
-                                                                                            <tr className="table-row lg:hidden bg-slate">
+                                                                                            <tr className="table-row min-[1081px]:hidden bg-slate">
                                                                                                 <td colSpan={2}>
                                                                                                     <ListaRespuestas respuestas={entidad.monitoreo} />
                                                                                                 </td>
