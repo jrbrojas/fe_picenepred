@@ -21,8 +21,11 @@ const Home = () => {
             <header className="fixed top-0 left-0 w-full z-30 lg:border-b lg:border-slate-200 lg:shadow-md lg:bg-white">
 
                 {/*<div className="relative mx-auto flex max-w-7xl items-center bg-white justify-between gap-6 px-4 py-4">*/}
-                <div className="relative mx-auto flex items-center bg-white justify-between gap-6 px-4 py-4">
-                    <div className="flex items-center justify-center gap-3 w-full lg:w-auto ml-0 lg:ml-20">
+                {/*<div className="relative mx-auto flex items-center bg-white justify-between gap-6 px-4 py-4">*/}
+                <div className="relative mx-auto flex w-full items-center justify-between container ml-auto px-7 py-4">
+                {/*<div className="w-full md:w-1/2 lg:w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] ml-auto">*/}
+
+                    <div className="flex items-center justify-center gap-3 w-full lg:w-auto ml-0 lg:ml-5">
                         <img
                             src="/img/logo/logo-cenepred.jpg"
                             alt="CENEPRED"
@@ -110,7 +113,7 @@ const Home = () => {
                 </div>
             </header>
 
-            <main className="flex-1 mx-auto w-full max-w-7xl mt-[80px] lg:mt-[185px]">
+            <main className="flex-1 mx-auto w-full max-w-7xl mt-[100px] sm:mt-[130px] lg:mt-[185px]">
                 <section className="relative bg-white">
                     <HomeHero />
 

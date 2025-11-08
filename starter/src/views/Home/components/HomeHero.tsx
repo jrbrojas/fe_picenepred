@@ -17,7 +17,7 @@ const slides = [
 
 export default function HomeHero() {
   return (
-    <section className="relative overflow-hidden w-screen ml-[calc(50%_-_50vw)]"> 
+    <section className="relative w-screen ml-[calc(49.39%_-_50vw)]"> 
       {/* Contenedor Swiper */}
       <Swiper
         //modules={[Autoplay, Pagination, Navigation]}
@@ -30,31 +30,46 @@ export default function HomeHero() {
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
-            {/* Imagen de fondo */}
-            <div
-              className="relative w-full h-full bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `url(${slide.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-              aria-label="Panel de monitoreo"
-              role="img"
-            >
-              
-              {/* Contenido anclado abajo (idéntico al tuyo) */}
-                <div className="absolute inset-x-0 bottom-0 md:bottom-5">
-                  
-                  {/* Bloque SIGRID, fuera del contenedor centrado */}
-                  <div className="absolute bottom-0 left-0 z-10 px-0 md:px-0">
+            <div className="relative w-full h-full overflow-hidden" role="img" aria-label="Panel de monitoreo">
 
-                  <div className="flex items-stretch gap-6 bg-[#30BDCC]/70 backdrop-blur-sm p-6 md:p-10 text-white w-[122vw] md:w-auto  h-[220px] shadow-lg">
-                    {/* Línea vertical amarilla */}
-                    <div className="w-[10px] bg-[#E4DE40] ml-4 md:ml-10" style={{
-                      background: 'linear-gradient(to bottom, #E4DE40 45%, white 45%)',
-                    }}></div>
+              <div
+                className="absolute inset-0 bg-center bg-cover scale-105 blur-md"
+                style={{
+                  backgroundImage: `url(${slide.image})`,
+                  filter: "blur(10px) brightness(0.8)",
+                  transform: "scale(1.1)",
+                }}
+              ></div>
 
-                    {/* Contenido del texto */}
+             <div className="relative flex justify-center items-center h-full hidden lg:flex">
+              <img
+                src={slide.image}
+                alt="CENEPRED Monitoreo"
+                className="max-h-full max-w-full object-contain mx-auto z-10"
+              />
+            </div>
+
+              <div
+                className="relative w-full h-full bg-cover bg-center bg-no-repeat block lg:hidden"
+                style={{
+                  backgroundImage: `url(${slide.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+                aria-label="Panel de monitoreo"
+                role="img"
+              ></div>
+
+              <div className="absolute inset-x-0 bottom-0 md:bottom-5 z-20">
+                <div className="absolute bottom-0 left-0 z-10 px-0 md:px-0">
+                  <div className="flex items-stretch gap-6 bg-[#30BDCC]/70 backdrop-blur-sm p-6 md:p-10 text-white w-[122vw] md:w-auto h-[220px] shadow-lg">
+                    <div
+                      className="w-[10px] ml-4 md:ml-10"
+                      style={{
+                        background: "linear-gradient(to bottom, #E4DE40 45%, white 45%)",
+                      }}
+                    ></div>
+
                     <div>
                       <h1 className="text-white text-[28px] md:text-[40px] lg:text-[46px] font-extrabold leading-tight">
                         Monitoreo en tiempo real
@@ -64,12 +79,12 @@ export default function HomeHero() {
                       </p>
 
                       <div className="mt-5">
-                      <a
-                        href="https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 rounded-full bg-[#E4DE40] px-6 py-2 text-sm md:text-base font-semibold text-[#05353B] shadow-md hover:bg-[#E4DE40]/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E4DE40]"
-                      >
+                        <a
+                          href="https://sigrid.cenepred.gob.pe/sigridv3/mapa?id=0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-3 rounded-full bg-[#E4DE40] px-6 py-2 text-sm md:text-base font-semibold text-[#05353B] shadow-md hover:bg-[#E4DE40]/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E4DE40]"
+                        >
                           Ingresar
                           <svg
                             className="h-4 w-4"
@@ -85,8 +100,6 @@ export default function HomeHero() {
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
           </SwiperSlide>

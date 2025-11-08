@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router'
 import UserDropdown from '@/components/template/UserProfileDropdown'
 import { Button } from '@/components/ui'
 import useIsLargeScreen from '@/utils/hooks/useIsLargeScreen'
+import Search from '@/components/template/Search'
 
 const REDIRECT_KEY = 'redirectTo'
 
@@ -278,6 +279,7 @@ export default function Nav({ open, setOpen }) {
                     <UserDropdown />
                 ) : (
                     <div className="flex lg:flex-row items-center gap-3">
+                        <Search />
                         <Button
                             size={isLarge ? 'lg' : 'xs'}
                             onClick={() => navigate(`/sign-up`)}
