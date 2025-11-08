@@ -1,4 +1,4 @@
-import { Button, Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Notification, Skeleton, Tabs, toast } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
@@ -10,6 +10,8 @@ import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
 import FechaRango from "../FechaReango";
+import { useState } from "react";
+import { apiPrintEscenario } from "@/services/ModeloDgpService";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -47,13 +49,46 @@ const formatNombreArray = (pgArray: string) => {
 
 const LluviasAvisoMeteorologicoEstatico2 = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('1');
-
+    const [loadingPrint, setLoadingPrint] = useState(false);
+    
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
     const tituloPeligo: { [key: string]: string } = {
         'inundaciones': 'Inundación',
         'movimiento_masa': 'Movimiento en masa',
     }
+
+    const exportPDF = async () => {
+        try {            
+            setLoadingPrint(true);
+            const response = await apiPrintEscenario<Blob>(escenario.id, { data })
+
+            const blob = new Blob([response as any])
+            const url = window.URL.createObjectURL(blob)
+            // window.open(url, "_blank");
+            const a = document.createElement("a")
+            a.href = url
+            a.download = `${escenario.formulario.nombre}.pptx`
+            a.click()
+            // setTimeout(() => {
+            //     window.URL.revokeObjectURL(url)                
+            // }, 10000);
+        } catch (error) {
+            setLoadingPrint(false);
+            toast.push(
+                <Notification
+                    title="Error al imprimir el escenario"
+                    type="danger"
+                >
+                    Hubo un problema al intentar imprimir el escenario. Por favor, intenta de nuevo.
+                </Notification>
+            )
+
+            console.error("Error exportando PDF:", error)
+        } finally {
+            setLoadingPrint(false);
+        }
+    };
 
     const formatTabName = (name: string) => {
         return name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, ' ');
@@ -97,7 +132,8 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
 
                     <Tabs defaultValue="inundaciones">
                         <TabList button={
-                            <Button size="xs" variant="solid" icon={<BiDownload />}>
+                            <Button size="xs" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
+                            className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
                                 Descargar PPT
                             </Button>
                         }

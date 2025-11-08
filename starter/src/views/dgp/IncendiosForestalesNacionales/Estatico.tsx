@@ -1,14 +1,16 @@
-import { Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Notification, Skeleton, Tabs, toast } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import { TbMapPin } from "react-icons/tb";
 import { FaHome, FaHotel, FaUsers } from "react-icons/fa";
-import { BiSolidSchool } from "react-icons/bi";
+import { BiDownload, BiSolidSchool } from "react-icons/bi";
 import { BsHospital, BsTreeFill } from "react-icons/bs";
 import NumeroFormateado from "@/utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
+import { useState } from "react";
+import { apiPrintEscenario } from "@/services/ModeloDgpService";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -23,6 +25,39 @@ const IncendiosForestalesNacionalesEstatico = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('7');
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
+    const [loadingPrint, setLoadingPrint] = useState(false);
+
+    const exportPDF = async () => {
+        try {            
+            setLoadingPrint(true);
+            const response = await apiPrintEscenario<Blob>(escenario.id, { data })
+
+            const blob = new Blob([response as any])
+            const url = window.URL.createObjectURL(blob)
+            // window.open(url, "_blank");
+            const a = document.createElement("a")
+            a.href = url
+            a.download = `${escenario.formulario.nombre}.pptx`
+            a.click()
+            // setTimeout(() => {
+            //     window.URL.revokeObjectURL(url)                
+            // }, 10000);
+        } catch (error) {
+            setLoadingPrint(false);
+            toast.push(
+                <Notification
+                    title="Error al imprimir el escenario"
+                    type="danger"
+                >
+                    Hubo un problema al intentar imprimir el escenario. Por favor, intenta de nuevo.
+                </Notification>
+            )
+
+            console.error("Error exportando PDF:", error)
+        } finally {
+            setLoadingPrint(false);
+        }
+    };
 
     const NoDataMessage = () => (
         <div className="flex flex-col items-center justify-center py-10 text-center">
@@ -111,8 +146,14 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                     {data['inundaciones'].slice(0, 1).map((item, index) => (
                                         <div key={index} className="flex flex-col gap-3 justify-start items-center">
 
-                                            <div className="p-2 bg-teal-600 rounded-full">
-                                                <h4 className='text-sm font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
+                                            <div className="flex items-center gap-3">
+                                                <div className="p-2 bg-teal-600 rounded-lg w-full text-center">
+                                                    <h4 className='text-sm font-medium text-white mr-4 ml-4'>INCENDIO FORESTALES</h4>
+                                                </div>
+                                                <Button size="xs" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
+                                                    className="bg-orange-500 hover:bg-orange-600 h-full" icon={<BiDownload />}>
+                                                    Descargar PPT
+                                                </Button>
                                             </div>
 
                                             {/* Nivel de riesgo */}
@@ -120,7 +161,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                                 {item.nivel}
                                             </div>
 
-                                            <div className="bg-gray-200/50 rounded-4xl p-5 space-y-5">
+                                            <div className="bg-gray-200/50 rounded-4xl p-5 space-y-5 w-full">
                                                 {/* Centros poblados */}
                                                 <div className="flex items-center gap-8">
                                                     <TbMapPin className="text-cyan-600" size={50} />

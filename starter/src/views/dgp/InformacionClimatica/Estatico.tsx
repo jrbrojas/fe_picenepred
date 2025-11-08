@@ -1,10 +1,13 @@
-import { Button, Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Notification, Skeleton, Tabs, toast } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
 import NumeroFormateado from "@/utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
+import { useState } from "react";
+import { apiPrintEscenario } from "@/services/ModeloDgpService";
+import { BiDownload } from "react-icons/bi";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -19,6 +22,39 @@ const nivelColorClasses: { [key: string]: string } = {
 const LluviasAvisoMeteorologicoEstatico = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('3');
     const tipoPeligro = Object.keys(data);
+    const [loadingPrint, setLoadingPrint] = useState(false);
+
+    const exportPDF = async () => {
+        try {            
+            setLoadingPrint(true);
+            const response = await apiPrintEscenario<Blob>(escenario.id, { data })
+
+            const blob = new Blob([response as any])
+            const url = window.URL.createObjectURL(blob)
+            // window.open(url, "_blank");
+            const a = document.createElement("a")
+            a.href = url
+            a.download = `${escenario.formulario.nombre}.pptx`
+            a.click()
+            // setTimeout(() => {
+            //     window.URL.revokeObjectURL(url)                
+            // }, 10000);
+        } catch (error) {
+            setLoadingPrint(false);
+            toast.push(
+                <Notification
+                    title="Error al imprimir el escenario"
+                    type="danger"
+                >
+                    Hubo un problema al intentar imprimir el escenario. Por favor, intenta de nuevo.
+                </Notification>
+            )
+
+            console.error("Error exportando PDF:", error)
+        } finally {
+            setLoadingPrint(false);
+        }
+    };
 
     const NoDataMessage = () => (
         <div className="flex flex-col items-center justify-center py-10 text-center">
@@ -58,15 +94,19 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                     <div className='p-2'>
                         <div className='flex justify-between gap-4 items-center mb-3'>
 
-                            <div className="text-md p-2 font-semibold text-white bg-teal-600 rounded-full">
+                            <div className="text-md p-2 font-semibold text-white bg-teal-600 rounded-lg">
                                 <p>PLAN MULTISECTORIAL</p>
                             </div>
-                            <div className='flex-1 flex flex-col items-center text-center mb-5'>
+                            <div className='flex flex-col items-center'>
                                 <h4 className="font-bold text-teal-600">
                                     ESCENARIO DE RIESGO POR INUNDACIONES Y MOVIMIENTOS EN MASA
                                 </h4>
                                 <h4 className='font-bold text-green-600/70'>{escenario.nombre}</h4>
                             </div>
+                            <Button size="xs" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
+                            className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
+                                Descargar PPT
+                            </Button>
 
                         </div>
 
@@ -101,43 +141,43 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Distritos: </td>
                                                             {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_distritos)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_distritos)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Población: </td>
                                                             {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_poblacion)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_poblacion)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Viviendas: </td>
                                                             {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_vivienda)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_vivienda)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">E. Salud: </td>
                                                             {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_est_salud)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_est_salud)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">I. Educa.: </td>
                                                             {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_inst_educativa)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_inst_educativa)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">S. Agrícola: </td>
                                                             {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_superficie_agricola)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_superficie_agricola)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Vias (Km): </td>
                                                             {data['inundaciones'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_vias)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_vias)}</td>
                                                             ))}
                                                         </tr>
 
@@ -197,43 +237,43 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Distritos: </td>
                                                             {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_distritos)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_distritos)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Población: </td>
                                                             {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_poblacion)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_poblacion)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Viviendas: </td>
                                                             {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_vivienda)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_vivienda)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">E. Salud: </td>
                                                             {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_est_salud)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_est_salud)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">I. Educa.: </td>
                                                             {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_inst_educativa)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_inst_educativa)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">S. Agrícola: </td>
                                                             {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_superficie_agricola)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_superficie_agricola)}</td>
                                                             ))}
                                                         </tr>
                                                         <tr className="odd:bg-gray-50">
                                                             <td className="text-start p-2 text-xs">Vias (Km): </td>
                                                             {data['movimiento_masa'].slice(0, 2).map((item, index) => (
-                                                                <td key={index} className="text-start p-2 text-xs">{NumeroFormateado(item.total_vias)}</td>
+                                                                <td key={index} className="text-center p-2 text-xs">{NumeroFormateado(item.total_vias)}</td>
                                                             ))}
                                                         </tr>
 

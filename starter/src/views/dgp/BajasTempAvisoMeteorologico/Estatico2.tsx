@@ -1,4 +1,4 @@
-import { Button, Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Notification, Skeleton, Tabs, toast } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
@@ -9,6 +9,8 @@ import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
 import FechaRango from "../FechaReango";
+import { apiPrintEscenario } from "@/services/ModeloDgpService";
+import { useState } from "react";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -51,6 +53,39 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('4');
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
+    const [loadingPrint, setLoadingPrint] = useState(false);
+
+    const exportPDF = async () => {
+        try {
+            setLoadingPrint(true);
+            const response = await apiPrintEscenario<Blob>(escenario.id, { data })
+
+            const blob = new Blob([response as any])
+            const url = window.URL.createObjectURL(blob)
+            // window.open(url, "_blank");
+            const a = document.createElement("a")
+            a.href = url
+            a.download = `${escenario.formulario.nombre}.pptx`
+            a.click()
+            // setTimeout(() => {
+            //     window.URL.revokeObjectURL(url)                
+            // }, 10000);
+        } catch (error) {
+            setLoadingPrint(false);
+            toast.push(
+                <Notification
+                    title="Error al imprimir el escenario"
+                    type="danger"
+                >
+                    Hubo un problema al intentar imprimir el escenario. Por favor, intenta de nuevo.
+                </Notification>
+            )
+
+            console.error("Error exportando PDF:", error)
+        } finally {
+            setLoadingPrint(false);
+        }
+    };
 
     const NoDataMessage = () => (
         <div className="flex flex-col items-center justify-center py-10 text-center">
@@ -75,7 +110,6 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
         </Card>
     )
 
-
     if (!isLoading && tipoPeligro.length == 0) {
         return <NoDataMessage />;
     }
@@ -94,9 +128,17 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                 <span className="text-lg p-2 font-medium text-white bg-teal-600 rounded-lg">
                                     Aviso N° {escenario.aviso}
                                 </span>
-                                <h2 className="text-center font-semibold text-teal-600 ml-8">Escenario de Riesgos por exposición</h2>
+                                <h2 className="text-2xl text-center font-semibold text-teal-600 ml-8">Escenario de Riesgos por exposición</h2>
 
-                                <span className='text-lg p-2 font-medium text-white bg-teal-600 rounded-full'>CORTO PLAZO</span>
+                                <div className="flex items-center gap-3">
+                                    <span className='text-lg p-2 font-medium text-white bg-teal-600 rounded-lg'>CORTO PLAZO</span>
+
+                                    <Button size="sm" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
+                                        className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
+                                        Descargar PPT
+                                    </Button>
+
+                                </div>
                             </div>
 
                             <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 items-start'>
