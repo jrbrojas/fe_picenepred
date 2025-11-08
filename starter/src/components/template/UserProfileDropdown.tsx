@@ -51,52 +51,50 @@ const _UserDropdown = () => {
     }
 
     return (
-        <div className="flex items-center gap-3">
-            <div className="flex items-center gap-3">
-                <Search />
-                <Dropdown
-                    className="flex"
-                    toggleClassName="flex items-center"
-                    renderTitle={
-                        <div className="flex items-center gap-3 cursor-pointer">
-                            {/* Datos del usuario */}
-                            <div className="flex flex-col text-right">
-                                <span className="text-lg font-semibold tracking-wide">
-                                    {nombres} {apellidos}
-                                </span>
-                                <span className="text-sm text-gray-500">{rol}</span>
-                            </div>
-
-                            {/* Ícono o avatar si tienes */}
-                            {/* <Avatar src={foto} /> */}
+        <div className="flex w-full items-center ps-3 pe-5 justify-between lg:justify-start lg:gap-3">
+            <Search />
+            <Dropdown
+                className="flex"
+                toggleClassName="flex items-center"
+                renderTitle={
+                    <div className="flex items-center gap-3 cursor-pointer">
+                        {/* Datos del usuario */}
+                        <div className="flex flex-col text-right">
+                            <span className="text-lg font-semibold tracking-wide">
+                                {nombres} {apellidos}
+                            </span>
+                            <span className="text-sm lg:text-gray-500">{rol}</span>
                         </div>
-                    }
-                    placement="bottom-end"
+
+                        {/* Ícono o avatar si tienes */}
+                        {/* <Avatar src={foto} /> */}
+                    </div>
+                }
+                placement="bottom-end"
+            >
+                <Dropdown.Item variant="header">
+                    <div className="py-2 px-3">
+                        <div className="font-bold text-gray-900 dark:text-gray-100">
+                            {`${nombres} ${apellidos}` || 'Anonymous'}
+                        </div>
+                        <div className="text-xs">{email || 'No email available'}</div>
+                        <div className="text-xs">{rol || 'No rol available'}</div>
+                    </div>
+                </Dropdown.Item>
+
+                <Dropdown.Item variant="divider" />
+
+                <Dropdown.Item
+                    eventKey="Sign Out"
+                    className="gap-2"
+                    onClick={handleSignOut}
                 >
-                    <Dropdown.Item variant="header">
-                        <div className="py-2 px-3">
-                            <div className="font-bold text-gray-900 dark:text-gray-100">
-                                {`${nombres} ${apellidos}` || 'Anonymous'}
-                            </div>
-                            <div className="text-xs">{email || 'No email available'}</div>
-                            <div className="text-xs">{rol || 'No rol available'}</div>
-                        </div>
-                    </Dropdown.Item>
-
-                    <Dropdown.Item variant="divider" />
-
-                    <Dropdown.Item
-                        eventKey="Sign Out"
-                        className="gap-2"
-                        onClick={handleSignOut}
-                    >
-                        <span className="text-xl">
-                            <PiSignOutDuotone />
-                        </span>
-                        <span>Cerrar sesión</span>
-                    </Dropdown.Item>
-                </Dropdown>
-            </div>
+                    <span className="text-xl">
+                        <PiSignOutDuotone />
+                    </span>
+                    <span>Cerrar sesión</span>
+                </Dropdown.Item>
+            </Dropdown>
         </div>
     )
 

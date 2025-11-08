@@ -30,7 +30,7 @@ const Dialog = (props: DialogProps) => {
         overlayClassName,
         portalClassName,
         style,
-        width = 1020,
+        width = 950,
         ...rest
     } = props
 
