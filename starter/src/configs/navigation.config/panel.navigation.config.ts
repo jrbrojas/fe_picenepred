@@ -885,8 +885,9 @@ function filterBySegmentFlatten(nav: NavigationTree[], segment: string, inSegmen
 
 export function usePanelNavigation(storageKey = 'redirectTo') {
     const compute = () => {
-        const segment =
-            typeof window !== 'undefined' ? localStorage.getItem(storageKey) || '' : ''
+        //const segment =
+        //    typeof window !== 'undefined' ? localStorage.getItem(storageKey) || '' : ''
+        const segment = location.pathname.split("/")[1] || '';        
         if (!segment) return panelNavigationFull
         const filtered = filterBySegmentFlatten(panelNavigationFull, segment)
         return filtered.length ? filtered : []

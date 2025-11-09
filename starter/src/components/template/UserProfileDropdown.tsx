@@ -50,6 +50,11 @@ const _UserDropdown = () => {
         ...(avatar ? { src: avatar } : { icon: <PiUserDuotone /> }),
     }
 
+    const abreviarNombre = (nombres = '', apellidos = '') => {
+        const primeraLetraApellido = apellidos ? apellidos.split(" ")[0][0] + "." : "";
+        return `${nombres} ${primeraLetraApellido}`;
+    };
+
     return (
         <div className="flex w-full items-center ps-3 pe-5 justify-between lg:justify-start lg:gap-3">
             <Search />
@@ -60,10 +65,10 @@ const _UserDropdown = () => {
                     <div className="flex items-center gap-3 cursor-pointer">
                         {/* Datos del usuario */}
                         <div className="flex flex-col text-right">
-                            <span className="text-lg font-semibold tracking-wide">
-                                {nombres} {apellidos}
+                            <span className="text-lg font-semibold tracking-wide whitespace-nowrap">
+                                {abreviarNombre(nombres, apellidos)}
                             </span>
-                            <span className="text-sm lg:text-gray-500">{rol}</span>
+                            <span className="text-sm text-gray-500">{rol}</span>
                         </div>
 
                         {/* Ícono o avatar si tienes */}
