@@ -3,12 +3,13 @@ import Footer from './components/Footer'
 import useIsLargeScreen from '@/utils/hooks/useIsLargeScreen'
 import { useAuth } from '@/auth'
 import UserDropdown from '@/components/template/UserProfileDropdown'
-import { Button } from '@/components/ui'
+import { Button, Tooltip } from '@/components/ui'
 import HomeHero from './components/HomeHero'
 import Monitoreo from './components/Monitoreo'
 import Nav from './components/Nav'
 import { useState } from 'react'
 import Search from '@/components/template/Search'
+import { FaBook } from 'react-icons/fa'
 
 const Home = () => {
     const isLarge = useIsLargeScreen()
@@ -22,8 +23,13 @@ const Home = () => {
 
                 {/*<div className="relative mx-auto flex max-w-7xl items-center bg-white justify-between gap-6 px-4 py-4">*/}
                 {/*<div className="relative mx-auto flex items-center bg-white justify-between gap-6 px-4 py-4">*/}
+<<<<<<< Updated upstream
                 <div className="relative mx-auto flex w-full items-center bg-white justify-between container ml-auto px-7 py-4">
                 {/*<div className="w-full md:w-1/2 lg:w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] ml-auto">*/}
+=======
+                <div className="relative mx-auto flex w-full items-center justify-between container ml-auto px-7 py-4">
+                    {/*<div className="w-full md:w-1/2 lg:w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] ml-auto">*/}
+>>>>>>> Stashed changes
 
                     <div className="flex items-center justify-center gap-3 w-full lg:w-auto ml-0 lg:ml-5">
                         <img
@@ -51,7 +57,15 @@ const Home = () => {
                         {authenticated ? (
                             <UserDropdown />
                         ) : (
-                            <div className="flex flex-col lg:flex-row items-center gap-3">
+
+                            <div className="flex w-full flex-col lg:flex-row items-center gap-3">
+                                <Tooltip title="Contiene instrucciones sobre el registro de entidades, informes y supervisiones.">
+                                    <a href="https://sigrid.cenepred.gob.pe/sigridv3/difusion-manuales" target='_blank'
+                                        className="text-2xl ps-5 flex gap-2 items-center text-gray-600 hover:text-gray-900" aria-label='Contiene instrucciones sobre el registro de entidades, informes y supervisiones.'>
+                                        <FaBook />
+                                    </a>
+                                </Tooltip>
+
                                 <Search />
                                 <Button
                                     size={isLarge ? 'lg' : 'xs'}
@@ -80,29 +94,29 @@ const Home = () => {
                         aria-expanded={open}
                         aria-controls="mobile-nav"
                         onClick={() => setOpen(!open)}
-                        >
+                    >
                         {open ? (
-                        <svg
-                            className="h-15 w-15"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                            <svg
+                                className="h-15 w-15"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                             >
-                            <path d="M5 15l7-7 7 7" />
-                        </svg>
+                                <path d="M5 15l7-7 7 7" />
+                            </svg>
                         ) : (
-                        <svg
-                            className="h-15 w-15"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <path d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                            <svg
+                                className="h-15 w-15"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
+                                <path d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
                         )}
 
                     </button>

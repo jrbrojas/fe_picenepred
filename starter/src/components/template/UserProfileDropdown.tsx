@@ -12,6 +12,8 @@ import {
 import { useAuth } from '@/auth'
 import type { JSX } from 'react'
 import Search from './Search'
+import { FaBook } from 'react-icons/fa'
+import { Tooltip } from '../ui'
 
 type DropdownList = {
     label: string
@@ -51,7 +53,14 @@ const _UserDropdown = () => {
     }
 
     return (
-        <div className="flex w-full items-center ps-3 pe-5 justify-between lg:justify-start lg:gap-3">
+        <div className="flex w-full items-center ps-3 pe-5 justify-between lg:justify-start lg:gap-5">
+            <Tooltip title="Contiene instrucciones sobre el registro de entidades, informes y supervisiones.">
+                <a href="https://sigrid.cenepred.gob.pe/sigridv3/difusion-manuales" target='_blank'
+                    className="text-lg flex gap-2 items-center text-white lg:text-gray-600 lg:hover:text-gray-900" aria-label='Contiene instrucciones sobre el registro de entidades, informes y supervisiones.'>
+                    <span className="hidden lg:block">Manual de Usuario</span>
+                    <FaBook />
+                </a>
+            </Tooltip>
             <Search />
             <Dropdown
                 className="flex"
