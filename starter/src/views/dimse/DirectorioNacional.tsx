@@ -218,7 +218,7 @@ export default function TreeTableMonitoreo3Niveles() {
                             <table className="min-w-full table-fixed border-separate border-spacing-0">
                                 <thead>
                                     <tr>
-                                        <th onClick={() => { setQuery(`Peru`); }} className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
+                                        <th className="text-center cursor-pointer sticky left-0 z-20 min-w-[240px] max-w-[240px] bg-slate-50 p-3 text-[12px] font-semibold uppercase tracking-wide text-slate-600 ring-1 ring-slate-200">
                                             <div className='flex items-center justify-center w-full min-h-[48px] h-full relative'>
                                                 Localización
                                                 <Button

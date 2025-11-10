@@ -7,7 +7,7 @@ import { Button } from '@/components/ui'
 import useIsLargeScreen from '@/utils/hooks/useIsLargeScreen'
 import Search from '@/components/template/Search'
 
-const REDIRECT_KEY = 'redirectTo'
+export const REDIRECT_KEY = 'redirectTo'
 
 type SubMenuItem = {
   label: string
@@ -46,7 +46,7 @@ const navItems: NavItem[] = [
         submenu: [
           {
             label: 'Responsable por entidad',
-            href: '/monitoreo/directorioNacional',
+            href: '/monitoreo/directorioNacional?nosidebar=',
             protected: true,
           },
           {
