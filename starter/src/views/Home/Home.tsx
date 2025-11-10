@@ -22,7 +22,7 @@ const Home = () => {
 
                 {/*<div className="relative mx-auto flex max-w-7xl items-center bg-white justify-between gap-6 px-4 py-4">*/}
                 {/*<div className="relative mx-auto flex items-center bg-white justify-between gap-6 px-4 py-4">*/}
-                <div className="relative mx-auto flex w-full items-center justify-between container ml-auto px-7 py-4">
+                <div className="relative mx-auto flex w-full items-center bg-white justify-between container ml-auto px-7 py-4">
                 {/*<div className="w-full md:w-1/2 lg:w-full text-white shadow-sm bg-gradient-to-tr from-[#078199] to-[#30BDCC] lg:bg-none lg:bg-[#078199] ml-auto">*/}
 
                     <div className="flex items-center justify-center gap-3 w-full lg:w-auto ml-0 lg:ml-5">

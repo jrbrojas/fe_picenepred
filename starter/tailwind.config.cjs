@@ -186,4 +186,10 @@ module.exports = {
         },
     },
     plugins: [require('@tailwindcss/typography')],
+    variants: {
+        extend: {
+        transitionProperty: ['motion-safe', 'motion-reduce'],
+        animation: ['motion-safe', 'motion-reduce'],
+        },
+    },
 }

@@ -33,7 +33,7 @@ const _Search = ({ className }: { className?: string }) => {
       const response = await apiGet.fetchDataWithAxios({
         method: 'GET',
         url: `/searchs?q=${encodeURIComponent(query)}`,
-        headers: { 'X-API-KEY': 'API_KEY' },
+        headers: { 'X-API-KEY': import.meta.env.VITE_API_KEY },
       })
       if (response && (response as any).data) {
         setResults((response as any).data)

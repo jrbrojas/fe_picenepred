@@ -8,7 +8,13 @@
     <title>Plataforma Integradora SIGRID</title>
   </head>
   <body>
-    <div id="root" class="bg-white"></div>
+    <div id="root" 
+      class="bg-white 
+      motion-safe:transition-all
+      motion-safe:duration-300
+      motion-safe:animate-fadeIn
+      motion-reduce:transition-none
+      motion-reduce:animate-none"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
