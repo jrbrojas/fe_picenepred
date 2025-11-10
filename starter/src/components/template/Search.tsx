@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import classNames from '@/utils/classNames'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import Button from '@/components/ui/Button'
@@ -8,7 +8,20 @@ import { HiOutlineSearch } from 'react-icons/hi'
 import { PiMagnifyingGlassDuotone } from 'react-icons/pi'
 import Highlighter from 'react-highlight-words'
 import apiGet from '@/services/ApiServiceSearch'
+import basicos from './data/search/basicos'
 
+interface ResultadoBasico {
+    base_datos: 'frontend';
+    origen: 'frontend';
+    texto: string;
+    titulo: string;
+    ruta: string;
+}
+const resultadoBasicos: ResultadoBasico[] = basicos.map((item) => ({
+    base_datos: 'frontend',
+    origen: 'frontend',
+    ...item,
+}))
 const _Search = ({ className }: { className?: string }) => {
   const [searchDialogOpen, setSearchDialogOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -24,6 +37,17 @@ const _Search = ({ className }: { className?: string }) => {
     setQuery('')
     setSearched(false)
   }
+
+  const resultados = useMemo(() => {
+    return resultadoBasicos.filter((i) => {
+        if (!query) {
+            return true;
+        }
+
+        const lower = `${i.titulo}|${i.texto}`.toLocaleLowerCase();
+        return lower.includes(query.toLocaleLowerCase());
+    }).concat(results)
+  }, [results])
 
   const handleSearch = async () => {
     if (!query.trim()) return
@@ -83,6 +107,38 @@ const _Search = ({ className }: { className?: string }) => {
   }, [])
 
   const renderResultItem = (item: any, i: number) => {
+    if (item.base_datos === 'frontend' && item.origen === 'frontend') {
+        const elemento = item as ResultadoBasico;
+        return (
+            <a className="item-result" target='_blank' href={elemento.ruta} tabIndex={0}>
+              <div key={i} className="relative p-2 border-gray-200 dark:border-gray-700 mb-3 rounded-xl hover:shadow-sm transition-all bg-gray-50 dark:bg-gray-900">
+                <span className="absolute top-0 left-0 px-2 py-0.5 font-bold text-[10px] rounded-md bg-blue-600 text-white dark:bg-blue-900 dark:text-blue-200 shadow-sm">
+                    Ir a sección
+                </span>
+                <div className="flex justify-between items-start pt-3 pl-1">
+                  <div className="flex-1 hover:bg-red">
+                    <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 mb-1">
+                      <Highlighter
+                        searchWords={query.trim().split(/\s+/)}
+                        autoEscape
+                        textToHighlight={elemento.titulo}
+                        highlightClassName="bg-yellow-200 text-gray-900"
+                      />
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                      <Highlighter
+                        searchWords={query.trim().split(/\s+/)}
+                        autoEscape
+                        textToHighlight={elemento.texto}
+                        highlightClassName="bg-yellow-200 text-gray-900"
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+        );
+    }
     if (item.base_datos === 'dgp' && item.origen === 'asistencia_tecnica') {
       const url = item.url ? item.url : '/fortalecimiento/cursospi/cb'
       return (
@@ -164,6 +220,7 @@ const _Search = ({ className }: { className?: string }) => {
     <>
       <div
         ref={inputRef}
+        id="search"
         className={classNames(
           className,
           'relative text-2xl cursor-pointer hidden lg:block xl:w-120 2xl:w-140'
@@ -173,19 +230,27 @@ const _Search = ({ className }: { className?: string }) => {
         <div className="flex items-center flex-1 pe-2">
           <input
             ref={inputRef}
+            id="inputsearch"
             className="ring-0 outline-none block w-full px-3 py-2 text-base bg-transparent text-gray-900 dark:text-gray-100"
             placeholder="Buscar informes, capacitaciones o supervisiones..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+                setQuery(e.target.value)
+                setResults([])
+            }}
             onKeyDown={handleKeyDown}
           />
           <PiMagnifyingGlassDuotone />
         </div>
 
-        {results.length > 0 && (
-          <div className="absolute left-0 top-full mt-1 w-full z-50 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+        {resultados.length > 0 && (
+          <div
+            tabIndex={0}
+            aria-label="Resultados de busqueda"
+            className="container-result absolute left-0 top-full mt-1 w-full z-50 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700"
+          >
             <ScrollBar className="max-h-[350px] overflow-y-auto p-3">
-              {results.map((item, i) => renderResultItem(item, i))}
+              {resultados.map((item, i) => renderResultItem(item, i))}
             </ScrollBar>
           </div>
         )}
@@ -212,7 +277,10 @@ const _Search = ({ className }: { className?: string }) => {
                 className="ring-0 outline-none block w-full p-4 text-base bg-transparent text-gray-900 dark:text-gray-100"
                 placeholder="Buscar informes, capacitaciones o supervisiones..."
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                    setQuery(e.target.value)
+                    setResults([])
+                }}
                 onKeyDown={handleKeyDown}
               />
             </div>
@@ -221,23 +289,18 @@ const _Search = ({ className }: { className?: string }) => {
             </Button>
           </div>
 
-            {(loading || results.length > 0 || searched) && (
               <div className="flex-1">
-                {loading ? (
-                  <div className="text-center text-gray-500 my-10">Buscando...</div>
-                ) : (
                   <ScrollBar className="max-h-[400px] overflow-y-auto p-4">
-                    {results.length > 0 ? (
-                      results.map((item, i) => renderResultItem(item, i))
+                    {resultados.length > 0 ? (
+                      resultados.map((item, i) => renderResultItem(item, i))
                     ) : searched ? (
                       <div className="text-center text-gray-500 my-10">
                         No se encontraron resultados para <strong>"{query}"</strong>
                       </div>
                     ) : null}
                   </ScrollBar>
-                )}
+                  {loading && <div className="text-center text-gray-500 my-10">Buscando...</div>}
               </div>
-            )}
           </div>
       </Dialog>
     </>

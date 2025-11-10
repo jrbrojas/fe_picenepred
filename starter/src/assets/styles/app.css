@@ -8,6 +8,27 @@
 
 @import "leaflet/dist/leaflet.css";
 
+#search .container-result {
+    display: none;
+}
+#search:has(#inputsearch:focus) .container-result {
+    display: block;
+}
+
+#search .container-result:hover {
+    display: block;
+}
+
+#search *:focus {
+    display: block !important;
+}
+#search .container-result:has(*:focus) {
+    display: block !important;
+}
+
+#search .container-result:has(.item-result:focus) {
+    display: block;
+}
 .menuhome .submenu .submenu {
     left: 100%;
     translate: 0 -50%;
