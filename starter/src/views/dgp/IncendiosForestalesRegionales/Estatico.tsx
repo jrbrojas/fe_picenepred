@@ -27,7 +27,7 @@ const IncendiosForestalesRegionalesEstatico = () => {
     const [loadingPrint, setLoadingPrint] = useState(false);
 
     const exportPDF = async () => {
-        try {            
+        try {
             setLoadingPrint(true);
             const response = await apiPrintEscenario<Blob>(escenario.id, { data })
 
@@ -127,11 +127,9 @@ const IncendiosForestalesRegionalesEstatico = () => {
                                             <h3 className="text-sm text-center font-semibold text-teal-600">
                                                 {escenario.nombre}
                                             </h3>
-                                            {data['inundaciones'].slice(0, 1).map((item, index) => (
-                                                <h3 key={index} className='text-sm text-center font-bold text-green-600/70'>
-                                                    DEPARTAMENTO DE {formatDepartamentArray(item.departamentos ?? null)}
-                                                </h3>
-                                            ))}
+                                            <h3 className='text-sm text-center font-bold text-green-600/70'>
+                                                {escenario.subtitulo}
+                                            </h3>
                                         </div>
 
                                         <div className='w-full flex flex-col items-center justify-center'>
