@@ -56,7 +56,7 @@ const Home = () => {
                             <div className="flex w-full flex-col lg:flex-row items-center gap-3">
                                 <Tooltip title="Contiene instrucciones sobre el registro de entidades, informes y supervisiones.">
                                     <a href="https://sigrid.cenepred.gob.pe/sigridv3/difusion-manuales" target='_blank'
-                                        className="text-2xl ps-5 flex gap-2 items-center text-gray-600 hover:text-gray-900" aria-label='Contiene instrucciones sobre el registro de entidades, informes y supervisiones.'>
+                                        className="text-2xl ps-5 flex gap-2 items-center text-[#078199]" aria-label='Contiene instrucciones sobre el registro de entidades, informes y supervisiones.'>
                                         <FaBook />
                                     </a>
                                 </Tooltip>

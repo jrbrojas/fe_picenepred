@@ -161,7 +161,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
 
                                                 <div className='flex flex-col gap-1 justify-center items-center'>
 
-                                                    <div className='flex items-center justify-between w-full'>
+                                                    <div className='flex items-center justify-between gap-2 w-full'>
                                                         <div className='flex-1'></div>
 
                                                         <div className="bg-green-600 bg-opacity-70 text-white text-lg font-medium rounded-lg px-4 py-1 text-center">
@@ -169,7 +169,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                                                         </div>
 
                                                         <div className='flex-1 flex justify-end'>
-                                                            <div className='bg-green-600 bg-opacity-70 rounded-lg text-lg font-semibold text-white px-4 py-1'>
+                                                            <div className='bg-green-600 bg-opacity-70 rounded-lg font-semibold text-white px-4 py-2'>
                                                                 <span>{escenario.nombre}</span>
                                                             </div>
                                                         </div>
