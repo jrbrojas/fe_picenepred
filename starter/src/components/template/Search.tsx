@@ -29,6 +29,8 @@ const _Search = ({ className }: { className?: string }) => {
   const [loading, setLoading] = useState(false)
   const [searched, setSearched] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [suggestions, setSuggestions] = useState([]);
+  const typingTimeout = useRef<NodeJS.Timeout | null>(null)
 
   const handleSearchOpen = () => setSearchDialogOpen(true)
   const handleSearchClose = () => {
@@ -48,6 +50,29 @@ const _Search = ({ className }: { className?: string }) => {
         return lower.includes(query.toLocaleLowerCase());
     }).concat(results)
   }, [results])
+
+  const fetchSuggestions = async (term: string) => {
+    if (!term.trim()) {
+      setSuggestions([])
+      return
+    }
+    try {
+      const response = await apiGet.fetchDataWithAxios({
+        method: 'GET',
+        url: `/searchs/predict?q=${encodeURIComponent(term)}`,
+        headers: { 'X-API-KEY': import.meta.env.VITE_API_KEY },
+      })
+      if (response && (response as any).data) {
+        console.log('(response as any).data',(response as any).data);
+        
+        setSuggestions((response as any).data)
+      } else {
+        setSuggestions([])
+      }
+    } catch (error) {
+      console.error('Error obteniendo sugerencias:', error)
+    }
+  }
 
   const handleSearch = async () => {
     if (!query.trim()) return
@@ -72,6 +97,14 @@ const _Search = ({ className }: { className?: string }) => {
     }
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value
+    setQuery(val)
+    setResults([])
+    setSearched(false)
+    if (typingTimeout.current) clearTimeout(typingTimeout.current)
+    typingTimeout.current = setTimeout(() => fetchSuggestions(val), 300)
+  }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleSearch()
   }
@@ -229,18 +262,21 @@ const _Search = ({ className }: { className?: string }) => {
       >
         <div className="flex items-center flex-1 pe-2">
           <input
-            ref={inputRef}
+            list="suggestionsList"
             id="inputsearch"
             className="ring-0 outline-none block w-full px-3 py-2 text-base bg-transparent text-gray-900 dark:text-gray-100"
             placeholder="Buscar informes, capacitaciones o supervisiones..."
             value={query}
-            onChange={(e) => {
-                setQuery(e.target.value)
-                setResults([])
-            }}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
+            autoComplete="off"
           />
           <PiMagnifyingGlassDuotone />
+          <datalist id="suggestionsList">
+            {suggestions.map((s, i) => (
+              <option key={i} value={s} />
+            ))}
+          </datalist>
         </div>
 
         {resultados.length > 0 && (
