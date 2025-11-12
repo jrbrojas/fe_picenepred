@@ -372,6 +372,18 @@ const panelRoute: Routes = [
         component: lazy(() => import('@/views/dimse/Evaluacion')),
         authority: [],
     },
+
+    // Rutas para Gestión de Usuarios
+    {
+        key: 'gestionUsuarios',
+        path: `/gestion-usuarios`,
+        component: lazy(() => import('@/views/usuarios/index')),
+        authority: [ADMIN],
+        meta: {
+            pageContainerType: 'contained',
+        },
+    },
+
     {
         key: 'accessDenied',
         path: `/access-denied`,

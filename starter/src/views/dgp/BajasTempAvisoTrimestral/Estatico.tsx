@@ -11,6 +11,7 @@ import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
 import { apiPrintEscenario } from "@/services/ModeloDgpService";
 import { useState } from "react";
+import DownloadExcel from "../DownloadExcel";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MA': 'text-red-500 bg-red-500',
@@ -244,6 +245,8 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                             </div>
                                         </div>
                                     ))}
+
+                                    <DownloadExcel path={escenario.excel} />
 
                                     <div className='flex items-center gap-2 mt-3'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>

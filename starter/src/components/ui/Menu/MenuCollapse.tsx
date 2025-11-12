@@ -69,6 +69,7 @@ const MenuCollapse = (props: MenuCollapseProps) => {
         'gestion-procesos',
         'difat',
         'dimse',
+        'gestion-usuarios',
     ]
     const includeEvent = noToggleLabels.includes(String(props.eventKey))
     return (

@@ -8,6 +8,7 @@ import ImageZoom from "../ImageZoom";
 import { useState } from "react";
 import { apiPrintEscenario } from "@/services/ModeloDgpService";
 import { BiDownload } from "react-icons/bi";
+import DownloadExcel from "../DownloadExcel";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -192,6 +193,9 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                     <div className="min-w-[720px] sm:min-w-0">
                                         <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
                                     </div>
+
+                                    <DownloadExcel path={escenario.excel} />
+
                                     <div className='flex items-center gap-3 mt-3'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
                                         <a

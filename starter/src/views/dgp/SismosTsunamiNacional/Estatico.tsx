@@ -11,6 +11,7 @@ import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
 import { useState } from "react";
 import { apiPrintEscenario } from "@/services/ModeloDgpService";
+import DownloadExcel from "../DownloadExcel";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -132,6 +133,7 @@ const SismosTsunamiNacionalEstatico = () => {
                                                         escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[index].ruta : null} />
                                                 )}
 
+                                                <DownloadExcel path={escenario.excel} />
 
                                                 <div className='w-full flex items-center gap-2'>
                                                     <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
@@ -261,8 +263,6 @@ const SismosTsunamiNacionalEstatico = () => {
                                                         </div>
 
                                                     </div>
-
-
                                                 ))}
 
                                             </div>

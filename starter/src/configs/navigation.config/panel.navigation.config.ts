@@ -802,6 +802,28 @@ export const panelNavigationFull: NavigationTree[] = [
             enagerd,
         ],
     },
+    {
+        key: 'gestion-usuarios',
+        path: `/gestion-usuarios`,
+        title: 'GESTION DE USUARIOS',
+        translateKey: 'nav.gestionUsuarios',
+        icon: 'customers',
+        type: NAV_ITEM_TYPE_COLLAPSE,
+        authority: [],
+        subMenu: [
+            {
+                key: 'gestionUsuarios.usuarios',
+                path: '/gestion-usuarios',
+                title: 'USUARIOS',
+                translateKey: 'nav.gestionUsuarios.usuarios',
+                icon: 'customers',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: []
+            },
+
+        ],
+    },
 
 ]
 
@@ -894,7 +916,7 @@ export function usePanelNavigation(storageKey = 'redirectTo') {
     }
 
     const [items, setItems] = useState<NavigationTree[]>(compute)
-
+    
     useEffect(() => {
         const recompute = () => setItems(compute())
         window.addEventListener('storage', recompute)

@@ -10,6 +10,7 @@ import ImageZoom from "../ImageZoom";
 import { BiDownload } from "react-icons/bi";
 import { apiPrintEscenario } from "@/services/ModeloDgpService";
 import { useState } from "react";
+import DownloadExcel from "../DownloadExcel";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -183,6 +184,8 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                             </div>
                                         </div>
                                     ))}
+
+                                    <DownloadExcel path={escenario.excel} />
 
                                     <div className='w-full flex items-center gap-2'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
