@@ -1,4 +1,4 @@
-import { Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Notification, Skeleton, Tabs, toast } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
@@ -7,6 +7,9 @@ import { FaHome, FaUsers } from "react-icons/fa";
 import NumeroFormateado from "@/utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
+import { BiDownload } from "react-icons/bi";
+import { apiPrintEscenario } from "@/services/ModeloDgpService";
+import { useState } from "react";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MUY ALTO': 'text-red-500 bg-red-500',
@@ -21,6 +24,39 @@ const BajasTempInformacionClimaticaEstatico = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('6');
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
+    const [loadingPrint, setLoadingPrint] = useState(false);
+
+    const exportPDF = async () => {
+        try {            
+            setLoadingPrint(true);
+            const response = await apiPrintEscenario<Blob>(escenario.id, { data })
+
+            const blob = new Blob([response as any])
+            const url = window.URL.createObjectURL(blob)
+            // window.open(url, "_blank");
+            const a = document.createElement("a")
+            a.href = url
+            a.download = `${escenario.formulario.nombre}.pptx`
+            a.click()
+            // setTimeout(() => {
+            //     window.URL.revokeObjectURL(url)                
+            // }, 10000);
+        } catch (error) {
+            setLoadingPrint(false);
+            toast.push(
+                <Notification
+                    title="Error al imprimir el escenario"
+                    type="danger"
+                >
+                    Hubo un problema al intentar imprimir el escenario. Por favor, intenta de nuevo.
+                </Notification>
+            )
+
+            console.error("Error exportando PDF:", error)
+        } finally {
+            setLoadingPrint(false);
+        }
+    };
 
     const NoDataMessage = () => (
         <div className="flex flex-col items-center justify-center py-10 text-center">
@@ -94,38 +130,44 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                     {data['inundaciones'].slice(0, 1).map((item, index) => (
                                         <div key={index} className="flex flex-col gap-3 justify-start items-center w-full">
 
-                                            <div className="p-2 bg-teal-600 rounded-full">
-                                                <h4 className='text-sm font-medium text-white mr-4 ml-4'>HELADAS</h4>
+                                            <div className="flex items-center gap-3">
+                                                <div className="p-2 bg-teal-600 rounded-lg">
+                                                    <h4 className='text-sm font-medium text-white mr-4 ml-4'>HELADAS</h4>
+                                                </div>
+                                                <Button size="xs" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
+                                                    className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
+                                                    Descargar PPT
+                                                </Button>
                                             </div>
 
-                                            <div className="bg-gray-200/50 rounded-4xl p-5 space-y-5 w-full">
-                                                {/* Distritos */}
-                                                <div className="flex items-center gap-8">
-                                                    <TbMapPin className="text-cyan-600" size={50} />
+
+                                            <div className="bg-gray-200/50 rounded-4xl p-5 grid grid-cols-2 items-center w-full">
+                                                <div className='flex flex-col gap-5 items-center'>
+                                                    <TbMapPin className="text-cyan-600 text-end" size={50} />
+                                                    <FaUsers className="text-cyan-600 text-end" size={50} />
+                                                    <FaHome className="text-cyan-600 text-end" size={50} />
+                                                </div>
+                                                <div className='flex flex-col gap-5 items-center'>
+                                                    {/* Distritos */}
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
                                                         <p className="text-xl font-bold">{NumeroFormateado(item.total_distritos)}</p>
                                                         <p className="text-md">Distritos</p>
                                                     </div>
-                                                </div>
-                                                {/* Población */}
-                                                <div className="flex items-center gap-8">
-                                                    <FaUsers className="text-cyan-600" size={50} />
+                                                    {/* Población */}
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
                                                         <p className="text-xl font-bold">{NumeroFormateado(item.total_poblacion)}</p>
                                                         <p className="text-md">Población</p>
                                                     </div>
-                                                </div>
-                                                {/* Viviendas */}
-                                                <div className="flex items-center gap-8">
-                                                    <FaHome className="text-cyan-600" size={50} />
+                                                    {/* Viviendas */}
                                                     <div className='flex-1 flex flex-col gap-1 font-semibold text-center text-teal-600'>
                                                         <p className="text-xl font-bold">{NumeroFormateado(item.total_vivienda)}</p>
                                                         <p className="text-md">Viviendas</p>
                                                     </div>
+
                                                 </div>
                                             </div>
 
-                                            <div className="flex flex-col p-5">
+                                            <div className="flex flex-col p-2 w-full">
                                                 {/* Nivel de riesgo */}
                                                 <div className={`${nivelColorClasses[item.nivel.toUpperCase()]} text-white text-center font-semibold py-1 rounded `}>
                                                     {item.nivel}

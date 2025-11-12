@@ -13,11 +13,13 @@ import type { CommonProps } from '@/@types/common'
 import { Button, Tooltip } from '@/components/ui'
 import { HiHome } from 'react-icons/hi'
 import { Link, useLocation, useNavigate } from 'react-router'
+import { useSearchParams } from 'react-router'
 
 const CollapsibleSide = ({ children }: CommonProps) => {
     const { larger, smaller } = useResponsive()
     const navigate = useNavigate();
     const location = useLocation()
+    const [params, setParams] = useSearchParams();
 
     let titleExt = ''
     let title = ''
@@ -37,7 +39,7 @@ const CollapsibleSide = ({ children }: CommonProps) => {
             className="app-layout-collapsible-side flex flex-auto flex-col"
         >
             <div className="flex flex-auto min-w-0">
-                {larger.lg && <SideNav />}
+                {larger.lg && !params.has('nosidebar') && <SideNav />}
                 <div className="flex flex-col flex-auto min-h-screen min-w-0 relative w-full">
                     <Header
                         className="shadow-sm dark:shadow-2xl"

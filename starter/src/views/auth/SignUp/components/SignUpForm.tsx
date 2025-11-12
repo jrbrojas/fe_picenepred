@@ -28,8 +28,8 @@ type SignUpFormSchema = {
 
 const validationSchema = z.object({
     email: z.string({ message: 'Ingresar su correo electrónico' }),
-    nombres: z.string({ message: 'Porfavor ingesar sus nombres completos' }),
-    apellidos: z.string({ message: 'Porfavor ingresar sus apellidos completos' }),
+    nombres: z.string({ message: 'Por favor ingresar sus nombres completos' }),
+    apellidos: z.string({ message: 'Por favor ingresar sus apellidos completos' }),
     usuario: z.string({ message: 'El nombre de usuario es obligatorio' }),
     rol: z.string({ message: 'Seleccione un rol para el usuario' }),
     password: z.string({ message: 'La contraseña es obligatoria' }),

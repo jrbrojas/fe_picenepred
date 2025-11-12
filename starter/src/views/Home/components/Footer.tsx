@@ -1,8 +1,23 @@
+import { REDIRECT_KEY } from "./Nav"
+import { Link, useNavigate } from 'react-router'
+import { PiChartLineUpDuotone } from "react-icons/pi";
+import { IoMdMap } from "react-icons/io";
+import { MdOutlineMonitor } from "react-icons/md";
+
 const Footer = () => {
+    const navigate = useNavigate();
+    const handleClickLink = (e: React.MouseEvent, href: string) => {
+        e.preventDefault();
+        localStorage.setItem(
+            REDIRECT_KEY,
+            href.split('/').filter(Boolean)[0] || '/',
+        )
+        navigate(href)
+    }
     return (
         <footer className="relative bg-[#078199] text-white">
             <div className="mx-auto max-w-full px-4 py-10">
-                <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-5 justify-items-center">
                     {/* LOGO */}
                     <div className="space-y-3">
                         <img
@@ -72,6 +87,74 @@ const Footer = () => {
                                     <div className="text-sm">
                                         8:30 a. m. a 4:30 p. m.
                                     </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* ENLACES */}
+                    <div className="space-y-3 uppercase">
+                        {/*
+                        <h6 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-white">
+                            <svg
+                                className="h-5 w-5"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.8"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                role="img"
+                                aria-label="Horario"
+                            >
+                                <title>Horario</title>
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 7v5l3 2" />
+                            </svg>
+                            Horario de atención
+                        </h6>
+                        */}
+                        <ul className="space-y-3 text-white">
+                            <li className="flex items-start gap-2 hover:underline">
+                                <PiChartLineUpDuotone className="h-5 w-5"/>
+                                <div>
+                                    <Link
+                                        to={'/gestion-procesos/lluviasAvisoMeteorologico/estatico'}
+                                        onClick={(e) =>handleClickLink(e, '/gestion-procesos/lluviasAvisoMeteorologico/estatico')}
+                                        role="menuitem"
+                                    >
+                                        <div className="text-sm">
+                                            Gestión de procesos
+                                        </div>
+                                    </Link>
+                                </div>
+                            </li>
+                            <li className="flex items-start gap-2 hover:underline">
+                                <IoMdMap className="h-5 w-5" />
+                                <div>
+                                    <Link
+                                        to={'/gestion-procesos/lluviasAvisoMeteorologico/estatico'}
+                                        onClick={(e) =>handleClickLink(e, '/fortalecimiento/pprrdrapi')}
+                                        role="menuitem"
+                                    >
+                                        <div className="text-sm">
+                                            Fortalecimiento y<br/> asistencia técnica
+                                        </div>
+                                    </Link>
+                                </div>
+                            </li>
+                            <li className="flex items-start gap-3 hover:underline">
+                                <MdOutlineMonitor className="h-5 w-5" />
+                                <div>
+                                    <Link
+                                        to={'/gestion-procesos/lluviasAvisoMeteorologico/estatico'}
+                                        onClick={(e) =>handleClickLink(e, '/monitoreo/monitoreo')}
+                                        role="menuitem"
+                                    >
+                                        <div className="text-sm">
+                                            Monitoreo, seguimiento <br/>y evaluación
+                                        </div>
+                                    </Link>
                                 </div>
                             </li>
                         </ul>

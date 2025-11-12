@@ -1,4 +1,4 @@
-import { Button, Card, Skeleton, Tabs } from "@/components/ui";
+import { Button, Card, Notification, Skeleton, Tabs, toast } from "@/components/ui";
 import AdaptiveCard from '@/components/shared/AdaptiveCard'
 import Container from '@/components/shared/Container'
 import usePlantilla from "../hooks/usePlantilla";
@@ -9,6 +9,8 @@ import { BsHospital } from "react-icons/bs";
 import NumeroFormateado from "../../../utils/numerFormat";
 import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
+import { apiPrintEscenario } from "@/services/ModeloDgpService";
+import { useState } from "react";
 
 const nivelColorClasses: { [key: string]: string } = {
     'MA': 'text-red-500 bg-red-500',
@@ -34,6 +36,39 @@ const BajasTempAvisoTrimestralEstatico = () => {
     const tipoPeligro = Object.keys(data);
     const mesInicio = new Date(escenario.fecha_inicio).toLocaleString('es-ES', { month: 'long' });
     const mesFin = new Date(escenario.fecha_fin).toLocaleString('es-ES', { month: 'long' });
+    const [loadingPrint, setLoadingPrint] = useState(false);
+
+    const exportPDF = async () => {
+        try {            
+            setLoadingPrint(true);
+            const response = await apiPrintEscenario<Blob>(escenario.id, { data })
+
+            const blob = new Blob([response as any])
+            const url = window.URL.createObjectURL(blob)
+            // window.open(url, "_blank");
+            const a = document.createElement("a")
+            a.href = url
+            a.download = `${escenario.formulario.nombre}.pptx`
+            a.click()
+            // setTimeout(() => {
+            //     window.URL.revokeObjectURL(url)                
+            // }, 10000);
+        } catch (error) {
+            setLoadingPrint(false);
+            toast.push(
+                <Notification
+                    title="Error al imprimir el escenario"
+                    type="danger"
+                >
+                    Hubo un problema al intentar imprimir el escenario. Por favor, intenta de nuevo.
+                </Notification>
+            )
+
+            console.error("Error exportando PDF:", error)
+        } finally {
+            setLoadingPrint(false);
+        }
+    };
 
     const formatNombreArray = (pgArray: string) => {
         if (!pgArray) return "";
@@ -91,12 +126,6 @@ const BajasTempAvisoTrimestralEstatico = () => {
                     </div>) :
                     (
                         <div className='p-2'>
-                            {/* <div className="flex items-center justify-end pb-5">
-                                <Button size="xs" variant="solid" icon={<BiDownload />}>
-                                    Descargar PPT
-                                </Button>
-                            </div> */}
-
                             <div className='flex justify-between gap-4 items-center mb-3'>
                                 <div className='flex-1 flex flex-col items-center text-center'>
                                     <h2 className="text-center font-semibold text-teal-600">
@@ -105,8 +134,16 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                     <p className='text-blue-400 text-lg'>{escenario.nombre}</p>
                                     <p className='text-teal-600 text-lg'>{escenario.titulo_base}</p>
                                 </div>
-                                <div className="p-2 text-lg font-medium text-white bg-teal-600 rounded-full">
-                                    <p>AVISO TRIMESTRAL</p>
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 text-lg font-medium text-white bg-teal-600 rounded-lg">
+                                        <p>AVISO TRIMESTRAL</p>
+                                    </div>
+
+                                    <Button size="sm" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
+                                        className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
+                                        Descargar PPT
+                                    </Button>
+
                                 </div>
                             </div>
 
