@@ -58,6 +58,11 @@ const _Search = ({ className }: { className?: string }) => {
       return
     }
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setSuggestions([])
+        return
+      }
       const response = await apiGet.fetchDataWithAxios({
         method: 'GET',
         url: `/searchs/predict?q=${encodeURIComponent(term)}`,
