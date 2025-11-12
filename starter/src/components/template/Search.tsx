@@ -202,7 +202,7 @@ const _Search = ({ className }: { className?: string }) => {
             </a>
         );
     }
-    if (item.base_datos === 'dgp' && item.origen === 'asistencia_tecnica') {
+    if (item.base_datos === 'renat' && item.origen === 'asistencia_tecnica') {
       const url = item.url ? item.url : '/fortalecimiento/cursospi/cb'
       return (
         <a target='_blank' href={url}>
@@ -239,7 +239,7 @@ const _Search = ({ className }: { className?: string }) => {
           </div>
         </a>
       )
-    } else if (item.base_datos === 'dgp' && item.origen === 'evar_distritos_2025032') {
+    } else if (item.base_datos === 'renat' && item.origen === 'evar_distritos_2025032') {
       const url = '/fortalecimiento/evaluadorespi'
       return (
         <a target='_blank' href={url}>
