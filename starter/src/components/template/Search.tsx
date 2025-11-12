@@ -30,6 +30,7 @@ const _Search = ({ className }: { className?: string }) => {
   const [loading, setLoading] = useState(false)
   const [searched, setSearched] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const containerRef = useRef<HTMLInputElement>(null) 
   const [suggestions, setSuggestions] = useState([]);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null)
 
@@ -69,8 +70,6 @@ const _Search = ({ className }: { className?: string }) => {
         headers: { 'X-API-KEY': import.meta.env.VITE_API_KEY },
       })
       if (response && (response as any).data) {
-        console.log('(response as any).data',(response as any).data);
-        
         setSuggestions((response as any).data)
       } else {
         setSuggestions([])
@@ -80,14 +79,15 @@ const _Search = ({ className }: { className?: string }) => {
     }
   }
 
-  const handleSearch = async () => {
-    if (!query.trim()) return
+  const handleSearch = async (term?: string) => {
+    const value = term || query
+    if (!value.trim()) return
     setLoading(true)
     setSearched(true)
     try {
       const response = await apiGet.fetchDataWithAxios({
         method: 'GET',
-        url: `/searchs?q=${encodeURIComponent(query)}`,
+        url: `/searchs?q=${encodeURIComponent(value)}`,
         headers: { 'X-API-KEY': import.meta.env.VITE_API_KEY },
       })
       if (response && (response as any).data) {
@@ -100,8 +100,23 @@ const _Search = ({ className }: { className?: string }) => {
       setResults([])
     } finally {
       setLoading(false)
+      setSuggestions([])
     }
   }
+
+  const handleRemoveSuggestion = async (term: string) => {
+    const value = term
+    if (!value.trim()) return
+    try {
+      await apiGet.fetchDataWithAxios({
+        method: 'DELETE',
+        url: `/searchs/remove-suggestion?q=${encodeURIComponent(value)}`,
+        headers: { 'X-API-KEY': import.meta.env.VITE_API_KEY },
+      })
+    } catch (error) {
+      console.error('Error al remover sugerencia:', error)
+    }
+  }  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value
@@ -144,7 +159,16 @@ const _Search = ({ className }: { className?: string }) => {
       document.removeEventListener('keydown', handleEscape)
     }
   }, [])
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setSuggestions([])
+      }
+    }
 
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
   const renderResultItem = (item: any, i: number) => {
     if (item.base_datos === 'frontend' && item.origen === 'frontend') {
         const elemento = item as ResultadoBasico;
@@ -264,7 +288,7 @@ const _Search = ({ className }: { className?: string }) => {
             offset={0}
         />
       <div
-        ref={inputRef}
+        ref={containerRef}
         id="search"
         data-tooltip-id='home-tooltip'
         data-tooltip-content='Buscar escenarios de riesgo, informes, capacitaciones, supervisiones o reportes!'
@@ -274,25 +298,81 @@ const _Search = ({ className }: { className?: string }) => {
         )}
         style={{ backgroundColor: '#eaeaea92' }}
       >
-        <div
-            className="flex items-center flex-1 pe-2"
-        >
-          <input
-            list="suggestionsList"
-            id="inputsearch"
-            className="ring-0 outline-none block w-full px-3 py-2 text-base bg-transparent text-gray-900 dark:text-gray-100"
-            placeholder="Buscar..."
-            value={query}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            autoComplete="off"
-          />
-          <PiMagnifyingGlassDuotone />
-          <datalist id="suggestionsList">
-            {suggestions.map((s, i) => (
-              <option key={i} value={s} />
-            ))}
-          </datalist>
+        <div className="relative w-full">
+          <div className="flex items-center flex-1 pe-2 relative">
+            <input
+              ref={inputRef}
+              id="inputsearch"
+              className="ring-0 outline-none block w-full px-3 py-2 text-base bg-transparent text-gray-900 dark:text-gray-100"
+              placeholder="Buscar..."
+              value={query}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              autoComplete="off"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("")
+                  setSuggestions([])
+                }}
+                className="absolute right-8 text-gray-400 hover:text-red-500"
+                title="Limpiar búsqueda"
+                tabIndex={-1}
+              >
+                ✕
+              </button>
+            )}
+            <PiMagnifyingGlassDuotone className="absolute right-2 text-gray-600" />
+          </div>
+
+          {suggestions.length > 0 && (
+            <ul
+              className="absolute z-150 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto text-sm"
+              role="listbox"
+            >
+              {suggestions.map((s, i) => (
+                <li
+                  key={i}
+                  className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-gray-800 dark:text-gray-200 focus:bg-gray-100 dark:focus:bg-gray-700 outline-none"
+                  role="option"
+                  tabIndex={0}
+                  onClick={() => {
+                    setQuery(s)
+                    handleSearch(s)
+                    inputRef.current?.focus()
+                    setSuggestions([])
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault()
+                      setQuery(s)
+                      inputRef.current?.focus()
+                      setSuggestions([])
+                      handleSearch(s)
+                    }
+                  }}
+                >
+                  <span className="truncate">{s}</span>
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSuggestions((prev) => prev.filter((x) => x !== s))
+                      handleRemoveSuggestion(s)
+                    }}
+                    className="text-gray-400 hover:text-red-500 text-xs"
+                    title="Eliminar sugerencia"
+                  >
+                    ✕
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
         </div>
 
         {resultados.length > 0 && (
