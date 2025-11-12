@@ -12,6 +12,7 @@ import ImageZoom from "../ImageZoom";
 import FechaRango from "../FechaReango";
 import { useState } from "react";
 import { apiPrintEscenario } from "@/services/ModeloDgpService";
+import DownloadExcel from "../DownloadExcel";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -319,6 +320,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                                                     </div>
                                                 </div>
 
+                                                <DownloadExcel path={escenario.excel} />
 
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>

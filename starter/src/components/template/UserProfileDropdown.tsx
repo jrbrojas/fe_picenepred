@@ -1,19 +1,19 @@
-import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
-import { Link } from 'react-router'
 import {
     PiUserDuotone,
     PiGearDuotone,
     PiPulseDuotone,
     PiSignOutDuotone,
+    PiUsers,
 } from 'react-icons/pi'
 import { useAuth } from '@/auth'
 import type { JSX } from 'react'
 import Search from './Search'
 import { FaBook } from 'react-icons/fa'
 import { Tooltip } from '../ui'
+import { useNavigate } from 'react-router'
 
 type DropdownList = {
     label: string
@@ -41,11 +41,21 @@ const dropdownItemList: DropdownList[] = [
 
 const _UserDropdown = () => {
     const { avatar, nombres, apellidos, rol, email } = useSessionUser((state) => state.user)
+    const navigate = useNavigate();
 
     const { signOut } = useAuth()
 
     const handleSignOut = () => {
         signOut()
+    }
+
+    const handleGestionUsuarios = () => {
+        localStorage.setItem(
+            'redirectTo',
+            'gestion-usuarios',
+        )
+
+        navigate("/gestion-usuarios");
     }
 
     const avatarProps = {
@@ -94,6 +104,17 @@ const _UserDropdown = () => {
                         <div className="text-xs">{email || 'No email available'}</div>
                         <div className="text-xs">{rol || 'No rol available'}</div>
                     </div>
+                </Dropdown.Item>
+
+                <Dropdown.Item
+                    eventKey="Gestion usuarios"
+                    className="gap-2"
+                    onClick={handleGestionUsuarios}
+                >
+                    <span className="text-xl">
+                        <PiUsers />
+                    </span>
+                    <span>Gestion de usuarios</span>
                 </Dropdown.Item>
 
                 <Dropdown.Item variant="divider" />

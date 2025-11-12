@@ -11,6 +11,7 @@ import ImageZoom from "../ImageZoom";
 import FechaRango from "../FechaReango";
 import { apiPrintEscenario } from "@/services/ModeloDgpService";
 import { useState } from "react";
+import DownloadExcel from "../DownloadExcel";
 
 
 const nivelColorClasses: { [key: string]: string } = {
@@ -278,6 +279,8 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                             <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
                                         </div>
                                     </div>
+                                    
+                                    <DownloadExcel path={escenario.excel} />
 
                                     <div className='flex items-center gap-2'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>

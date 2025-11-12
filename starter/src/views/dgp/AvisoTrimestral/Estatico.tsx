@@ -11,6 +11,7 @@ import TableInstrumentos from "../TableInstrumentos";
 import ImageZoom from "../ImageZoom";
 import { apiPrintEscenario } from "@/services/ModeloDgpService";
 import { useState } from "react";
+import DownloadExcel from "../DownloadExcel";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -255,7 +256,9 @@ const LluviasAvisoTrimestralEstatico = () => {
                                                     </div>
                                                 ))}
 
-                                                <div className='flex items-center gap-2 mt-5'>
+                                                <DownloadExcel path={escenario.excel} />
+
+                                                <div className='flex items-center gap-2 mt-3'>
                                                     <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
                                                     <a
                                                         href={escenario.url_base}

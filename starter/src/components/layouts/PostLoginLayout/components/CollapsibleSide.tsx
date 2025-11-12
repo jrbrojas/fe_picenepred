@@ -32,6 +32,9 @@ const CollapsibleSide = ({ children }: CommonProps) => {
     } else if (location.pathname.startsWith('/gestion-procesos')) {
         titleExt = 'GESTIÓN DE PROCESOS'
         title = 'DGP'
+    } else if (location.pathname.startsWith('/gestion-usuarios')) {
+        titleExt = 'GESTIÓN DE USUARIOS'
+        title = 'USUARIOS'
     }
     return (
         <LayoutBase
