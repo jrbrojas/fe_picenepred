@@ -8,13 +8,23 @@ import 'swiper/css/navigation'
 
 const slides = [
   //{ image: '/img/banner.jpg' },
-  { image: '/img/1.webp' },
-  { image: '/img/2.webp' },
-  { image: '/img/3.webp' },
-  { image: '/img/4.webp' },
-  { image: '/img/5.webp' },
+  { image: '/img/banner/desktop/imagen-1.webp' },
+  { image: '/img/banner/desktop/imagen-2.webp' },
+  { image: '/img/banner/desktop/imagen-3.webp' },
+  { image: '/img/banner/desktop/imagen-4.webp' },
+  { image: '/img/banner/desktop/imagen-5.webp' },
+  { image: '/img/banner/desktop/imagen-6.webp' },
+  { image: '/img/banner/desktop/imagen-7.webp' },
+  { image: '/img/banner/desktop/imagen-8.webp' },
+  { image: '/img/banner/desktop/imagen-9.webp' },
+  //{ image: '/img/1.webp' },
+  //{ image: '/img/2.webp' },
+  //{ image: '/img/3.webp' },
+  //{ image: '/img/4.webp' },
+  //{ image: '/img/5.webp' },
 ]
 
+        //className="relative w-full h-[50vh] sm:h-[65vh] md:h-[70vh] lg:90vh"
 export default function HomeHero() {
   return (
     <section className="relative w-screen ml-[calc(49.39%_-_50vw)]"> 
@@ -26,7 +36,7 @@ export default function HomeHero() {
         loop
         pagination={{ clickable: true }}
         navigation
-        className="relative w-full h-[50vh] sm:h-[65vh] md:h-[70vh] lg:90vh"
+        className="relative w-full aspect-[4/3] md:aspect-[16/7]"
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
@@ -41,11 +51,11 @@ export default function HomeHero() {
                 }}
               ></div>
 
-             <div className="relative flex justify-center items-center h-full hidden lg:flex">
+             <div className="relative grid justify-center h-full hidden lg:flex">
               <img
                 src={slide.image}
                 alt="CENEPRED Monitoreo"
-                className="max-h-full max-w-full object-contain mx-auto z-10"
+                className="max-h-full max-w-full object-cover mx-auto z-10"
               />
             </div>
 

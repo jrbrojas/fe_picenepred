@@ -259,7 +259,7 @@ export default function Nav({ open, setOpen }) {
   return (
     <>
       <nav className={`menuhome flex items-center justify-center ${open ? 'py-2' : ''} lg:py-3`}>
-        <ul className="hidden lg:flex items-center gap-8 text-center">
+        <ul className="hidden lg:flex items-center gap-2 text-center">
           {navItems.map((item) => (
             <li key={item.label}>
               <AppNavLink
