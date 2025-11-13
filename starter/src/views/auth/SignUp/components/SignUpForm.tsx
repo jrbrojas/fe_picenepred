@@ -7,48 +7,30 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Eye, EyeOff } from 'lucide-react'
-import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
-import { Select } from '@/components/ui'
 
 interface SignUpFormProps extends CommonProps {
     disableSubmit?: boolean
     setMessage?: (message: string) => void
 }
 
-type SignUpFormSchema = {
-    nombres: string
-    apellidos: string
-    usuario: string
-    rol: string
-    password: string
-    email: string
-    confirmPassword: string
-}
-
 const validationSchema = z.object({
     email: z.string({ message: 'Ingresar su correo electrónico' }),
     nombres: z.string({ message: 'Por favor ingresar sus nombres completos' }),
     apellidos: z.string({ message: 'Por favor ingresar sus apellidos completos' }),
-    usuario: z.string({ message: 'El nombre de usuario es obligatorio' }),
-    rol: z.string({ message: 'Seleccione un rol para el usuario' }),
     password: z.string({ message: 'La contraseña es obligatoria' }),
-    confirmPassword: z.string({
+    password_confirmation: z.string({
         message: 'Debes confirmar tu contraseña',
     }),
-}).refine((data) => data.password === data.confirmPassword, {
+}).refine((data) => data.password === data.password_confirmation, {
     message: 'La contraseña no coincide',
-    path: ['confirmPassword'],
+    path: ['password_confirmation'],
 })
+
+type SignUpFormSchema = z.infer<typeof validationSchema>
 
 const SignUpForm = (props: SignUpFormProps) => {
     const { disableSubmit = false, className, setMessage } = props
-
-    const roles = [
-        { label: 'ADMIN', value: 'ADMIN' },
-        { label: 'USER', value: 'USER' }
-    ]
-
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
@@ -64,14 +46,17 @@ const SignUpForm = (props: SignUpFormProps) => {
     })
 
     const onSignUp = async (values: SignUpFormSchema) => {
-        const { nombres, apellidos, rol, password, email } = values
+        console.log(values);
+        
+        const { nombres, apellidos, password, password_confirmation, email } = values
+
 
         if (!disableSubmit) {
             setSubmitting(true)
-            const result = await signUp({ nombres, apellidos, rol, password, email })
+            const result = await signUp({ nombres, apellidos, password, password_confirmation, email })
 
             console.log(result);
-            
+
 
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
@@ -123,48 +108,26 @@ const SignUpForm = (props: SignUpFormProps) => {
                         />
                     </FormItem>
 
-                    <FormItem
-                        label="Rol"
-                        invalid={Boolean(errors.rol)}
-                        errorMessage={errors.rol?.message}
-                    >
-                        <Controller
-                            name="rol"
-                            control={control}
-                            render={({ field }) => (
-                                <Select
-                                    placeholder="Seleccione"
-                                    isClearable
-                                    options={roles}
-                                    value={roles.filter(
-                                        (role) => role.value === field.value,
-                                    )}
-                                    onChange={(option) => field.onChange(option?.value)}
-                                />
-                            )}
-                        />
-
-                    </FormItem>
-
-                    <FormItem
-                        label="Correo electrónico"
-                        invalid={Boolean(errors.email)}
-                        errorMessage={errors.email?.message}
-                    >
-                        <Controller
-                            name="email"
-                            control={control}
-                            render={({ field }) => (
-                                <Input
-                                    type="email"
-                                    placeholder="Correo electrónico"
-                                    autoComplete="email"
-                                    {...field}
-                                />
-                            )}
-                        />
-                    </FormItem>
-
+                    <div className='col-span-2'>
+                        <FormItem
+                            label="Correo electrónico"
+                            invalid={Boolean(errors.email)}
+                            errorMessage={errors.email?.message}
+                        >
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type="email"
+                                        placeholder="Correo electrónico"
+                                        autoComplete="email"
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </FormItem>
+                    </div>
 
                     <FormItem
                         label="Contraseña"
@@ -172,20 +135,20 @@ const SignUpForm = (props: SignUpFormProps) => {
                         errorMessage={errors.password?.message}
                     >
                         <div className="relative">
-                        <Controller
-                            name="password"
-                            control={control}
-                            render={({ field }) => (
-                                <Input
-                                    type={showPassword ? 'text' : 'password'}
-                                    autoComplete="new-password"
-                                    placeholder="Contraseña"
-                                    className="pr-10 appearance-none"
-                                    {...field}
-                                />
-                            )}
-                        />
-                        <button
+                            <Controller
+                                name="password"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type={showPassword ? 'text' : 'password'}
+                                        autoComplete="new-password"
+                                        placeholder="Contraseña"
+                                        className="pr-10 appearance-none"
+                                        {...field}
+                                    />
+                                )}
+                            />
+                            <button
                                 type="button"
                                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-blue-600 transition-colors"
                                 onClick={() => setShowPassword(!showPassword)}
@@ -198,33 +161,33 @@ const SignUpForm = (props: SignUpFormProps) => {
 
                     <FormItem
                         label="Confirmar contraseña"
-                        invalid={Boolean(errors.confirmPassword)}
-                        errorMessage={errors.confirmPassword?.message}
+                        invalid={Boolean(errors.password_confirmation)}
+                        errorMessage={errors.password_confirmation?.message}
                     >
-                      <div className="relative">
-                        <Controller
-                            name="confirmPassword"
-                            control={control}
-                            render={({ field }) => (
-                                <Input
-                                    type={showConfirm ? 'text' : 'password'}
-                                    autoComplete="new-password"
-                                    placeholder="Confirmar contraseña"
-                                    className="pr-10 appearance-none"
-                                    {...field}
-                                />
-                            )}
-                        />
+                        <div className="relative">
+                            <Controller
+                                name="password_confirmation"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        type={showConfirm ? 'text' : 'password'}
+                                        autoComplete="new-password"
+                                        placeholder="Confirmar contraseña"
+                                        className="pr-10 appearance-none"
+                                        {...field}
+                                    />
+                                )}
+                            />
 
-                    <button
+                            <button
                                 type="button"
                                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-blue-600 transition-colors"
                                 onClick={() => setShowConfirm(!showConfirm)}
                                 tabIndex={-1}
                             >
                                 {!showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                    </div>
+                            </button>
+                        </div>
                     </FormItem>
 
                 </div>
