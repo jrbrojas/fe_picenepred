@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { apiCreateUsuario } from '@/services/UsuariosService'
 import useUsuarioList from '../hooks/useUsuarioList'
 import useRolesList from '../hooks/useRoleList'
+import { Eye, EyeOff } from 'lucide-react'
 
 const validationSchema = z.object({
   nombres: z.string().min(2, { message: 'El nombre es requerido' }).max(100, { message: 'El nombre debe tener menos de 100 caracteres' }),
@@ -31,6 +32,8 @@ const CreateUsuario = () => {
   const [isSubmiting, setSubmiting] = useState(false);
   const { mutate } = useUsuarioList();
   const { rolesList, isLoading, error } = useRolesList();
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const openDialog = () => {
     reset()
@@ -103,7 +106,7 @@ const CreateUsuario = () => {
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-x-4'>
 
             <FormItem
-              label="Apellidos"
+              label="Nombres completos"
               invalid={Boolean(errors.nombres)}
               errorMessage={errors.nombres?.message}
             >
@@ -171,13 +174,29 @@ const CreateUsuario = () => {
               invalid={Boolean(errors.password)}
               errorMessage={errors.password?.message}
             >
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <Input type="password" placeholder='Ingresar contraseña' autoComplete="off" {...field} />
-                )}
-              />
+              <div className="relative">
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="new-password"
+                      placeholder="Contraseña"
+                      className="pr-10 appearance-none"
+                      {...field}
+                    />
+                  )}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-blue-600 transition-colors"
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
+                >
+                  {!showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </FormItem>
 
             <FormItem
@@ -185,13 +204,29 @@ const CreateUsuario = () => {
               invalid={Boolean(errors.password_confirmation)}
               errorMessage={errors.password_confirmation?.message}
             >
-              <Controller
-                name="password_confirmation"
-                control={control}
-                render={({ field }) => (
-                  <Input type="password" placeholder='Confirmar contraseña' autoComplete="off" {...field} />
-                )}
-              />
+              <div className="relative">
+                <Controller
+                  name="password_confirmation"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      type={showConfirm ? 'text' : 'password'}
+                      autoComplete="password_confirmation"
+                      placeholder="Confirmar contraseña"
+                      className="pr-10 appearance-none"
+                      {...field}
+                    />
+                  )}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-blue-600 transition-colors"
+                  onClick={() => setShowConfirm(!showConfirm)}
+                  tabIndex={-1}
+                >
+                  {!showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </FormItem>
 
           </div>
