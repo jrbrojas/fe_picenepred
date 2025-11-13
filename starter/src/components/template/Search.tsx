@@ -139,11 +139,17 @@ const _Search = ({ className }: { className?: string }) => {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.parentElement?.contains(e.target as Node)) {
-        setResults([])
-        setSearched(false)
+      const target = e.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        !(target as HTMLElement).closest('.container-result')
+      ) {
+        setResults([]);
+        setSearched(false);
       }
-    }
+    };
+
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
