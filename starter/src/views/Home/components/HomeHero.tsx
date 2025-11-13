@@ -36,7 +36,7 @@ export default function HomeHero() {
         loop
         pagination={{ clickable: true }}
         navigation
-        className="relative w-full aspect-[4/3] md:aspect-[16/7]"
+        className="relative w-full aspect-[4/3] md:aspect-[16/6]"
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
