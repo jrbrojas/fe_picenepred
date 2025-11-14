@@ -175,6 +175,16 @@ const _Search = ({ className }: { className?: string }) => {
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
+  const fixEncoding = (str: string) => {
+    try {
+      return decodeURIComponent(escape(str));
+    } catch {
+      return str; // fallback si ya está bien
+    }
+  };
+
+
   const renderResultItem = (item: any, i: number) => {
     if (item.base_datos === 'frontend' && item.origen === 'frontend') {
         const elemento = item as ResultadoBasico;
@@ -259,7 +269,7 @@ const _Search = ({ className }: { className?: string }) => {
                 <Highlighter
                   searchWords={query.trim().split(/\s+/)}
                   autoEscape
-                  textToHighlight={item.nombre || item['NOMBRE DE CURSO'] || 'Sin título'}
+                  textToHighlight={fixEncoding(item.nombre || item['NOMBRE DE CURSO'] || 'Sin título')}
                   highlightClassName="bg-yellow-200 text-gray-900"
                 />
               </h3>
@@ -267,7 +277,7 @@ const _Search = ({ className }: { className?: string }) => {
                 <Highlighter
                   searchWords={query.trim().split(/\s+/)}
                   autoEscape
-                  textToHighlight={item.descripcio || item.respuesta || ''}
+                  textToHighlight={fixEncoding(item.descripcio || item.respuesta || '')}
                   highlightClassName="bg-yellow-200 text-gray-900"
                 />
               </p>
