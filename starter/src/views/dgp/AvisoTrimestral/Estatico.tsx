@@ -145,7 +145,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                                         <div className='flex justify-between gap-4 items-center mb-3'>
                                             <div className='flex-1 flex flex-col items-center text-center'>
                                                 <h2 className="text-center font-semibold text-teal-600">
-                                                    Escenario de riesgos por exposición
+                                                    Escenario de Riesgos por Exposición
                                                 </h2>
                                                 <p className='text-blue-400 text-lg'>{escenario.nombre}</p>
                                                 <p className='text-teal-600 text-lg'>{escenario.titulo_base}</p>

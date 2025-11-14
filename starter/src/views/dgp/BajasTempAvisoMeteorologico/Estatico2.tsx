@@ -188,7 +188,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                                 </div>
 
                                                 <div className="flex flex-col text-teal-600">
-                                                    <span className='text-xs mb-4'>Departamentos con poblaion expuesta:</span>
+                                                    <span className='text-xs mb-4'>Departamentos con población expuesta:</span>
                                                     {item.departamentos_poblacion?.map((depa, i) => (
                                                         <div key={i} className="flex justify-between items-center">
                                                             <span className="text-xs">{depa.departamento}</span>
@@ -262,7 +262,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                                 </div>
 
                                                 <div className="flex flex-col text-teal-600 mt-4">
-                                                    <span className='text-xs mb-4'>Departamentos con poblaion expuesta:</span>
+                                                    <span className='text-xs mb-4'>Departamentos con población expuesta:</span>
                                                     {item.departamentos_poblacion?.map((depa, i) => (
                                                         <div key={i} className="flex justify-between items-center">
                                                             <span className="text-xs">{depa.departamento}</span>

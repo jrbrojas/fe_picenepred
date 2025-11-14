@@ -152,7 +152,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                                             <span className="text-lg p-2 font-medium text-white bg-teal-600 rounded-lg">
                                                 Aviso N° {escenario.aviso}
                                             </span>
-                                            <h2 className="text-center font-semibold text-teal-600 ml-8">Escenario de Riesgos por exposición</h2>
+                                            <h2 className="text-center font-semibold text-teal-600 ml-8">Escenario de Riesgos por Exposición</h2>
 
                                             <span className='text-lg p-2 font-medium text-white bg-teal-600 rounded-full'>CORTO PLAZO</span>
                                         </div>
@@ -203,7 +203,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                                                             </div>
 
                                                             <div className="flex flex-col text-teal-600 mt-4 font-bold">
-                                                                <span className='text-xs mb-4'>Departamentos con poblaion expuesta:</span>
+                                                                <span className='text-xs mb-4'>Departamentos con población expuesta:</span>
                                                                 {item.departamentos_poblacion?.map((depa, i) => (
                                                                     <div key={i} className="flex justify-between items-center">
                                                                         <span className="text-xs">{depa.departamento}</span>
@@ -302,7 +302,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                                                             </div>
 
                                                             <div className="flex flex-col text-teal-600 mt-4 font-bold">
-                                                                <span className='text-xs mb-4'>Departamentos con poblaion expuesta:</span>
+                                                                <span className='text-xs mb-4'>Departamentos con población expuesta:</span>
                                                                 {item.departamentos_poblacion?.map((depa, i) => (
                                                                     <div key={i} className="flex justify-between items-center">
                                                                         <span className="text-xs">{depa.departamento}</span>
