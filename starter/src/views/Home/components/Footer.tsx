@@ -1,7 +1,7 @@
 import { REDIRECT_KEY } from "./Nav"
 import { Link, useNavigate } from 'react-router'
 import { PiChartLineUpDuotone } from "react-icons/pi";
-import { IoMdMap } from "react-icons/io";
+import { IoMdMap, IoLogoFacebook, IoLogoInstagram, IoLogoLinkedin, IoLogoYoutube, IoLogoTwitter } from "react-icons/io";
 import { MdOutlineMonitor } from "react-icons/md";
 
 const Footer = () => {
@@ -26,6 +26,23 @@ const Footer = () => {
                             className="w-auto object-contain m-auto"
                             loading="lazy"
                         />
+                        <div className="flex text-xl gap-4 mt-4">
+                            <div>
+                                <a href="https://www.facebook.com/cenepred" aria-label="Ir al facebook de CENEPRED"><IoLogoFacebook /></a>
+                            </div>
+                            <div>
+                                <a href="https://www.instagram.com/cenepredperu" aria-label="Ir al instagram de CENEPRED"><IoLogoInstagram /></a>
+                            </div>
+                            <div>
+                                <a href="https://www.linkedin.com/company/cenepred/" aria-label="Ir al linkedin de CENEPRED"><IoLogoLinkedin /></a>
+                            </div>
+                            <div>
+                                <a href="https://x.com/CENEPRED" aria-label="Ir al X o Twitter de CENEPRED"><IoLogoTwitter /></a>
+                            </div>
+                            <div>
+                                <a href="https://www.youtube.com/@cenepredperu5018" aria-label="Ir al youtube de CENEPRED"><IoLogoYoutube /></a>
+                            </div>
+                        </div>
                     </div>
 
                     {/* HORARIO */}
