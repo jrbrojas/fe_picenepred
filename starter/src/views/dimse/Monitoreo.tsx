@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
-import { Badge, Select } from '@/components/ui'
+import { Badge, Button, Select } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import promedioDeGrupo, { Valor, promedio, promedioPorSuma } from './promedio'
 import MapaPeru from './MapaPeru'
-import { apiGetCategorias, apiGetMonitoreo } from '@/services/MonitoreService'
+import { apiExportarExcelDeMonitoreos, apiGetCategorias, apiGetMonitoreo } from '@/services/MonitoreService'
 import { Pregunta, preguntas } from '@/constants/preguntas.constant'
 import { MonitoreoResponse, MonitoreoRespuesta } from '@/services/types/getmonitoreo'
 import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
@@ -12,7 +12,8 @@ import Tabs from '@/components/ui/Tabs'
 import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
 import { Tooltip } from 'react-tooltip'
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
-import { FaTimesCircle } from "react-icons/fa";
+import { FaFileExcel } from "react-icons/fa6";
+import { FaTimesCircle, FaDownload } from "react-icons/fa";
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -159,6 +160,7 @@ export default function TreeTableMonitoreo3Niveles() {
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [chartSeries, setChartSeries] = useState([{ name: "Porcentaje", data: [] as number[] }])
     const [fetching, setFetching] = useState(true)
+    const [exporting, setExporting] = useState(false)
     const [query, setQuery] = useState("Peru");
 
 
@@ -271,6 +273,34 @@ export default function TreeTableMonitoreo3Niveles() {
     function onSelect(departamento: DepartamentoChart) {
         setQuery(`${departamento.nombre}, Peru`);
     }
+    async function onExportExcel() {
+        if (exporting) return;
+        setExporting(true);
+        try {
+            const ids = Array.from(new Set(originalData.map((i) => i.id)))
+
+            const response: any = await apiExportarExcelDeMonitoreos(ids);
+
+            // Crear un objeto URL temporal con el Blob del PDF
+            const url = window.URL.createObjectURL(response);
+
+            // Crear un link oculto para forzar la descarga
+            const link = document.createElement("a");
+            link.href = url;
+            const timestamp = new Date().getTime();
+            link.setAttribute("download", `monitoreo_${timestamp}.xlsx`); // nombre del archivo
+            document.body.appendChild(link);
+            link.click();
+
+            // Limpiar
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Error al descargar el Excel:", error);
+        } finally {
+            setExporting(false);
+        }
+    }
 
     return (
         <>
@@ -293,6 +323,13 @@ export default function TreeTableMonitoreo3Niveles() {
                 </div>
             </div>
 
+            <div className="w-full mb-2">
+                <Button
+                    onClick={onExportExcel}
+                    icon={exporting ? <FaDownload /> : <FaFileExcel />}
+                    disabled={originalData.length === 0 || fetching || exporting}
+                >{exporting ? "Exportando..." : 'Exportar'}</Button>
+            </div>
             <Card bordered={true} className="flex overflow-x-scroll">
                 <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
                     <table className="w-full table-fixed border-separate border-spacing-0 table-nowrap">

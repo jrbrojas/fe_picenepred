@@ -6,6 +6,18 @@ import { SupervisionResponse } from './types/getsupervision';
 import { EvaluacionResponse } from './types/getevaluacion';
 import { DirectorioResponse } from './types/getdirectorio';
 
+export async function apiExportarExcelDeMonitoreos(ids: number[]) {
+    const params = ids.reduce((acc, item) => {
+        acc += `monitoreo[]=${item}&`;
+        return acc;
+    }, "")
+    return ApiServiceDimse.fetchDataWithAxios<MonitoreoResponse[]>({
+        url: `/monitoreo/exportar-excel?${params}`,
+        method: 'get',
+        responseType: 'blob',
+    })
+}
+
 export async function apiExportarExcelDeEntidades(ids: number[]) {
     const params = ids.reduce((acc, item) => {
         acc += `entidad[]=${item}&`;
