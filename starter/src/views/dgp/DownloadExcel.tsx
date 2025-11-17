@@ -1,5 +1,6 @@
 import React from "react";
 import ExcelSvg from "@/assets/excel.svg";
+import appConfig from "@/configs/app.config";
 
 type Props = {
     path: string | null;
@@ -7,7 +8,7 @@ type Props = {
 
 const DownloadExcel: React.FC<Props> = ({ path }) => {
 
-    if (path == 'http://127.0.0.1:8000/storage') return null;
+    if (path == appConfig.urlImagePrefixDGP) return null;
 
     return (
         <div className="flex justify-start gap-15 items-center mt-2">
