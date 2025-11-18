@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, MouseEventHandler, useEffect, useMemo, useState } from 'react'
 import Card from '@/components/ui/Card'
-import { Select } from '@/components/ui'
+import { Select, Dialog, Button } from '@/components/ui'
 import { SingleValue } from 'react-select'
 import MapaPeru from './MapaPeru'
 import { apiGetCategorias, apiGetSupervision } from '@/services/MonitoreService'
@@ -9,6 +9,8 @@ import { ChartInfo, ChartPorDepartamento } from './ChartPorDepartamento'
 import Tabs from '@/components/ui/Tabs'
 import { ChartPorEntidad, ChartPorEntidadInfo } from './ChartPorEntidad'
 import { Tooltip } from 'react-tooltip'
+import UploadFile from '@/shared/forms/UploadFile'
+import { urlToFile } from '@/shared/file'
 
 const { TabNav, TabList, TabContent } = Tabs
 
@@ -111,6 +113,53 @@ function mapMonitoreoResponseToData(response: SupervisionResponse[]): Departamen
     }
     return data;
 }
+interface ShowDataModalProps {
+    isOpen: boolean
+    data: SupervisionRespuesta | null
+    onRequestClose: () => void
+}
+function ShowDataModal({
+    isOpen,
+    data,
+    onRequestClose,
+}: ShowDataModalProps) {
+    function onDialogClose() {
+        onRequestClose();
+        console.log("close")
+    }
+    return (
+        <Dialog
+            isOpen={isOpen}
+            bodyOpenClassName="overflow-hidden"
+            onClose={onDialogClose}
+            onRequestClose={onDialogClose}
+        >
+            <h5 className="mb-4 uppercase">{data?.nombre}</h5>
+            {
+                data?.files.map((file, i) => {
+                    const [fileObj, setFileObj] = useState<File | null>(null)
+                    useEffect(() => {
+                        urlToFile(file.url).then((i) => setFileObj(i));
+                    }, []);
+                    return (
+                        <div className={'grid grid-cols-2 ' + (i > 0 ? 'border-t' : '')} key={file.id}>
+                            <div>{file.description ?? 'No hay descripcion'}</div>
+                            <div className="font-bold text-right">{Number(file.porcentaje ?? 0).toFixed(2)} %</div>
+                            {fileObj && <div className="col-span-2"><UploadFile
+                                uploadLimit={1}
+                                disabled={true}
+                                fileList={[fileObj]}
+                                multiple={false}
+                            /></div>}
+                        </div>
+                    )
+                })
+            }
+            {data && data.files.length > 0 && (<div className='w-full text-center uppercase'>No hay mas informacion</div>)}
+            <div><strong>Total: </strong>{Number(data?.promedio).toFixed(2)} %</div>
+        </Dialog>
+    );
+}
 
 type Counter = { cols: number[]; total: number }
 
@@ -129,6 +178,8 @@ export default function TreeTableMonitoreo3Niveles() {
     const [currentCategoria, setCurrentCategoria] = useState<CategoriaOption | null>(null)
     const [fetching, setFetching] = useState(true)
     const [query, setQuery] = useState("Peru");
+    const [openShowModal, setOpenShowModal] = useState(false);
+    const [dataShowModal, setDataShowModal] = useState<SupervisionRespuesta | null>(null);
 
 
     async function onCategoria(newValue: SingleValue<CategoriaOption>) {
@@ -256,9 +307,25 @@ export default function TreeTableMonitoreo3Niveles() {
     function onSelect(departamento: DepartamentoChart) {
         setQuery(`${departamento.nombre}, Peru`);
     }
+    function handleShowDataModal(entidad: Entidad, index: number) {
+        const supervision = originalData.find(item => item.entidad_id === Number(entidad.id));
+        if (!supervision) {
+            return console.error("No esta la supervision");
+        }
+        const respuesta = supervision?.supervision_respuestas[index];
+        if (!respuesta) {
+            return console.error("No esta la respuesta de la supervision");
+        }
+        if (respuesta.respuesta === "no") {
+            return;
+        }
+        setDataShowModal(respuesta);
+        setOpenShowModal(true);
+    }
 
     return (
         <>
+            <ShowDataModal isOpen={openShowModal} data={dataShowModal ?? null} onRequestClose={() => setOpenShowModal(false)} />
             <Tooltip id="supervision-tooltip" style={{ zIndex: 1000 }} opacity={1}/>
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-4">
                 <div>
@@ -488,7 +555,9 @@ export default function TreeTableMonitoreo3Niveles() {
 
                                                                                         return (
                                                                                             <Fragment key={`FRAGENT-${entKey}`}>
-                                                                                                <tr className="hover:[&>td]:bg-[#ccffff] bg-purple-50">
+                                                                                                <tr
+                                                                                                    className="hover:[&>td]:bg-[#ccffff] bg-purple-50"
+                                                                                                >
                                                                                                     <td
                                                                                                         data-tooltip-id='supervision-tooltip'
                                                                                                         data-tooltip-content='Entidad'
@@ -511,6 +580,7 @@ export default function TreeTableMonitoreo3Niveles() {
                                                                                                                     `${entidad.id}-${i}`
                                                                                                                 }
                                                                                                                 className="p-3 text-center text-sm text-slate-700 ring-1 ring-slate-200"
+                                                                                                                onMouseOver={() => handleShowDataModal(entidad, i)}
                                                                                                             >
                                                                                                                 {
                                                                                                                     v.toFixed(2)

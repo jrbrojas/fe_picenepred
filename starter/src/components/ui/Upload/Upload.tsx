@@ -1,34 +1,35 @@
-import { useRef, useState, useCallback, useEffect } from 'react'
-import classNames from '../utils/classNames'
-import cloneDeep from 'lodash/cloneDeep'
-import FileItem from './FileItem'
-import Button from '../Button/Button'
-import CloseButton from '../CloseButton'
-import Notification from '../Notification/Notification'
-import toast from '../toast/toast'
-import type { CommonProps } from '../@types/common'
-import type { ReactNode, ChangeEvent, MouseEvent, Ref } from 'react'
+import { useRef, useState, useCallback, useEffect } from "react";
+import classNames from "../utils/classNames";
+import cloneDeep from "lodash/cloneDeep";
+import FileItem from "./FileItem";
+import Button from "../Button/Button";
+import CloseButton from "../CloseButton";
+import Notification from "../Notification/Notification";
+import toast from "../toast/toast";
+import type { CommonProps } from "../@types/common";
+import type { ReactNode, ChangeEvent, MouseEvent, Ref } from "react";
 
 export interface UploadProps extends CommonProps {
-    accept?: string
-    beforeUpload?: (file: FileList | null, fileList: File[]) => boolean | string
-    disabled?: boolean
-    draggable?: boolean
-    fileList?: File[]
-    fileListClass?: string
-    fileItemClass?: string
-    multiple?: boolean
-    onChange?: (file: File[], fileList: File[]) => void
-    onFileRemove?: (file: File[]) => void
-    ref?: Ref<HTMLDivElement>
-    showList?: boolean
-    tip?: string | ReactNode
-    uploadLimit?: number
+    accept?: string;
+    beforeUpload?: (file: FileList | null, fileList: File[]) => boolean | string;
+    disabled?: boolean;
+    draggable?: boolean;
+    fileList?: File[];
+    fileListClass?: string;
+    fileItemClass?: string;
+    multiple?: boolean;
+    onChange?: (file: File[], fileList: File[]) => void;
+    onFileRemove?: (file: File[]) => void;
+    ref?: Ref<HTMLDivElement>;
+    showList?: boolean;
+    tip?: string | ReactNode;
+    uploadLimit?: number;
+    autoHidden?: boolean;
 }
 
 const filesToArray = (files: File[]) =>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Object.keys(files).map((key) => files[key as any])
+    Object.keys(files).map((key) => files[key as any]);
 
 const Upload = (props: UploadProps) => {
     const {
@@ -48,150 +49,149 @@ const Upload = (props: UploadProps) => {
         uploadLimit,
         children,
         className,
+        autoHidden,
         ...rest
-    } = props
+    } = props;
 
-    const fileInputField = useRef<HTMLInputElement>(null)
-    const [files, setFiles] = useState(fileList)
-    const [dragOver, setDragOver] = useState(false)
+    const fileInputField = useRef<HTMLInputElement>(null);
+    const [files, setFiles] = useState(fileList);
+    const [dragOver, setDragOver] = useState(false);
 
     useEffect(() => {
         if (JSON.stringify(files) !== JSON.stringify(fileList)) {
-            setFiles(fileList)
+            setFiles(fileList);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(fileList)])
+    }, [JSON.stringify(fileList)]);
 
-    const triggerMessage = (msg: string | ReactNode = '') => {
+    const triggerMessage = (msg: string | ReactNode = "") => {
         toast.push(
             <Notification type="danger" duration={2000}>
-                {msg || 'Upload Failed!'}
+                {msg || "Upload Failed!"}
             </Notification>,
             {
-                placement: 'top-center',
-            },
-        )
-    }
+                placement: "top-center",
+            }
+        );
+    };
 
     const pushFile = (newFiles: FileList | null, file: File[]) => {
         if (newFiles) {
             for (const f of newFiles) {
-                file.push(f)
+                file.push(f);
             }
         }
 
-        return file
-    }
+        return file;
+    };
 
     const addNewFiles = (newFiles: FileList | null) => {
-        let file = cloneDeep(files)
-        if (typeof uploadLimit === 'number' && uploadLimit !== 0) {
+        let file = cloneDeep(files);
+        if (typeof uploadLimit === "number" && uploadLimit !== 0) {
             if (Object.keys(file).length >= uploadLimit) {
                 if (uploadLimit === 1) {
-                    file.shift()
-                    file = pushFile(newFiles, file)
+                    file.shift();
+                    file = pushFile(newFiles, file);
                 }
 
-                return filesToArray({ ...file })
+                return filesToArray({ ...file });
             }
         }
-        file = pushFile(newFiles, file)
-        return filesToArray({ ...file })
-    }
+        file = pushFile(newFiles, file);
+        return filesToArray({ ...file });
+    };
 
     const onNewFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-        const { files: newFiles } = e.target
-        let result: boolean | string = true
+        const { files: newFiles } = e.target;
+        let result: boolean | string = true;
 
         if (beforeUpload) {
-            result = beforeUpload(newFiles, files)
+            result = beforeUpload(newFiles, files);
 
             if (result === false) {
-                triggerMessage()
-                return
+                triggerMessage();
+                return;
             }
 
-            if (typeof result === 'string' && result.length > 0) {
-                triggerMessage(result)
-                return
+            if (typeof result === "string" && result.length > 0) {
+                triggerMessage(result);
+                return;
             }
         }
 
         if (result) {
-            const updatedFiles = addNewFiles(newFiles)
-            setFiles(updatedFiles)
-            onChange?.(updatedFiles, files)
+            const updatedFiles = addNewFiles(newFiles);
+            setFiles(updatedFiles);
+            onChange?.(updatedFiles, files);
         }
-    }
+    };
 
     const removeFile = (fileIndex: number) => {
-        const deletedFileList = files.filter((_, index) => index !== fileIndex)
-        setFiles(deletedFileList)
-        onFileRemove?.(deletedFileList)
-    }
+        const deletedFileList = files.filter((_, index) => index !== fileIndex);
+        setFiles(deletedFileList);
+        onFileRemove?.(deletedFileList);
+    };
 
     const triggerUpload = (e: MouseEvent<HTMLDivElement>) => {
         if (!disabled) {
-            fileInputField.current?.click()
+            fileInputField.current?.click();
         }
-        e.stopPropagation()
-    }
+        e.stopPropagation();
+    };
 
     const renderChildren = () => {
         if (!draggable && !children) {
             return (
                 <Button disabled={disabled} onClick={(e) => e.preventDefault()}>
-                    Upload
+                    Archivo
                 </Button>
-            )
+            );
         }
 
         if (draggable && !children) {
-            return <span>Choose a file or drag and drop here</span>
+            return <span>Choose a file or drag and drop here</span>;
         }
 
-        return children
-    }
+        return children;
+    };
 
     const handleDragLeave = useCallback(() => {
         if (draggable) {
-            setDragOver(false)
+            setDragOver(false);
         }
-    }, [draggable])
+    }, [draggable]);
 
     const handleDragOver = useCallback(() => {
         if (draggable && !disabled) {
-            setDragOver(true)
+            setDragOver(true);
         }
-    }, [draggable, disabled])
+    }, [draggable, disabled]);
 
     const handleDrop = useCallback(() => {
         if (draggable) {
-            setDragOver(false)
+            setDragOver(false);
         }
-    }, [draggable])
+    }, [draggable]);
 
     const draggableProp = {
         onDragLeave: handleDragLeave,
         onDragOver: handleDragOver,
         onDrop: handleDrop,
-    }
+    };
 
-    const draggableEventFeedbackClass = `border-primary`
+    const draggableEventFeedbackClass = `border-primary`;
 
     const uploadClass = classNames(
-        'upload',
+        "upload",
         draggable && `upload-draggable`,
         draggable && !disabled && `hover:${draggableEventFeedbackClass}`,
-        draggable && disabled && 'disabled',
+        draggable && disabled && "disabled",
         dragOver && draggableEventFeedbackClass,
         className,
-    )
+        autoHidden && uploadLimit === files.length ? 'hidden' : '',
+    );
 
-    const uploadInputClass = classNames(
-        'upload-input',
-        draggable && `draggable`,
-    )
+    const uploadInputClass = classNames("upload-input", draggable && `draggable`);
 
     return (
         <>
@@ -217,23 +217,25 @@ const Upload = (props: UploadProps) => {
             </div>
             {tip}
             {showList && (
-                <div className={classNames('upload-file-list', fileListClass)}>
+                <div className={classNames("upload-file-list", fileListClass)}>
                     {files.map((file, index) => (
                         <FileItem
                             key={file.name + index}
                             file={file}
                             className={fileItemClass}
                         >
-                            <CloseButton
-                                className="upload-file-remove"
-                                onClick={() => removeFile(index)}
-                            />
+                            {disabled ? null :
+                                <CloseButton
+                                    className="upload-file-remove"
+                                    onClick={() => removeFile(index)}
+                                />}
                         </FileItem>
                     ))}
                 </div>
             )}
         </>
-    )
-}
+    );
+};
 
-export default Upload
+export default Upload;
+

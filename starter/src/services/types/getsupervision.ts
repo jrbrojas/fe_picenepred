@@ -15,11 +15,11 @@ export interface Entidad {
     categoria_id: number;
     nombre:       string;
     ruc:          string;
-    sigla:        null;
-    direccion:    string;
-    telefono:     null;
-    email:        string;
-    web:          string;
+    sigla:        null | string;
+    direccion:    null | string;
+    telefono:     null | string;
+    email:        null | string;
+    web:          null;
     created_at:   Date;
     updated_at:   Date;
     distrito:     Distrito;
@@ -63,10 +63,40 @@ export interface Departamento {
 export interface SupervisionRespuesta {
     id:             number;
     supervision_id: number;
-    nombre:         string;
-    respuesta:      string;
+    nombre:         Nombre;
+    respuesta:      Respuesta;
     promedio:       string;
     created_at:     Date;
     updated_at:     Date;
+    files:          File[];
+}
+
+export interface File {
+    id:            number;
+    fileable_type: string;
+    fileable_id:   number;
+    path:          string;
+    disk:          string;
+    size:          number;
+    mime_type:     string;
+    description:   null;
+    extra:         null;
+    aprobado:      null;
+    porcentaje:    string;
+    created_at:    Date;
+    updated_at:    Date;
+    url:           string;
+}
+
+export enum Nombre {
+    Actividades = "actividades",
+    Otros = "otros",
+    Programas = "programas",
+    Proyecto = "proyecto",
+}
+
+export enum Respuesta {
+    No = "no",
+    Si = "si",
 }
 

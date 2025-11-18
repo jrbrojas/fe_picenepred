@@ -189,7 +189,7 @@ const _Search = ({ className }: { className?: string }) => {
     if (item.base_datos === 'frontend' && item.origen === 'frontend') {
         const elemento = item as ResultadoBasico;
         return (
-            <a className="item-result" target='_blank' href={elemento.ruta} tabIndex={0}>
+            <a className="item-result" target='_blank' href={elemento.ruta} tabIndex={0} key={`render-result-item-${i}`}>
               <div key={i} className="relative p-2 border-gray-200 dark:border-gray-700 mb-3 rounded-xl hover:shadow-sm transition-all bg-gray-50 dark:bg-gray-900">
                 <span className="absolute top-0 left-0 px-2 py-0.5 font-bold text-[10px] rounded-md bg-blue-600 text-white dark:bg-blue-900 dark:text-blue-200 shadow-sm">
                     Ir a sección
