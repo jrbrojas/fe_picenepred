@@ -51,7 +51,7 @@ const LluviasAvisoTrimestralEstatico = () => {
     const [loadingPrint, setLoadingPrint] = useState(false);
 
     const exportPDF = async () => {
-        try {            
+        try {
             setLoadingPrint(true);
             const response = await apiPrintEscenario<Blob>(escenario.id, { data })
 
@@ -126,7 +126,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                     <Tabs defaultValue="inundaciones">
                         <TabList button={
                             <Button size="xs" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
-                            className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
+                                className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
                                 Descargar PPT
                             </Button>
                         }
@@ -159,25 +159,36 @@ const LluviasAvisoTrimestralEstatico = () => {
 
                                             <div className='flex flex-col justify-center items-center gap-2'>
                                                 <div className='w-full flex justify-center'>
-                                                    {escenario.mapas && escenario.mapas[index] && (
-                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index] ?
-                                                            escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[index].ruta : null} />
-                                                    )}
-
+                                                    <ImageZoom
+                                                        src={
+                                                            escenario.mapas.find(m => m.tipo === (tipo === 'inundaciones'
+                                                                ? 'imagen_izquierdo_superior_inu'
+                                                                : 'imagen_izquierdo_superior_mm')
+                                                            )?.ruta ?? null
+                                                        }
+                                                    />
                                                 </div>
                                                 <div className='w-full flex justify-center'>
-                                                    {escenario.mapas && escenario.mapas[index] && (
-                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[index] ?
-                                                            escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[index].ruta : null} />
-                                                    )}
+                                                    <ImageZoom
+                                                        src={
+                                                            escenario.mapas.find(m => m.tipo === (tipo === 'inundaciones'
+                                                                ? 'imagen_izquierdo_inferior_inu'
+                                                                : 'imagen_izquierdo_inferior_mm')
+                                                            )?.ruta ?? null
+                                                        }
+                                                    />
                                                 </div>
                                             </div>
 
                                             <div className='col-span-2 flex items-start justify-center'>
-                                                {escenario.mapas && escenario.mapas[index] && (
-                                                    <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index] ?
-                                                        escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index].ruta : null} />
-                                                )}
+                                                <ImageZoom
+                                                    src={
+                                                        escenario.mapas.find(m => m.tipo === (tipo === 'inundaciones'
+                                                                ? 'imagen_centro_inu'
+                                                                : 'imagen_centro_mm')
+                                                        )?.ruta ?? null
+                                                    }
+                                                />
                                             </div>
 
                                             <div className='col-span-2'>
@@ -256,7 +267,7 @@ const LluviasAvisoTrimestralEstatico = () => {
                                                     </div>
                                                 ))}
 
-                                                <DownloadExcel path={escenario.excel} />
+                                                <DownloadExcel path={escenario.excel_adjunto} />
 
                                                 <div className='flex items-center gap-2 mt-3'>
                                                     <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>

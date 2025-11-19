@@ -100,10 +100,7 @@ const BajasTempInformacionClimaticaEstatico = () => {
 
                                 <div className='flex flex-col gap-4'>
                                     <div className='flex justify-center items-center overflow-hidden rounded-lg'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0] ?
-                                                escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[0].ruta : null} />
-                                        )}
+                                        <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_izquierdo_bt')?.ruta ?? null}/>
                                     </div>
                                 </div>
 
@@ -114,10 +111,7 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                     </div>
 
                                     <div className='w-full mb-4'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
-                                                escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
-                                        )}
+                                        <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_centro_bt')?.ruta ?? null}/>
                                     </div>
 
                                     <div className="w-full overflow-x-auto">
@@ -185,7 +179,7 @@ const BajasTempInformacionClimaticaEstatico = () => {
                                         </div>
                                     ))}
 
-                                    <DownloadExcel path={escenario.excel} />
+                                    <DownloadExcel path={escenario.excel_adjunto} />
 
                                     <div className='w-full flex items-center gap-2'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>

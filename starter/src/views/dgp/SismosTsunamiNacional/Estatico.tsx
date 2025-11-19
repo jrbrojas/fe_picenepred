@@ -26,9 +26,22 @@ const nivelColorClasses: { [key: string]: string } = {
 
 const SismosTsunamiNacionalEstatico = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('9');
-    const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
     const [loadingPrint, setLoadingPrint] = useState(false);
+
+    const mapaIzquierdo:{ [key: string]: string } = {
+        sismos: 'imagen_izquierdo_sismo',
+        tsunamis: 'imagen_izquierdo_tsunami',
+        glaciares: 'imagen_izquierdo_glaciar',
+        movimiento_masa: 'imagen_izquierdo_mm',
+    };
+
+    const mapaCentro: { [key: string]: string } = {
+        sismos: 'imagen_centro_sismo',
+        tsunamis: 'imagen_centro_tsunami',
+        glaciares: 'imagen_centro_glaciar',
+        movimiento_masa: 'imagen_centro_mm',
+    };
 
     const exportPDF = async () => {
         try {
@@ -128,12 +141,9 @@ const SismosTsunamiNacionalEstatico = () => {
                                                     </div>
                                                 </div>
 
-                                                {escenario.mapas && escenario.mapas[index] && (
-                                                    <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[index] ?
-                                                        escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo')[index].ruta : null} />
-                                                )}
+                                                <ImageZoom src={escenario.mapas.find(m => m.tipo === mapaIzquierdo[tipo])?.ruta ?? null}/>
 
-                                                <DownloadExcel path={escenario.excel} />
+                                                <DownloadExcel path={escenario.excel_adjunto} />
 
                                                 <div className='w-full flex items-center gap-2'>
                                                     <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
@@ -169,10 +179,7 @@ const SismosTsunamiNacionalEstatico = () => {
                                                 </div>
 
                                                 <div className='w-full flex justify-center items-center'>
-                                                    {escenario.mapas && escenario.mapas[1] && (
-                                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index] ?
-                                                            escenario.mapas.filter(m => m.tipo === 'mapa_centro')[index].ruta : null} />
-                                                    )}
+                                                    <ImageZoom src={escenario.mapas.find(m => m.tipo === mapaCentro[tipo])?.ruta ?? null}/>
                                                 </div>
 
                                                 {data[tipo].slice(0, 1).map((item, index) => (

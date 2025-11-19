@@ -51,7 +51,7 @@ const formatNombreArray = (pgArray: string) => {
 const LluviasAvisoMeteorologicoEstatico2 = () => {
     const { escenario, data, instrumentos, isLoading } = usePlantilla('1');
     const [loadingPrint, setLoadingPrint] = useState(false);
-    
+
     const year = new Date().getFullYear();
     const tipoPeligro = Object.keys(data);
     const tituloPeligo: { [key: string]: string } = {
@@ -60,7 +60,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
     }
 
     const exportPDF = async () => {
-        try {            
+        try {
             setLoadingPrint(true);
             const response = await apiPrintEscenario<Blob>(escenario.id, { data })
 
@@ -134,7 +134,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                     <Tabs defaultValue="inundaciones">
                         <TabList button={
                             <Button size="xs" variant="solid" onClick={() => exportPDF()} loading={loadingPrint}
-                            className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
+                                className="bg-orange-500 hover:bg-orange-600" icon={<BiDownload />}>
                                 Descargar PPT
                             </Button>
                         }
@@ -320,7 +320,7 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                                                     </div>
                                                 </div>
 
-                                                <DownloadExcel path={escenario.excel} />
+                                                <DownloadExcel path={escenario.excel_adjunto} />
 
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
@@ -337,10 +337,14 @@ const LluviasAvisoMeteorologicoEstatico2 = () => {
                                             </div>
 
                                             <div className='flex items-center  justify-center'>
-                                                {escenario.mapas && escenario.mapas[index] && (
-                                                    <ImageZoom src={escenario.mapas[index] ?
-                                                        escenario.mapas[index].ruta : null} />
-                                                )}
+                                                <ImageZoom
+                                                    src={
+                                                        escenario.mapas.find(m => m.tipo === (tipo === 'inundaciones'
+                                                                ? 'imagen_derecho_inu'
+                                                                : 'imagen_derecho_mm')
+                                                        )?.ruta ?? null
+                                                    }
+                                                />
                                             </div>
 
                                         </div>

@@ -280,7 +280,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                         </div>
                                     </div>
                                     
-                                    <DownloadExcel path={escenario.excel} />
+                                    <DownloadExcel path={escenario.excel_adjunto} />
 
                                     <div className='flex items-center gap-2'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
@@ -298,10 +298,7 @@ const BajasTempAvisoMeteorologicoEstatico2 = () => {
                                 </div>
 
                                 <div className='flex items-center  justify-center w-full'>
-                                    {escenario.mapas && escenario.mapas[0] && (
-                                        <ImageZoom src={escenario.mapas[0] ?
-                                            escenario.mapas[0].ruta : null} />
-                                    )}
+                                    <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_derecho_bt')?.ruta ?? null}/>
                                 </div>
 
                             </div>

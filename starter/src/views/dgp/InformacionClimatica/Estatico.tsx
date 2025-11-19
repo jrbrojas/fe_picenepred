@@ -117,9 +117,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                             <div className='flex flex-col gap-4 items-stretch justify-start'>
                                 <div className='grid grid-cols-2 items-stretch border rounded-xl border-teal-600'>
                                     <div className='w-full h-full p-3 flex justify-center items-center aspect-[3/4]'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageZoom src={escenario.mapas[0] ? escenario.mapas[0].ruta : null} />
-                                        )}
+                                        <ImageZoom src={escenario.mapas[0] ? escenario.mapas[0].ruta : null} />
                                     </div>
                                     <div className='flex flex-col text-center justify-start items-center mt-3'>
                                         <span className='font-bold text-teal-600 '>ESCENARIO DE RIESGO POR</span>
@@ -194,7 +192,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                                         <TableInstrumentos instrumentos={instrumentos} tipo={'inundaciones'} />
                                     </div>
 
-                                    <DownloadExcel path={escenario.excel} />
+                                    <DownloadExcel path={escenario.excel_adjunto} />
 
                                     <div className='flex items-center gap-3 mt-3'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
@@ -216,9 +214,7 @@ const LluviasAvisoMeteorologicoEstatico = () => {
                             <div className='flex flex-col gap-4 items-stretch justify-start'>
                                 <div className='grid grid-cols-2 items-stretch border rounded-xl border-teal-600'>
                                     <div className='w-full h-full p-4 flex justify-center items-center aspect-[3/4]'>
-                                        {escenario.mapas && escenario.mapas[1] && (
-                                            <ImageZoom src={escenario.mapas[1] ? escenario.mapas[1].ruta : null} />
-                                        )}
+                                        <ImageZoom src={escenario.mapas[1] ? escenario.mapas[1].ruta : null} />
                                     </div>
                                     <div className='flex flex-col text-center justify-start items-center mt-3'>
                                         <span className='font-bold text-teal-600 '>ESCENARIO DE RIESGO POR</span>

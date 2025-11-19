@@ -102,14 +102,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
 
                                 <div className="w-full flex justify-start">
                                     <div className="flex flex-col gap-4 w-full">
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageZoom
-                                                src={
-                                                    escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0] ?
-                                                        escenario.mapas.filter((m) => m.tipo === 'mapa_izquierdo')[0].ruta : null
-                                                }
-                                            />
-                                        )}
+                                        <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_izquierdo_inc')?.ruta ?? null}/>
 
                                         {data['inundaciones'].slice(0, 1).map((item, index) => (
                                             <div key={index} className="text-sm text-teal-600 font-semibold p-4 bg-blue-100/80">
@@ -131,10 +124,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                             <h4 className="text-center font-semibold text-green-600/60">{escenario.subtitulo}</h4>
                                         </div>
 
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
-                                                escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
-                                        )}
+                                        <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_centro_inc')?.ruta ?? null}/>
 
                                         <div className="w-full overflow-x-auto p-2">
                                             <div className="min-w-[720px] sm:min-w-0">
@@ -225,7 +215,7 @@ const IncendiosForestalesNacionalesEstatico = () => {
                                         </div>
                                     ))}
 
-                                    <DownloadExcel path={escenario.excel} />
+                                    <DownloadExcel path={escenario.excel_adjunto} />
 
                                     <div className='w-full flex items-center gap-2'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>

@@ -152,25 +152,15 @@ const BajasTempAvisoTrimestralEstatico = () => {
 
                                 <div className='flex flex-col items-center justify-center gap-2'>
                                     <div className='flex justify-center w-full'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0] ?
-                                                escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_superior')[0].ruta : null} />
-                                        )}
-
+                                        <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_izquierdo_superior_bt')?.ruta ?? null}/>
                                     </div>
                                     <div className='flex justify-center w-full'>
-                                        {escenario.mapas && escenario.mapas[0] && (
-                                            <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0] ?
-                                                escenario.mapas.filter(m => m.tipo === 'mapa_izquierdo_inferior')[0].ruta : null} />
-                                        )}
+                                        <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_izquierdo_inferior_bt')?.ruta ?? null}/>
                                     </div>
                                 </div>
 
                                 <div className='col-span-2 flex items-center justify-center'>
-                                    {escenario.mapas && escenario.mapas[0] && (
-                                        <ImageZoom src={escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0] ?
-                                            escenario.mapas.filter(m => m.tipo === 'mapa_centro')[0].ruta : null} />
-                                    )}
+                                    <ImageZoom src={escenario.mapas.find(m => m.tipo === 'imagen_centro_bt')?.ruta ?? null}/>
                                 </div>
 
                                 <div className='col-span-2'>
@@ -246,7 +236,7 @@ const BajasTempAvisoTrimestralEstatico = () => {
                                         </div>
                                     ))}
 
-                                    <DownloadExcel path={escenario.excel} />
+                                    <DownloadExcel path={escenario.excel_adjunto} />
 
                                     <div className='flex items-center gap-2 mt-3'>
                                         <span className="text-xs flex-shrink-0">Fuente: CENEPRED (2025)</span>
