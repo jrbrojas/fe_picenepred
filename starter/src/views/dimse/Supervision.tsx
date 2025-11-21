@@ -155,7 +155,7 @@ function ShowDataModal({
                     )
                 })
             }
-            {data && data.files.length > 0 && (<div className='w-full text-center uppercase'>No hay mas informacion</div>)}
+            {data && data.files.length === 0 && (<div className='w-full text-center uppercase'>No hay mas informacion</div>)}
             <div><strong>Total: </strong>{Number(data?.promedio).toFixed(2)} %</div>
         </Dialog>
     );
