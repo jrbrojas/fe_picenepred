@@ -814,7 +814,7 @@ export const panelNavigationFull: NavigationTree[] = [
             {
                 key: 'gestionUsuarios.usuarios',
                 path: '/gestion-usuarios',
-                title: 'USUARIOS',
+                title: 'GESTION DE USUARIOS',
                 translateKey: 'nav.gestionUsuarios.usuarios',
                 icon: 'customers',
                 type: NAV_ITEM_TYPE_ITEM,
