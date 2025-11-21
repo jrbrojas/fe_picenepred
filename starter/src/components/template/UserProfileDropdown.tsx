@@ -106,16 +106,18 @@ const _UserDropdown = () => {
                     </div>
                 </Dropdown.Item>
 
-                <Dropdown.Item
-                    eventKey="Gestion usuarios"
-                    className="gap-2"
-                    onClick={handleGestionUsuarios}
-                >
-                    <span className="text-xl">
-                        <PiUsers />
-                    </span>
-                    <span>Gestion de usuarios</span>
-                </Dropdown.Item>
+                {rol == 'ADMIN' && (
+                    <Dropdown.Item
+                        eventKey="Gestion usuarios"
+                        className="gap-2"
+                        onClick={handleGestionUsuarios}
+                    >
+                        <span className="text-xl">
+                            <PiUsers />
+                        </span>
+                        <span>Gestion de usuarios</span>
+                    </Dropdown.Item>
+                )}
 
                 <Dropdown.Item variant="divider" />
 
