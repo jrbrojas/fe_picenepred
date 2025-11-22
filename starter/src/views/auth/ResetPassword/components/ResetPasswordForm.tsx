@@ -21,11 +21,11 @@ type ResetPasswordFormSchema = {
 
 const validationSchema = z
     .object({
-        newPassword: z.string().min(1, 'Please enter your password'),
-        confirmPassword: z.string().min(1, 'Confirm Password Required'),
+        newPassword: z.string().min(1, 'Porfavor ingrese su contraseña'),
+        confirmPassword: z.string().min(1, 'Confirmar contraseña (obligatorio)'),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
-        message: 'Your passwords do not match',
+        message: 'Tus contraseñas no coinciden',
         path: ['confirmPassword'],
     })
 
@@ -71,7 +71,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
             {!resetComplete ? (
                 <Form onSubmit={handleSubmit(onResetPassword)}>
                     <FormItem
-                        label="Password"
+                        label="Constraseña"
                         invalid={Boolean(errors.newPassword)}
                         errorMessage={errors.newPassword?.message}
                     >
@@ -88,7 +88,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                         />
                     </FormItem>
                     <FormItem
-                        label="Confirm Password"
+                        label="Confirmar contraseña"
                         invalid={Boolean(errors.confirmPassword)}
                         errorMessage={errors.confirmPassword?.message}
                     >
@@ -110,7 +110,7 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                         variant="solid"
                         type="submit"
                     >
-                        {isSubmitting ? 'Submiting...' : 'Submit'}
+                        {isSubmitting ? 'Reseteando...' : 'Resetear'}
                     </Button>
                 </Form>
             ) : (

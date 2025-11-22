@@ -28,16 +28,16 @@ export const ResetPasswordBase = ({
             <div className="mb-6">
                 {resetComplete ? (
                     <>
-                        <h3 className="mb-1">Reset done</h3>
+                        <h3 className="mb-1">Reinicio hecho</h3>
                         <p className="font-semibold heading-text">
-                            Your password has been successfully reset
+                            Su contraseña ha sido restablecida exitosamente
                         </p>
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-1">Set new password</h3>
+                        <h3 className="mb-1">Establecer nueva contraseña</h3>
                         <p className="font-semibold heading-text">
-                            Your new password must different to previos password
+                            Su nueva contraseña debe ser diferente a la contraseña anterior
                         </p>
                     </>
                 )}
@@ -58,17 +58,17 @@ export const ResetPasswordBase = ({
                     type="button"
                     onClick={handleContinue}
                 >
-                    Continue
+                    Continuar
                 </Button>
             </ResetPasswordForm>
             <div className="mt-4 text-center">
-                <span>Back to </span>
+                <span>Regresar a </span>
                 <ActionLink
                     to={signInUrl}
                     className="heading-text font-bold"
                     themeColor={false}
                 >
-                    Sign in
+                    Iniciar sesión
                 </ActionLink>
             </div>
         </div>

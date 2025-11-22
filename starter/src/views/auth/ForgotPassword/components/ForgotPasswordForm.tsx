@@ -59,7 +59,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
             {!emailSent ? (
                 <Form onSubmit={handleSubmit(onForgotPassword)}>
                     <FormItem
-                        label="Email"
+                        label="Correo electrónico"
                         invalid={Boolean(errors.email)}
                         errorMessage={errors.email?.message}
                     >
@@ -82,7 +82,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                         variant="solid"
                         type="submit"
                     >
-                        {isSubmitting ? 'Submiting...' : 'Submit'}
+                        {isSubmitting ? 'Enviando...' : 'Enviar'}
                     </Button>
                 </Form>
             ) : (

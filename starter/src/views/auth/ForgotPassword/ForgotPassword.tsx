@@ -27,17 +27,17 @@ export const ForgotPasswordBase = ({
             <div className="mb-6">
                 {emailSent ? (
                     <>
-                        <h3 className="mb-2">Check your email</h3>
+                        <h3 className="mb-2">Revisa tu correo</h3>
                         <p className="font-semibold heading-text">
-                            We have sent a password recovery to your email
+                            Hemos enviado una recuperación de contraseña a su correo electrónico
                         </p>
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-2">Forgot Password</h3>
+                        <h3 className="mb-2">Olvidé mi contraseña</h3>
                         <p className="font-semibold heading-text">
-                            Please enter your email to receive a verification
-                            code
+                            Ingrese su correo electrónico para recibir una verificación
+                            código
                         </p>
                     </>
                 )}
@@ -62,13 +62,13 @@ export const ForgotPasswordBase = ({
                 </Button>
             </ForgotPasswordForm>
             <div className="mt-4 text-center">
-                <span>Back to </span>
+                <span>Volver a </span>
                 <ActionLink
                     to={signInUrl}
                     className="heading-text font-bold"
                     themeColor={false}
                 >
-                    Sign in
+                    Iniciar sesión
                 </ActionLink>
             </div>
         </div>
